@@ -1,0 +1,24 @@
+package egovframework.phcf.support.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
+
+@Repository("SupportManageDAO")
+public class SupportManageDAO extends EgovComAbstractDAO {
+
+	public List<HashMap<String, Object>> getCmsSupportList(HashMap<String, Object> paramMap) {
+		return selectList("SupportManageDAO.getCmsSupportList", paramMap);
+	}
+
+	public int getCmsSupportCnt(HashMap<String, Object> paramMap) {
+		return selectOne("SupportManageDAO.getCmsSupportCnt", paramMap);
+	}
+
+	public List<HashMap<String, Object>> getGradeCodeList(String param) {
+		return selectList("SupportManageDAO.getGradeCodeList", param);
+	}
+}

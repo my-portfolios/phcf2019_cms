@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PremiumMemberDAO">
+
+	<select id="selectMembershipRegList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		/* premiumMember.selectMembershipRegList */
+		SELECT
+			SEQ,
+			MEM_ID,
+			MEM_NAME,
+			PRE_TYPE,
+			PAY_PRICE,
+			RESULT,
+			CHECK_YN,
+			DATE_FORMAT(CREATE_DT,'%Y/%m/%d %h:%i:%s') AS CREATE_DT,
+			DATE_FORMAT(UPDATE_DT,'%Y/%m/%d %h:%i:%s') AS UPDATE_DT
+		FROM
+			MEMBERSHIPREGLOG
+		WHERE 1=1
+		<if test="id != null and id != ''">
+			AND SEQ = #{id}
+		</if>
+		<if test="search_data != null and search_data != ''">
+			AND ${search_type} LIKE '%' #{search_data} '%'
+		</if>
+		<if test="type != null and type != ''">
+			AND PRE_TYPE = #{type}
+		</if>
+		<if test="check_yn != null and check_yn != ''">
+			AND CHECK_YN = #{check_yn}
+		</if>
+		<if test="start_dt != null and start_dt != '' and end_dt != null and end_dt != ''">
+			AND CREATE_DT BETWEEN #{start_dt} AND DATE_ADD(#{end_dt}, INTERVAL 1 DAY)
+		</if>
+		ORDER BY CHECK_YN ASC, CREATE_DT DESC
+	</select>
+	
+	<update id="updateMembershipStatus" parameterType="java.util.HashMap">
+		/* premiumMember.updateMembershipStatus */
+		
+		UPDATE
+			MEMBERSHIPREGLOG
+		SET
+			RESULT = #{value},
+			CHECK_YN = 'Y',
+			UPDATE_DT = NOW()
+		WHERE 
+			SEQ = #{id}
+	</update>
+</mapper>

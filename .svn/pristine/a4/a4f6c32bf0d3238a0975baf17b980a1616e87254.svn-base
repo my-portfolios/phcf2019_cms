@@ -1,0 +1,14 @@
+package egovframework.phcf.support.service;
+
+import java.util.HashMap;
+import java.util.List;
+
+public interface SupportService {
+
+	List<HashMap<String, Object>> getCmsSupportList(HashMap<String, Object> paramMap) throws Exception;
+
+	int getCmsSupportCnt(HashMap<String, Object> paramMap) throws Exception;
+
+	List<HashMap<String, Object>> getGradeCodeList(String string) throws Exception;
+
+}

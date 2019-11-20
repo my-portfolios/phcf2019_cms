@@ -14,4 +14,5 @@ public interface PremiumMemberService {
 
 	public List<HashMap<String, String>> selectMembershipRegList(HashMap<String, String> paramMap) throws Exception;
 	public void updateMembershipStatus(HashMap<String, String> paramMap) throws Exception;
+	public void updateMembershipGrade(HashMap<String, String> paramMap) throws Exception;
 }

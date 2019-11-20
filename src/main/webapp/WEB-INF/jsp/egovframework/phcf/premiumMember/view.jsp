@@ -104,6 +104,7 @@
 							<td><c:out value="${items.CREATE_DT}" /></td>
 							<td id="result_${items.SEQ}">
 								<c:choose>
+									<c:when test="${items.RESULT == 'C'}">취소</c:when>
 									<c:when test="${items.RESULT == 'Y'}">승인</c:when>
 									<c:when test="${items.RESULT == 'N'}">반려</c:when>
 									<c:otherwise>대기</c:otherwise>

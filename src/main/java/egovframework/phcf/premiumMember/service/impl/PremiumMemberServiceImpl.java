@@ -32,6 +32,11 @@ public class PremiumMemberServiceImpl extends EgovAbstractServiceImpl implements
 	public void updateMembershipStatus(HashMap<String, String> paramMap) throws Exception {
 		dao.updateMembershipStatus(paramMap);
 	}
+	
+	@Override
+	public void updateMembershipGrade(HashMap<String, String> paramMap) throws Exception {
+		dao.updateMembershipGrade(paramMap);
+	}
 }
 
 

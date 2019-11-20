@@ -13,8 +13,8 @@
 			PAY_PRICE,
 			RESULT,
 			CHECK_YN,
-			DATE_FORMAT(CREATE_DT,'%Y/%m/%d %h:%i:%s') AS CREATE_DT,
-			DATE_FORMAT(UPDATE_DT,'%Y/%m/%d %h:%i:%s') AS UPDATE_DT
+			DATE_FORMAT(CREATE_DT,'%Y/%m/%d %H:%i:%s') AS CREATE_DT,
+			DATE_FORMAT(UPDATE_DT,'%Y/%m/%d %H:%i:%s') AS UPDATE_DT
 		FROM
 			MEMBERSHIPREGLOG
 		WHERE 1=1
@@ -48,4 +48,17 @@
 		WHERE 
 			SEQ = #{id}
 	</update>
+	
+	<update id="updateMembershipGrade" parameterType="java.util.HashMap">
+		/* premiumMember.updateMembershipGrade */
+		
+		UPDATE
+			COMTNGNRLMBER
+		SET
+			MEMBERSHIP_TYPE = #{TYPE},
+			MEMBERSHIP_START_DT = NOW()
+		WHERE 
+			MBER_ID = #{ID}
+	</update>
+	
 </mapper>

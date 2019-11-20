@@ -23,4 +23,7 @@ public class PremiumMemberDAO extends EgovComAbstractDAO{
 		update("PremiumMemberDAO.updateMembershipStatus", paramMap);
 	}
 
+	public void updateMembershipGrade(HashMap<String, String> paramMap) {
+		update("PremiumMemberDAO.updateMembershipGrade", paramMap);
+	}
 }

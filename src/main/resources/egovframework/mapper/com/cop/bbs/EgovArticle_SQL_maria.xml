@@ -53,7 +53,7 @@
 		<result property="ac20" column="AC20"/>
 	</resultMap>
 
-	<resultMap id="boardDetail" type="egovframework.com.cop.bbs.service.BoardVO">
+	<resultMap id="boardDetail" type="egovframework.com.cop.bbs.service.BoardAddedColmnsVO">
 		<result property="bbsId" column="BBS_ID"/>
 		<result property="nttId" column="NTT_ID"/>
 		<result property="nttSj" column="NTT_SJ"/>	
@@ -80,26 +80,26 @@
 		<result property="posblAtchFileNumber" column="ATCH_POSBL_FILE_NUMBER"/>
 		<result property="bbsNm" column="BBS_NM"/>
 		<result property="acYn" column="AC_YN"/>
-		<result property="ac1Nm" column="AC1"/>
-		<result property="ac2Nm" column="AC2"/>
-		<result property="ac3Nm" column="AC3"/>
-		<result property="ac4Nm" column="AC4"/>
-		<result property="ac5Nm" column="AC5"/>
-		<result property="ac6Nm" column="AC6"/>
-		<result property="ac7Nm" column="AC7"/>
-		<result property="ac8Nm" column="AC8"/>
-		<result property="ac9Nm" column="AC9"/>
-		<result property="ac10Nm" column="AC10"/>
-		<result property="ac11Nm" column="AC11"/>
-		<result property="ac12Nm" column="AC12"/>
-		<result property="ac13Nm" column="AC13"/>
-		<result property="ac14Nm" column="AC14"/>
-		<result property="ac15Nm" column="AC15"/>
-		<result property="ac16Nm" column="AC16"/>
-		<result property="ac17Nm" column="AC17"/>
-		<result property="ac18Nm" column="AC18"/>
-		<result property="ac19Nm" column="AC19"/>
-		<result property="ac20Nm" column="AC20"/>
+		<result property="ac1Nm" column="AC1NM"/>
+		<result property="ac2Nm" column="AC2NM"/>
+		<result property="ac3Nm" column="AC3NM"/>
+		<result property="ac4Nm" column="AC4NM"/>
+		<result property="ac5Nm" column="AC5NM"/>
+		<result property="ac6Nm" column="AC6NM"/>
+		<result property="ac7Nm" column="AC7NM"/>
+		<result property="ac8Nm" column="AC8NM"/>
+		<result property="ac9Nm" column="AC9NM"/>
+		<result property="ac10Nm" column="AC10NM"/>
+		<result property="ac11Nm" column="AC11NM"/>
+		<result property="ac12Nm" column="AC12NM"/>
+		<result property="ac13Nm" column="AC13NM"/>
+		<result property="ac14Nm" column="AC14NM"/>
+		<result property="ac15Nm" column="AC15NM"/>
+		<result property="ac16Nm" column="AC16NM"/>
+		<result property="ac17Nm" column="AC17NM"/>
+		<result property="ac18Nm" column="AC18NM"/>
+		<result property="ac19Nm" column="AC19NM"/>
+		<result property="ac20Nm" column="AC20NM"/>
 		<result property="sjBoldAt" column="SJ_BOLD_AT"/>
 		<result property="noticeAt" column="NOTICE_AT"/>
 		<result property="secretAt" column="SECRET_AT"/>
@@ -340,8 +340,8 @@
 				a.PARNTSCTT_NO, a.ANSWER_AT, a.ANSWER_LC, a.SORT_ORDR,
 				c.BBS_TY_CODE, c.REPLY_POSBL_AT, 
 				c.FILE_ATCH_POSBL_AT, c.ATCH_POSBL_FILE_NUMBER, c.BBS_NM, c.AC_YN,
-				c.AC1, c.AC2, c.AC3, c.AC4, c.AC5, c.AC6, c.AC7, c.AC8, c.AC9, c.AC10,
-				c.AC11, c.AC12, c.AC13, c.AC14, c.AC15, c.AC16, c.AC17, c.AC18, c.AC19, c.AC20
+				c.AC1NM, c.AC2NM, c.AC3NM, c.AC4NM, c.AC5NM, c.AC6NM, c.AC7NM, c.AC8NM, c.AC9NM, c.AC10NM,
+				c.AC11NM, c.AC12NM, c.AC13NM, c.AC14NM, c.AC15NM, c.AC16NM, c.AC17NM, c.AC18NM, c.AC19NM, c.AC20NM
 			FROM
 				COMTNBBS a
 			LEFT OUTER JOIN 
@@ -385,6 +385,32 @@
 			AND 
 				c.USE_YN = 'Y'
 						
+	</select>
+	
+	<select id="selectArticleAddedColmnsCnt" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultType="java.lang.Integer">
+			
+			SELECT
+				COUNT(c.NTT_ID)
+			FROM
+				BBSADDEDCOLMNS c
+			LEFT OUTER JOIN 
+				COMTNBBS b
+			ON b.NTT_ID = c.NTT_ID
+			LEFT OUTER JOIN 
+				COMVNUSERMASTER u
+			ON b.FRST_REGISTER_ID = u.ESNTL_ID 
+			LEFT OUTER JOIN 
+				COMTNBBSMASTER m
+			ON c.BBS_ID = m.BBS_ID			
+			WHERE
+				c.BBS_ID = #{bbsId}	
+			AND
+				c.NTT_ID = #{nttId}	
+			AND 
+				b.USE_AT = 'Y'
+			AND 
+				c.USE_YN = 'Y'
+					
 	</select>
 	
 	<select id="selectArticleDetailCn" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultMap="detailCn">

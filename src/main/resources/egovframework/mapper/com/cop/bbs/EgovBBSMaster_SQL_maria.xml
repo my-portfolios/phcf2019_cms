@@ -33,26 +33,26 @@
 		<result property="cmmntyId" column="CMMNTY_ID"/>
 		<result property="blogId" column="BLOG_ID"/>
 		<result property="acYn" column="AC_YN"/>
-		<result property="ac1Nm" column="AC1"/>
-		<result property="ac2Nm" column="AC2"/>
-		<result property="ac3Nm" column="AC3"/>
-		<result property="ac4Nm" column="AC4"/>
-		<result property="ac5Nm" column="AC5"/>
-		<result property="ac6Nm" column="AC6"/>
-		<result property="ac7Nm" column="AC7"/>
-		<result property="ac8Nm" column="AC8"/>
-		<result property="ac9Nm" column="AC9"/>
-		<result property="ac10Nm" column="AC10"/>
-		<result property="ac11Nm" column="AC11"/>
-		<result property="ac12Nm" column="AC12"/>
-		<result property="ac13Nm" column="AC13"/>
-		<result property="ac14Nm" column="AC14"/>
-		<result property="ac15Nm" column="AC15"/>
-		<result property="ac16Nm" column="AC16"/>
-		<result property="ac17Nm" column="AC17"/>
-		<result property="ac18Nm" column="AC18"/>
-		<result property="ac19Nm" column="AC19"/>
-		<result property="ac20Nm" column="AC20"/>
+		<result property="ac1Nm" column="AC1NM"/>
+		<result property="ac2Nm" column="AC2NM"/>
+		<result property="ac3Nm" column="AC3NM"/>
+		<result property="ac4Nm" column="AC4NM"/>
+		<result property="ac5Nm" column="AC5NM"/>
+		<result property="ac6Nm" column="AC6NM"/>
+		<result property="ac7Nm" column="AC7NM"/>
+		<result property="ac8Nm" column="AC8NM"/>
+		<result property="ac9Nm" column="AC9NM"/>
+		<result property="ac10Nm" column="AC10NM"/>
+		<result property="ac11Nm" column="AC11NM"/>
+		<result property="ac12Nm" column="AC12NM"/>
+		<result property="ac13Nm" column="AC13NM"/>
+		<result property="ac14Nm" column="AC14NM"/>
+		<result property="ac15Nm" column="AC15NM"/>
+		<result property="ac16Nm" column="AC16NM"/>
+		<result property="ac17Nm" column="AC17NM"/>
+		<result property="ac18Nm" column="AC18NM"/>
+		<result property="ac19Nm" column="AC19NM"/>
+		<result property="ac20Nm" column="AC20NM"/>
 	</resultMap>
 
 	<resultMap id="boardMasterAll" type="egovframework.com.cop.bbs.service.BoardMasterVO">
@@ -104,12 +104,12 @@
 			 REPLY_POSBL_AT, FILE_ATCH_POSBL_AT, ATCH_POSBL_FILE_NUMBER,
 			 TMPLAT_ID, USE_AT, CMMNTY_ID,
 			 FRST_REGISTER_ID, FRST_REGIST_PNTTM, BLOG_ID, BLOG_AT,
-			 AC1, AC2, AC3, AC4, AC5, AC6, AC7, AC8, AC9, AC10, AC11, AC12, AC13, AC14, AC15, AC16, AC17, AC18, AC19, AC20 )
+			 AC_YN, AC1NM, AC2NM, AC3NM, AC4NM, AC5NM, AC6NM, AC7NM, AC8NM, AC9NM, AC10NM, AC11NM, AC12NM, AC13NM, AC14NM, AC15NM, AC16NM, AC17NM, AC18NM, AC19NM, AC20NM )
 			VALUES
 			( #{bbsId}, #{bbsTyCode}, #{bbsNm}, #{bbsIntrcn}, 
 			  #{replyPosblAt}, #{fileAtchPosblAt}, #{atchPosblFileNumber}, 
 			  #{tmplatId}, #{useAt}, #{cmmntyId}, #{frstRegisterId}, SYSDATE(), #{blogId}, #{blogAt},
-			  #{ac_yn}, #{ac1}, #{ac2}, #{ac3}, #{ac4}, #{ac5}, #{ac6}, #{ac7}, #{ac8}, #{ac9}, #{ac10}, #{ac11}, #{ac12}, #{ac13}, #{ac14}, #{ac15}, #{ac16}, #{ac17}, #{ac18}, #{ac19}, #{ac20}  
+			  #{acYn}, #{ac1Nm}, #{ac2Nm}, #{ac3Nm}, #{ac4Nm}, #{ac5Nm}, #{ac6Nm}, #{ac7Nm}, #{ac8Nm}, #{ac9Nm}, #{ac10Nm}, #{ac11Nm}, #{ac12Nm}, #{ac13Nm}, #{ac14Nm}, #{ac15Nm}, #{ac16Nm}, #{ac17Nm}, #{ac18Nm}, #{ac19Nm}, #{ac20Nm}  
 			 )			
 		
 	</insert>
@@ -182,7 +182,7 @@
 				a.BBS_NM, 
 				a.TMPLAT_ID, d.TMPLAT_NM, d.TMPLAT_COURS, a.FILE_ATCH_POSBL_AT, a.ATCH_POSBL_FILE_NUMBER,
 				a.ATCH_POSBL_FILE_SIZE, a.REPLY_POSBL_AT, a.FRST_REGISTER_ID, e.USER_NM as FRST_REGISTER_NM, a.CMMNTY_ID,
-				a.AC_YN, a.AC1, a.AC2, a.AC3, a.AC4, a.AC5, a.AC6, a.AC7, a.AC8, a.AC9, a.AC10, a.AC11, a.AC12, a.AC13, a.AC14, a.AC15, a.AC16, a.AC17, a.AC18, a.AC19, a.AC20,
+				a.AC_YN, a.AC1NM, a.AC2NM, a.AC3NM, a.AC4NM, a.AC5NM, a.AC6NM, a.AC7NM, a.AC8NM, a.AC9NM, a.AC10NM, a.AC11NM, a.AC12NM, a.AC13NM, a.AC14NM, a.AC15NM, a.AC16NM, a.AC17NM, a.AC18NM, a.AC19NM, a.AC20NM,
 				a.USE_AT, DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as FRST_REGIST_PNTTM, BLOG_ID				
 				,(SELECT IFNULL(USE_AT,'N') FROM COMTNBBSUSE 
 					WHERE BBS_ID = #{bbsId} 
@@ -212,26 +212,26 @@
 				LAST_UPDUSR_ID = #{lastUpdusrId},
 				LAST_UPDT_PNTTM = SYSDATE(),
 				USE_AT = #{useAt},
-				AC1 = #{ac1Nm},
-				AC2 = #{ac2Nm},
-				AC3 = #{ac3Nm},
-				AC4 = #{ac4Nm},
-				AC5 = #{ac5Nm},
-				AC6 = #{ac6Nm},
-				AC7 = #{ac7Nm},
-				AC8 = #{ac8Nm},
-				AC9 = #{ac9Nm},
-				AC10 = #{ac10Nm},
-				AC11 = #{ac11Nm},
-				AC12 = #{ac12Nm},
-				AC13 = #{ac13Nm},
-				AC14 = #{ac14Nm},
-				AC15 = #{ac15Nm},
-				AC16 = #{ac16Nm},
-				AC17 = #{ac17Nm},
-				AC18 = #{ac18Nm},
-				AC19 = #{ac19Nm},
-				AC20 = #{ac20Nm}
+				AC1NM = #{ac1Nm},
+				AC2NM = #{ac2Nm},
+				AC3NM = #{ac3Nm},
+				AC4NM = #{ac4Nm},
+				AC5NM = #{ac5Nm},
+				AC6NM = #{ac6Nm},
+				AC7NM = #{ac7Nm},
+				AC8NM = #{ac8Nm},
+				AC9NM = #{ac9Nm},
+				AC10NM = #{ac10Nm},
+				AC11NM = #{ac11Nm},
+				AC12NM = #{ac12Nm},
+				AC13NM = #{ac13Nm},
+				AC14NM = #{ac14Nm},
+				AC15NM = #{ac15Nm},
+				AC16NM = #{ac16Nm},
+				AC17NM = #{ac17Nm},
+				AC18NM = #{ac18Nm},
+				AC19NM = #{ac19Nm},
+				AC20NM = #{ac20Nm}
 			WHERE BBS_ID = #{bbsId}
  		
  	</update>

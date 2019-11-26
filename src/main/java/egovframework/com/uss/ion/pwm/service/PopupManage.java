@@ -30,6 +30,15 @@ public class PopupManage extends ComDefaultVO implements Serializable {
 	 * 실파일 URL
 	 */
 	private String fileUrl;
+	
+	/**
+	 * 팝업 표시 페이지
+	 */
+	private String popupDisplayPage;
+	/**
+	 * 팝업 이미지
+	 */
+	private String popupImage;
 	/**
 	 * 팝업창이 화면에 보여지는 가로 위치정보
 	 */
@@ -147,8 +156,40 @@ public class PopupManage extends ComDefaultVO implements Serializable {
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
     }
+    
+    /**
+     * popupDisplayPage 리턴
+     * @return the popupDisplayPage
+     */
+	public String getPopupDisplayPage() {
+		return popupDisplayPage;
+	}
 
     /**
+     * popupDisplayPage 설정
+     * @param popupDisplayPage the popupDisplayPage to set
+     */
+	public void setPopupDisplayPage(String popupDisplayPage) {
+		this.popupDisplayPage = popupDisplayPage;
+	}
+	
+	/**
+     * popupImageCode 리턴
+     * @return the popupImageCode
+     */
+    public String getPopupImage() {
+		return popupImage;
+	}
+
+    /**
+     * popupImageCode 설정
+     * @param popupImageCode the popupImageCode to set
+     */
+	public void setPopupImage(String popupImage) {
+		this.popupImage = popupImage;
+	}
+
+	/**
      * popupWlc 리턴
      *
      * @return the popupWlc

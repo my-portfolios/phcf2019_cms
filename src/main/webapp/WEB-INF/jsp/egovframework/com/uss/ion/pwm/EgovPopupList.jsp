@@ -156,7 +156,7 @@ function fn_egov_ajaxPopupInfo_PopupManage(popupIds){
 function fn_egov_popupOpen_PopupManage(popupId,fileUrl,width,height,top,left,stopVewAt){
 
 	var url = "<c:url value='/uss/ion/pwm/openPopupManage.do' />?";
-	url = url + "fileUrl=" + fileUrl;
+	//url = url + "fileUrl=" + fileUrl;
 	url = url + "&stopVewAt=" + stopVewAt;
 	url = url + "&popupId=" + popupId;
 	var name = popupId;
@@ -216,8 +216,8 @@ function fnGetCookie(name) {
 			<col style="width:35px" />
 			<col style="width:30px" />
 			<col style="width:120px" />
-			<col style="width:180px" />
-			<col style="" />
+			<col style="width:200px" />
+			<col style="width:120px" />
 			<col style="width:70px" />
 		</colgroup>
 		<thead>
@@ -226,7 +226,8 @@ function fnGetCookie(name) {
 			   <th scope="col"><input type="checkbox" name="checkAll" id="checkAll" class="check2" value="1" onClick="fn_egov_checkAll_PopupManage();"/></th>
 			   <th scope="col"><spring:message code="ussIonPwm.popupList.popupTitleNm"/></th><!-- 제목 -->
 			   <th scope="col"><spring:message code="ussIonPwm.popupList.ntcePeriod"/></th><!-- 게시기간 -->
-			   <th scope="col"><spring:message code="ussIonPwm.popupList.fileUrl"/></th><!-- 파일 -->
+			   <%-- <th scope="col"><spring:message code="ussIonPwm.popupList.fileUrl"/></th><!-- 파일 --> --%>
+			   <th scope="col">팝업창 표시 페이지</th><!-- 파일 -->
 			   <th scope="col"><spring:message code="ussIonPwm.popupList.ntceAt"/></th><!-- 게시상태 -->
 			</tr>
 		</thead>
@@ -246,11 +247,16 @@ function fnGetCookie(name) {
 					</form>
 				</td>
 				<td>
-					<c:out value="${fn:substring(resultInfo.ntceBgnde, 0, 4)}"/>-<c:out value="${fn:substring(resultInfo.ntceBgnde, 4, 6)}"/>-<c:out value="${fn:substring(resultInfo.ntceBgnde, 6, 8)}"/> <c:out value="${fn:substring(resultInfo.ntceBgnde, 8, 10)}"/>H <c:out value="${fn:substring(resultInfo.ntceBgnde, 10, 12)}"/>M
+					<c:out value="${fn:substring(resultInfo.ntceBgnde, 0, 4)}"/>-<c:out value="${fn:substring(resultInfo.ntceBgnde, 4, 6)}"/>-<c:out value="${fn:substring(resultInfo.ntceBgnde, 6, 8)}"/> <c:out value="${fn:substring(resultInfo.ntceBgnde, 8, 10)}"/>:<c:out value="${fn:substring(resultInfo.ntceBgnde, 10, 12)}"/>
 					~
-					<c:out value="${fn:substring(resultInfo.ntceEndde, 0, 4)}"/>-<c:out value="${fn:substring(resultInfo.ntceEndde, 4, 6)}"/>-<c:out value="${fn:substring(resultInfo.ntceEndde, 6, 8)}"/> <c:out value="${fn:substring(resultInfo.ntceEndde, 8, 10)}"/>H <c:out value="${fn:substring(resultInfo.ntceEndde, 10, 12)}"/>M
+					<c:out value="${fn:substring(resultInfo.ntceEndde, 0, 4)}"/>-<c:out value="${fn:substring(resultInfo.ntceEndde, 4, 6)}"/>-<c:out value="${fn:substring(resultInfo.ntceEndde, 6, 8)}"/> <c:out value="${fn:substring(resultInfo.ntceEndde, 8, 10)}"/>:<c:out value="${fn:substring(resultInfo.ntceEndde, 10, 12)}"/>
 				<td>
-					<c:out value="${resultInfo.fileUrl}"/>
+					<%-- <c:out value="${resultInfo.fileUrl}"/> --%>
+					<c:choose>
+						<c:when test="${resultInfo.popupDisplayPage eq 'main'}">메인</c:when>
+						<c:when test="${resultInfo.popupDisplayPage eq 'place'}">문화공간</c:when>
+						<c:when test="${resultInfo.popupDisplayPage eq 'festival'}">축제</c:when>
+					</c:choose>
 				</td>
 				<td>
 					<c:out value="${resultInfo.ntceAt}"/>

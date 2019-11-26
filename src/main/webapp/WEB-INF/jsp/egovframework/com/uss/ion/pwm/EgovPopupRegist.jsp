@@ -177,10 +177,27 @@ function fn_egov_init_date(){
 			</td>
 		</tr>
 		<tr>
-			<th><spring:message code="ussIonPwm.popupRegist.fileUrl"/> <span class="pilsu">*</span></th><!-- 팝업창URL -->
+			<th>연결 URL </th><!-- 팝업창URL -->
 			<td class="left">
-				<form:input path="fileUrl" maxlength="255"/>
-				<form:errors path="fileUrl" cssClass="error"/>
+				<input type="text" name="fileUrl" maxlength="255"/>
+				<br/>
+      			페이지 이동을 하지 않으려면 #을 입력하십시오.
+			</td>
+		</tr>
+		<tr>			
+			<th>팝업 이미지<span class="pilsu">*</span></th><!-- 팝업창 이미지 -->
+	         <td class="left">
+	             <input type="button" onclick="window.open('editimage/imageCropper.do','popupImage','width=1000,height=640,resizable=no');" value="선택"/>
+	             <input type="hidden" id="popupImage" name="popupImage" readOnly/>
+	         </td>
+		<tr>
+			<th>팝업창 표시 페이지 <span class="pilsu">*</span></th><!-- 팝업창표시페이지 -->
+			<td class="left">
+				<select name="popupDisplayPage">
+					<option value="main">메인</option>
+					<option value="place">문화공간</option>
+					<option value="festival">축제</option>
+				</select>
 			</td>
 		</tr>
 		<tr>
@@ -192,15 +209,15 @@ function fn_egov_init_date(){
 				<form:errors path="popupHlc" cssClass="error"/>
 			</td>
 		</tr>
-		<tr>
+		<%-- <tr>
 			<th><spring:message code="ussIonPwm.popupRegist.popupSize"/> <span class="pilsu">*</span></th><!-- 팝업창사이즈 -->
 			<td class="left">
 				<spring:message code="ussIonPwm.popupRegist.popupWSize"/> <form:input path="popupWSize" maxlength="10" cssStyle="width:38px; margin:0 10px 0 5px"/><!-- WIDTH -->
-				<spring:message code="ussIonPwm.popupRegist.popupHSize"/><form:input path="popupHSize" maxlength="10" cssStyle="width:38px; margin-left:5px"/><!-- HEIGHT -->
-				<form:errors path="popupWSize" cssClass="error"/>
-				<form:errors path="popupHSize" cssClass="error"/>
-			</td>
-		</tr>
+				<spring:message code="ussIonPwm.popupRegist.popupHSize"/><form:input path="popupHSize" maxlength="10" cssStyle="width:38px; margin-left:5px"/><!-- HEIGHT --> --%>
+				<input type="hidden" id="popupWSize" name="popupWSize" />
+				<input type="hidden" id="popupHSize" name="popupHSize"/>
+			<!-- </td>
+		</tr> -->
 		<tr>
 			<th><spring:message code="ussIonPwm.popupRegist.ntcePeriod"/> <span class="pilsu">*</span></th><!-- 게시기간 -->
 			<td class="left">

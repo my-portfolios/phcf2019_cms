@@ -85,23 +85,33 @@ function fn_egov_delete_PopupManage(){
 			</td>
 		</tr>
 		<tr>
-			<th><spring:message code="ussIonPwm.popupDetail.fileUrl"/> <span class="pilsu">*</span></th><!-- 팝업창URL -->
+			<th>연결 URL <span class="pilsu">*</span></th><!-- 팝업창URL -->
 			<td class="left">
 			    <c:out value="${popupManageVO.fileUrl}" />
 			</td>
 		</tr>
 		<tr>
-			<th><spring:message code="ussIonPwm.popupDetail.popupLoca"/> <span class="pilsu">*</span></th><!-- 팝업창위치 -->
+			<th>팝업창 표시 페이지 <span class="pilsu">*</span></th><!-- 팝업창URL -->
 			<td class="left">
-			    <spring:message code="ussIonPwm.popupDetail.popupWlce"/><c:out value="${popupManageVO.popupWlc}" />  <spring:message code="ussIonPwm.popupDetail.popupHlc"/><c:out value="${popupManageVO.popupHlc}" escapeXml="false" />
+				<c:choose>
+					<c:when test="${popupManageVO.popupDisplayPage eq 'main'}">메인</c:when>
+					<c:when test="${popupManageVO.popupDisplayPage eq 'place'}">문화공간</c:when>
+					<c:when test="${popupManageVO.popupDisplayPage eq 'festival'}">축제</c:when>
+				</c:choose>
 			</td>
 		</tr>
 		<tr>
+			<th><spring:message code="ussIonPwm.popupDetail.popupLoca"/> <span class="pilsu">*</span></th><!-- 팝업창위치 -->
+			<td class="left">
+			    <spring:message code="ussIonPwm.popupDetail.popupWlce"/>: <c:out value="${popupManageVO.popupWlc}" />&nbsp;  <spring:message code="ussIonPwm.popupDetail.popupHlc"/>: <c:out value="${popupManageVO.popupHlc}" escapeXml="false" />
+			</td>
+		</tr>
+		<%-- <tr>
 			<th><spring:message code="ussIonPwm.popupDetail.popupSize"/> <span class="pilsu">*</span></th><!-- 팝업창사이즈 -->
 			<td class="left">
 			    <spring:message code="ussIonPwm.popupDetail.popupWSize"/> : <c:out value="${popupManageVO.popupWSize}" />  <spring:message code="ussIonPwm.popupDetail.popupHSize"/> : <c:out value="${popupManageVO.popupHSize}" escapeXml="false" />
 			</td>
-		</tr>
+		</tr> --%>
 		<tr>
 			<th><spring:message code="ussIonPwm.popupDetail.ntcePeriod"/> <span class="pilsu">*</span></th><!-- 게시 기간 -->
 			<td class="left">

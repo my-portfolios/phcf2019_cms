@@ -1,5 +1,6 @@
 package egovframework.com.uss.ion.pwm.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -58,7 +59,7 @@ public interface EgovPopupManageService {
 	 *
 	 * @param popupManageVO
 	 */
-	public List<?> selectPopupWhiteList() throws Exception;
+	public List<?> selectPopupWhiteList(HashMap<String, String> hashMap) throws Exception;
 	
 	/**
 	 * 팝업창를 관리하기 위해 등록된 팝업창목록을 조회한다.

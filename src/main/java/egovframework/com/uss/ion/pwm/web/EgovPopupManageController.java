@@ -300,27 +300,41 @@ public class EgovPopupManageController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/uss/ion/pwm/openPopupManage.do")
-	public String egovPopupManagePopupOpen(@RequestParam("fileUrl") String fileUrl, @RequestParam("stopVewAt") String stopVewAt, @RequestParam("popupId") String popupId,
+	public String egovPopupManagePopupOpen(@RequestParam("stopVewAt") String stopVewAt, @RequestParam("popupId") String popupId,
 			ModelMap model) throws Exception {
 
 		model.addAttribute("stopVewAt", stopVewAt);
 		model.addAttribute("popupId", popupId);
-		
+		/*
 		fileUrl = EgovWebUtil.filePathBlackList(fileUrl);
 		
 		List<?> popupWhiteList = egovPopupManageService.selectPopupWhiteList();
 		LOGGER.debug("Open Popup > WhiteList Count = {}",popupWhiteList.size());
 		if ( fileUrl == null ) fileUrl = "";
+		
 		for(Object obj : popupWhiteList){
             EgovMap map = (EgovMap)obj;
 			LOGGER.debug("Open Popup > whiteList fileUrl = "+map.get("fileUrl"));
             if ( fileUrl.equals(map.get("fileUrl")) ) {
+    			
             	return fileUrl;
             }
         }
 		//System.out.println("===>>> "+popupWhiteList.size());
 		LOGGER.debug("Open Popup > WhiteList mismatch! Please check Admin page!");
 		return "egovframework/com/cmm/egovError";
+		*/
+		
+		HashMap<String, String> hashMap = new HashMap<String,String>();
+		hashMap.put("popupId", popupId);
+		List<?> popupWhiteList = egovPopupManageService.selectPopupWhiteList(hashMap);
+		for(Object obj : popupWhiteList) {
+			EgovMap map = (EgovMap)obj;
+			model.addAttribute("fileUrl", map.get("fileUrl"));
+			model.addAttribute("popupImage", map.get("popupImage"));
+		}
+	
+		return "egovframework/com/uss/ion/pwm/sample/EgovPopupSample";
 	}
 
 	/**
@@ -339,6 +353,19 @@ public class EgovPopupManageController {
 		return "egovframework/com/uss/ion/pwm/EgovPopupMainList";
 	}
 
+	/**
+	 * 팝업창 이미지 Cropper
+	 * @param model
+	 * @return cropper page
+	 * @throws Exception
+	 * @author 김량래
+	 */
+	@RequestMapping(value = "/uss/ion/pwm/editimage/imageCropper.do")
+	public String egovPopupImageCropper(ModelMap model, @RequestParam HashMap<String, String> paramMap) throws Exception {
+		
+		return "egovframework/com/uss/ion/pwm/editimage/index";
+	}
+	
 	/**
 	 * 시간을 LIST를 반환한다.
 	 * @return  List

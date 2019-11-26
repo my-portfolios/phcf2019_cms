@@ -1,4 +1,5 @@
 package egovframework.com.uss.ion.pwm.service.impl;
+import java.util.HashMap;
 import java.util.List;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
@@ -73,8 +74,8 @@ public class PopupManageDAO extends EgovComAbstractDAO {
 	 *
 	 * @param popupManageVO
 	 */
-	public List<?> selectPopupWhiteList() throws Exception {
-	    return selectList("PopupManage.selectPopupWhiteList");
+	public List<?> selectPopupWhiteList(HashMap<String, String> hashMap) throws Exception {
+	    return selectList("PopupManage.selectPopupWhiteList", hashMap);
 	}
 	
 	/**

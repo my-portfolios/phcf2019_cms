@@ -155,12 +155,33 @@ function fn_egov_init_date(){
 	         , showButtonPanel: true // 하단 today, done  버튼기능 추가 표시 (기본은 false)
 	});
 }
+
+function fileDecode(file){
+	console.log("START");
+	var result;
+	
+	// 정상 로드시 result에 인코딩 값을 저장하기
+	var reader = new FileReader();
+	reader.onload = function(e) {
+	  result = e.target.result;
+	  console.log("data : " + data);
+	}
+
+	// 실패할 경우 에러 출력하기
+	reader.onerror = function (error) {
+	   console.log('Error');
+	};
+	
+	console.log(result);
+	$("#popupImageCode").val(result);
+
+}
 </script>
 
 </head>
 <body onLoad="fn_egov_init_PopupManage(); fn_egov_init_date();">
 
-<form:form commandName="popupManageVO" name="popupManageVO" action="${pageContext.request.contextPath}/uss/ion/pwm/updtPopup.do" method="post" >
+<form:form commandName="popupManageVO" name="popupManageVO" action="${pageContext.request.contextPath}/uss/ion/pwm/updtPopup.do" method="post">
 
 <div class="wTableFrm">
 	<!-- 타이틀 -->
@@ -180,28 +201,49 @@ function fn_egov_init_date(){
 			</td>
 		</tr>
 		<tr>
-			<th><spring:message code="ussIonPwm.popupUpdt.fileUrl"/> <span class="pilsu">*</span></th><!-- 팝업창URL -->
+			<th>연결 URL<span class="pilsu">*</span></th><!-- 팝업창URL -->
 			<td class="left">
 			    <form:input path="fileUrl" size="73" cssClass="txaIpt" maxlength="255"/>
       			<form:errors path="fileUrl" cssClass="error"/>
+      			<br/>
+      			페이지 이동을 하지 않으려면 #을 입력하십시오.
+			</td> 
+		</tr>
+		<tr>			
+			<th>팝업 이미지<span class="pilsu">*</span></th><!-- 팝업창 이미지 -->
+	         <td class="left">
+	             <input type="button" onclick="window.open('editimage/imageCropper.do','popupImage','width=1000,height=640,resizable=no');" value="<c:choose><c:when test="${popupManageVO.popupImage != null && popupManageVO.popupImage != ''}">변경</c:when><c:otherwise>선택</c:otherwise></c:choose>"/>
+	             <input type="text" id="popupImage" name="popupImage" value="${popupManageVO.popupImage}" readOnly/>
+	         </td>
+		</tr>
+		<tr>
+			<th>팝업창 표시 페이지 <span class="pilsu">*</span></th><!-- 팝업창 표시 페이지 -->
+			<td class="left">
+				<select name="popupDisplayPage">
+					<option value="main" <c:if test="${popupManageVO.popupDisplayPage eq 'main'}">selected</c:if>>메인</option>
+					<option value="place" <c:if test="${popupManageVO.popupDisplayPage eq 'place'}">selected</c:if>>문화공간</option>
+					<option value="festival" <c:if test="${popupManageVO.popupDisplayPage eq 'festival'}">selected</c:if>>축제</option>
+				</select>
 			</td>
 		</tr>
 		<tr>
-			<th><spring:message code="ussIonPwm.popupUpdt.popupLoca"/> <span class="pilsu">*</span></th><!-- 팝업창위치 -->
+			<th><spring:message code="ussIonPwm.popupRegist.popupLoca"/> <span class="pilsu">*</span></th><!-- 팝업창위치 -->
 			<td class="left">
-			    <spring:message code="ussIonPwm.popupUpdt.popupWlce"/> <form:input path="popupWlc" maxlength="10" cssStyle="width:38px"/>  <spring:message code="ussIonPwm.popupUpdt.popupHlc"/><form:input path="popupHlc" maxlength="10" cssStyle="width:38px"/>
-			  <form:errors path="popupWlc" cssClass="error"/>
-			  <form:errors path="popupHlc" cssClass="error"/>
+				<spring:message code="ussIonPwm.popupRegist.popupWlce"/> <form:input path="popupWlc" maxlength="10" cssStyle="width:38px; margin:0 10px 0 5px"/><!-- 가로 -->
+				<spring:message code="ussIonPwm.popupRegist.popupHlc"/><form:input path="popupHlc" maxlength="10" cssStyle="width:38px; margin-left:5px"/><!-- 세로 -->
+				<form:errors path="popupWlc" cssClass="error"/>
+				<form:errors path="popupHlc" cssClass="error"/>
 			</td>
 		</tr>
-		<tr>
-			<th><spring:message code="ussIonPwm.popupUpdt.popupSize"/> <span class="pilsu">*</span></th><!-- 팝업창사이즈 -->
+		<%-- <tr>
+			<th><spring:message code="ussIonPwm.popupRegist.popupSize"/> <span class="pilsu">*</span></th><!-- 팝업창사이즈 -->
 			<td class="left">
-			    <spring:message code="ussIonPwm.popupUpdt.popupWSize"/> <form:input path="popupWSize" maxlength="10" cssStyle="width:38px"/>  <spring:message code="ussIonPwm.popupUpdt.popupHSize"/><form:input path="popupHSize" maxlength="10" cssStyle="width:38px"/>
-				<form:errors path="popupWSize" cssClass="error"/>
-				<form:errors path="popupHSize" cssClass="error"/>
-			</td>
-		</tr>
+				<spring:message code="ussIonPwm.popupRegist.popupWSize"/> <form:input path="popupWSize" maxlength="10" cssStyle="width:38px; margin:0 10px 0 5px"/><!-- WIDTH -->
+				<spring:message code="ussIonPwm.popupRegist.popupHSize"/><form:input path="popupHSize" maxlength="10" cssStyle="width:38px; margin-left:5px"/><!-- HEIGHT --> --%>
+				<input type="hidden" id="popupWSize" name="popupWSize" value="${popupManageVO.popupWSize}" />
+				<input type="hidden" id="popupHSize" name="popupHSize" value="${popupManageVO.popupHSize}"/>
+			<!-- </td>
+		</tr> -->
 		<tr>
 			<th><label for="ntceBgndeYYYMMDD"><spring:message code="ussIonPwm.popupUpdt.ntcePeriod"/> <span class="pilsu">*</span></label></th><!-- 게시기간 -->
 			<td class="left">

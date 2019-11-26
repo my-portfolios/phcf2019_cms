@@ -12,6 +12,8 @@
 		<result property="popupId" column="POPUP_ID"/>
 		<result property="popupTitleNm" column="POPUP_SJ_NM"/>
 		<result property="fileUrl" column="FILE_URL"/>
+		<result property="popupDisplayPage" column="POPUP_DISPLAY_PAGE"/>
+		<result property="popupImage" column="POPUP_IMAGE"/>
 		<result property="popupHlc" column="POPUP_VRTICL_LC"/>
 		<result property="popupWlc" column="POPUP_WIDTH_LC"/>
 		<result property="popupHSize" column="POPUP_VRTICL_SIZE"/>
@@ -55,9 +57,12 @@
 	<select id="selectPopupWhiteList" resultType="egovMap">
 	
 		SELECT
-			FILE_URL
+			FILE_URL,
+			POPUP_IMAGE
 		FROM COMTNPOPUPMANAGE
-	
+		<if test="popupId != null and popupId != ''">
+			WHERE POPUP_ID=#{popupId}
+		</if>
 	</select>
 
 	<!-- 팝업창관리::목록조회 게시물정보 -->
@@ -67,6 +72,8 @@
 			A.POPUP_ID,
 			A.POPUP_SJ_NM		    POPUP_TITLE_NM,
 			A.FILE_URL,
+			A.POPUP_DISPLAY_PAGE,
+			A.POPUP_IMAGE,
 			A.POPUP_VRTICL_LC,
 			A.POPUP_WIDTH_LC,
 			A.POPUP_VRTICL_SIZE,
@@ -128,6 +135,8 @@
 		SET
 		POPUP_SJ_NM=#{popupTitleNm},
 		FILE_URL=#{fileUrl},
+		POPUP_DISPLAY_PAGE=#{popupDisplayPage},
+		POPUP_IMAGE=#{popupImage},
 		POPUP_VRTICL_LC=#{popupHlc},
 		POPUP_WIDTH_LC=#{popupWlc},
 		POPUP_VRTICL_SIZE=#{popupHSize},
@@ -148,6 +157,8 @@
 		A.POPUP_ID,
 		A.POPUP_SJ_NM,
 		A.FILE_URL,
+		A.POPUP_DISPLAY_PAGE,
+		A.POPUP_IMAGE,
 		A.POPUP_VRTICL_LC,
 		A.POPUP_WIDTH_LC,
 		A.POPUP_VRTICL_SIZE,
@@ -173,6 +184,8 @@
 		POPUP_ID,
 		POPUP_SJ_NM,
 		FILE_URL,
+		POPUP_DISPLAY_PAGE,
+		POPUP_IMAGE,
 		POPUP_VRTICL_LC,
 		POPUP_WIDTH_LC,
 		POPUP_VRTICL_SIZE,
@@ -189,6 +202,8 @@
 		#{popupId},
 		#{popupTitleNm},
 		#{fileUrl},
+		#{popupDisplayPage},
+		#{popupImage},
 		#{popupHlc},
 		#{popupWlc},
 		#{popupHSize},

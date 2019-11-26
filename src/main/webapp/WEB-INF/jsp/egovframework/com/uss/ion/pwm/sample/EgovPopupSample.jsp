@@ -21,7 +21,7 @@
 <html lang="ko">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title><spring:message code="ussIonPwm.popupSample.popupSample"/></title><!-- 팝업 샘플페이지 -->
+<title>포항문화재단</title><!-- 팝업 샘플페이지 -->
 <script type="text/javaScript" language="javascript">
 /* ********************************************************
  * 쿠키설정
@@ -41,18 +41,23 @@ function fnPopupCheck() {
 </script>
 <style type="text/css">
 <!--
-#contents {position:relative; display:block; height:170px; background:#ddf;}
+#contents {position:relative; display:block;}
 #bottom {position:relative; display:block;font-size:9pt}
 
 //-->
 </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 </head>
 <body>
 <div id="contents">
 <%-- noscript 테그 --%>
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg"/></noscript><!-- 자바스크립트를 지원하지 않는 브라우저에서는 일부 기능을 사용하실 수 없습니다. -->
-<spring:message code="ussIonPwm.popupSample.popupTest"/>
+<c:set var="url" value=""/>
+<c:if test="${fileUrl != '#'}">
+	<c:set var="fileUrl" value="${fileUrl }"/>	
+</c:if>
+<img src="data:image/png;base64,${popupImage}" onclick="if('${fileUrl}' != '#'){window.open('${fileUrl}','_blank','');window.close();}" ondragstart="return false;"/>
 </div>
 <div id="bottom">
 <c:if test="${stopVewAt eq 'Y'}">

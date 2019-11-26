@@ -127,7 +127,7 @@ $(document).ready(function() {
 			, {name: 'user_phone', title: '연락처', type: 'text', editing: false, width: 150 }
 			, {name: 'user_email', title: 'e-mail', type: 'text', editing: false, width: 200 }
 			, {name: 'sp_mh_tp', title: '후원방식', type: 'select', items: spMhTpArr, valueField: 'code', textField: 'codeNm', editing: false, align: 'center' }
-			, {name: 'sc_price_tp', title: '결재방식', type: 'select', items: scPriceTpArr, valueField: 'code', textField: 'codeNm', editing: false, align: 'center' }
+			, {name: 'sc_price_tp', title: '결제방식', type: 'select', items: scPriceTpArr, valueField: 'code', textField: 'codeNm', editing: false, align: 'center' }
 			, {name: 'sc_price', title: '후원금액(원)', type: 'number', editing: false, filtering: false
 				, itemTemplate: function(value) {
 					if(typeof value == 'undefined') { return; }

@@ -30,7 +30,7 @@
 <html>
 <head>
 <title>${pageTitle} <spring:message code="title.create" /></title><!-- 게시판 마스터 등록 -->
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
@@ -144,6 +144,30 @@ function fn_egov_regist_bbs(form){
 					<form:options items="${TmpltNmList}"/>
 				</form:select>
 				<div><form:errors path="tmplatId" cssClass="error" /></div>       
+			</td>
+		</tr>
+		
+		<!-- 카테고리기능여부 -->
+		<c:set var="title"><spring:message code="comCopBbs.boardMasterVO.regist.cateUse"/> </c:set>
+		<tr>
+			<th><label for="cateUse">${title} <span class="pilsu">*</span></label></th>
+			<td class="left">
+				<form:select path="cateUse" title="${title} ${inputTxt }" cssClass="txt">
+					<form:option value="" label="--선택하세요--" />
+					<form:option value="Y"  label="예" />
+	  		   		<form:option value='N'>아니오</form:option>
+				</form:select>
+				<div><form:errors path="cateUse" cssClass="error" /></div>       
+			</td>
+		</tr>
+		
+		<!-- 카테고리리스트 -->
+		<c:set var="title"><spring:message code="comCopBbs.boardMasterVO.regist.cateList"/> </c:set>
+		<tr id="cateList" style="display:none;">
+			<th><label for="cateList">${title} <span class="pilsu">*</span></label></th>
+			<td class="left">
+			    <form:input path="cateList" title="${title} ${inputTxt}" size="70" maxlength="70" />
+   				<div><form:errors path="cateList" cssClass="error" /></div>     
 			</td>
 		</tr>
 		
@@ -286,6 +310,18 @@ $("#acYn").change(function(){
 	else{
 		$(".addedColmnsDiv").hide();
 		$(".addedColmns").attr("disabled",true);
+	}
+	
+});
+
+$("#cateUse").change(function(){
+	if($("#cateUse").val()=='Y'){
+		$("#cateList").show();
+		$("#cateList").attr("disabled",false);
+	}
+	else{
+		$("#cateList").hide();
+		$("#cateList").attr("disabled",true);
 	}
 	
 });

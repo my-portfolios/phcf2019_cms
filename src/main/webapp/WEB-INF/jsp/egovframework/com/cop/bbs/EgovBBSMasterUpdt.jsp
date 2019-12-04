@@ -29,16 +29,20 @@
 <title>${pageTitle } <spring:message code="title.update" /></title><!-- 게시판 마스터 수정 -->
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 <validator:javascript formName="boardMasterVO" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javascript">
 /* ********************************************************
  * 초기화
  ******************************************************** */
-function fn_egov_init(){
+$(function(){
 	// 첫 입력란에 포커스..
 	document.getElementById("boardMasterVO").bbsNm.focus();
-}
+	var cateUse = "<c:out value='${boardMasterVO.cateUse}'/>";
+	$("#cateUse").val(cateUse);
+	cateUseCh();
+});
 /* ********************************************************
  * 저장처리화면
  ******************************************************** */
@@ -80,7 +84,7 @@ function fn_egov_inqire_bbslist() {
 }
 </script>
 </head>
-<body onLoad="fn_egov_init();">
+<body>
 
 <!-- javascript warning tag  -->
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
@@ -138,6 +142,30 @@ function fn_egov_inqire_bbslist() {
 			<th><label for=tmplatNm>${title} <span class="pilsu">*</span></label></th>
 			<td class="left">
 				<input name="tmplatId" value="${boardMasterVO.tmplatId}" readonly="ture"/>       
+			</td>
+		</tr>
+		
+		<!-- 카테고리기능여부 -->
+		<c:set var="title"><spring:message code="comCopBbs.boardMasterVO.regist.cateUse"/> </c:set>
+		<tr>
+			<th><label for="cateUse">${title} <span class="pilsu">*</span></label></th>
+			<td class="left">
+				<form:select path="cateUse" title="${title} ${inputTxt }" cssClass="txt">
+					<form:option value="" label="--선택하세요--" />
+					<form:option value="Y"  label="예" />
+	  		   		<form:option value='N'>아니오</form:option>
+				</form:select>
+				<div><form:errors path="cateUse" cssClass="error" /></div>       
+			</td>
+		</tr>
+		
+		<!-- 카테고리리스트 -->
+		<c:set var="title"><spring:message code="comCopBbs.boardMasterVO.regist.cateList"/> </c:set>
+		<tr id="cateList" style="display:none;">
+			<th><label for="cateList">${title} <span class="pilsu">*</span></label></th>
+			<td class="left">
+			    <form:input path="cateList" title="${title} ${inputTxt}" size="70" maxlength="70" />
+   				<div><form:errors path="cateList" cssClass="error" /></div>     
 			</td>
 		</tr>
 		
@@ -233,6 +261,20 @@ function fn_egov_inqire_bbslist() {
 <input name="cmmntyId" type="hidden" value="<c:out value='${boardMasterVO.cmmntyId}'/>">
 <input name="bbsId" type="hidden" value="<c:out value='${boardMasterVO.bbsId}'/>">
 </form:form>
-
+<script>
+function cateUseCh(){
+	if($("#cateUse").val()=='Y'){
+		$("#cateList").show();
+		$("#cateList").attr("disabled",false);
+	}
+	else{
+		$("#cateList").hide();
+		$("#cateList").attr("disabled",true);
+	}
+}
+$("#cateUse").change(function(){
+	cateUseCh();
+});
+</script>
 </body>
 </html>

@@ -50,13 +50,18 @@ public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements E
 	}
 
 	@Override
-	public BoardAddedColmnsVO selectArticleDetail(BoardVO boardVO) {
+	public BoardVO selectArticleDetail(BoardVO boardVO) {
 	    int iniqireCo = egovArticleDao.selectMaxInqireCo(boardVO);
 
 	    boardVO.setInqireCo(iniqireCo);
 	    egovArticleDao.updateInqireCo(boardVO);
 
 		return egovArticleDao.selectArticleDetail(boardVO);
+	}
+	
+	@Override
+	public List<BoardAddedColmnsVO> selectArticleAddedColmnsDetail(BoardVO boardVO){
+		return egovArticleDao.selectArticleAddedColmnsDetail(boardVO);
 	}
 	
 	@Override
@@ -78,7 +83,7 @@ public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements E
 	public List<BoardVO> selectArticleDetailCn(BoardVO boardVO) {
 		return egovArticleDao.selectArticleDetailCn(boardVO);
 	}
-
+	
 	@Override
 	public void insertArticle(BoardAddedColmnsVO board) throws FdlException {
 
@@ -94,7 +99,7 @@ public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements E
 		    board.setParnts("0");
 		    board.setReplyLc("0");
 		    board.setReplyAt("N");
-		    board.setNttId(nttIdgenService.getNextIntegerId());//2011.09.22
+		    if(board.getOrd()==-1) board.setNttId(nttIdgenService.getNextIntegerId());//2011.09.22
 
 		    egovArticleDao.insertArticle(board);
 		}

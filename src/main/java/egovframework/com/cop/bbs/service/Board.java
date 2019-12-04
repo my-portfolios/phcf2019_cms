@@ -67,6 +67,10 @@ public class Board implements Serializable {
 	 */
 	private String nttCn = "";
 	/**
+	 * 카테고리
+	 */
+	private String cateName = "";
+	/**
 	 * 게시물 아이디
 	 */
 	private long nttId = 0L;
@@ -298,6 +302,16 @@ public class Board implements Serializable {
 	 */
 	public String getNttCn() {
 		return nttCn;
+	}
+	
+	
+
+	public String getCateName() {
+		return cateName;
+	}
+
+	public void setCateName(String cateName) {
+		this.cateName = cateName;
 	}
 
 	/**

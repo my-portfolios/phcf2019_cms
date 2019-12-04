@@ -22,6 +22,7 @@ import java.io.Serializable;
 public class BoardAddedColmnsVO extends BoardVO implements Serializable {
 	
 	/** 게시판의 추가칼럼 */
+	private Integer ord = -1;
 	private String ac1="";
 	private String ac2="";
 	private String ac3="";
@@ -43,6 +44,13 @@ public class BoardAddedColmnsVO extends BoardVO implements Serializable {
 	private String ac19="";
 	private String ac20="";
 	
+	
+	public Integer getOrd() {
+		return ord;
+	}
+	public void setOrd(Integer ord) {
+		this.ord = ord;
+	}
 	public String getAc1() {
 		return ac1;
 	}

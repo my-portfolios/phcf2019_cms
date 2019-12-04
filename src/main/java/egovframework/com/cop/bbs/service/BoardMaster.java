@@ -57,6 +57,12 @@ public class BoardMaster implements Serializable {
     /** 첨부가능파일사이즈 */
     private String atchPosblFileSize = "";
     
+    /** 카테고리 사용유무 */
+    private String cateUse;
+    
+    /** 카테고리 리스트 */
+    private String cateList;
+    
     /** 답장가능여부 */
     private String replyPosblAt = "";
     
@@ -609,6 +615,22 @@ public class BoardMaster implements Serializable {
 	}
 	
 	
+
+	public String getCateUse() {
+		return cateUse;
+	}
+
+	public void setCateUse(String cateUse) {
+		this.cateUse = cateUse;
+	}
+
+	public String getCateList() {
+		return cateList;
+	}
+
+	public void setCateList(String cateList) {
+		this.cateList = cateList;
+	}
 
 	public String getAcYn() {
 		return acYn;

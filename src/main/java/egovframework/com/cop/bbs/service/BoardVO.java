@@ -1,6 +1,7 @@
 package egovframework.com.cop.bbs.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -35,6 +36,9 @@ public class BoardVO extends Board implements Serializable {
     
     /** 검색단어 */
     private String searchWrd = "";
+    
+    /** 검색카테고리 */
+    private String searchCate = "";
     
     /** 정렬순서(DESC,ASC) */
     private long sortOrdr = 0L;
@@ -247,7 +251,15 @@ public class BoardVO extends Board implements Serializable {
 	this.searchWrd = searchWrd;
     }
 
-    /**
+    public String getSearchCate() {
+		return searchCate;
+	}
+
+	public void setSearchCate(String searchCate) {
+		this.searchCate = searchCate;
+	}
+
+	/**
      * sortOrdr attribute를 리턴한다.
      * 
      * @return the sortOrdr
@@ -569,9 +581,8 @@ public class BoardVO extends Board implements Serializable {
     public void setBbsNm(String bbsNm) {
 	this.bbsNm = bbsNm;
     }
-    
 
-    public String getAcYn() {
+	public String getAcYn() {
 		return acYn;
 	}
 

@@ -9,7 +9,9 @@ public interface EgovArticleService {
 
 	Map<String, Object> selectArticleList(BoardVO boardVO);
 
-	BoardAddedColmnsVO selectArticleDetail(BoardVO boardVO);
+	BoardVO selectArticleDetail(BoardVO boardVO);
+	
+	List<BoardAddedColmnsVO> selectArticleAddedColmnsDetail(BoardVO boardVO);
 	
 	void insertArticle(BoardAddedColmnsVO board) throws FdlException;
 

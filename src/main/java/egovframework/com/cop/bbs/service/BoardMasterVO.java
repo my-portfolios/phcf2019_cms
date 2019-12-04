@@ -1,6 +1,7 @@
 package egovframework.com.cop.bbs.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -40,6 +41,9 @@ public class BoardMasterVO extends BoardMaster implements Serializable {
     
     /** 검색사용여부 */
     private String searchUseYn = "";
+    
+    /** 카테고리 리스트*/
+    private ArrayList<String> cateNames;
 
     /** 현재페이지 */
     private int pageIndex = 1;
@@ -178,7 +182,17 @@ public class BoardMasterVO extends BoardMaster implements Serializable {
 	this.sortOrdr = sortOrdr;
     }
 
-    /**
+    
+    
+    public ArrayList<String> getCateNames() {
+		return cateNames;
+	}
+
+	public void setCateNames(ArrayList<String> cateNames) {
+		this.cateNames = cateNames;
+	}
+
+	/**
      * searchUseYn attribute를 리턴한다.
      * 
      * @return the searchUseYn

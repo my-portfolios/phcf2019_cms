@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -202,6 +204,17 @@ public class EgovArticleController {
 		    master.setTmplatCours("/css/egovframework/com/cop/tpl/egovBaseTemplate.css");
 		}
 		////-----------------------------
+		//----------------------------
+		// 카테고리 리스트 가져오기
+		//----------------------------
+		if(master.getCateUse().equals("Y")) {
+			ArrayList<String> cateNames = new ArrayList<String>();
+			String[] cateNamesTmp = master.getCateList().split("\\|");
+			for(String cmp : cateNamesTmp) {
+				cateNames.add(cmp);
+			}
+			master.setCateNames(cateNames);
+		}
 	
 		if(user != null) {
 	    	model.addAttribute("sessionUniqId", user.getUniqId());
@@ -254,8 +267,10 @@ public class EgovArticleController {
 	
 		boardVO.setLastUpdusrId(user.getUniqId());
 		BoardVO vo = egovArticleService.selectArticleDetail(boardVO);
-	
+		List<BoardAddedColmnsVO> addedColmnsList = egovArticleService.selectArticleAddedColmnsDetail(boardVO);
+		
 		model.addAttribute("result", vo);
+		model.addAttribute("articleACVO", addedColmnsList);
 		model.addAttribute("sessionUniqId", user.getUniqId());
 		
 		//비밀글은 작성자만 볼수 있음 
@@ -317,7 +332,7 @@ public class EgovArticleController {
      * @throws Exception
      */
     @RequestMapping("/cop/bbs/insertArticleView.do")
-    public String insertArticleView(HttpServletRequest request, @ModelAttribute("searchVO") BoardAddedColmnsVO boardVO, ModelMap model) throws Exception {
+    public String insertArticleView(HttpServletRequest request, @ModelAttribute("searchVO") BoardVO boardVO, ModelMap model) throws Exception {
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 	
@@ -337,6 +352,17 @@ public class EgovArticleController {
 		//----------------------------
 		if (bdMstr.getTmplatCours() == null || bdMstr.getTmplatCours().equals("")) {
 		    bdMstr.setTmplatCours("/css/egovframework/com/cop/tpl/egovBaseTemplate.css");
+		}
+		//----------------------------
+		// 카테고리 리스트 가져오기
+		//----------------------------
+		if(bdMstr.getCateUse().equals("Y")) {
+			ArrayList<String> cateNames = new ArrayList<String>();
+			String[] cateNamesTmp = bdMstr.getCateList().split("\\|");
+			for(String cmp : cateNamesTmp) {
+				cateNames.add(cmp);
+			}
+			bdMstr.setCateNames(cateNames);
 		}
 	
 		model.addAttribute("articleVO", boardVO);
@@ -368,8 +394,12 @@ public class EgovArticleController {
      */
     @RequestMapping("/cop/bbs/insertArticle.do")
     public String insertArticle(final MultipartHttpServletRequest multiRequest, @ModelAttribute("searchVO") BoardAddedColmnsVO boardVO,
-	    @ModelAttribute("bdMstr") BoardMaster bdMstr, @ModelAttribute("board") BoardAddedColmnsVO board, BindingResult bindingResult, 
-	    ModelMap model) throws Exception {
+	    @ModelAttribute("bdMstr") BoardMaster bdMstr, @ModelAttribute("board") BoardAddedColmnsVO board, 
+	    @RequestParam(required=false, defaultValue="") String[] ac1, @RequestParam(required=false, defaultValue="") String[] ac2, @RequestParam(required=false, defaultValue="") String[] ac3, @RequestParam(required=false, defaultValue="") String[] ac4, @RequestParam(required=false, defaultValue="") String[] ac5, 
+	    @RequestParam(required=false, defaultValue="") String[] ac6, @RequestParam(required=false, defaultValue="") String[] ac7, @RequestParam(required=false, defaultValue="") String[] ac8, @RequestParam(required=false, defaultValue="") String[] ac9, @RequestParam(required=false, defaultValue="") String[] ac10, 
+	    @RequestParam(required=false, defaultValue="") String[] ac11, @RequestParam(required=false, defaultValue="") String[] ac12, @RequestParam(required=false, defaultValue="") String[] ac13, @RequestParam(required=false, defaultValue="") String[] ac14, @RequestParam(required=false, defaultValue="") String[] ac15, 
+	    @RequestParam(required=false, defaultValue="") String[] ac16, @RequestParam(required=false, defaultValue="") String[] ac17, @RequestParam(required=false, defaultValue="") String[] ac18, @RequestParam(required=false, defaultValue="") String[] ac19, @RequestParam(required=false, defaultValue="") String[] ac20, 
+	    BindingResult bindingResult, ModelMap model) throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -439,6 +469,40 @@ public class EgovArticleController {
 		    board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
 		    board.setAcYn(master.getAcYn());
 		    egovArticleService.insertArticle(board);
+		    
+		    // 추가칼럼 있을시 삽입
+		    if(master.getAcYn().equals("Y")) {
+		    	// 추가칼럼 갯수 구하기
+		    	int[] acMaxSize = getMaxAcList(ac1, ac2, ac3, ac4, ac5, ac6, ac7, ac8, ac9, ac10, 
+		        		ac11, ac12, ac13, ac14, ac15, ac16, ac17, ac18, ac19, ac20);
+		        
+		    	// 추가칼럼 등록하기
+		    	for(int acseq=0; acseq<acMaxSize[20]; acseq++) {
+		    		board.setOrd(acseq);
+		    		if(acMaxSize[0]>acseq) board.setAc1(ac1[acseq]); else board.setAc1("");
+		    		if(acMaxSize[1]>acseq) board.setAc2(ac2[acseq]); else board.setAc2("");
+		    		if(acMaxSize[2]>acseq) board.setAc3(ac3[acseq]); else board.setAc3("");
+		    		if(acMaxSize[3]>acseq) board.setAc4(ac4[acseq]); else board.setAc4("");
+		    		if(acMaxSize[4]>acseq) board.setAc5(ac5[acseq]); else board.setAc5("");
+		    		if(acMaxSize[5]>acseq) board.setAc6(ac6[acseq]); else board.setAc6("");
+		    		if(acMaxSize[6]>acseq) board.setAc7(ac7[acseq]); else board.setAc7("");
+		    		if(acMaxSize[7]>acseq) board.setAc8(ac8[acseq]); else board.setAc8("");
+		    		if(acMaxSize[8]>acseq) board.setAc9(ac9[acseq]); else board.setAc9("");
+		    		if(acMaxSize[9]>acseq) board.setAc10(ac10[acseq]); else board.setAc10("");
+		    		if(acMaxSize[10]>acseq) board.setAc11(ac11[acseq]); else board.setAc11("");
+		    		if(acMaxSize[11]>acseq) board.setAc12(ac12[acseq]); else board.setAc12("");
+		    		if(acMaxSize[12]>acseq) board.setAc13(ac13[acseq]); else board.setAc13("");
+		    		if(acMaxSize[13]>acseq) board.setAc14(ac14[acseq]); else board.setAc14("");
+		    		if(acMaxSize[14]>acseq) board.setAc15(ac15[acseq]); else board.setAc15("");
+		    		if(acMaxSize[15]>acseq) board.setAc16(ac16[acseq]); else board.setAc16("");
+		    		if(acMaxSize[16]>acseq) board.setAc17(ac17[acseq]); else board.setAc17("");
+		    		if(acMaxSize[17]>acseq) board.setAc18(ac18[acseq]); else board.setAc18("");
+		    		if(acMaxSize[18]>acseq) board.setAc19(ac19[acseq]); else board.setAc19("");
+		    		if(acMaxSize[19]>acseq) board.setAc20(ac20[acseq]); else board.setAc20("");
+		    		
+		    		egovArticleService.insertArticle(board);
+		    	}
+		    }
 		    
 		}
 
@@ -590,7 +654,7 @@ public class EgovArticleController {
      * @throws Exception
      */
     @RequestMapping("/cop/bbs/updateArticleView.do")
-    public String updateArticleView(HttpServletRequest request, @ModelAttribute("searchVO") BoardAddedColmnsVO boardVO, @ModelAttribute("board") BoardAddedColmnsVO vo, ModelMap model)
+    public String updateArticleView(HttpServletRequest request, @ModelAttribute("searchVO") BoardVO boardVO, @ModelAttribute("board") BoardAddedColmnsVO vo, ModelMap model)
 	    throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
@@ -599,7 +663,8 @@ public class EgovArticleController {
 		boardVO.setFrstRegisterId(user.getUniqId());
 		
 		BoardMasterVO bmvo = new BoardMasterVO();
-		BoardAddedColmnsVO bdvo = new BoardAddedColmnsVO();
+		BoardVO bdvo = new BoardVO();
+		List<BoardAddedColmnsVO> addedColmnsList = null;
 		
 		vo.setBbsId(boardVO.getBbsId());
 		
@@ -609,6 +674,7 @@ public class EgovArticleController {
 		if (isAuthenticated) {
 		    bmvo = egovBBSMasterService.selectBBSMasterInf(bmvo);
 		    bdvo = egovArticleService.selectArticleDetail(boardVO);
+		    addedColmnsList = egovArticleService.selectArticleAddedColmnsDetail(boardVO);
 		}
 	
 		//----------------------------
@@ -616,6 +682,17 @@ public class EgovArticleController {
 		//----------------------------
 		if (bmvo.getTmplatCours() == null || bmvo.getTmplatCours().equals("")) {
 		    bmvo.setTmplatCours("/css/egovframework/com/cop/tpl/egovBaseTemplate.css");
+		}
+		//----------------------------
+		// 카테고리 리스트 가져오기
+		//----------------------------
+		if(bmvo.getCateUse().equals("Y")) {
+			ArrayList<String> cateNames = new ArrayList<String>();
+			String[] cateNamesTmp = bmvo.getCateList().split("\\|");
+			for(String cmp : cateNamesTmp) {
+				cateNames.add(cmp);
+			}
+			bmvo.setCateNames(cateNames);
 		}
 	
 		//익명 등록글인 경우 수정 불가 
@@ -626,6 +703,7 @@ public class EgovArticleController {
 		}
 		
 		model.addAttribute("articleVO", bdvo);
+		model.addAttribute("articleACVO", addedColmnsList);
 		model.addAttribute("boardMasterVO", bmvo);
 		
 		//템플릿이 없을때 기본값으로 적용
@@ -656,7 +734,12 @@ public class EgovArticleController {
      */
     @RequestMapping("/cop/bbs/updateArticle.do")
     public String updateBoardArticle(final MultipartHttpServletRequest multiRequest, @ModelAttribute("searchVO") BoardAddedColmnsVO boardVO,
-	    @ModelAttribute("bdMstr") BoardMaster bdMstr, @ModelAttribute("board") BoardAddedColmnsVO board, BindingResult bindingResult, ModelMap model) throws Exception {
+	    @ModelAttribute("bdMstr") BoardMaster bdMstr, @ModelAttribute("board") BoardAddedColmnsVO board,
+	    @RequestParam(required=false, defaultValue="") String[] ac1, @RequestParam(required=false, defaultValue="") String[] ac2, @RequestParam(required=false, defaultValue="") String[] ac3, @RequestParam(required=false, defaultValue="") String[] ac4, @RequestParam(required=false, defaultValue="") String[] ac5, 
+	    @RequestParam(required=false, defaultValue="") String[] ac6, @RequestParam(required=false, defaultValue="") String[] ac7, @RequestParam(required=false, defaultValue="") String[] ac8, @RequestParam(required=false, defaultValue="") String[] ac9, @RequestParam(required=false, defaultValue="") String[] ac10, 
+	    @RequestParam(required=false, defaultValue="") String[] ac11, @RequestParam(required=false, defaultValue="") String[] ac12, @RequestParam(required=false, defaultValue="") String[] ac13, @RequestParam(required=false, defaultValue="") String[] ac14, @RequestParam(required=false, defaultValue="") String[] ac15, 
+	    @RequestParam(required=false, defaultValue="") String[] ac16, @RequestParam(required=false, defaultValue="") String[] ac17, @RequestParam(required=false, defaultValue="") String[] ac18, @RequestParam(required=false, defaultValue="") String[] ac19, @RequestParam(required=false, defaultValue="") String[] ac20,
+	    BindingResult bindingResult, ModelMap model) throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -726,6 +809,40 @@ public class EgovArticleController {
 		    board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
 		    board.setAcYn(bmvo.getAcYn());
 		    egovArticleService.updateArticle(board);
+		    
+		    //추가칼럼이 있으면 수정한다.
+		    if(board.getAcYn().equals("Y")) {
+		    	
+		    	int[] acMaxSize = getMaxAcList(ac1, ac2, ac3, ac4, ac5, ac6, ac7, ac8, ac9, ac10, 
+		        		ac11, ac12, ac13, ac14, ac15, ac16, ac17, ac18, ac19, ac20);
+		    	
+		    	for(int acseq=0; acseq<acMaxSize[20]; acseq++) {
+		    		board.setOrd(acseq);
+		    		if(acMaxSize[0]>acseq) board.setAc1(ac1[acseq]); else board.setAc1("");
+		    		if(acMaxSize[1]>acseq) board.setAc2(ac2[acseq]); else board.setAc2("");
+		    		if(acMaxSize[2]>acseq) board.setAc3(ac3[acseq]); else board.setAc3("");
+		    		if(acMaxSize[3]>acseq) board.setAc4(ac4[acseq]); else board.setAc4("");
+		    		if(acMaxSize[4]>acseq) board.setAc5(ac5[acseq]); else board.setAc5("");
+		    		if(acMaxSize[5]>acseq) board.setAc6(ac6[acseq]); else board.setAc6("");
+		    		if(acMaxSize[6]>acseq) board.setAc7(ac7[acseq]); else board.setAc7("");
+		    		if(acMaxSize[7]>acseq) board.setAc8(ac8[acseq]); else board.setAc8("");
+		    		if(acMaxSize[8]>acseq) board.setAc9(ac9[acseq]); else board.setAc9("");
+		    		if(acMaxSize[9]>acseq) board.setAc10(ac10[acseq]); else board.setAc10("");
+		    		if(acMaxSize[10]>acseq) board.setAc11(ac11[acseq]); else board.setAc11("");
+		    		if(acMaxSize[11]>acseq) board.setAc12(ac12[acseq]); else board.setAc12("");
+		    		if(acMaxSize[12]>acseq) board.setAc13(ac13[acseq]); else board.setAc13("");
+		    		if(acMaxSize[13]>acseq) board.setAc14(ac14[acseq]); else board.setAc14("");
+		    		if(acMaxSize[14]>acseq) board.setAc15(ac15[acseq]); else board.setAc15("");
+		    		if(acMaxSize[15]>acseq) board.setAc16(ac16[acseq]); else board.setAc16("");
+		    		if(acMaxSize[16]>acseq) board.setAc17(ac17[acseq]); else board.setAc17("");
+		    		if(acMaxSize[17]>acseq) board.setAc18(ac18[acseq]); else board.setAc18("");
+		    		if(acMaxSize[18]>acseq) board.setAc19(ac19[acseq]); else board.setAc19("");
+		    		if(acMaxSize[19]>acseq) board.setAc20(ac20[acseq]); else board.setAc20("");
+		    		
+		    		egovArticleService.updateArticle(board);
+		    		
+		    	}
+		    }
 		    
 		}
 		
@@ -1453,6 +1570,49 @@ public class EgovArticleController {
 		LOGGER.debug("Template > WhiteList mismatch! Please check Admin page!");
 		return "egovframework/com/cmm/egovError";
 	}
+    
+    private int[] getMaxAcList(String[] ac1, String[] ac2, String[] ac3, String[] ac4, String[] ac5, 
+    		String[] ac6, String[] ac7, String[] ac8, String[] ac9, String[] ac10, 
+    		String[] ac11, String[] ac12, String[] ac13, String[] ac14, String[] ac15, 
+    		String[] ac16, String[] ac17, String[] ac18, String[] ac19, String[] ac20) {
+    	
+    	// 추가칼럼 갯수 구하기
+    	int acNLength[] = new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+    	if(!ac1[0].equals("")) acNLength[0] = ac1.length;
+    	if(!ac2[0].equals("")) acNLength[1] = ac2.length;
+    	if(!ac3[0].equals("")) acNLength[2] = ac3.length;
+    	if(!ac4[0].equals("")) acNLength[3] = ac4.length;
+    	if(!ac5[0].equals("")) acNLength[4] = ac5.length;
+    	if(!ac6[0].equals("")) acNLength[5] = ac6.length;
+    	if(!ac7[0].equals("")) acNLength[6] = ac7.length;
+    	if(!ac8[0].equals("")) acNLength[7] = ac8.length;
+    	if(!ac9[0].equals("")) acNLength[8] = ac9.length;
+    	if(!ac10[0].equals("")) acNLength[9] = ac10.length;
+    	if(!ac11[0].equals("")) acNLength[10] = ac11.length;
+    	if(!ac12[0].equals("")) acNLength[11] = ac12.length;
+    	if(!ac13[0].equals("")) acNLength[12] = ac13.length;
+    	if(!ac14[0].equals("")) acNLength[13] = ac14.length;
+    	if(!ac15[0].equals("")) acNLength[14] = ac15.length;
+    	if(!ac16[0].equals("")) acNLength[15] = ac16.length;
+    	if(!ac17[0].equals("")) acNLength[16] = ac17.length;
+    	if(!ac18[0].equals("")) acNLength[17] = ac18.length;
+    	if(!ac19[0].equals("")) acNLength[18] = ac19.length;
+    	if(!ac20[0].equals("")) acNLength[19] = ac20.length;
+    	
+    	// 추가칼럼 최대갯수 구하기
+    	int acMaxSize = acNLength[0];
+         
+        for(int i=0 ; i<acNLength.length ; i++){
+            if(acNLength[i] >= acMaxSize){
+            	acMaxSize = acNLength[i];
+            }
+        }
+        
+        //최대갯수는 배열 마지막값에 넣는다.
+        acNLength[20] = acMaxSize;
+        
+        return acNLength;
+    }
         
     
 }

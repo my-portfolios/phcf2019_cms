@@ -44,7 +44,6 @@ import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import net.minidev.json.JSONObject;
 
 
 /**
@@ -482,6 +481,18 @@ public class EgovBBSMasterController {
         // Primary Key 값 세팅
         boardMasterVO.setBbsId(bbsId);
         boardMasterVO = egovBBSMasterService.selectBBSMasterInf(boardMasterVO);
+        
+        //----------------------------
+		// 카테고리 리스트 가져오기
+		//----------------------------
+		if(boardMasterVO.getCateUse().equals("Y")) {
+			ArrayList<String> cateNames = new ArrayList<String>();
+			String[] cateNamesTmp = boardMasterVO.getCateList().split("\\|");
+			for(String cmp : cateNamesTmp) {
+				cateNames.add(cmp);
+			}
+			boardMasterVO.setCateNames(cateNames);
+		}
 
         model.addAttribute("boardMasterVO", boardMasterVO);
         

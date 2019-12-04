@@ -28,48 +28,15 @@ public class EgovArticleDAO extends EgovComAbstractDAO {
 	public void updateInqireCo(BoardVO boardVO) {
 		update("BBSArticle.updateInqireCo", boardVO);
 	}
+	
+	public List<BoardAddedColmnsVO> selectArticleAddedColmnsDetail(BoardVO boardVO){
+		return (List<BoardAddedColmnsVO>) list("BBSArticle.selectArticleAddedColmnsDetail", boardVO);
+	}
 
 	public BoardAddedColmnsVO selectArticleDetail(BoardVO boardVO) {
-		BoardVO map = selectOne("BBSArticle.selectArticleDetail", boardVO);
+		BoardAddedColmnsVO map = selectOne("BBSArticle.selectArticleDetail", boardVO);
 		
-		BoardAddedColmnsVO mapAc = new BoardAddedColmnsVO();
-		
-		// 추가칼럼이 있을 경우 추가칼럼도 가져온다.
-		if(map.getAcYn().equals("Y")) {
-			mapAc = selectOne("BBSArticle.selectArticleAddedColmns", boardVO);
-			mapAc.setNttSj(map.getNttSj());
-			mapAc.setNtcrId(map.getNtcrId());
-			mapAc.setNtcrNm(map.getNtcrNm());
-			mapAc.setNttNo(map.getNttNo());
-			mapAc.setNttCn(map.getNttCn());
-			mapAc.setPassword(map.getPassword());
-			mapAc.setFrstRegisterId(map.getFrstRegisterId());
-			mapAc.setFrstRegisterNm(map.getFrstRegisterNm());
-			mapAc.setFrstRegisterPnttm(map.getFrstRegisterPnttm());
-			mapAc.setNtceBgnde(map.getNtceBgnde());
-			mapAc.setNtceEndde(map.getNtceEndde());
-			mapAc.setInqireCo(map.getInqireCo());
-			mapAc.setRecordCountPerPage(map.getRecordCountPerPage());
-			mapAc.setUseAt(map.getUseAt());
-			mapAc.setAtchFileId(map.getAtchFileId());
-			mapAc.setBbsId(map.getBbsId());
-			mapAc.setNttId(map.getNttId());
-			mapAc.setSjBoldAt(map.getSjBoldAt());
-			mapAc.setNoticeAt(map.getNoticeAt());
-			mapAc.setSecretAt(map.getSecretAt());
-			mapAc.setParnts(map.getParnts());
-			mapAc.setReplyAt(map.getReplyAt());
-			mapAc.setReplyLc(map.getReplyLc());
-			mapAc.setSortOrdr(map.getSortOrdr());
-			mapAc.setBbsTyCode(map.getBbsTyCode());
-			mapAc.setReplyPosblAt(map.getReplyPosblAt());
-			mapAc.setFileAtchPosblAt(map.getFileAtchPosblAt());
-			mapAc.setPosblAtchFileNumber(map.getPosblAtchFileNumber());
-			mapAc.setBbsNm(map.getBbsNm());
-			mapAc.setAcYn(map.getAcYn());
-		}
-		
-		return mapAc;
+		return map;
 	}
 	
 	public void replyArticle(Board board) {
@@ -77,21 +44,13 @@ public class EgovArticleDAO extends EgovComAbstractDAO {
 	}
 
 	public void insertArticle(BoardAddedColmnsVO board) {
-		insert("BBSArticle.insertArticle", board);
-		
-		//추가칼럼이 있을때 추가칼럼을 등록한다.
-	    if(board.getAcYn().equals("Y")) insert("BBSArticle.insertArticleAddedColmns", board);
-	}
-	
-	public void insertArticleAddedColmns(BoardAddedColmnsVO vo) {
-		insert("BBSArticle.insertArticleAddedColmns", vo);
+		if(board.getOrd() == -1) insert("BBSArticle.insertArticle", board);
+		else insert("BBSArticle.insertArticleAddedColmns", board); //추가칼럼이 있을때 추가칼럼을 등록한다.
 	}
 
 	public void updateArticle(BoardAddedColmnsVO board) {
-		update("BBSArticle.updateArticle", board);	
-		
-		//추가칼럼이 있을때 추가칼럼을 업데이트한다.
-		if(board.getAcYn().equals("Y")) update("BBSArticle.updateArticleAddedColmns", board);
+		if(board.getOrd() == -1) update("BBSArticle.updateArticle", board);	
+		else update("BBSArticle.updateArticleAddedColmns", board); //추가칼럼이 있을때 추가칼럼을 업데이트한다.
 	}
 
 	public void deleteArticle(BoardVO board) {

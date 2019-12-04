@@ -22,6 +22,8 @@
 		<result property="fileAtchPosblAt" column="FILE_ATCH_POSBL_AT"/>
 		<result property="atchPosblFileNumber" column="ATCH_POSBL_FILE_NUMBER"/>
 		<result property="atchPosblFileSize" column="ATCH_POSBL_FILE_SIZE"/>
+		<result property="cateUse" column="CATE_USE"/>
+		<result property="cateList" column="CATE_LIST"/>
 		<result property="tmplatId" column="TMPLAT_ID"/>
 		<result property="frstRegisterId" column="FRST_REGISTER_ID"/>
 		<result property="frstRegisterNm" column="FRST_REGISTER_NM"/>
@@ -101,13 +103,13 @@
 		
 			INSERT INTO COMTNBBSMASTER
 			(BBS_ID, BBS_TY_CODE, BBS_NM, BBS_INTRCN, 
-			 REPLY_POSBL_AT, FILE_ATCH_POSBL_AT, ATCH_POSBL_FILE_NUMBER,
+			 REPLY_POSBL_AT, FILE_ATCH_POSBL_AT, ATCH_POSBL_FILE_NUMBER, CATE_USE, CATE_LIST,
 			 TMPLAT_ID, USE_AT, CMMNTY_ID,
 			 FRST_REGISTER_ID, FRST_REGIST_PNTTM, BLOG_ID, BLOG_AT,
 			 AC_YN, AC1NM, AC2NM, AC3NM, AC4NM, AC5NM, AC6NM, AC7NM, AC8NM, AC9NM, AC10NM, AC11NM, AC12NM, AC13NM, AC14NM, AC15NM, AC16NM, AC17NM, AC18NM, AC19NM, AC20NM )
 			VALUES
 			( #{bbsId}, #{bbsTyCode}, #{bbsNm}, #{bbsIntrcn}, 
-			  #{replyPosblAt}, #{fileAtchPosblAt}, #{atchPosblFileNumber}, 
+			  #{replyPosblAt}, #{fileAtchPosblAt}, #{atchPosblFileNumber}, #{cateUse}, #{cateList},
 			  #{tmplatId}, #{useAt}, #{cmmntyId}, #{frstRegisterId}, SYSDATE(), #{blogId}, #{blogAt},
 			  #{acYn}, #{ac1Nm}, #{ac2Nm}, #{ac3Nm}, #{ac4Nm}, #{ac5Nm}, #{ac6Nm}, #{ac7Nm}, #{ac8Nm}, #{ac9Nm}, #{ac10Nm}, #{ac11Nm}, #{ac12Nm}, #{ac13Nm}, #{ac14Nm}, #{ac15Nm}, #{ac16Nm}, #{ac17Nm}, #{ac18Nm}, #{ac19Nm}, #{ac20Nm}  
 			 )			
@@ -180,7 +182,7 @@
 			SELECT 
 				a.BBS_ID, a.BBS_TY_CODE, b.CODE_NM as BBS_TY_CODE_NM, a.BBS_INTRCN, 
 				a.BBS_NM, 
-				a.TMPLAT_ID, d.TMPLAT_NM, d.TMPLAT_COURS, a.FILE_ATCH_POSBL_AT, a.ATCH_POSBL_FILE_NUMBER,
+				a.TMPLAT_ID, d.TMPLAT_NM, d.TMPLAT_COURS, a.FILE_ATCH_POSBL_AT, a.ATCH_POSBL_FILE_NUMBER, a.CATE_USE, a.CATE_LIST,
 				a.ATCH_POSBL_FILE_SIZE, a.REPLY_POSBL_AT, a.FRST_REGISTER_ID, e.USER_NM as FRST_REGISTER_NM, a.CMMNTY_ID,
 				a.AC_YN, a.AC1NM, a.AC2NM, a.AC3NM, a.AC4NM, a.AC5NM, a.AC6NM, a.AC7NM, a.AC8NM, a.AC9NM, a.AC10NM, a.AC11NM, a.AC12NM, a.AC13NM, a.AC14NM, a.AC15NM, a.AC16NM, a.AC17NM, a.AC18NM, a.AC19NM, a.AC20NM,
 				a.USE_AT, DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as FRST_REGIST_PNTTM, BLOG_ID				
@@ -208,7 +210,9 @@
 				BBS_INTRCN = #{bbsIntrcn}, 
 				BBS_TY_CODE = #{bbsTyCode},
 				FILE_ATCH_POSBL_AT = #{fileAtchPosblAt},
-				ATCH_POSBL_FILE_NUMBER = #{atchPosblFileNumber},		
+				ATCH_POSBL_FILE_NUMBER = #{atchPosblFileNumber},	
+				CATE_USE = #{cateUse},
+				CATE_LIST = #{cateList},	
 				LAST_UPDUSR_ID = #{lastUpdusrId},
 				LAST_UPDT_PNTTM = SYSDATE(),
 				USE_AT = #{useAt},

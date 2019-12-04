@@ -31,6 +31,7 @@
 	<resultMap id="boardAddedColmns" type="egovframework.com.cop.bbs.service.BoardAddedColmnsVO">
 		<result property="bbsId" column="BBS_ID"/>
 		<result property="nttId" column="NTT_ID"/>
+		<result property="ord" column="ORD"/>
 		<result property="ac1" column="AC1"/>
 		<result property="ac2" column="AC2"/>
 		<result property="ac3" column="AC3"/>
@@ -61,6 +62,7 @@
 		<result property="ntcrNm" column="NTCR_NM"/>
 		<result property="nttNo" column="NTT_NO"/>
 		<result property="nttCn" column="NTT_CN"/>
+		<result property="cateName" column="CATE_NAME"/>
 		<result property="password" column="PASSWORD"/>
 		<result property="frstRegisterId" column="FRST_REGISTER_ID"/>
 		<result property="frstRegisterNm" column="FRST_REGISTER_NM"/>
@@ -120,6 +122,7 @@
 		<result property="nttSj" column="NTT_SJ"/>
 		<result property="frstRegisterPnttm" column="FRST_REGIST_PNTTM"/>
 		<result property="nttCn" column="NTT_CN"/>
+		<result property="cateName" column="CATE_NAME"/>
 		<result property="useAt" column="USE_AT"/>
 		<result property="frstRegisterNm" column="FRST_REGISTER_NM"/>
 		<result property="frstRegisterId" column="FRST_REGISTER_ID"/>
@@ -133,6 +136,7 @@
 		<result property="ntcrNm" column="NTCR_NM"/>
 		<result property="nttNo" column="NTT_NO"/>
 		<result property="nttCn" column="NTT_CN"/>
+		<result property="cateName" column="CATE_NAME"/>
 		<result property="password" column="PASSWORD"/>
 		<result property="frstRegisterId" column="FRST_REGISTER_ID"/>
 		<result property="frstRegisterNm" column="FRST_REGISTER_NM"/>
@@ -208,7 +212,7 @@
 		</selectKey>
 		
 			INSERT INTO COMTNBBS
-			(NTT_ID, BBS_ID, NTT_SJ, NTT_CN, SORT_ORDR, 
+			(NTT_ID, BBS_ID, NTT_SJ, NTT_CN, CATE_NAME, SORT_ORDR, 
 			 NTCR_ID, NTCR_NM, PASSWORD, RDCNT, 
 			 NTCE_BGNDE, NTCE_ENDDE, ANSWER_AT,  			   
 			 PARNTSCTT_NO, NTT_NO, ANSWER_LC, ATCH_FILE_ID,
@@ -216,7 +220,7 @@
 			 SJ_BOLD_AT, NOTICE_AT, SECRET_AT, BLOG_ID
 			 )
 			VALUES
-			( #{nttId}, #{bbsId}, #{nttSj}, #{nttCn}, #{nttId}, 
+			( #{nttId}, #{bbsId}, #{nttSj}, #{nttCn}, #{cateName}, #{nttId}, 
 			  #{ntcrId}, #{ntcrNm}, #{password}, #{inqireCo}, 
 			  #{ntceBgnde}, #{ntceEndde}, #{replyAt}, 
 			  #{parnts}, 1, #{replyLc}, #{atchFileId},
@@ -229,11 +233,11 @@
 	<insert id="insertArticleAddedColmns" parameterType="egovframework.com.cop.bbs.service.BoardAddedColmnsVO">
 		
 			INSERT INTO BBSADDEDCOLMNS
-			(NTT_ID, BBS_ID, AC1, AC2, AC3, AC4, AC5, AC6, AC7, AC8, AC9, AC10,
+			(NTT_ID, BBS_ID, ORD, AC1, AC2, AC3, AC4, AC5, AC6, AC7, AC8, AC9, AC10,
 			 AC11, AC12, AC13, AC14, AC15, AC16, AC17, AC18, AC19, AC20
 			 )
 			VALUES
-			( #{nttId}, #{bbsId}, #{ac1}, #{ac2}, #{ac3}, 
+			( #{nttId}, #{bbsId}, #{ord}, #{ac1}, #{ac2}, #{ac3}, 
 			  #{ac4}, #{ac5}, #{ac6}, #{ac7}, 
 			  #{ac8}, #{ac9}, #{ac10}, #{ac11}, #{ac12}, #{ac13},
 			  #{ac14}, #{ac15}, #{ac16}, #{ac17}, #{ac18}, #{ac19}, #{ac20}
@@ -248,7 +252,7 @@
 		</selectKey>			
 		
 			INSERT INTO COMTNBBS
-			(NTT_ID, BBS_ID, NTT_SJ, NTT_CN, SORT_ORDR, 
+			(NTT_ID, BBS_ID, NTT_SJ, NTT_CN, CATE_NAME, SORT_ORDR, 
 			 NTCR_ID, NTCR_NM, PASSWORD, RDCNT, 
 			 NTCE_BGNDE, NTCE_ENDDE, ANSWER_AT,  			   
 			 PARNTSCTT_NO, NTT_NO, ANSWER_LC, ATCH_FILE_ID,
@@ -256,7 +260,7 @@
 			 SJ_BOLD_AT, NOTICE_AT, SECRET_AT
 			 )
 			VALUES
-			( #{nttId}, #{bbsId}, #{nttSj}, #{nttCn}, #{sortOrdr}, 
+			( #{nttId}, #{bbsId}, #{nttSj}, #{nttCn}, #{cateName}, #{sortOrdr}, 
 			  #{ntcrId}, #{ntcrNm}, #{password}, #{inqireCo}, 
 			  #{ntceBgnde}, #{ntceEndde}, #{replyAt}, 
 			  #{parnts}, #{nttNo}, #{replyLc}, #{atchFileId},
@@ -269,7 +273,7 @@
 	<select id="selectArticleList" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultMap="boardList">
 		
 			SELECT
-				a.NTT_ID, a.NTT_SJ, a.NTT_CN, a.FRST_REGISTER_ID, IFNULL(b.USER_NM, a.NTCR_NM) as FRST_REGISTER_NM,
+				a.NTT_ID, a.NTT_SJ, a.NTT_CN, a.CATE_NAME, a.FRST_REGISTER_ID, IFNULL(b.USER_NM, a.NTCR_NM) as FRST_REGISTER_NM,
 				DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as FRST_REGIST_PNTTM,
 				a.RDCNT, a.PARNTSCTT_NO, a.ANSWER_AT, a.ANSWER_LC, a.USE_AT, a.ATCH_FILE_ID,
 				a.BBS_ID, a.NTCE_BGNDE, a.NTCE_ENDDE, a.SJ_BOLD_AT, a.NOTICE_AT, a.SECRET_AT, c.COMMENT_CO
@@ -297,6 +301,10 @@
 			</if>	
 			<if test="searchCnd == 2">AND
 					b.USER_NM LIKE CONCAT ('%', #{searchWrd},'%') 		
+			</if>
+			
+			<if test="searchCate != null and !searchCate.equals('')">AND
+					a.CATE_NAME = #{searchCate} 		
 			</if>				
 					
 			ORDER BY a.SORT_ORDR DESC, NTT_NO ASC
@@ -331,7 +339,7 @@
 	<select id="selectArticleDetail" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultMap="boardDetail">
 		
 			SELECT
-				a.NTT_SJ, a.NTCR_ID, a.NTCR_NM, a.NTT_NO, a.NTT_CN,
+				a.NTT_SJ, a.NTCR_ID, a.NTCR_NM, a.NTT_NO, a.NTT_CN, a.CATE_NAME,
 				a.PASSWORD, a.FRST_REGISTER_ID, IFNULL(b.USER_NM, a.NTCR_NM) as FRST_REGISTER_NM,
 				DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as FRST_REGIST_PNTTM,
 				a.NTCE_BGNDE, a.NTCE_ENDDE, a.RDCNT, 
@@ -359,10 +367,10 @@
 						
 	</select>
 	
-	<select id="selectArticleAddedColmns" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultMap="boardAddedColmns">
+	<select id="selectArticleAddedColmnsDetail" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultMap="boardAddedColmns">
 		
 			SELECT
-				c.NTT_ID, c.BBS_ID,
+				c.NTT_ID, c.BBS_ID, c.ORD,
 				c.AC1, c.AC2, c.AC3, c.AC4, c.AC5, c.AC6, c.AC7, c.AC8, c.AC9, c.AC10,
 				c.AC11, c.AC12, c.AC13, c.AC14, c.AC15, c.AC16, c.AC17, c.AC18, c.AC19, c.AC20
 			FROM
@@ -416,7 +424,7 @@
 	<select id="selectArticleDetailCn" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultMap="detailCn">
 		
 			SELECT
-				a.NTT_SJ, a.NTCR_ID, a.NTCR_NM, a.NTT_NO, a.NTT_CN,
+				a.NTT_SJ, a.NTCR_ID, a.NTCR_NM, a.NTT_NO, a.NTT_CN, a.CATE_NAME,
 				a.PASSWORD, a.FRST_REGISTER_ID, IFNULL(b.USER_NM, a.NTCR_NM) as FRST_REGISTER_NM,
 				DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as FRST_REGIST_PNTTM,
 				a.NTCE_BGNDE, a.NTCE_ENDDE, a.RDCNT, 
@@ -446,7 +454,8 @@
  		
 			UPDATE COMTNBBS SET 
 				NTT_SJ = #{nttSj},
-				NTT_CN = #{nttCn}, 
+				NTT_CN = #{nttCn},
+				CATE_NAME = #{cateName}, 
 				NTCE_BGNDE = #{ntceBgnde},		
 				NTCE_ENDDE = #{ntceEndde},
 				LAST_UPDUSR_ID = #{lastUpdusrId},
@@ -484,7 +493,8 @@
 				AC19 = #{ac19},
 				AC20 = #{ac20}
 			WHERE BBS_ID = #{bbsId}
-			AND NTT_ID = #{nttId}		
+			AND NTT_ID = #{nttId}	
+			AND ORD = #{ord}			
 		
 	</update>
 
@@ -533,7 +543,7 @@
  	<select id="selectNoticeArticleList" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultMap="boardList">
 		
 			SELECT
-				a.NTT_ID, a.NTT_SJ, a.NTT_CN, a.FRST_REGISTER_ID, IFNULL(b.USER_NM, a.NTCR_NM) as FRST_REGISTER_NM,
+				a.NTT_ID, a.NTT_SJ, a.NTT_CN, a.CATE_NAME, a.FRST_REGISTER_ID, IFNULL(b.USER_NM, a.NTCR_NM) as FRST_REGISTER_NM,
 				DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as FRST_REGIST_PNTTM,
 				a.RDCNT, a.PARNTSCTT_NO, a.ANSWER_AT, a.ANSWER_LC, a.USE_AT, a.ATCH_FILE_ID,
 				a.BBS_ID, a.NTCE_BGNDE, a.NTCE_ENDDE, a.SJ_BOLD_AT, a.NOTICE_AT, a.SECRET_AT, c.COMMENT_CO
@@ -564,7 +574,7 @@
 			SELECT
 				a.NTT_ID, a.NTT_SJ,  
 				DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d %H:%i:%S')	as FRST_REGIST_PNTTM,
-				a.NTT_CN, a.USE_AT, a.BBS_ID, b.USER_NM as FRST_REGISTER_NM, a.FRST_REGISTER_ID
+				a.NTT_CN, a.CATE_NAME, a.USE_AT, a.BBS_ID, b.USER_NM as FRST_REGISTER_NM, a.FRST_REGISTER_ID
 			FROM
 				COMTNBBS a, COMVNUSERMASTER b
 			WHERE
@@ -684,7 +694,7 @@
 	<select id="selectArticleDetailDefault" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultMap="boardSubJectList">
 	
 			SELECT
-					a.NTT_ID, a.NTT_SJ, a.NTT_CN, a.FRST_REGISTER_ID, IFNULL(b.USER_NM, a.NTCR_NM) as FRST_REGISTER_NM,
+					a.NTT_ID, a.NTT_SJ, a.NTT_CN, a.CATE_NAME, a.FRST_REGISTER_ID, IFNULL(b.USER_NM, a.NTCR_NM) as FRST_REGISTER_NM,
 					DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as FRST_REGIST_PNTTM,
 					a.RDCNT, a.PARNTSCTT_NO, a.ANSWER_AT, a.ANSWER_LC, a.USE_AT, a.ATCH_FILE_ID,
 					a.BBS_ID, a.NTCE_BGNDE, a.NTCE_ENDDE, a.SJ_BOLD_AT, a.NOTICE_AT, a.SECRET_AT, c.COMMENT_CO,

@@ -163,7 +163,7 @@ public class EgovArticleController {
         if(!isAuthenticated) {
             return "egovframework/com/uat/uia/EgovLoginUsr";
         }
-	
+        
 		BoardMasterVO vo = new BoardMasterVO();
 		
 		vo.setBbsId(boardVO.getBbsId());
@@ -207,15 +207,16 @@ public class EgovArticleController {
 		//----------------------------
 		// 카테고리 리스트 가져오기
 		//----------------------------
-		if(master.getCateUse().equals("Y")) {
-			ArrayList<String> cateNames = new ArrayList<String>();
-			String[] cateNamesTmp = master.getCateList().split("\\|");
-			for(String cmp : cateNamesTmp) {
-				cateNames.add(cmp);
+		if(master.getCateUse()!=null) {
+			if(master.getCateUse().equals("Y")) {
+				ArrayList<String> cateNames = new ArrayList<String>();
+				String[] cateNamesTmp = master.getCateList().split("\\|");
+				for(String cmp : cateNamesTmp) {
+					cateNames.add(cmp);
+				}
+				master.setCateNames(cateNames);
 			}
-			master.setCateNames(cateNames);
 		}
-	
 		if(user != null) {
 	    	model.addAttribute("sessionUniqId", user.getUniqId());
 	    }

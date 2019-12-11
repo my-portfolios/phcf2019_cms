@@ -63,6 +63,21 @@ public class Comment implements Serializable {
     
     /** 확인 패스워드 */
     private String confirmPassword = "";
+    
+    /** 추가칼럼1 */
+    private String cmtAc1 = "";
+    
+    /** 추가칼럼2 */
+    private String cmtAc2 = "";
+    
+    /** 추가칼럼3 */
+    private String cmtAc3 = "";
+    
+    /** 추가칼럼4 */
+    private String cmtAc4 = "";
+    
+    /** 추가칼럼5 */
+    private String cmtAc5 = "";
 
     /**
      * commentNo attribute를 리턴한다.
@@ -287,8 +302,48 @@ public class Comment implements Serializable {
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
+    
+	public String getCmtAc1() {
+		return cmtAc1;
+	}
 
-    /**
+	public void setCmtAc1(String cmtAc1) {
+		this.cmtAc1 = cmtAc1;
+	}
+
+	public String getCmtAc2() {
+		return cmtAc2;
+	}
+
+	public void setCmtAc2(String cmtAc2) {
+		this.cmtAc2 = cmtAc2;
+	}
+
+	public String getCmtAc3() {
+		return cmtAc3;
+	}
+
+	public void setCmtAc3(String cmtAc3) {
+		this.cmtAc3 = cmtAc3;
+	}
+
+	public String getCmtAc4() {
+		return cmtAc4;
+	}
+
+	public void setCmtAc4(String cmtAc4) {
+		this.cmtAc4 = cmtAc4;
+	}
+
+	public String getCmtAc5() {
+		return cmtAc5;
+	}
+
+	public void setCmtAc5(String cmtAc5) {
+		this.cmtAc5 = cmtAc5;
+	}
+
+	/**
      * toString 메소드를 대치한다.
      */
     public String toString() {

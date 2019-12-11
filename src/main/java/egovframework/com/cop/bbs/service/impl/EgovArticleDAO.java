@@ -33,8 +33,8 @@ public class EgovArticleDAO extends EgovComAbstractDAO {
 		return (List<BoardAddedColmnsVO>) list("BBSArticle.selectArticleAddedColmnsDetail", boardVO);
 	}
 
-	public BoardAddedColmnsVO selectArticleDetail(BoardVO boardVO) {
-		BoardAddedColmnsVO map = selectOne("BBSArticle.selectArticleDetail", boardVO);
+	public BoardVO selectArticleDetail(BoardVO boardVO) {
+		BoardVO map = selectOne("BBSArticle.selectArticleDetail", boardVO);
 		
 		return map;
 	}

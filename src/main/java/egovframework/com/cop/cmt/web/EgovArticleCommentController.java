@@ -1,9 +1,11 @@
 package egovframework.com.cop.cmt.web;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,7 +68,7 @@ public class EgovArticleCommentController {
      * @throws Exception
      */
     @RequestMapping("/cop/cmt/selectArticleCommentList.do")
-    public String selectArticleCommentList(@ModelAttribute("searchVO") CommentVO commentVO, ModelMap model) throws Exception {
+    public String selectArticleCommentList(HttpServletRequest request, @ModelAttribute("searchVO") CommentVO commentVO, ModelMap model, @RequestParam String tmplatId) throws Exception {
 
     	CommentVO articleCommentVO = new CommentVO();
     	
@@ -75,6 +77,8 @@ public class EgovArticleCommentController {
 		    commentVO.setCommentNo("");
 		    commentVO.setCommentCn("");
 		}
+		
+		System.out.print("dddddddddddddddddddddddddddddddddddddd"+tmplatId);
 		
 		// 수정을 위한 처리
 		if (!commentVO.getCommentNo().equals("")) {
@@ -118,8 +122,11 @@ public class EgovArticleCommentController {
 		model.addAttribute("articleCommentVO", articleCommentVO);	// validator 용도 
 		
 		commentVO.setCommentCn("");	// 등록 후 댓글 내용 처리
-	
-		return "egovframework/com/cop/cmt/EgovArticleCommentList";
+		
+		String isDir = request.getServletContext().getRealPath("/WEB-INF/jsp/template/"+tmplatId+"/comment.jsp");
+		File f = new File(isDir);
+		if(f.exists()) return "egovframework/com/cop/cmt/EgovArticleCommentList";
+		else return "error/noTmpltErrorPage";
     }
     
     

@@ -227,6 +227,7 @@ function fn_egov_select_commentList(pageNo) {
 <!-- 댓글 -->
 <c:if test="${useComment == 'true'}">
 	<c:import url="/cop/cmt/selectArticleCommentList.do" charEncoding="utf-8">
+		<c:param name="tmplatId" value="${boardMasterVO.tmplatId}" />
 	</c:import>
 </c:if>
 

@@ -21,6 +21,11 @@
 		<result property="useAt" column="USE_AT"/>
 		<result property="frstRegisterPnttm" column="FRST_REGIST_PNTTM"/>
 		<result property="frstRegisterNm" column="FRST_REGISTER_ID"/>
+		<result property="cmtAc1" column="CMTAC1"/>
+		<result property="cmtAc2" column="CMTAC2"/>
+		<result property="cmtAc3" column="CMTAC3"/>
+		<result property="cmtAc4" column="CMTAC4"/>
+		<result property="cmtAc5" column="CMTAC5"/>
 	</resultMap>
 	
 	<resultMap id="commentDetail" type="egovframework.com.cop.cmt.service.CommentVO">
@@ -33,7 +38,6 @@
 		<result property="commentCn" column="ANSWER"/>
 		<result property="useAt" column="USE_AT"/>
 		<result property="frstRegisterPnttm" column="FRST_REGIST_PNTTM"/>
-		<result property="frstRegisterNm" column="FRST_REGISTER_NM"/>
 	</resultMap>
 
 	<select id="selectArticleCommentList" parameterType="egovframework.com.cop.cmt.service.CommentVO" resultMap="commentList">
@@ -43,7 +47,8 @@
 				a.WRTER_ID, a.WRTER_NM, a.PASSWORD, a.ANSWER, a.USE_AT,
 				DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d %H:%i:%S') 
 				as FRST_REGIST_PNTTM,
-				b.USER_NM as FRST_REGISTER_ID
+				b.USER_NM as FRST_REGISTER_ID,
+				a.CMTAC1, a.CMTAC2, a.CMTAC3, a.CMTAC4, a.CMTAC5
 			FROM
 				COMTNCOMMENT a
 			LEFT OUTER JOIN COMVNUSERMASTER b
@@ -75,12 +80,12 @@
 		
 			INSERT INTO COMTNCOMMENT
 			(ANSWER_NO, NTT_ID, BBS_ID, WRTER_ID, WRTER_NM, PASSWORD, 
-			 ANSWER, USE_AT, 
+			 ANSWER, USE_AT, CMTAC1, CMTAC2, CMTAC3, CMTAC4, CMTAC5,
 			 FRST_REGISTER_ID, FRST_REGIST_PNTTM
 			 )
 			VALUES
 			( #{commentNo}, #{nttId}, #{bbsId}, #{wrterId}, #{wrterNm}, #{commentPassword}, 
-			  #{commentCn}, 'Y',
+			  #{commentCn}, 'Y', #{cmtAc1}, #{cmtAc2}, #{cmtAc3}, #{cmtAc4}, #{cmtAc5},
 			  #{frstRegisterId}, SYSDATE()
 			 )
 		

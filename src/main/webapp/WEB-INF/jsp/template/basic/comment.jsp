@@ -74,7 +74,8 @@
 		<tr>
 			<th><label for="commentCn">${title } <span class="pilsu">*</span></label></th>
 			<td class="nopd">
-				<input type="text" name="cmtAc1" />
+				<form:input path="cmtAc1" size="70" maxlength="70" />
+   				<div><form:errors path="cmtAc1" cssClass="error" /></div>    
 				<form:textarea path="commentCn" title="${title} ${inputTxt}" cols="300" rows="20" cssClass="re_txt"/>   
 				<div><form:errors path="commentCn" cssClass="error" /></div>
 				<c:choose>

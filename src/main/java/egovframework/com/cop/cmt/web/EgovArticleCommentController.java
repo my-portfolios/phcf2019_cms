@@ -78,8 +78,6 @@ public class EgovArticleCommentController {
 		    commentVO.setCommentCn("");
 		}
 		
-		System.out.print("dddddddddddddddddddddddddddddddddddddd"+tmplatId);
-		
 		// 수정을 위한 처리
 		if (!commentVO.getCommentNo().equals("")) {
 		    return "forward:/cop/cmt/updateArticleCommentView.do";

@@ -38,6 +38,11 @@
 		<result property="commentCn" column="ANSWER"/>
 		<result property="useAt" column="USE_AT"/>
 		<result property="frstRegisterPnttm" column="FRST_REGIST_PNTTM"/>
+		<result property="cmtAc1" column="CMTAC1"/>
+		<result property="cmtAc2" column="CMTAC2"/>
+		<result property="cmtAc3" column="CMTAC3"/>
+		<result property="cmtAc4" column="CMTAC4"/>
+		<result property="cmtAc5" column="CMTAC5"/>
 	</resultMap>
 
 	<select id="selectArticleCommentList" parameterType="egovframework.com.cop.cmt.service.CommentVO" resultMap="commentList">
@@ -106,7 +111,8 @@
 				a.WRTER_ID, a.WRTER_NM, a.PASSWORD, a.ANSWER, a.USE_AT,
 				DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d %H:%i:%S') 
 				as FRST_REGIST_PNTTM,
-				b.USER_NM as FRST_REGISTER_NM
+				b.USER_NM as FRST_REGISTER_NM,
+				a.CMTAC1, a.CMTAC2, a.CMTAC3, a.CMTAC4, a.CMTAC5
 			FROM
 				COMTNCOMMENT a
 			LEFT OUTER JOIN COMVNUSERMASTER b
@@ -121,6 +127,11 @@
  		
 			UPDATE COMTNCOMMENT SET 
 				ANSWER = #{commentCn},
+				CMTAC1 = #{cmtAc1},
+				CMTAC2 = #{cmtAc2},
+				CMTAC3 = #{cmtAc3},
+				CMTAC4 = #{cmtAc4},
+				CMTAC5 = #{cmtAc5},
 				LAST_UPDUSR_ID = #{lastUpdusrId},
 				LAST_UPDT_PNTTM = SYSDATE()
 			WHERE ANSWER_NO = #{commentNo} 

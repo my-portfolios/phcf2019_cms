@@ -333,7 +333,7 @@ public class EgovArticleController {
      * @throws Exception
      */
     @RequestMapping("/cop/bbs/insertArticleView.do")
-    public String insertArticleView(HttpServletRequest request, @ModelAttribute("searchVO") BoardVO boardVO, ModelMap model) throws Exception {
+    public String insertArticleView(HttpServletRequest request, @ModelAttribute("searchVO") BoardAddedColmnsVO boardVO, ModelMap model) throws Exception {
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 	

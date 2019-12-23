@@ -251,18 +251,18 @@ function fileDecode(file){
 			    <input type="text" name="ntceBgndeYYYMMDD" id="ntceBgndeYYYMMDD" maxlength="10" class="readOnlyClass" value="<c:out value="${fn:substring(popupManageVO.ntceBgnde, 0, 4)}"/>-<c:out value="${fn:substring(popupManageVO.ntceBgnde, 4, 6)}"/>-<c:out value="${fn:substring(popupManageVO.ntceBgnde, 6, 8)}"/>" readonly="readonly" style="width:78px" />
 			    <form:select path="ntceBgndeHH">
 			        <form:options items="${ntceBgndeHH}" itemValue="code" itemLabel="codeNm"/>
-			    </form:select>H
+			    </form:select>:
 			    <form:select path="ntceBgndeMM">
 			        <form:options items="${ntceBgndeMM}" itemValue="code" itemLabel="codeNm"/>
-			    </form:select>M
+			    </form:select>
 			    &nbsp&nbsp~&nbsp&nbsp
 			    <input type="text" name="ntceEnddeYYYMMDD" id="ntceEnddeYYYMMDD" size="10" maxlength="10" class="readOnlyClass" value="<c:out value="${fn:substring(popupManageVO.ntceEndde, 0, 4)}"/>-<c:out value="${fn:substring(popupManageVO.ntceEndde, 4, 6)}"/>-<c:out value="${fn:substring(popupManageVO.ntceEndde, 6, 8)}"/>" readonly="readonly" style="width:78px" />
 			    <form:select path="ntceEnddeHH">
 			        <form:options items="${ntceEnddeHH}" itemValue="code" itemLabel="codeNm"/>
-			    </form:select>H
+			    </form:select>:
 			    <form:select path="ntceEnddeMM">
 			        <form:options items="${ntceEnddeMM}" itemValue="code" itemLabel="codeNm"/>
-			    </form:select>M
+			    </form:select>
 			</td>
 		</tr>
 		<tr>

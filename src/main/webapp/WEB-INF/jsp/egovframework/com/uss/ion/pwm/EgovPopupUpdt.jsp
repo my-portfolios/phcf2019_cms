@@ -212,7 +212,7 @@ function fileDecode(file){
 		<tr>			
 			<th>팝업 이미지<span class="pilsu">*</span></th><!-- 팝업창 이미지 -->
 	         <td class="left">
-	             <input type="button" onclick="window.open('editimage/imageCropper.do','popupImage','width=1000,height=640,resizable=no');" value="<c:choose><c:when test="${popupManageVO.popupImage != null && popupManageVO.popupImage != ''}">변경</c:when><c:otherwise>선택</c:otherwise></c:choose>"/>
+	             <input type="button" onclick="window.open('/editimage/imageCropper.do','popupImage','width=1000,height=640,resizable=no');" value="<c:choose><c:when test="${popupManageVO.popupImage != null && popupManageVO.popupImage != ''}">변경</c:when><c:otherwise>선택</c:otherwise></c:choose>"/>
 	             <input type="text" id="popupImage" name="popupImage" value="${popupManageVO.popupImage}" readOnly/>
 	         </td>
 		</tr>

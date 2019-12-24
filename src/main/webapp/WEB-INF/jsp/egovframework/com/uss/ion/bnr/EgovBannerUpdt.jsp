@@ -110,12 +110,16 @@ function fncOnChangeImage() {
 		<tr>
 			<th><spring:message code="ussIonBnr.bannerUpdt.bannerImage"/> <span class="pilsu">*</span></th><!-- 배너이미지 -->
 			<td class="left">
+				<input type="button" onclick="window.open('/editimage/imageCropper.do','bannerImage','width=1000,height=640,resizable=no');" value="선택"/>
+	            <input type="text" id="popupImage" name="popupImage" value="${banner.bannerImage}" readOnly/>
+			</td>
+			<%-- <td class="left">
 			    <div class="egov_file_box" style="display:inline-block">
 				<label for="egovfile_0" id="file_label"><spring:message code="title.attachedFileSelect"/></label><!--  파일선택 -->
 				<input type="file" name="file_1" id="egovfile_0" title="<spring:message code="ussIonBnr.bannerUpdt.bannerImage"/>" onchange="fncOnChangeImage();"/> 
 				</div>
         		<input name="bannerImage" id="bannerImage" type="text" title="<spring:message code="ussIonBnr.bannerUpdt.bannerImage"/>" value="<c:out value="${banner.bannerImage}"/>" maxLength="30" readonly="readonly" style="width:525px" />
-			</td>
+			</td> --%>
 		</tr>
 		<tr>
 			<th><spring:message code="ussIonBnr.bannerUpdt.bannerDc"/></th><!-- 배너설명 -->

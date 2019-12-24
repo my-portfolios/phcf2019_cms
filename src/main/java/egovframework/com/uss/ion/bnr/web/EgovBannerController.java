@@ -157,11 +157,11 @@ public class EgovBannerController {
 	 */
     @SuppressWarnings("unused")
 	@RequestMapping(value="/uss/ion/bnr/addBanner.do")
-	public String insertBanner(final MultipartHttpServletRequest multiRequest,
-			                   @ModelAttribute("banner") Banner banner,
+	public String insertBanner(@ModelAttribute("banner") Banner banner,
 			                   @ModelAttribute("bannerVO") BannerVO bannerVO,
 			                    BindingResult bindingResult,
 			                    SessionStatus status,
+			                    @RequestParam(value="popupImage") String popupImage,
 			                    ModelMap model) throws Exception {
 
     	beanValidator.validate(banner, bindingResult); //validation 수행
@@ -170,34 +170,12 @@ public class EgovBannerController {
     		model.addAttribute("bannerVO", bannerVO);
 			return "egovframework/com/uss/ion/bnr/EgovBannerRegist";
 		} else {
-	    	List<FileVO> result = null;
-
-	    	String uploadFolder = "";
-	    	String bannerImage = "";
-	    	String bannerImageFile = "";
-	    	String atchFileId = "";
-
-	    	final Map<String, MultipartFile> files = multiRequest.getFileMap();
-
-	    	if(!files.isEmpty()){
-	    	    result = fileUtil.parseFileInf(files, "BNR_", 0, "", uploadFolder);
-	    	    atchFileId = fileMngService.insertFileInfs(result);
-
-	        	FileVO vo = result.get(0);
-	        	Iterator<FileVO> iter = result.iterator();
-
-	        	while (iter.hasNext()) {
-	        	    vo = iter.next();
-	        	    bannerImage = vo.getOrignlFileNm();
-	        	    bannerImageFile = vo.getStreFileNm();
-	        	}
-	    	}
 
 	    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
 	    	banner.setBannerId(egovBannerIdGnrService.getNextStringId());
-	    	banner.setBannerImage(bannerImage);
-	    	banner.setBannerImageFile(atchFileId);
+	    	banner.setBannerImage(popupImage);
+	    	//banner.setBannerImageFile(atchFileId);
 	    	banner.setUserId(user.getId());
 	    	bannerVO.setBannerId(banner.getBannerId());
 	    	status.setComplete();
@@ -217,51 +195,22 @@ public class EgovBannerController {
 	 */
     @SuppressWarnings("unused")
 	@RequestMapping(value="/uss/ion/bnr/updtBanner.do")
-	public String updateBanner(final MultipartHttpServletRequest multiRequest,
-			                   @ModelAttribute("banner") Banner banner,
+	public String updateBanner(@ModelAttribute("banner") Banner banner,
 			                    BindingResult bindingResult,
                                 SessionStatus status,
+                                @RequestParam(value="popupImage") String popupImage,
                                 ModelMap model) throws Exception {
     	beanValidator.validate(banner, bindingResult); //validation 수행
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("bannerVO", banner);
+			System.out.println("===validation error!");
 			return "egovframework/com/uss/ion/bnr/EgovBannerUpdt";
 		} else {
-
-			List<FileVO> result = null;
-
-			String uploadFolder = "";
-			String bannerImage = "";
-			String bannerImageFile = "";
-			String atchFileId = "";
-
-			final Map<String, MultipartFile> files = multiRequest.getFileMap();
-
-			if (!files.isEmpty()) {
-				result = fileUtil.parseFileInf(files, "BNR_", 0, "", uploadFolder);
-				atchFileId = fileMngService.insertFileInfs(result);
-
-				FileVO vo = null;
-				Iterator<FileVO> iter = result.iterator();
-
-				while (iter.hasNext()) {
-					vo = iter.next();
-					bannerImage = vo.getOrignlFileNm();
-					bannerImageFile = vo.getStreFileNm();
-				}
-
-				if (vo == null) {
-					banner.setAtchFile(false);
-				} else {
-					banner.setBannerImage(bannerImage);
-					banner.setBannerImageFile(atchFileId);
-					banner.setAtchFile(true);
-					
-				}
-			} else { 
-				banner.setAtchFile(false);
-			}
+			
+			banner.setBannerImage(popupImage);
+			banner.setAtchFile(true);
+			
 
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 			banner.setUserId(user.getId());

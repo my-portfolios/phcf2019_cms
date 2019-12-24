@@ -86,24 +86,11 @@ public class EgovBannerServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * @param banner - 배너 model
 	 */
 	public void deleteBanner(Banner banner) throws Exception {
-		deleteBannerFile(banner);
+		
         bannerDAO.deleteBanner(banner);
 	}
 
-	/**
-	 * 기 등록된 배너정보의 이미지파일을 삭제한다.
-	 * @param banner - 배너 model
-	 */
-	public void deleteBannerFile(Banner banner) throws Exception{
-		FileVO fileVO = (FileVO)bannerDAO.selectBannerFile(banner);
-		File file = new File(fileVO.getFileStreCours()+fileVO.getStreFileNm());
-		//2017.02.08 	이정은 	시큐어코딩(ES)-부적절한 예외 처리[CWE-253, CWE-440, CWE-754]
-		if(file.delete()){
-			LOGGER.debug("[file.delete] file : File Deletion Success");
-		}else{
-			LOGGER.error("[file.delete] file : File Deletion Fail");
-		}
-	}
+	
 
 	/**
 	 * 배너가 특정화면에 반영된 결과를 조회한다.

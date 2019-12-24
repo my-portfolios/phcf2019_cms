@@ -354,19 +354,6 @@ public class EgovPopupManageController {
 	}
 
 	/**
-	 * 팝업창 이미지 Cropper
-	 * @param model
-	 * @return cropper page
-	 * @throws Exception
-	 * @author 김량래
-	 */
-	@RequestMapping(value = "/uss/ion/pwm/editimage/imageCropper.do")
-	public String egovPopupImageCropper(ModelMap model, @RequestParam HashMap<String, String> paramMap) throws Exception {
-		
-		return "egovframework/com/uss/ion/pwm/editimage/index";
-	}
-	
-	/**
 	 * 시간을 LIST를 반환한다.
 	 * @return  List
 	 * @throws

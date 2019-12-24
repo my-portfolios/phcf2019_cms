@@ -187,8 +187,8 @@ function fn_egov_init_date(){
 		<tr>			
 			<th>팝업 이미지<span class="pilsu">*</span></th><!-- 팝업창 이미지 -->
 	         <td class="left">
-	             <input type="button" onclick="window.open('editimage/imageCropper.do','popupImage','width=1000,height=640,resizable=no');" value="선택"/>
-	             <input type="hidden" id="popupImage" name="popupImage" readOnly/>
+	             <input type="button" onclick="window.open('/editimage/imageCropper.do','popupImage','width=1000,height=640,resizable=no');" value="선택"/>
+	             <input type="text" id="popupImage" name="popupImage" readOnly/>
 	         </td>
 		<tr>
 			<th>팝업창 표시 페이지 <span class="pilsu">*</span></th><!-- 팝업창표시페이지 -->

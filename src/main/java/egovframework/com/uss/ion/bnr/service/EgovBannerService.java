@@ -68,14 +68,6 @@ public interface EgovBannerService {
 	public void deleteBanner(Banner banner) throws Exception;
 
 	/**
-	 * 기 등록된 배너정보의 이미지파일을 삭제한다.
-	 * @param banner - 배너 model
-	 * 
-	 * @param banner
-	 */
-	public void deleteBannerFile(Banner banner) throws Exception;
-
-	/**
 	 * 배너가 특정화면에 반영된 결과를 조회한다.
 	 * @param bannerVO - 배너 Vo
 	 * @return BannerVO - 배너 Vo

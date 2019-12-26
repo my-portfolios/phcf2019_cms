@@ -1,5 +1,6 @@
 package egovframework.com.cop.bbs.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -70,6 +71,10 @@ public class EgovArticleDAO extends EgovComAbstractDAO {
 
 	public int selectGuestArticleListCnt(BoardVO vo) {
 		return (Integer)selectOne("BBSArticle.selectGuestArticleListCnt", vo);
+	}
+	
+	public List<BoardVO> latestArticleListView(HashMap<String, String> vo) {
+		return (List<BoardVO>) list("BBSArticle.latestArticleListView", vo);
 	}
 	
 	/*

@@ -1572,6 +1572,49 @@ public class EgovArticleController {
 		return "egovframework/com/cmm/egovError";
 	}
     
+    /**
+     * 최근 게시물 목록을 가져온다.
+     * 
+     * @param boardVO
+     * @param sessionVO
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/cop/bbs/latestArticleListView.do")
+    public String latestArticleListView(HttpServletRequest request,
+    		@RequestParam(required=false) String skinNm, @RequestParam String bbsId, 
+    		@RequestParam(required=false) String cntOfArticle, @RequestParam(required=false) String ordColmn, 
+    		@RequestParam(required=false) String ordWay, ModelMap model) throws Exception {
+    	
+    	HashMap<String, String> paramMap = new HashMap<String, String>();
+    	System.out.print("ordColmnordColmnordColmnordColmnordColmnordColmn"+ordColmn);
+    	if(skinNm.equals("") || skinNm.equals(null)) skinNm="basic";
+    	if(cntOfArticle.equals("") || cntOfArticle.equals(null)) cntOfArticle="5";
+    	if(ordColmn.equals("") || ordColmn.equals(null)) ordColmn="FRST_REGIST_PNTTM";
+    	if(ordWay.equals("") || ordWay.equals(null)) ordWay="DESC";
+    	
+    	paramMap.put("skinNm", skinNm);
+    	paramMap.put("bbsId", bbsId);
+    	paramMap.put("cntOfArticle", cntOfArticle);
+    	paramMap.put("ordColmn", ordColmn);
+    	paramMap.put("ordWay", ordWay);
+    	
+    	List<BoardVO> resultList = new ArrayList<BoardVO>();
+    	resultList = egovArticleService.latestArticleListView(paramMap);
+    	
+    	model.addAttribute("resultList", resultList);
+    	
+    	//템플릿 파일 유무를 검사한다.
+		String isDir = request.getServletContext().getRealPath("/WEB-INF/jsp/template/_latest/"+skinNm+".jsp");
+		File f = new File(isDir);
+		if(f.exists()) return "template/_latest/"+skinNm;
+		else return "error/noTmpltErrorPage";
+	}
+    
+    
+    
+    
     private int[] getMaxAcList(String[] ac1, String[] ac2, String[] ac3, String[] ac4, String[] ac5, 
     		String[] ac6, String[] ac7, String[] ac8, String[] ac9, String[] ac10, 
     		String[] ac11, String[] ac12, String[] ac13, String[] ac14, String[] ac15, 

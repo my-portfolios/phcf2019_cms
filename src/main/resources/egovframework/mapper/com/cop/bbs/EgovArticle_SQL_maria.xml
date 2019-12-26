@@ -601,6 +601,23 @@
 					
 	</select>
 	
+	<select id="latestArticleListView" parameterType="java.util.HashMap" resultMap="boardList">
+			
+			SELECT
+				*
+			FROM
+				COMTNBBS a
+			LEFT OUTER JOIN 
+				COMVNUSERMASTER b
+			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
+			WHERE
+				a.BBS_ID = #{bbsId}
+			AND a.USE_AT = 'Y'
+			ORDER BY ${ordColmn} ${ordWay}
+			LIMIT ${cntOfArticle}
+						
+	</select>	
+	
 	<select id="selectLoginUser" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultType="java.lang.Integer">
 		
 			SELECT

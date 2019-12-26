@@ -152,6 +152,14 @@ public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements E
 	}
 	
 	@Override
+	public List<BoardVO> latestArticleListView(HashMap<String, String> vo) {
+		List<BoardVO> list = egovArticleDao.latestArticleListView(vo);
+
+
+		return list;
+	}
+	
+	@Override
 	public int selectLoginUser(BoardVO boardVO){
 		return egovArticleDao.selectLoginUser(boardVO);
 	}

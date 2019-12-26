@@ -1,5 +1,6 @@
 package egovframework.com.cop.bbs.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,8 @@ public interface EgovArticleService {
 	List<BoardVO> selectNoticeArticleList(BoardVO boardVO);
 	
 	Map<String, Object> selectGuestArticleList(BoardVO vo);
+	
+	List<BoardVO> latestArticleListView(HashMap<String, String> boardVO);
 	
 	/*
 	 * 블로그 관련

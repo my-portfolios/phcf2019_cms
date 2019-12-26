@@ -271,7 +271,7 @@ public class EgovBBSMasterController {
 		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
 		
 		paginationInfo.setTotalRecordCount(totCnt);
-	
+		System.out.print("paginationInfopaginationInfopaginationInfo"+paginationInfo.getTotalRecordCount());
 		model.addAttribute("resultList", map.get("resultList"));
 		model.addAttribute("resultCnt", map.get("resultCnt"));	
 		model.addAttribute("paginationInfo", paginationInfo);

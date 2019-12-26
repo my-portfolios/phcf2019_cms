@@ -1588,7 +1588,7 @@ public class EgovArticleController {
     		@RequestParam(required=false) String ordWay, ModelMap model) throws Exception {
     	
     	HashMap<String, String> paramMap = new HashMap<String, String>();
-    	System.out.print("ordColmnordColmnordColmnordColmnordColmnordColmn"+ordColmn);
+    	
     	if(skinNm.equals("") || skinNm.equals(null)) skinNm="basic";
     	if(cntOfArticle.equals("") || cntOfArticle.equals(null)) cntOfArticle="5";
     	if(ordColmn.equals("") || ordColmn.equals(null)) ordColmn="FRST_REGIST_PNTTM";

@@ -164,7 +164,7 @@
 				ON a.FRST_REGISTER_ID = d.ESNTL_ID
 			WHERE 1=1
 			<if test='cmmntyId == null or cmmntyId == ""'>AND
-					a.CMMNTY_ID IS NULL
+					a.CMMNTY_ID IS NULL OR a.CMMNTY_ID = ''
 			</if>
 			<if test='cmmntyId != null and cmmntyId != ""'>AND 
 					a.CMMNTY_ID = #{cmmntyId}

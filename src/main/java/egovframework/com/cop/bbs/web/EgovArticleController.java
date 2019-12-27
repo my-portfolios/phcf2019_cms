@@ -1583,23 +1583,18 @@ public class EgovArticleController {
      */
     @RequestMapping("/cop/bbs/latestArticleListView.do")
     public String latestArticleListView(HttpServletRequest request,
-    		@RequestParam(required=false) String skinNm, @RequestParam String bbsId, 
-    		@RequestParam(required=false) String cntOfArticle, @RequestParam(required=false) String ordColmn, 
-    		@RequestParam(required=false) String ordWay, ModelMap model) throws Exception {
+    		@RequestParam(required=false, defaultValue="basic") String skinNm, @RequestParam String bbsId, 
+    		@RequestParam(required=false, defaultValue="5") String cntOfArticle, @RequestParam(required=false, defaultValue="FRST_REGIST_PNTTM") String ordColmn, 
+    		@RequestParam(required=false, defaultValue="DESC") String ordWay, ModelMap model) throws Exception {
     	
     	HashMap<String, String> paramMap = new HashMap<String, String>();
-    	
-    	if(skinNm.equals("") || skinNm.equals(null)) skinNm="basic";
-    	if(cntOfArticle.equals("") || cntOfArticle.equals(null)) cntOfArticle="5";
-    	if(ordColmn.equals("") || ordColmn.equals(null)) ordColmn="FRST_REGIST_PNTTM";
-    	if(ordWay.equals("") || ordWay.equals(null)) ordWay="DESC";
     	
     	paramMap.put("skinNm", skinNm);
     	paramMap.put("bbsId", bbsId);
     	paramMap.put("cntOfArticle", cntOfArticle);
     	paramMap.put("ordColmn", ordColmn);
     	paramMap.put("ordWay", ordWay);
-    	
+		
     	List<BoardVO> resultList = new ArrayList<BoardVO>();
     	resultList = egovArticleService.latestArticleListView(paramMap);
     	

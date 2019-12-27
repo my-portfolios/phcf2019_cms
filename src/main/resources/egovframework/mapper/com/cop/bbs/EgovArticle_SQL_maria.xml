@@ -614,7 +614,11 @@
 				a.BBS_ID = #{bbsId}
 			AND a.USE_AT = 'Y'
 			ORDER BY ${ordColmn} ${ordWay}
-			LIMIT ${cntOfArticle}
+			<if test="cntOfArticle == '-1'">	
+			</if>
+			<if test="cntOfArticle != '-1'">	
+				LIMIT ${cntOfArticle}
+			</if>
 						
 	</select>	
 	

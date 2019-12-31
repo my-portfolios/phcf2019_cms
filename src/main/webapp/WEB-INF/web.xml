@@ -33,5 +33,5 @@
       <error-code>500</error-code>
       <location>/code500.jsp</location>
     </error-page>
-
+	<distributable/>
 </web-app>

@@ -19,7 +19,8 @@
 		<result property="password" column="password"/>
 		<result property="userSe" column="userSe"/>
 		<result property="orgnztId" column="orgnztId"/>
-		<result property="uniqId" column="uniqId"/>		
+		<result property="uniqId" column="uniqId"/>	
+		<result property="groupId" column="groupId"/>	
 	</resultMap>
 	
 	<!-- 아이디 찾기를 위한 resultMap -->
@@ -45,6 +46,7 @@
 			     , 'GNR' AS userSe
 			     , '-' AS orgnztId
 			     , ESNTL_ID AS uniqId
+			     , group_id AS groupId
 			  FROM COMTNGNRLMBER
 			 WHERE ESNTL_ID = #{uniqId}
 			   AND mber_sttus = 'P'
@@ -61,6 +63,7 @@
 			     , 'ENT' AS userSe
 			     , '-' AS orgnztId
 			     , esntl_id AS uniqId
+			     , group_id AS groupId
 			  FROM COMTNENTRPRSMBER
 			 WHERE ESNTL_ID = #{uniqId}
 			   AND entrprs_mber_sttus = 'P'
@@ -77,6 +80,7 @@
 			     , 'USR' AS userSe
 			     , orgnzt_id AS orgnztId
 			     , esntl_id AS uniqId
+			     , group_id AS groupId
 			  FROM COMTNEMPLYRINFO
 			 WHERE ESNTL_ID = #{uniqId}
 			   AND emplyr_sttus_code = 'P'
@@ -98,6 +102,7 @@
 			     , 'GNR' AS userSe
 			     , '-' AS orgnztId
 			     , esntl_id AS uniqId
+			     , group_id AS groupId
 			  FROM COMTNGNRLMBER
 			 WHERE mber_id = #{id}
 			   AND password = #{password}
@@ -115,6 +120,7 @@
 			     , 'ENT' AS userSe
 			     , '-' AS orgnztId
 			     , esntl_id AS uniqId
+			     , group_id AS groupId
 			  FROM COMTNENTRPRSMBER
 			 WHERE ENTRPRS_MBER_ID = #{id}
 			   AND entrprs_mber_password = #{password}
@@ -132,6 +138,7 @@
 			     , 'USR' AS userSe
 			     , orgnzt_id AS orgnztId
 			     , esntl_id AS uniqId
+			     , group_id AS groupId
 			  FROM COMTNEMPLYRINFO
 			 WHERE emplyr_id = #{id}
 			   AND password = #{password}

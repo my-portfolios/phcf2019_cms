@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovPhcfAuthorDAO">
+
+	<resultMap id="authList" type="egovframework.com.sec.phcf.service.AuthManage">
+		<result property="seq" column="SEQ"/>
+		<result property="authNm" column="AUTH_NAME"/>
+		<result property="orgnztId" column="ORGNZT_ID"/>
+		<result property="groupId" column="GROUP_ID"/>
+		<result property="acceptLink" column="ACCEPT_LINK"/>
+		<result property="banLink" column="BAN_LINK"/>
+		<result property="authPriority" column="AUTH_PRIORITY"/>
+		<result property="useYn" column="USE_YN"/>
+		<result property="insId" column="INS_ID"/>		
+		<result property="insDt" column="INS_DT"/>
+		<result property="uptId" column="UPT_ID"/>
+		<result property="uptDt" column="UPT_DT"/>
+	</resultMap>
+
+    <select id="selectEgovPhcfAuthList" parameterType="java.util.HashMap" resultMap="authList">
+        
+            SELECT *
+              FROM AUTHMANAGE 
+             WHERE 1=1
+             <if test="orgnztId != null">OR
+                ORGNZT_ID=#{orgnztId}
+            </if>
+             <if test="groupId != null">OR
+                GROUP_ID=#{groupId}
+            </if>
+        
+    </select>
+
+	<insert id="insertGroup">
+		
+	</insert>
+	
+	<update id="updateGroup" parameterType="egovframework.com.sec.gmt.service.GroupManage">
+	
+	</update>
+	
+	<delete id="deleteGroup">
+		
+	</delete>
+	
+	<select id="selectGroupListTotCnt" parameterType="egovframework.com.sec.gmt.service.GroupManageVO" resultType="int">
+
+	</select>
+
+</mapper>

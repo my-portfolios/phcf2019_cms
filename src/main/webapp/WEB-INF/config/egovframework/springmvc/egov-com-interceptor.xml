@@ -9,8 +9,16 @@
 	<!-- 세션(Session) 방식 인증시에만 AuthenticInterceptor 동작  -->
     <beans profile="session">  
 	    <mvc:interceptors>
-	        <bean class="egovframework.com.cmm.interceptor.IpObtainInterceptor" />        
-	        <!-- IP 정보 기록 및 로그인 체크가 필요한 URL과 로그인 여부를 체크해줄 인터셉터를 등록한다. -->
+	    	<!-- IP 정보 기록 및 로그인 체크가 필요한 URL과 로그인 여부를 체크해줄 인터셉터를 등록한다. -->
+	        <bean class="egovframework.com.cmm.interceptor.IpObtainInterceptor" />      
+	        <!-- 포항문화재단 권한확인 URL -->  
+	        <bean class="egovframework.com.cmm.interceptor.PhcfAuthenticInterceptor">
+	        	<property name="phcfAuthPatternList">
+				<list>
+					<value>/**/*.*</value>
+				</list>
+				</property>
+	        </bean>
 	        <mvc:interceptor>
 	            <mvc:mapping path="/**/*.do" />
 	            <mvc:exclude-mapping path="/uat/uia/**" />

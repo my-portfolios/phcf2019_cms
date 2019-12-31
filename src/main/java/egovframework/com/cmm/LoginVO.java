@@ -44,6 +44,8 @@ public class LoginVO implements Serializable{
 	private String orgnztId;
 	/** 조직(부서)명 */
 	private String orgnztNm;
+	/** 그룹ID */
+	private String groupId;
 	/** 고유아이디 */
 	private String uniqId;
 	/** 로그인 후 이동할 페이지 */
@@ -245,6 +247,13 @@ public class LoginVO implements Serializable{
 	 */
 	public void setOrgnztNm(String orgnztNm) {
 		this.orgnztNm = orgnztNm;
+	}
+	
+	public String getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 	
 }

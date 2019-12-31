@@ -152,8 +152,10 @@ public class EgovLoginController {
 		
 		// 3. 일반 로그인 처리
 		if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
-
-			// 3-1. 로그인 정보를 세션에 저장
+			
+			// 3-1. 정보저장
+		    
+			// 3-2. 로그인 정보를 세션에 저장
 			request.getSession().setAttribute("loginVO", resultVO);
 
 			return "redirect:/uat/uia/actionMain.do";

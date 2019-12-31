@@ -192,6 +192,9 @@ public class EgovArticleController {
 		Map<String, Object> map = egovArticleService.selectArticleList(boardVO);
 		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
 		
+		List<BoardAddedColmnsVO> addedColmnsList = egovArticleService.selectArticleAddedColmnsDetail(boardVO);
+		model.addAttribute("articleACVO", addedColmnsList);
+		
 		//공지사항 추출
 		List<BoardVO> noticeList = egovArticleService.selectNoticeArticleList(boardVO);
 		

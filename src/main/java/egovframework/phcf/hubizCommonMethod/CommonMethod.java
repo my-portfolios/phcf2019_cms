@@ -21,14 +21,15 @@ public class CommonMethod {
 	 * @since 2019-12-03
 	 */
 	
-	public static String checkDateCompare(String date1,String date2) throws Exception {
-		Date dt1 = stringToDate(date1,"yyyy-MM-dd");
-		Date dt2 = stringToDate(date2,"yyyy-MM-dd");
+	public static String checkDateCompare(String date1,String date2,String format) throws Exception {
+		Date dt1 = stringToDate(date1,format);
+		Date dt2 = stringToDate(date2,format);
 		
 		if(dt1.compareTo(dt2) > 0) return "large";
 		else if(dt1.compareTo(dt2) < 0) return "small";
 		return "equal";
 	}
+	
 	
 	/**
 	 * 날짜 범위 내에 있는 지 확인

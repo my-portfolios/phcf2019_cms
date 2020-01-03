@@ -8,9 +8,9 @@
         <meta content="IE=edge" http-equiv="X-UA-Compatible">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>이미지 선택</title>
-        <link href="<c:url value='/css/egovframework/com/uss/ion/pwm/editimage/bootstrap.min.css'/>" rel="stylesheet">
-        <link href="<c:url value='/css/egovframework/com/uss/ion/pwm/editimage/cropper.css'/>" rel="stylesheet">
-        <link href="<c:url value='/css/egovframework/com/uss/ion/pwm/editimage/crop.css'/>" rel="stylesheet">
+        <link href="<c:url value='/css/egovframework/phcf/editimage/bootstrap.min.css'/>" rel="stylesheet">
+        <link href="<c:url value='/css/egovframework/phcf/editimage/cropper.css'/>" rel="stylesheet">
+        <link href="<c:url value='/css/egovframework/phcf/editimage/crop.css'/>" rel="stylesheet">
     </head>
     <body>
         <div class="container docs-overview">
@@ -58,9 +58,9 @@
 
         <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <script src="<c:url value='/js/egovframework/com/uss/ion/pwm/editimage/bootstrap.min.js'/>"></script>
-        <script src="<c:url value='/js/egovframework/com/uss/ion/pwm/editimage/cropper.js'/>"></script>
-        <script src="<c:url value='/js/egovframework/com/uss/ion/pwm/editimage/docs.js'/>"></script>
+        <script src="<c:url value='/js/egovframework/phcf/editimage/bootstrap.min.js'/>"></script>
+        <script src="<c:url value='/js/egovframework/phcf/editimage/cropper.js'/>"></script>
+        <script src="<c:url value='/js/egovframework/phcf/editimage/docs.js'/>"></script>
         <script>			
             $(function () {
                 var $image = $(".cropper"),

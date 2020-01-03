@@ -71,89 +71,87 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		if(request.getQueryString()!=null) currentUrl = request.getServletPath()+"?"+request.getQueryString();
 		else currentUrl = request.getServletPath();
 		
-		//로그인정보 가져오기
-		if(EgovUserDetailsHelper.isAuthenticated()) {
-			LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
-			System.out.println("ORGID : " + vo.getOrgnztId());
-			System.out.println("MEMID : " + vo.getId());
-			System.out.println("UNIQUEID : " + vo.getUniqId());
-			System.out.println("IP : " + vo.getIp());
-			System.out.println("GROUPID : " + vo.getGroupId());
-		
-		
-			HashMap<String, String> paramMap = new HashMap<String, String>();
-			
-			paramMap.put("orgnztId", vo.getOrgnztId());
-			paramMap.put("groupId", vo.getGroupId());
+		if(!currentUrl.equals(banGoToUrl)) {
+			//로그인정보 가져오기
+			if(EgovUserDetailsHelper.isAuthenticated()) {
+				LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
+				System.out.println("ORGID : " + vo.getOrgnztId());
+				System.out.println("MEMID : " + vo.getId());
+				System.out.println("UNIQUEID : " + vo.getUniqId());
+				System.out.println("IP : " + vo.getIp());
+				System.out.println("GROUPID : " + vo.getGroupId());
 			
 			
-			List<String> phcfAuthAcceptUrlList = new ArrayList<String>();
-			List<String> phcfAuthBanUrlList = new ArrayList<String>();
-			
-			List<AuthManage> authManageList = egovPhcfAuthorService.selectEgovPhcfAuthList(paramMap);
-			
-			//AUTH_PRIORITY 적용
-			int authManageSize = authManageList.size();
-			for (int i = 0; i < authManageSize; i++)
-				System.out.println(authManageList.get(i).toString());
-			// 내림차순 정렬
-			authManageList.sort(new Comparator<AuthManage>() {
-				@Override
-				public int compare(AuthManage arg0, AuthManage arg1) {
-					int priority0 = Integer.parseInt(arg0.getAuthPriority());
-					int priority1 = Integer.parseInt(arg1.getAuthPriority());
-					if (priority0 == priority1)
-						return 0;
-					else if (priority1 > priority0)
-						return 1;
-					else
-						return -1;
+				HashMap<String, String> paramMap = new HashMap<String, String>();
+				
+				paramMap.put("orgnztId", vo.getOrgnztId());
+				paramMap.put("groupId", vo.getGroupId());
+				
+				
+				List<String> phcfAuthAcceptUrlList = new ArrayList<String>();
+				List<String> phcfAuthBanUrlList = new ArrayList<String>();
+				
+				List<AuthManage> authManageList = egovPhcfAuthorService.selectEgovPhcfAuthList(paramMap);
+				
+				//AUTH_PRIORITY 적용
+				int authManageSize = authManageList.size();
+				for (int i = 0; i < authManageSize; i++)
+					System.out.println(authManageList.get(i).toString());
+				// 내림차순 정렬
+				authManageList.sort(new Comparator<AuthManage>() {
+					@Override
+					public int compare(AuthManage arg0, AuthManage arg1) {
+						int priority0 = Integer.parseInt(arg0.getAuthPriority());
+						int priority1 = Integer.parseInt(arg1.getAuthPriority());
+						if (priority0 == priority1)
+							return 0;
+						else if (priority1 > priority0)
+							return 1;
+						else
+							return -1;
+					}
+				});
+				
+				for(AuthManage authManage : authManageList) {
+					phcfAuthAcceptUrlList.add(authManage.getAcceptLink());
+					phcfAuthBanUrlList.add(authManage.getBanLink());
 				}
-			});
-			
-			for(AuthManage authManage : authManageList) {
-				phcfAuthAcceptUrlList.add(authManage.getAcceptLink());
-				phcfAuthBanUrlList.add(authManage.getBanLink());
-			}
-			
-			boolean phcfAuthCheck = true;
-	
-			AntPathRequestMatcher antPathRequestMatcher = null;
-			AntPathRequestMatcher phcfAcceptMatcher = null;
-			AntPathRequestMatcher phcfBanMatcher = null;
-			
-			for(String phcfAuthPattern : phcfAuthPatternList){
-				antPathRequestMatcher = new AntPathRequestMatcher(phcfAuthPattern);
-				//현재주소와 맞는지 확인
-				if(antPathRequestMatcher.matches(request)) {
-					//Allow 권한체크
-					if(phcfAuthAcceptUrlList!=null) {
-						for(String phcfAuthAcceptUrl : phcfAuthAcceptUrlList) {
-							if(phcfAuthAcceptUrl!=null && !phcfAuthAcceptUrl.equals("")) {
-								phcfAcceptMatcher = new AntPathRequestMatcher(phcfAuthAcceptUrl);
-								if(phcfAcceptMatcher.matches(request) || currentUrl.contains(phcfAuthAcceptUrl)) {
+				
+				boolean phcfAuthCheck = true;
+		
+				AntPathRequestMatcher antPathRequestMatcher = null;
+				
+				for(String phcfAuthPattern : phcfAuthPatternList){
+					AntPathRequestMatcher phcfAcceptMatcher = null;
+					AntPathRequestMatcher phcfBanMatcher = null;
+					antPathRequestMatcher = new AntPathRequestMatcher(phcfAuthPattern);
+					//현재주소와 맞는지 확인
+					if(antPathRequestMatcher.matches(request)) {
+						for(AuthManage authManage : authManageList) {
+							phcfAuthAcceptUrlList.add(authManage.getAcceptLink());
+							phcfAuthBanUrlList.add(authManage.getBanLink());
+							//Allow 권한체크
+							if(authManage.getAcceptLink()!=null && !authManage.getAcceptLink().equals("")) {
+								phcfAcceptMatcher = new AntPathRequestMatcher(authManage.getAcceptLink());
+								if(phcfAcceptMatcher.matches(request) || currentUrl.contains(authManage.getAcceptLink())) {
 									phcfAuthCheck = true;
 								}
 							}
-						}
-					}
-					//Ban 권한체크
-					if(phcfAuthBanUrlList!=null) {
-						for(String phcfAuthBanUrl : phcfAuthBanUrlList) {
-							if(phcfAuthBanUrl!=null && !phcfAuthBanUrl.equals("")) {
-								phcfBanMatcher = new AntPathRequestMatcher(phcfAuthBanUrl);
-								if(phcfBanMatcher.matches(request) || currentUrl.contains(phcfAuthBanUrl)) {
+							//Ban 권한체크
+							if(authManage.getBanLink()!=null && !authManage.getBanLink().equals("")) {
+								phcfBanMatcher = new AntPathRequestMatcher(authManage.getBanLink());
+								if(phcfBanMatcher.matches(request) || currentUrl.contains(authManage.getBanLink())) {
 									phcfAuthCheck = false;
 								}
 							}
+							
 						}
 					}
 				}
-			}
-			
-			if(!phcfAuthCheck) {
-				ModelAndView modelAndView = new ModelAndView("redirect:"+banGoToUrl);
-				throw new ModelAndViewDefiningException(modelAndView);
+				if(!phcfAuthCheck) {
+					ModelAndView modelAndView = new ModelAndView("redirect:"+banGoToUrl);
+					throw new ModelAndViewDefiningException(modelAndView);
+				}
 			}
 		}
 		return true;

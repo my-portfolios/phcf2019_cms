@@ -87,24 +87,31 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 				paramMap.put("orgnztId", vo.getOrgnztId());
 				paramMap.put("groupId", vo.getGroupId());
 				
-				
-				List<String> phcfAuthAcceptUrlList = new ArrayList<String>();
-				List<String> phcfAuthBanUrlList = new ArrayList<String>();
-				
 				List<AuthManage> authManageList = egovPhcfAuthorService.selectEgovPhcfAuthList(paramMap);
 				
-				//AUTH_PRIORITY 적용
-				int authManageSize = authManageList.size();
-				for (int i = 0; i < authManageSize; i++)
-					System.out.println(authManageList.get(i).toString());
+				//AUTH_PRIORITY 적용 (우선순위, authpriority > INS_DT > ban_link > SEQ(적은것)
 				// 내림차순 정렬
 				authManageList.sort(new Comparator<AuthManage>() {
+					@SuppressWarnings("unlikely-arg-type")
 					@Override
 					public int compare(AuthManage arg0, AuthManage arg1) {
-						int priority0 = Integer.parseInt(arg0.getAuthPriority());
-						int priority1 = Integer.parseInt(arg1.getAuthPriority());
-						if (priority0 == priority1)
-							return 0;
+						int priority0 = 0;
+						int priority1 = 0;
+						
+						if(arg0!=null && !arg0.equals("")) {
+							priority0 = Integer.parseInt(arg0.getAuthPriority());
+						}
+						if(arg1!=null && !arg1.equals("")) {
+							priority1 = Integer.parseInt(arg1.getAuthPriority());
+						}
+						if (priority0 == priority1) {
+							if (arg0.getInsDt().compareTo(arg1.getInsDt())==0)
+								return 0;
+							else if (arg0.getInsDt().compareTo(arg1.getInsDt())==-1)
+								return 1;
+							else
+								return -1;
+						}
 						else if (priority1 > priority0)
 							return 1;
 						else
@@ -112,10 +119,9 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 					}
 				});
 				
-				for(AuthManage authManage : authManageList) {
-					phcfAuthAcceptUrlList.add(authManage.getAcceptLink());
-					phcfAuthBanUrlList.add(authManage.getBanLink());
-				}
+				int authManageSize = authManageList.size();
+				for (int i = 0; i < authManageSize; i++)
+					System.out.println("getAuthNmgetAuthNmgetAuthNm"+authManageList.get(i).getAuthNm());
 				
 				boolean phcfAuthCheck = true;
 		
@@ -128,8 +134,6 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 					//현재주소와 맞는지 확인
 					if(antPathRequestMatcher.matches(request)) {
 						for(AuthManage authManage : authManageList) {
-							phcfAuthAcceptUrlList.add(authManage.getAcceptLink());
-							phcfAuthBanUrlList.add(authManage.getBanLink());
 							//Allow 권한체크
 							if(authManage.getAcceptLink()!=null && !authManage.getAcceptLink().equals("")) {
 								phcfAcceptMatcher = new AntPathRequestMatcher(authManage.getAcceptLink());

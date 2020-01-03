@@ -20,16 +20,21 @@
 
     <select id="selectEgovPhcfAuthList" parameterType="java.util.HashMap" resultMap="authList">
         
-            SELECT *
+            SELECT SEQ, AUTH_NAME, ORGNZT_ID, GROUP_ID, ACCEPT_LINK, BAN_LINK, AUTH_PRIORITY, USE_YN, 
+            INS_ID, DATE_FORMAT(INS_DT,'%Y-%m-%dT%H:%i:%s') AS INS_DT, 
+            UPT_ID, DATE_FORMAT(UPT_DT,'%Y-%m-%dT%H:%i:%s') AS UPT_DT
               FROM AUTHMANAGE 
-             WHERE 1=1
+             WHERE USE_YN = 'Y' AND
+             (
+             1=0
              <if test="orgnztId != null">OR
                 ORGNZT_ID=#{orgnztId}
             </if>
              <if test="groupId != null">OR
                 GROUP_ID=#{groupId}
             </if>
-        
+        	)
+        	ORDER BY SEQ ASC
     </select>
 
 	<insert id="insertGroup">

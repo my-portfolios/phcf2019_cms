@@ -1,6 +1,7 @@
 package egovframework.com.cmm.interceptor;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -90,6 +91,25 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 			List<String> phcfAuthBanUrlList = new ArrayList<String>();
 			
 			List<AuthManage> authManageList = egovPhcfAuthorService.selectEgovPhcfAuthList(paramMap);
+			
+			//AUTH_PRIORITY 적용
+			int authManageSize = authManageList.size();
+			for (int i = 0; i < authManageSize; i++)
+				System.out.println(authManageList.get(i).toString());
+			// 내림차순 정렬
+			authManageList.sort(new Comparator<AuthManage>() {
+				@Override
+				public int compare(AuthManage arg0, AuthManage arg1) {
+					int priority0 = Integer.parseInt(arg0.getAuthPriority());
+					int priority1 = Integer.parseInt(arg1.getAuthPriority());
+					if (priority0 == priority1)
+						return 0;
+					else if (priority1 > priority0)
+						return 1;
+					else
+						return -1;
+				}
+			});
 			
 			for(AuthManage authManage : authManageList) {
 				phcfAuthAcceptUrlList.add(authManage.getAcceptLink());

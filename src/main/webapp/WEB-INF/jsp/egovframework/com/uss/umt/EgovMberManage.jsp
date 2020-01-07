@@ -193,9 +193,11 @@ function fnSearch(){
 	    <td><c:out value="${result.areaNo}"/>)<c:out value="${result.middleTelno}"/>-<c:out value="${result.endTelno}"/></td>
 	    <td><c:out value="${fn:substring(result.sbscrbDe,0,10)}"/></td>
 	    <td>
+	    	<span class="btn_comom">
 	        <c:forEach var="entrprsMberSttus_result" items="${entrprsMberSttus_result}" varStatus="status">
 	            <c:if test="${result.sttus == entrprsMberSttus_result.code}"><c:out value="${entrprsMberSttus_result.codeNm}"/></c:if>
 	        </c:forEach>
+	        </span>
 	    </td>
 	</tr>
 	</c:forEach>

@@ -10,16 +10,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
-<table>
+<table class="board_list" summary="최근게시물을 출력합니다.">
 <tr>
-	<td>No</td>
-	<td>제목</td>
-	<td>날짜</td>
+	<th>No</th>
+	<th>제목</th>
+	<th>날짜</th>
 </tr>
 <c:forEach items="${resultList}" var="resultInfo" varStatus="status">
 <tr>
 	<td>${status.count}</td>
-	<td><c:out value="${resultInfo.nttSj}"/></td>
+	<td class="left"><c:out value="${resultInfo.nttSj}"/></td>
 	<td><c:out value="${resultInfo.frstRegisterPnttm}"/></td>
 </tr>
 </c:forEach>

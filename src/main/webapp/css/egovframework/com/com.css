@@ -1,4 +1,13 @@
-@import url("https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:400,500|Lora:400,400i,700,700i|Roboto:300,400,500,600,700");
+@CHARSET "UTF-8";
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+@font-face { font-family: 'Noto Sans KR'; font-style: normal; font-weight: 100; src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype'); }
+@font-face { font-family: 'Noto Sans KR'; font-style: normal; font-weight: 300; src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype'); }
+@font-face { font-family: 'Noto Sans KR'; font-style: normal; font-weight: 400; src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype'); }
+@font-face { font-family: 'Noto Sans KR'; font-style: normal; font-weight: 500; src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype'); }
+@font-face { font-family: 'Noto Sans KR'; font-style: normal; font-weight: 700; src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype'); }
+@font-face { font-family: 'Noto Sans KR'; font-style: normal; font-weight: 900; src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype'); }
+
 /*
   Css Name :com.css
   Description :공통 CSS
@@ -12,9 +21,19 @@
     author   :공통컴포넌트 개발팀 서민영
     since    :2016.06.08
 */
-@CHARSET "UTF-8";
+
+html,body{font-family: "Noto Sans KR", sans-serif; font-size:14px;height:auto;}
 
 * { margin: 0; padding: 0; border: 0; }
+
+body {
+	margin:0px 0px;
+	padding:0px;
+	background-color:#fff;
+	line-height:1.4em;
+	font-family:  'Noto Sans KR', 'AppleGothic', 'sans-serif'; font-size: 14px; color: #666;
+}
+
 ol, ul, li {
     list-style: none;
 }
@@ -178,14 +197,14 @@ input[type="radio"] { vertical-align:text-bottom; }
 .popwTable tbody td select { padding:2px 0 3px 2px; border:1px solid #dedede; }
 .popwTable tbody td img { margin-left:7px; }
 
-.board {position:relative; width:99%; padding-top:20px; }
+.board {position:relative; width:98%; padding: 20px 10px; }
 .board h1, 
 .board h2 {/*float:left;*/ color:#333; font-size:16px; font-weight:600; }
-.board h1 {margin-bottom:7px; padding:0 0 1px 25px; background:url(../../../images/egovframework/com/cmm/icon/tit_icon.png) no-repeat left 3px; }
+.board h1 {margin-bottom:7px; padding:0 0 4px 25px; background:url(../../../images/egovframework/com/cmm/icon/tit_icon.png) no-repeat left 3px; }
 .board h2 { margin:15px 0 10px 0; }
 .board h3 { color:#333;  font-size:14px; font-weight:600; margin:50px 0 10px 0; }
 .board h3 b { color:#2277d7; }
-.search_box {/* float:right;*/ position:relative; margin-bottom:7px; padding:13px 10px; border:1px solid #b1bbcb; border-top:3px solid #8191ac; background:#eef3fb; }
+.search_box {/* float:right;*/ position:relative; margin-bottom:7px; padding:13px 10px; border:1px solid #266089; border-top:3px solid #266089; background:#eef3fb; }
 .search_box ul {font-size:0; text-align:right; }
 .search_box ul li {/* float:left;*/display:inline-block; margin-left:5px; font-size:14px; vertical-align:top; }
 .search_box ul li img { margin-left:7px; }
@@ -227,7 +246,7 @@ padding-bottom :12px;
 .board_list tbody th { color:#222 ; font-size:13px; font-weight:400; background:#f4f4f4; padding:12px 0; border-bottom:1px solid #d9d9d9; }
 .board_list tbody tr.odd {  }
 .board_list tbody.ov tr:hover { background:#f9f9f9; }
-.board_list tbody th { text-align:left; padding-left:14px; }
+.board_list tbody th {  text-align: center; padding-left:14px; }
 .board_list tbody th.vtop { vertical-align:top; }
 .board_list tbody th span.pilsu { color:#d0270b; font-weight:500; margin-left:3px; }
 .board_list tbody td { text-align:center; padding:14px 5px; border-bottom:1px solid #d9d9d9; 
@@ -263,7 +282,7 @@ width:100%;
 
 
 /* table style */
-.wTableFrm {position:relative; width:99%; padding-top:20px; }
+.wTableFrm {position:relative; width:98%; padding: 20px 10px;}
 .wTableFrm h1, .wTableFrm h2 {/* float:left;*/ color:#333; font-size:16px; font-weight:600; }
 .wTableFrm h1 { margin-top:15px; }
 .wTableFrm h2 {margin-bottom:10px; padding-left:25px; background:url(../../../images/egovframework/com/cmm/icon/tit_icon.png) no-repeat left top; }
@@ -398,7 +417,7 @@ button:hover { background:#7dabdf; }
 .btn_s { padding:3px 10px 6px 14px; background-color:#266089; color:#fff; font-size:14px; border-radius:1px; margin-top:4px;}
 .btn_s:hover { color:#c7dbf1; }
 
-span.btn_s {display:inline-block !important; width:auto !important; height:auto !important; margin-top:0 !important; padding:10px 20px !important; border-radius:5px !important; background:#266089 !important; vertical-align:top !important; cursor:pointer; }
+span.btn_s {display:inline-block !important; width:auto !important; height:auto !important; margin-top:0 !important; padding:11px 20px !important; border-radius:5px !important; background:#266089 !important; vertical-align:top !important; cursor:pointer; }
 span.btn_s:hover { background:#7dabdf;}
 span.btn_s a {display:block !important; height:21px !important; color:#fff !important; text-align:center !important; line-height:21px !important; vertical-align:top !important; }
 
@@ -526,6 +545,27 @@ cursor :pointer;
 .twit_list li a:hover {text-decoration:underline; }
 .twit_list li img {display:block; margin-top:10px; }
 
+/* 공통 CSS 추가 */
+.left-box {float: left; width: 70%; margin-right: 15px;}
+.right-box {float: right; width: 28%; }
+
+.div_box {
+	font-size: 15px;
+    display: inline-block;
+    width:-webkit-fill-available;
+    border: 1px solid #d9d9d9;
+    padding: 20px;
+    text-align: center;
+    vertical-align: middle;
+    min-height: auto;
+    background: #f9f9f9;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+/* jsgrid CSS */
+.jsgrid-header-row>.jsgrid-header-cell {border-top: 2px solid #266089 !important;    background: #f4f4f4;}
+.jsgrid-header-cell {padding: 12px 0 !important;  border-bottom: 1px solid #d9d9d9;}
 
 @media all and (max-width: 1000px){
 	.board {min-width: 1000px;}

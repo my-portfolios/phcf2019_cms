@@ -16,6 +16,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>${pageTitle}</title>
+<link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/jqueryui.css' />">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/Chart.min.css' />">
 <link type="text/css" rel="stylesheet" href="/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.css" />
@@ -32,28 +33,38 @@
 
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
 
-<div class="grid-container" style="border: 1px solid gray;">
-  <div class="content_title" style="height: auto; width: 100%; border-bottom:1px solid gray;">
-  	<h3>홈페이지 통계 </h3>
+
+<div class="grid-container board" >
+  <div class="content_title" >
+  	<h1>홈페이지 통계</h1>
   </div>
-  <div class="chart-container" align="center" style="height: auto; width:100%;">
-	<h4> 월별 접속자 통계 </h4>
-	<canvas id="canvas" style="height: auto; width:50%;" ></canvas>
-     </div>
-  <div class="left-box" style="border-top : 1px solid gray;">
-  	<h3> 최근게시물 </h3>
-  	<div id="jsGrid"></div>
+   
+  <div class="chart-container div_box"  align="center" style="height: auto; width:96.5%;">
+	<p> 월별 접속자 통계 </p>
+	<canvas id="canvas" style="height: auto; width:100%;" ></canvas>
   </div>
+  <br /><br />
+  
+  
+  <div class="left-box">
+  	<h1> 최근게시물 </h1>
+  	<div id="jsGrid" ></div>
+  </div>
+  
   <div class="right-box">
-	<div class="righttop-box" style="height: auto; width: 100%; border:1px solid gray;">
-		<h3> 인기메뉴목록 </h3>
+	<div class="righttop-box" style="height: auto; width: 100%;">
+		<h1> 인기메뉴목록 </h1>
 		<div id="jsGrid2"></div>
 	</div>
-	<div class="lefttop-box"style="height: auto; width: 100%; border:1px solid gray;">
-		<h3> 금일접속자현황 </h3>
-		<h1> 총 <c:out value="${conectCnt}"></c:out>명</h1>
+	<br /><br />
+	
+	<div class="lefttop-box" style="height: auto; width: 100%;">
+		<h1> 금일접속자현황 </h1>
+		<p class="div_box"> 총 <c:out value="${conectCnt}"></c:out>명</p>
 	</div>
   </div>
+  
+  <br /><br />
 </div>
 
 <script>

@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:400,500|Lora:400,400i,700,700i|Roboto:300,400,500,600,700");
-
+@CHARSET "UTF-8";
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 /*
   Css Name : main.css
   Description : 메인 CSS
@@ -53,12 +53,13 @@ div,table,form,fieldset,p,th,td,input,textarea,select,button {
     height: 60px;
     line-height: 61px;
     border-right: 1px solid #45769a;
+    font-size: 95%;
     }
     .header_box li.header_quickmenu div img {vertical-align: middle; margin:0px 5px;}
     .header_box li.header_quickmenu div:last-child  {border-right:none;}
     .header_box li.header_quickmenu div span {
     border-radius: 20px;
-    padding: 3px 30px 3px 15px;
+    padding: 3px 35px 3px 15px;
     background: #184869 url(/images/egovframework/com/cmm/main/ic_link.png) no-repeat 85% center;
     cursor: pointer;
     color: #ffffff;
@@ -86,7 +87,7 @@ div,table,form,fieldset,p,th,td,input,textarea,select,button {
 		ul.lnb_title > li { content: "˙"; padding-right: 5px;}
 		ul.lnb_title > li > ul { padding-top: 0px; width: 100%;}
 		ul.lnb_title > li > ul > li { margin-top: 0px; }		
-		ul.lnb_title > li > ul > li a {background: #eeeeee;padding: 7px 5px 7px 15px;font-weight:normal !important;     font-size: 90%;}
+		ul.lnb_title > li > ul > li a {background: #eeeeee;padding: 7px 5px 7px 15px;font-weight:normal !important; font-size: 95%;}
 		ul.lnb_title > li > ul > li a::before {content:"·"; margin-right: 5px;}
 		ul.lnb_title > li > ul > li a:hover {background: #4383b1  !important; color: #ffffff  !important;}
 		ul.lnb_title > li > ul > li:hover, ul.lnb_title > li a.noicon:hover {background: #4383b1  !important; color: #ffffff  !important; font-weight: bold; }
@@ -102,3 +103,69 @@ div,table,form,fieldset,p,th,td,input,textarea,select,button {
 a.link { color: #666; text-decoration: none; font-weight: normal;}
 a.link:hover { color: #000000; text-decoration: none; font-weight: bold;}
 a, button, input[type="button"] { cursor: pointer; }
+
+
+/* 데쉬보드 CSS */ 
+	.dash_title { padding: 10px 4px 10px 15px;border-bottom: 1px solid #eeeeee;    font-weight: bold; }
+	.dash_title span {background: url(/images/egovframework/com/cmm/main/ic_title01.png) no-repeat left center; margin-right: 5px; padding-left: 20px;}
+	.dash_subtitle {font-weight: bold; margin-bottom: 10px;}
+	
+	.dashboard_box1 {float: left; width: 65%;}	
+	.dashboard_box1  li { 
+		display: inline-block;
+		width: 12.6%;
+		background: #6194b1;
+		vertical-align: middle;
+		padding: 10px;
+		height: 114px;
+		margin-bottom: 10px;
+		color: #ffffff !important;
+		text-align: center;
+		margin: 0 10px 10px 0;	
+		cursor: pointer;	
+	}
+	.dashboard_box1  li:nth-child(6), .dashboard_box1  li:nth-child(12) {  margin: 0 0px 10px 0;}
+	/* .dashboard_box1  li:last-child {margin: 0 0px 0 0;		} */
+	.dashboard_box1 .circle {
+		position: relative;
+		background-color: #ffffff;
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		text-align: center;
+		font-size: 30px !important;
+		vertical-align: middle;
+		line-height: 75px;
+		color: #6194b1;
+		font-weight: normal;
+		margin: 5px auto;
+		margin-bottom: 10px;
+	}
+	.circle_bg1 {
+		background: #cf7aa4 !important;
+		color: #cf7aa4 !important;
+	}
+	.circle_bg2 {
+		background: #3081af !important;
+		color: #ffffff !important;
+	}
+	.circle_bg2 img { margin-top: 20px;  margin-bottom: 15px;}
+	
+	.dashboard_box2 {float: left; width: 35%;}
+	.dashboard_box3 {float: left; width: 49%; margin-top: 10px; padding-right: 10px;}
+	.dashboard_box4 {float: right; width: 50%; margin-top: 10px;}
+	
+	.btn_more {    
+		border: 1px solid #d8d8d8;
+	    background: #ffffff;
+	    padding: 3px 8px;
+	    font-size: 20px;
+	    line-height: 18px;
+	    float: right;
+	    cursor: pointer;
+	 }	
+	 .btn_more:hover {border: 1px solid #266089; color:#266089;}
+@media all and (max-width: 1200px){
+	.dashboard_box1, .dashboard_box2, .dashboard_box3, .dashboard_box4 {float: none; width: 100%;}
+	.dashboard_box1 li { width: 13.8%;}
+}

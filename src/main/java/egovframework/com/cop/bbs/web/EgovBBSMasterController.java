@@ -2,11 +2,6 @@ package egovframework.com.cop.bbs.web;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,13 +29,10 @@ import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.cop.bbs.service.BoardMaster;
 import egovframework.com.cop.bbs.service.BoardMasterVO;
-import egovframework.com.cop.bbs.service.BoardVO;
 import egovframework.com.cop.bbs.service.EgovBBSMasterService;
-import egovframework.com.cop.cmy.service.CommunityVO;
 import egovframework.com.cop.bbs.service.Blog;
 import egovframework.com.cop.bbs.service.BlogUserVO;
 import egovframework.com.cop.bbs.service.BlogVO;
-import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -653,7 +645,7 @@ public class EgovBBSMasterController {
 		
 		for(int i=0 ; i < fileList.length ; i++){
 			File file = fileList[i]; 
-			if(file.isDirectory() && !file.getName().equals("System Volume Information") && !file.getName().equals("$RECYCLE.BIN")){
+			if(file.isDirectory() && !file.getName().equals("System Volume Information") && !file.getName().equals("$RECYCLE.BIN") && !file.getName().matches("_.*")){
 				System.out.println(file.getName());
 				folderList.add(file.getName());
 			}

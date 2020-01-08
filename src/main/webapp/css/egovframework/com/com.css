@@ -109,6 +109,12 @@ input[type="radio"] { vertical-align:text-bottom; }
     background: #cf7aa4;
     color: #ffffff;
 }
+.btn_cancel {
+	border-radius: 20px;
+    padding: 3px 15px;
+    background: #cf7aa4;
+    color: #ffffff;
+}
 
 /* input Style *****************************/
 .input2 { height:21px !important; padding-left:5px; margin-right:3px; }
@@ -206,16 +212,21 @@ input[type="radio"] { vertical-align:text-bottom; }
 .board h3 b { color:#2277d7; }
 .search_box {/* float:right;*/ position:relative; margin-bottom:7px; padding:13px 10px; border:1px solid #266089; border-top:3px solid #266089; background:#eef3fb; }
 .search_box ul {font-size:0; text-align:right; }
-.search_box ul li {/* float:left;*/display:inline-block; margin-left:5px; font-size:14px; vertical-align:top; }
+.search_box ul li {/* float:left;*/display:inline-block; margin-left:20px; font-size:14px; vertical-align:top; }
 .search_box ul li img { margin-left:7px; }
-.search_box ul li > div {color:#194e73; font-weight:bold; vertical-align:top; }
-.search_box ul li > label {display:inline-block; height:24px; color:#194e73;  font-weight:bold; line-height:24px; }
+.search_box ul li > div {color:#194e73; font-weight:bold; vertical-align: middle;    display: inline-block;}
+.search_box ul li > label {display:inline-block; height:24px; color:#194e73;  line-height:24px; }
 .search_box ul li > input[type=text] {height:22px; } 
 .search_box select {height:24px; /*padding:3px 3px 3px 4px;*/ border:1px solid #dedede; }
 .search_box input.s_input {width:140px; height:22px; margin-right:3px; padding-left:5px; }
 .search_box input.s_input2 {width:140px; height:22px; margin-right:3px; padding-left:5px; }
 .search_box input.s_btn { height:24px; padding:0 8px; border:none; color:#fff; background:#266089; border-radius:2px; cursor:pointer; }
 .search_box input.s_btn:hover { background:#7dabdf; }
+
+.s_btn { height:24px; padding:0 8px; border:none; color:#fff; background:#266089; border-radius:2px; cursor:pointer; }
+.s_btn:hover { background:#7dabdf; }
+.cancel_btn { height:24px; padding:0 8px; border:none; color:#fff; background:#6e6e6f; border-radius:2px; cursor:pointer; }
+.cancel_btn:hover { background:#b3b3b3; }
 
 .search_box span.s_btn { display:inline-block; vertical-align:top; height:13px;  padding:6px 12px 5px 12px; background:#266089; border-radius:2px; cursor:pointer; }
 .search_box span.s_btn:hover { background:#7dabdf;}
@@ -309,7 +320,7 @@ width:100%;
 .wTable > tbody > tr > td.nopd div .error  {color :#ff0000; margin:0px 0px 0px 10px;}
 .wTable > tbody > tr > td.bold { text-align:left; font-size:14px; font-weight :bold;}
 .wTable > tbody > tr > td a:hover { text-decoration:underline; }
-.wTable > tbody > tr > td input[type=text] {width:99%; height:26px; }
+.wTable > tbody > tr > td input[type=text] {width:99%; height:26px; padding: 0px 10px;}
 .wTable > tbody > tr > td input.tmp { width:160px; }
 .wTable > tbody > tr > td textarea { width:99%; height:50px; }
 .wTable > tbody > tr > td textarea.txt { width:96%; height:50px; margin:8px; padding:5px; }
@@ -388,9 +399,10 @@ width:100%;
 .pagination ul li.last a { background:url('../../../images/egovframework/com/cmm/paging/pagination_last.gif') 10px 9px no-repeat; text-indent:-10000em; }
 .pagination ul li.first a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_first_on.gif') no-repeat; }
 .pagination ul li.prev a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_prev_on.gif') no-repeat; }
-.pagination ul li.next a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_next_on.gif/') no-repeat; }
+.pagination ul li.next a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_next_on.gif') no-repeat; }
+.pagination ul li.last a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_last_on.gif') no-repeat; }
 .pagination ul li.current a,
-.pagination ul li a:hover { border:none; color:#fff; font-size:15px; font-weight:600; width:28px; height:28px; line-height:28px; background:#266089; }
+.pagination ul li a:hover { border:none; color:#fff; font-size:15px; font-weight:600; width:28px; height:28px; line-height:28px; background:#4688d2; }
 
 /* pagination by reply */
 .paging { float:left; display:inline; width:730px; font-size:1em; text-align:center; margin:15px 0 20px; position:relative;  }
@@ -548,6 +560,8 @@ cursor :pointer;
 /* 공통 CSS 추가 */
 .left-box {float: left; width: 70%; margin-right: 15px;}
 .right-box {float: right; width: 28%; }
+.div-left {float: left;}
+.div-right {float: right; }
 
 .div_box {
 	font-size: 15px;
@@ -566,7 +580,18 @@ cursor :pointer;
 /* jsgrid CSS */
 .jsgrid-header-row>.jsgrid-header-cell {border-top: 2px solid #266089 !important;    background: #f4f4f4;}
 .jsgrid-header-cell {padding: 12px 0 !important;  border-bottom: 1px solid #d9d9d9;}
+.jsgrid-selected-row>.jsgrid-cell{background:#f9f9f9 !important;border-color:#f3f3f3 !important;}
+.jsgrid-table tr.jsgrid-row:hover { background:#f9f9f9 !important; }
+.jsgrid-pager {  text-align: center;  margin-top: 15px; padding: 0px !important;}
+.jsgrid-pager-page, .jsgrid-pager-nav-button {display: inline-block;  padding:3px 10px !important; margin: 0 2px; border: 1px solid #e0e0e0;}
+.jsgrid-pager-page:hover, .jsgrid-pager-nav-button:hover {background: #4688d2; border: 1px solid #4688d2;}
+.jsgrid-pager-page:hover a, .jsgrid-pager-nav-button:hover a {color: #ffffff !important;}
+.jsgrid-pager-current-page {background: #4688d2; color: #ffffff !important; border: 1px solid #4688d2;}
 
+@media all and (max-width: 1420px){
+	.top_logo_title { display: none;}
+	}
+	
 @media all and (max-width: 1000px){
 	.board {min-width: 1000px;}
 	}

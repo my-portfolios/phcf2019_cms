@@ -55,7 +55,7 @@
                 <li><a href="/uss/umt/dpt/selectDeptManageListView.do" target="_content">부서 관리</a></li>
                 <li><a href="/sec/drm/EgovDeptAuthorList.do" target="_content">부서권한관리 </a></li>
                 <li><a href="/uss/umt/EgovUserManage.do" target="_content">업무 사용자 관리</a></li>
-                <li><a href="/uat/uia/egovLoginUsr.do" target="_content">권한 관리</a></li>
+                <li><a href="/uat/uia/egovLoginUsr.do" target="_parent">권한 관리</a></li>
                 <li><a href="/sec/gmt/EgovGroupList.do" target="_content">그룹 관리</a></li>
                 <li><a href="/sec/rmt/EgovRoleList.do" target="_content">롤 관리</a></li>
                 <li><a href="/sym/ccm/cca/SelectCcmCmmnCodeList.do" target="_content">공통 코드</a></li>

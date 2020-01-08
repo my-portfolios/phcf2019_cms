@@ -22,6 +22,7 @@
 <html lang="ko">
 <head>
 <title>후원명단보기</title>
+<link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
 
 <style>
 a:hover {
@@ -300,21 +301,27 @@ function fn_page(page_no) {
 </head>
 <body>
 
+<div class="board">
 <h1>후원신청 관리</h1>
+<%-- <h1><spring:message code="ussCmt.cmtManageList.cmtManage"/></h1> --%>
 
-# 아이디 가 없는 회원은 등급을 수정 할 수 없습니다.
+				
 <form name="frm" id="frm" action="${ctx}/cms/support/listView.do" method="post" >
+
+<div class="search_box" >
+	<ul>
+		<li class="div-left"># 아이디 가 없는 회원은 등급을 수정 할 수 없습니다.</li>
+		<li><input type="button" id="insert_btn"  value="카드및CMS등록" class="s_btn"></li>
+		<li><input type="button" id="cms_status" value="CMS전송현황" class="s_btn"></li>
+	</ul>
+</div>
+
 <input type="hidden" id="page_no" name="page_no" value="${paramMap.page_no }">
+
 	<div class="area">
 		<div id="jsGrid"></div>
 	</div>
 
-	<div class="buttonarea floatright">
-		<input type="button" id="insert_btn" class="button btn_middle btn_green contents_write" value="카드및CMS등록">
-<!-- 		<input type="button" id="test_btn" class="button btn_middle btn_red contents_write" value="결제 테스트"> -->
-		<input type="button" id="cms_status" class="button btn_middle btn_red contents_write" value="CMS전송현황">
-	</div>
-	
 </form>
 
 <!-- 상세화면으로 보내기 위한 Form -->
@@ -347,5 +354,6 @@ function fn_page(page_no) {
 </div>
 </c:if>
 
+</div>
 </body>
 </html>

@@ -6,8 +6,8 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
 		<title>유료멤버십 신청</title>
+		<link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -57,36 +57,59 @@
 		</script>
 	</head>
 	<body>
-		유료멤버십 리스트 조회
+	
+	<div class="board">
+		<h1>유료멤버십 리스트 조회</h1>
+		<%-- <h1><spring:message code="ussCmt.cmtManageList.cmtManage"/></h1> --%>
+		
 		<form action="selectMembershipRegList.do" method="post" onsubmit="return searchCheck();">
-			<select name="search_type">
-				<option value="MEM_NAME">입금자명</option>
-				<option value="MEM_ID">아이디</option>
-				<option value="PAY_PRICE">금액</option>
-			</select>
-			<input type="text" name="search_data" /><br/>
-			<label><input type="radio" name="type" value="" checked>전체</input></label>
-			<label><input type="radio" name="type" value="B">일반회원</input></label>
-			<label><input type="radio" name="type" value="P">프리미엄회원</input></label><br/>
-			<label><input type="radio" name="check_yn" value="" checked>전체</input></label>
-			<label><input type="radio" name="check_yn" value="N">승인 대기</input></label>
-			<label><input type="radio" name="check_yn" value="Y">승인 완료</input></label><br/>
-			<input type="text" name="start_dt" id="start_dt" class="datePicker"/>~
-			<input type="text" name="end_dt" id="end_dt" class="datePicker"/><br/>
-			<input type="submit" value="검색"/>
+		<!-- 검색영역 -->
+		<div class="search_box" >
+			<ul>				
+				<li><div>회원유형 :</div> 
+				<label><input type="radio" name="type" value="" checked>전체</input></label>
+				<label><input type="radio" name="type" value="B">일반회원</input></label>
+				<label><input type="radio" name="type" value="P">프리미엄회원</input></label>
+				</li>
+				
+				<li><div>승인여부 :</div>  
+				<label><input type="radio" name="check_yn" value="" checked>전체</input></label>
+				<label><input type="radio" name="check_yn" value="N">승인 대기</input></label>
+				<label><input type="radio" name="check_yn" value="Y">승인 완료</input></label>
+				</li>
+				
+				<li>
+				<select name="search_type">
+					<option value="MEM_NAME">입금자명</option>
+					<option value="MEM_ID">아이디</option>
+					<option value="PAY_PRICE">금액</option>
+				</select>
+				<input type="text" name="search_data" />
+				</li>
+				
+				<li>
+				<input type="text" name="start_dt" id="start_dt" class="datePicker"/>~
+				<input type="text" name="end_dt" id="end_dt" class="datePicker"/>
+				<input type="submit" value="검색" class="s_btn" />
+				</li>				
+			</ul>
+		</div>
 		</form>
 		
-		<table style="border:1px solid black;" >
+		<table class="board_list" >
+			<thead>
 			<tr>
-				<td>번호</td>
-				<td>회원 아이디</td>
-				<td>입금자명</td>
-				<td>유형</td>
-				<td>결제금액</td>
-				<td>작성일시</td>
-				<td>승인여부</td>
-				<td>관리</td>						
+				<th>번호</th>
+				<th>회원 아이디</th>
+				<th>입금자명</th>
+				<th>유형</th>
+				<th>결제금액</th>
+				<th>작성일시</th>
+				<th>승인여부</th>
+				<th>관리</th>						
 			</tr>
+			</thead>
+			<tbody class="ov">
 			<c:choose>
 				<c:when test="${fn:length(payList) > 0}">			
 					<c:forEach var="items" items="${payList}">
@@ -109,13 +132,14 @@
 									<c:when test="${items.RESULT == 'N'}">반려</c:when>
 									<c:otherwise>대기</c:otherwise>
 								</c:choose>
-							</td>				
-							<c:if test="${items.CHECK_YN != 'Y'}">
-								<td>
-									<input type="button" id="approve_${items.SEQ}" onClick="updateStatus(${items.SEQ},'Y')" value="승인"/>
-									<input type="button" id="reject_${items.SEQ}" onClick="updateStatus(${items.SEQ},'N')" value="반려"/>
-								</td>
-							</c:if>
+							</td>
+							<td>
+								<c:if test="${items.CHECK_YN != 'Y'}">
+									<input type="button" id="approve_${items.SEQ}" onClick="updateStatus(${items.SEQ},'Y')" value="승인" class="s_btn"/>
+									<input type="button" id="reject_${items.SEQ}" onClick="updateStatus(${items.SEQ},'N')" value="반려" class="cancel_btn"/>
+								</c:if>
+							</td>
+							
 					</c:forEach>
 				</c:when>
 				<c:otherwise>
@@ -124,6 +148,15 @@
 					</tr>
 				</c:otherwise>
 			</c:choose>
+			</tbody>
 		</table>
+		
+		<div class="pagination">
+			<ul>
+				<li class="current"><a onclick="return false;">1</a></li>
+			</ul>
+		</div>
+		
+		</div>
 	</body>
 </html>

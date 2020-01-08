@@ -10,7 +10,7 @@
 <c:if test="${loginVO != null}">
 	<frameset frameborder="0" framespacing="0" rows="60, *, 0">
 		<frame name="_top" src="${pageContext.request.contextPath}/EgovTop.do" scrolling="no" title="헤더">
-			<frameset frameborder="0" framespacing="0" cols="246, 80%">
+			<frameset frameborder="0" framespacing="0" cols="248, 80%">
 				<frame name="_left" src="${pageContext.request.contextPath}/EgovLeft.do" scrolling="yes" title="메뉴페이지">
 				<frame name="_content" src="${pageContext.request.contextPath}/EgovContent.do" title="메인페이지">
 			</frameset>

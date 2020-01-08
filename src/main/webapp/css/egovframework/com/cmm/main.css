@@ -68,13 +68,13 @@ div,table,form,fieldset,p,th,td,input,textarea,select,button {
     .header_box li.header_quickmenu div span:hover, .quickmenu_down:hover {background-color: #c73983 !important;} 
 
 #container { position: absolute; width: 100%; top: 110px; left: 0; right: 0; bottom: 65px; }
-	#lnb { position: absolute; top: 0; left: 0px; bottom: 0; width: 95%; border-right: 1px solid #eeeeee; background: #eeeeee; overflow-y: auto; min-width: 245px;}
-		ul.lnb_title { margin-left: 0px; }
+	#lnb { position: absolute; top: 0; left: 0px; bottom: 0; width: 95%; border-right: 1px solid #eeeeee; background: #f7f7f7; overflow-y: auto; min-width: 245px;}
+		ul.lnb_title { margin-left: 0px;  background: #f7f7f7;}
 		ul.lnb_title > li a { 
 		padding: 10px 4px 10px 15px;
 	    background:#f7f7f7 url(/images/egovframework/com/cmm/main/ic_leftmenu_arrow.png)no-repeat right 10px center;
 	    clear: both;
-	    width: 93%;
+	    width: 91%;
 	    display: inline-block;
 	    border-bottom: 1px solid #eeeeee;
 	    font-weight: bold;
@@ -84,13 +84,13 @@ div,table,form,fieldset,p,th,td,input,textarea,select,button {
 		ul.lnb_title > li a.noicon {background:#f7f7f7 !important;}
 		
 		.left_title_strong { color: #4c4c4c; font-size: 14px; font-weight: bold; }		
-		ul.lnb_title > li { content: "˙"; padding-right: 5px;}
+		ul.lnb_title > li { content: "˙"; padding-right: 0px;}
 		ul.lnb_title > li > ul { padding-top: 0px; width: 100%;}
 		ul.lnb_title > li > ul > li { margin-top: 0px; }		
 		ul.lnb_title > li > ul > li a {background: #eeeeee;padding: 7px 5px 7px 15px;font-weight:normal !important; font-size: 95%;}
 		ul.lnb_title > li > ul > li a::before {content:"·"; margin-right: 5px;}
 		ul.lnb_title > li > ul > li a:hover {background: #4383b1  !important; color: #ffffff  !important;}
-		ul.lnb_title > li > ul > li:hover, ul.lnb_title > li a.noicon:hover {background: #4383b1  !important; color: #ffffff  !important; font-weight: bold; }
+		ul.lnb_title > li > ul > li:hover, ul.lnb_title > li a.noicon:hover { color: #ffffff  !important; font-weight: bold; }
 		ul.lnb_title > li > ul .2depth  {padding: 10px 5px;background: #f7f7f7;}
 		
 	#contents { position: absolute; left: 300px; top: 25px; right: 0; bottom: 0; overflow-y: auto; }
@@ -165,7 +165,14 @@ a, button, input[type="button"] { cursor: pointer; }
 	    cursor: pointer;
 	 }	
 	 .btn_more:hover {border: 1px solid #266089; color:#266089;}
-@media all and (max-width: 1200px){
+
+
+@media all and (max-width: 1250px){
 	.dashboard_box1, .dashboard_box2, .dashboard_box3, .dashboard_box4 {float: none; width: 100%;}
 	.dashboard_box1 li { width: 13.8%;}
 }
+
+@media all and (max-width: 1120px){
+	.dashboard_box1 li { width: 30%;}
+}
+

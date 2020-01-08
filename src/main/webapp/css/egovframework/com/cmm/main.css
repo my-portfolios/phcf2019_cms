@@ -166,7 +166,10 @@ a, button, input[type="button"] { cursor: pointer; }
 	 }	
 	 .btn_more:hover {border: 1px solid #266089; color:#266089;}
 
-
+@media all and (max-width: 1420px){
+	.top_logo_title { display: none;}
+	}
+	
 @media all and (max-width: 1250px){
 	.dashboard_box1, .dashboard_box2, .dashboard_box3, .dashboard_box4 {float: none; width: 100%;}
 	.dashboard_box1 li { width: 13.8%;}

@@ -588,9 +588,7 @@ cursor :pointer;
 .jsgrid-pager-page:hover a, .jsgrid-pager-nav-button:hover a {color: #ffffff !important;}
 .jsgrid-pager-current-page {background: #4688d2; color: #ffffff !important; border: 1px solid #4688d2;}
 
-@media all and (max-width: 1420px){
-	.top_logo_title { display: none;}
-	}
+
 	
 @media all and (max-width: 1000px){
 	.board {min-width: 1000px;}

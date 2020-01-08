@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EgovComIndexDAO">
+
+	<select id="selectMenuInfoList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT
+			PAGE_NM,
+			DEPTH1,
+			DEPTH2,
+			DEPTH3,
+			MENU_NM,
+			LINK
+		FROM
+			MENUINFOLIST
+		WHERE 1=1
+			AND PAGE_NM = #{pageNm}
+			AND HEADER_YN = 'Y'
+		ORDER BY DEPTH1 ASC, DEPTH2 ASC, DEPTH3 ASC
+	</select>
+	
+</mapper>

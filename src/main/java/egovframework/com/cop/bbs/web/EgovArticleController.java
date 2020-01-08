@@ -1588,7 +1588,7 @@ public class EgovArticleController {
     public String latestArticleListView(HttpServletRequest request,
     		@RequestParam(required=false, defaultValue="basic") String skinNm, @RequestParam String bbsId, 
     		@RequestParam(required=false, defaultValue="5") String cntOfArticle, @RequestParam(required=false, defaultValue="FRST_REGIST_PNTTM") String ordColmn, 
-    		@RequestParam(required=false, defaultValue="DESC") String ordWay, ModelMap model) throws Exception {
+    		@RequestParam(required=false, defaultValue="DESC") String ordWay, @RequestParam(required=false, defaultValue="") String cateName, ModelMap model) throws Exception {
     	
     	HashMap<String, String> paramMap = new HashMap<String, String>();
     	
@@ -1597,6 +1597,7 @@ public class EgovArticleController {
     	paramMap.put("cntOfArticle", cntOfArticle);
     	paramMap.put("ordColmn", ordColmn);
     	paramMap.put("ordWay", ordWay);
+    	if(!cateName.equals("")) paramMap.put("cateName", cateName);
 		
     	List<BoardVO> resultList = new ArrayList<BoardVO>();
     	resultList = egovArticleService.latestArticleListView(paramMap);

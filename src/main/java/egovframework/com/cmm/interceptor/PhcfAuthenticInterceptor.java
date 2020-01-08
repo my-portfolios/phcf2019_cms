@@ -1,6 +1,5 @@
 package egovframework.com.cmm.interceptor;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -9,22 +8,18 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import egovframework.com.cmm.LoginVO;
-import egovframework.com.cmm.SessionVO;
+import egovframework.com.cmm.service.EgovComIndexService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sec.phcf.service.AuthManage;
 import egovframework.com.sec.phcf.service.EgovPhcfAuthorService;
-import egovframework.com.sec.phcf.service.impl.EgovPhcfAuthorDAO;
 import egovframework.com.utl.cas.service.EgovSessionCookieUtil;
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 
 /**
  * 문화재단 권한 체크 인터셉터
@@ -48,6 +43,9 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 	@Resource(name="EgovPhcfAuthorService")
     private EgovPhcfAuthorService egovPhcfAuthorService;
 	
+	@Resource(name="EgovComIndexService")
+	private EgovComIndexService egovComIndexService;
+	
 	/** 관리자 접근 권한 패턴 목록 */
 	private List<String> phcfAuthPatternList;
 	
@@ -58,6 +56,9 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 	public void setPhcfAuthPatternList(List<String> phcfAuthPatternList) {
 		this.phcfAuthPatternList = phcfAuthPatternList;
 	}
+	
+	private String page = "cms";
+	
 	/**
 	 * 인증된 사용자 여부로 인증 여부를 체크한다.
 	 * 관리자 권한에 따라 접근 페이지 권한을 체크한다.
@@ -67,6 +68,7 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		
 		String banGoToUrl = "/sec/phcf/EgovPhcfAuthorBanGoToUrl.do";
 		
+		//현재주소 가져오기
 		String currentUrl = "";
 		if(request.getQueryString()!=null) currentUrl = request.getServletPath()+"?"+request.getQueryString();
 		else currentUrl = request.getServletPath();
@@ -75,17 +77,12 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 			//로그인정보 가져오기
 			if(EgovUserDetailsHelper.isAuthenticated()) {
 				LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
-				System.out.println("ORGID : " + vo.getOrgnztId());
-				System.out.println("MEMID : " + vo.getId());
-				System.out.println("UNIQUEID : " + vo.getUniqId());
-				System.out.println("IP : " + vo.getIp());
-				System.out.println("GROUPID : " + vo.getGroupId());
-			
 			
 				HashMap<String, String> paramMap = new HashMap<String, String>();
 				
 				paramMap.put("orgnztId", vo.getOrgnztId());
 				paramMap.put("groupId", vo.getGroupId());
+				paramMap.put("page", page);
 				
 				List<AuthManage> authManageList = egovPhcfAuthorService.selectEgovPhcfAuthList(paramMap);
 				
@@ -118,10 +115,6 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 							return -1;
 					}
 				});
-				
-				int authManageSize = authManageList.size();
-				for (int i = 0; i < authManageSize; i++)
-					System.out.println("getAuthNmgetAuthNmgetAuthNm"+authManageList.get(i).getAuthNm());
 				
 				boolean phcfAuthCheck = true;
 		
@@ -158,6 +151,35 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 				}
 			}
 		}
+		
+		//전체 메뉴구조 및 현재 메뉴위치 가져오기
+		List<HashMap<String, Object>> AllMenuList = egovComIndexService.selectMenuInfoList(page);
+		HashMap<String, Object> cmMap = new HashMap<String, Object>();
+		
+		if(AllMenuList!=null) {
+			for(HashMap<String, Object> entry : AllMenuList) {
+				if(entry!=null) {
+					if(currentUrl.matches(".*"+entry.get("LINK")+".*") || currentUrl.equals(entry.get("LINK"))) {
+						cmMap.putAll(entry);
+					}
+				}
+			}
+		}
+		
+		String AllMenuListJson = "";
+		if(AllMenuList!=null) {
+			AllMenuListJson = CommonMethod.listmapToJsonString(AllMenuList);
+		}
+
+		try {
+			if(!AllMenuListJson.equals("")) request.setAttribute("AllMenuListJson", AllMenuListJson);
+			if(AllMenuList!=null) request.setAttribute("AllMenuList",AllMenuList);
+			if(cmMap!=null) request.setAttribute("CurrentMenuMap",cmMap);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
+	
 }

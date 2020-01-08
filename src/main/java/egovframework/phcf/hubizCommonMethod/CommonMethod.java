@@ -5,9 +5,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 
 public class CommonMethod {
@@ -29,7 +35,7 @@ public class CommonMethod {
 		else if(dt1.compareTo(dt2) < 0) return "small";
 		return "equal";
 	}
-	
+
 	
 	/**
 	 * 날짜 범위 내에 있는 지 확인
@@ -41,11 +47,11 @@ public class CommonMethod {
 	 * @author 김량래
 	 * @since 2019-12-03
 	 */
-	public static boolean checkDateRange(String date, String date1,String date2, String format) throws Exception {
+	public static boolean checkDateRange(String date, String date1,String date2) throws Exception {
 		
-		Date dt = stringToDate(date,format);
-		Date dt1 = stringToDate(date1,format);
-		Date dt2 = stringToDate(date2,format);
+		Date dt = stringToDate(date,"yyyy-MM-dd");
+		Date dt1 = stringToDate(date1,"yyyy-MM-dd");
+		Date dt2 = stringToDate(date2,"yyyy-MM-dd");
 		
 		if(dt.compareTo(dt1) >= 0) {
 			if(dt.compareTo(dt2) <= 0) {
@@ -121,17 +127,62 @@ public class CommonMethod {
 	 * 권혜진
 	 * 컨텐츠 페이지마다 공통적으로 들어가는 부분 - 템플릿 적용
 	*/
-	public static ModelAndView ContentIntoTemplate(HttpServletRequest request, String TemplatePath, String JspPath) {
+	public static ModelAndView ContentIntoTemplate(HttpServletRequest request, String jspPath, String skinNm) {
 		
-		String jspPath =JspPath;
-		String isDir = request.getServletContext().getRealPath(jspPath);
+		if(skinNm==null || skinNm.equals("")) skinNm="basic";
+		String templatePath = "template/_contents/"+skinNm;
+		
+		String tmpltDir = request.getServletContext().getRealPath("/WEB-INF/jsp/"+templatePath+".jsp");
 		String mavUrl = ""; 
-		File f = new File(isDir);
-		if(f.exists()) mavUrl =TemplatePath;
-		else mavUrl = "error/noTmpltErrorPage";
-		ModelAndView mav = new ModelAndView(mavUrl);  
-		mav.addObject("jspPath", jspPath); 
+		File fTmplt = new File(tmpltDir);
+		
+		ModelAndView mav=null;
+		
+		if(fTmplt.exists()) {
+			String isDir = request.getServletContext().getRealPath(jspPath); 
+			File f = new File(isDir);
+			if(f.exists()) mavUrl = templatePath;
+			else mavUrl = "error/noTmpltErrorPage";
+			mav = new ModelAndView(mavUrl);  
+			mav.addObject("jspPath", jspPath); 
+		} else {
+			mavUrl = "error/noContentErrorPage";
+			mav = new ModelAndView(mavUrl); 
+		}
 		
 		return mav;
+	}
+	
+	// list<map> 을 json 형태로 변형.
+	public static String listmapToJsonString(List<HashMap<String, Object>> allMenuList)
+	{       
+	    JSONArray json_arr=new JSONArray();
+	    for (Map<String, Object> map : allMenuList) {
+	        JSONObject json_obj=new JSONObject();
+	        for (Map.Entry<String, Object> entry : map.entrySet()) {
+	            String key = entry.getKey();
+	            Object value = entry.getValue();
+	            try {
+	                json_obj.put(key,value);
+	            } catch (JSONException e) {
+	                // TODO Auto-generated catch block
+	                e.printStackTrace();
+	            }                           
+	        }
+	        json_arr.put(json_obj);
+	    }
+	    return json_arr.toString();
+	}
+	
+	// map 을 json 형태로 변형
+	public static JSONObject mapToJson(Map<String, Object> map) throws JSONException {
+		JSONObject json = new JSONObject();
+		for (Map.Entry<String, Object> entry : map.entrySet()) {
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			json.put(key, value);
+		}
+		return json;
+
 	}
 }

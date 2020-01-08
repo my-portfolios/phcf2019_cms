@@ -611,7 +611,10 @@
 				COMVNUSERMASTER b
 			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
 			WHERE
-				a.BBS_ID = #{bbsId}
+			a.BBS_ID = #{bbsId}
+			<if test="cateName != '' and cateName!=null">
+			AND a.CATE_NAME = #{cateName}	
+			</if>
 			AND a.USE_AT = 'Y'
 			ORDER BY ${ordColmn} ${ordWay}
 			<if test="cntOfArticle == '-1'">	

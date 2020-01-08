@@ -24,7 +24,14 @@
             INS_ID, DATE_FORMAT(INS_DT,'%Y-%m-%dT%H:%i:%s') AS INS_DT, 
             UPT_ID, DATE_FORMAT(UPT_DT,'%Y-%m-%dT%H:%i:%s') AS UPT_DT
               FROM AUTHMANAGE 
-             WHERE USE_YN = 'Y' AND
+             WHERE USE_YN = 'Y' AND 
+             <if test="page != null">
+             PAGE = #{page} AND
+             </if>
+             <if test="page == null">
+             (PAGE = '' OR PAGE IS NULL) AND
+             </if>
+             <if test="page == 'all'"></if>
              (
              1=0
              <if test="orgnztId != null">OR

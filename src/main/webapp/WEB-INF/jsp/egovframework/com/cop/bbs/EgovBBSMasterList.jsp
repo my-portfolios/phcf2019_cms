@@ -115,13 +115,15 @@ function fn_egov_inquire_bbsdetail(bbsId) {
 	</tr>
 	</c:if>
 	<c:forEach items="${resultList}" var="resultInfo" varStatus="status">
-	<tr>
-		<td><c:out value="${(searchVO.pageIndex-1) * searchVO.pageSize + status.count}"/></td>
-		<td class="left"><a href="<c:url value='/cop/bbs/selectBBSMasterDetail.do?bbsId=${resultInfo.bbsId}'/>" onClick="fn_egov_inquire_bbsdetail('<c:out value="${resultInfo.bbsId}"/>');return false;"><c:out value='${fn:substring(resultInfo.bbsNm, 0, 40)}'/></a></td>
-		<td><c:out value='${resultInfo.frstRegisterNm}'/></td>
-		<td><c:out value='${resultInfo.frstRegisterPnttm}'/></td>
-		<td><c:out value='${resultInfo.useAt}'/></td>		
-	</tr>
+	<c:if test="${resultInfo.bbsId ne 'BBSMSTR_000000000002'}"> <!-- 컨텐츠 게시판 목록에서 제외 -->
+		<tr>
+			<td><c:out value="${(searchVO.pageIndex-1) * searchVO.pageSize + status.count - 1}"/></td>
+			<td class="left"><a href="<c:url value='/cop/bbs/selectBBSMasterDetail.do?bbsId=${resultInfo.bbsId}'/>" onClick="fn_egov_inquire_bbsdetail('<c:out value="${resultInfo.bbsId}"/>');return false;"><c:out value='${fn:substring(resultInfo.bbsNm, 0, 40)}'/></a></td>
+			<td><c:out value='${resultInfo.frstRegisterNm}'/></td>
+			<td><c:out value='${resultInfo.frstRegisterPnttm}'/></td>
+			<td><c:out value='${resultInfo.useAt}'/></td>		
+		</tr>
+	</c:if>
 	</c:forEach>
 	</tbody>
 	</table>

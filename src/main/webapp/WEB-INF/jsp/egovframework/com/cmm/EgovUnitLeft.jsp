@@ -60,7 +60,8 @@
                 <li><a href="/sec/rmt/EgovRoleList.do" target="_content">롤 관리</a></li>
                 <li><a href="/sym/ccm/cca/SelectCcmCmmnCodeList.do" target="_content">공통 코드</a></li>
                 <li><a href="/sym/ccm/ccc/SelectCcmCmmnClCodeList.do" target="_content">공통분류 코드관리</a></li>                
-                <li><a href="/cop/bbs/selectBBSMasterInfs.do?cmmntyId=" target="_content">게시판 관리</a></li>
+                <li><a href="/cop/bbs/selectBBSMasterInfs.do" target="_content">게시판 관리</a></li>
+                <li><a href="/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000002" target="_content">컨텐츠관리</a></li>
             </ul>
         </li>
         

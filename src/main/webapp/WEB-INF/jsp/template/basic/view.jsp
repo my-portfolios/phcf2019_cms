@@ -126,7 +126,7 @@ function fn_egov_select_commentList(pageNo) {
 <!-- javascript warning tag  -->
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
 
-<div class="wTableFrm">
+
 	<!-- 타이틀 -->
 	<h2>${pageTitle} , 템플릿명 : ${boardMasterVO.tmplatId}<spring:message code="title.detail" /></h2><!-- 게시글 상세조회 -->
 
@@ -205,7 +205,7 @@ function fn_egov_select_commentList(pageNo) {
 		</c:if>
 		<c:if test="${boardMasterVO.replyPosblAt == 'Y' }">
 		<form name="formReply" action="<c:url value='/cop/bbs/replyArticleView.do'/>" method="post" style="float:left; margin:0 0 0 3px;">
-			<input type="submit" class="s_submit" value="<spring:message code="button.reply" />"><!-- 답글 -->
+			<%-- <input type="submit" class="s_submit" value="<spring:message code="button.reply" />"> --%><!-- 답글 -->
 			<input name="nttId" type="hidden" value="<c:out value="${result.nttId}" />">
 			<input name="bbsId" type="hidden" value="<c:out value="${boardMasterVO.bbsId}" />">
 		</form>
@@ -222,7 +222,7 @@ function fn_egov_select_commentList(pageNo) {
 		
 	</div><div style="clear:both;"></div>
 	
-</div>
+
 
 <!-- 댓글 -->
 <c:if test="${useComment == 'true'}">

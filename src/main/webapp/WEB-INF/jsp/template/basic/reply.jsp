@@ -154,10 +154,10 @@ function fn_egov_reply_article(form){
 <body onLoad="fn_egov_init();">
 
 <!-- javascript warning tag  -->
-<noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
+<%-- <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript> --%>
 
 <form:form commandName="articleVO" action="${pageContext.request.contextPath}/cop/bbs/replyArticle.do" method="post" onSubmit="fn_egov_reply_article(document.forms[0]); return false;" enctype="multipart/form-data"> 
-<div class="wTableFrm">
+
 	<!-- 타이틀 -->
 	<h2>${pageTitle} <spring:message code="title.create" /></h2><!-- 게시글 답글 등록-->
 
@@ -260,7 +260,7 @@ function fn_egov_reply_article(form){
 		<span class="btn_s"><a href="<c:url value='/cop/bbs/selectArticleList.do' />?bbsId=${boardMasterVO.bbsId}"  title="<spring:message code="button.list" />  <spring:message code="input.button" />"><spring:message code="button.list" /></a></span><!-- 목록 -->
 	</div><div style="clear:both;"></div>
 	
-</div>
+
 
 <input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>"/>
 <input type="hidden" name="bbsTyCode" value="<c:out value='${boardMasterVO.bbsTyCode}'/>" />

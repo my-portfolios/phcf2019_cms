@@ -78,13 +78,6 @@ $(function() {
  ******************************************************** */
 function fn_egov_init(){
 	
-	//filebrowserUploadUrl: '${pageContext.request.contextPath}/utl/wed/insertImage.do', // 파일 업로드를 처리 할 경로 설정.
-	var ckeditor_config = {
-		//filebrowserImageUploadUrl: '${pageContext.request.contextPath}/utl/wed/insertImageCk.do', // 파일 업로드를 처리 할 경로 설정.
-		filebrowserImageUploadUrl: '${pageContext.request.contextPath}/ckUploadImage', // 파일 업로드를 처리 할 경로 설정(CK필터).
-	};
-	CKEDITOR.replace('nttCn',ckeditor_config);
-	
 	// 첫 입력란에 포커스
 	document.getElementById("articleVO").nttSj.focus();
 	
@@ -94,8 +87,6 @@ function fn_egov_init(){
 	 * 저장처리화면
 	 ******************************************************** */
 	function fn_egov_regist_article(form) {
-
-		CKEDITOR.instances.nttCn.updateElement();
 
 		//input item Client-Side validate
 		if (!validateArticleVO(form)) {
@@ -203,39 +194,9 @@ function fn_egov_init(){
 		<tr>
 			<th><label for="nttCn">${title } <span class="pilsu">*</span></label></th>
 			<td class="nopd" colspan="3">
-				<form:textarea path="nttCn" title="${title} ${inputTxt}" cols="300" rows="20" />   
+				<form:textarea path="nttCn" title="${title} ${inputTxt}" cols="300" rows="20" style="height:500px;"/>   
 
 				<div><form:errors path="nttCn" cssClass="error" /></div>  
-			</td>
-		</tr>
-		
-		<!-- 공지신청 여부  -->
-		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.noticeAt"/> </c:set>
-		<tr>
-			<th><label for="noticeAt">${title}</label></th>
-			<td class="left" colspan="3">
-				<form:checkbox path="noticeAt" value="Y"/>
-				<div><form:errors path="noticeAt" cssClass="error" /></div>       
-			</td>
-		</tr>
-		
-		<!-- 비밀글 여부 -->
-		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.secretAt"/> </c:set>
-		<tr>
-			<th><label for="secretAt">${title}</label></th>
-			<td class="left" colspan="3">
-				<form:checkbox path="secretAt" value="Y"/>
-				<div><form:errors path="secretAt" cssClass="error" /></div>       
-			</td>
-		</tr>
-		
-		<!-- 익명등록 여부  -->
-		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.anonymousAt"/> </c:set>
-		<tr>
-			<th><label for="anonymousAt">${title}</label></th>
-			<td class="left" colspan="3">
-				<form:checkbox path="anonymousAt" value="Y"/>
-				<div><form:errors path="anonymousAt" cssClass="error" /></div>       
 			</td>
 		</tr>
 		
@@ -250,62 +211,6 @@ function fn_egov_init(){
 				<div><form:errors path="ntceEndde" cssClass="error" /></div>       
 			</td>
 		</tr>
-		
-		<c:if test="${boardMasterVO.fileAtchPosblAt == 'Y'}">
-		<!-- 첨부파일  -->
-		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.atchFile"/></c:set>
-		<tr>
-			<th><label for="file_1">${title}</label> </th>
-			<td class="nopd" colspan="3">
-				<input name="file_1" id="egovComFileUploader" type="file" title="<spring:message code="comCopBbs.articleVO.regist.atchFile"/>"/><!-- 첨부파일 -->
-			    <div id="egovComFileList"></div>
-			</td>
-		</tr>
-	  	</c:if>
-	  	
-	  	<c:if test="${boardMasterVO.acYn == 'Y'}">
-	  	<!-- 추가칼럼1  -->
-		<c:set var="title"> ${boardMasterVO.ac1Nm} </c:set>
-		<tr>
-			<th><label for="nttCn">${title } <span class="pilsu">*</span></label></th>
-			<td class="nopd" colspan="3">
-				<form:input path="ac1" title="${title} ${inputTxt}" size="70" maxlength="70" /> 
-				<div><form:errors path="ac1" cssClass="error" /></div>  
-			</td>
-		</tr>
-		<c:set var="title"> ${boardMasterVO.ac2Nm} </c:set>
-		<tr>
-			<th><label for="nttCn">${title } <span class="pilsu">*</span></label></th>
-			<td class="nopd" colspan="3">
-				<form:input path="ac2" title="${title} ${inputTxt}" size="70" maxlength="70" /> 
-				<div><form:errors path="ac2" cssClass="error" /></div>  
-			</td>
-		</tr>
-		<c:set var="title"> ${boardMasterVO.ac3Nm} </c:set>
-		<tr>
-			<th><label for="nttCn">${title } <span class="pilsu">*</span></label></th>
-			<td class="nopd" colspan="3">
-				<form:input path="ac3" title="${title} ${inputTxt}" size="70" maxlength="70" /> 
-				<div><form:errors path="ac3" cssClass="error" /></div>  
-			</td>
-		</tr>
-		<c:set var="title"> ${boardMasterVO.ac4Nm} </c:set>
-		<tr>
-			<th><label for="nttCn">${title } <span class="pilsu">*</span></label></th>
-			<td class="nopd" colspan="3">
-				<form:input path="ac4" title="${title} ${inputTxt}" size="70" maxlength="70" /> 
-				<div><form:errors path="ac4" cssClass="error" /></div>  
-			</td>
-		</tr>
-		<c:set var="title"> ${boardMasterVO.ac5Nm} </c:set>
-		<tr>
-			<th><label for="nttCn">${title } <span class="pilsu">*</span></label></th>
-			<td class="nopd" colspan="3">
-				<form:input path="ac5" title="${title} ${inputTxt}" size="70" maxlength="70" /> 
-				<div><form:errors path="ac5" cssClass="error" /></div>  
-			</td>
-		</tr>
-		</c:if>
 
 	</tbody>
 	</table>
@@ -330,17 +235,6 @@ function fn_egov_init(){
 <input type="hidden" name="cmd" value="<c:out value='save'/>">
 <input type="hidden" name="bbsId" value="<c:out value='${articleVO.bbsId}'/>">
 </form:form>
-
-<!-- 첨부파일 업로드 가능화일 설정 Start..-->  
-<script type="text/javascript">
-var maxFileNum = document.getElementById('atchPosblFileNumber').value;
-if(maxFileNum==null || maxFileNum==""){
-	maxFileNum = 3;
-}
-var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), maxFileNum );
-multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) );
-</script> 
-<!-- 첨부파일 업로드 가능화일 설정 End.-->
 
 </body>
 </html>

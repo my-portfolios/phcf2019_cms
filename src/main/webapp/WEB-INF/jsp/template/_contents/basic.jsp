@@ -60,13 +60,10 @@
 	<header style="position:fixed; width: 100%; top: 0;">
 		<c:import url="${pageContext.request.contextPath}/EgovTop.do" />
 	</header>
-	<!-- 모바일 메뉴 시작-->
-		<c:import url="../../pieces/mobile_menu.jsp" />
-	<!-- 모바일 메뉴 끝-->
 	<script src="<c:url value='/js/egovframework/phcf/main/main.js'/>"></script> <!-- Resource jQuery -->
 	<!--헤더끝-->
 	
-	<div id="main" class="scroll-container cd-main-content">
+	<div id="main" class="scroll-container">
 		
 		<c:import url="${jspPath}" />
 		

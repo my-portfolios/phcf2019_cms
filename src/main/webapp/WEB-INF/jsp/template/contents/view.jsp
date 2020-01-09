@@ -160,7 +160,7 @@ function fn_egov_select_commentList(pageNo) {
 		<tr>
 			<th class="vtop"><spring:message code="comCopBbs.articleVO.detail.nttCn" /></th>
 			<td colspan="5" class="cnt">
-				<c:out value="${fn:replace(result.nttCn , crlf , '<br/>')}" escapeXml="false" />
+				<c:out value="${fn:replace(result.nttCn , crlf , '<br/>')}"/>
 			</td>
 		</tr>
 		<!-- 게시일자 -->

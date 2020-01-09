@@ -470,7 +470,10 @@ public class EgovArticleController {
 		    	
 		    }
 		    
-		    board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
+		    //컨텐츠 관리 게시판은 태그제거 생략
+		    if(!master.getBbsId().equals("BBSMSTR_000000000002")) board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
+		    else board.setNttCn(board.getNttCn());
+		    
 		    board.setAcYn(master.getAcYn());
 		    egovArticleService.insertArticle(board);
 		    

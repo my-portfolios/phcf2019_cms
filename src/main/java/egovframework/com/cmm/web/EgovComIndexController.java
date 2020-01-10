@@ -93,7 +93,6 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		return "egovframework/com/cmm/EgovUnitContent";
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping("/EgovLeft.do")
 	public String setLeftMenu(ModelMap model) throws Exception {
 

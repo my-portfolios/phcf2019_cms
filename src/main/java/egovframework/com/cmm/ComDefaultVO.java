@@ -55,6 +55,9 @@ public class ComDefaultVO implements Serializable {
 	/** 검색KeywordTo */
     private String searchKeywordTo = "";  
     
+    /** 검색조건 */
+    private String pageNm = "";
+    
 	public int getFirstIndex() {
 		return firstIndex;
 	}
@@ -163,4 +166,14 @@ public class ComDefaultVO implements Serializable {
 	public void setSearchKeywordTo(String searchKeywordTo) {
 		this.searchKeywordTo = searchKeywordTo;
 	}
+
+	public String getPageNm() {
+		return pageNm;
+	}
+
+	public void setPageNm(String pageNm) {
+		this.pageNm = pageNm;
+	}
+
+	
 }

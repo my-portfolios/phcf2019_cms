@@ -1,5 +1,6 @@
 package egovframework.com.sym.mnu.mpm.web;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -8,11 +9,12 @@ import java.util.Map.Entry;
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.annotation.IncludedInfo;
+import egovframework.com.cmm.service.EgovComIndexService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.mnu.mpm.service.EgovMenuManageService;
 import egovframework.com.sym.mnu.mpm.service.MenuManageVO;
 import egovframework.com.sym.prm.service.EgovProgrmManageService;
-
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -72,6 +74,9 @@ public class EgovMenuManageController {
     /** EgovMenuManageService */
 	@Resource(name = "progrmManageService")
 	private EgovProgrmManageService progrmManageService;
+	
+	@Resource(name="EgovComIndexService")
+	private EgovComIndexService egovComIndexService;
 
     /** EgovFileMngService */
 //	@Resource(name="EgovFileMngService")
@@ -124,8 +129,7 @@ public class EgovMenuManageController {
     @IncludedInfo(name="메뉴관리리스트", order = 1091 ,gid = 60)
     @RequestMapping(value="/sym/mnu/mpm/EgovMenuManageSelect.do")
     public String selectMenuManageList(
-    		@ModelAttribute("searchVO") ComDefaultVO searchVO,
-    		ModelMap model)
+    		@ModelAttribute("searchVO") ComDefaultVO searchVO, ModelMap model)
             throws Exception {
         // 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -137,8 +141,84 @@ public class EgovMenuManageController {
     	/** EgovPropertyService.sample */
     	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
     	searchVO.setPageSize(propertiesService.getInt("pageSize"));
-
+    	
     	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		Map<String, Object> list_menumanage = egovComIndexService.selectAllMenuInfoList(searchVO);
+		model.addAttribute("list_menumanage", list_menumanage.get("resultList"));
+		model.addAttribute("pageList", CommonMethod.pageList);
+		
+		System.out.print("egovComIndexService.selectMenuDidntMapped()"+egovComIndexService.selectMenuDidntMapped());
+
+        int totCnt = Integer.parseInt((String)list_menumanage.get("resultCnt"));
+		paginationInfo.setTotalRecordCount(totCnt);
+        model.addAttribute("paginationInfo", paginationInfo);
+
+      	return "egovframework/com/sym/mnu/mpm/EgovMenuManage";
+    }
+    
+    @RequestMapping(value="/sym/mnu/mpm/AjaxSelectAllMenuDidntMapped.do")
+    public String selectAllMenuDidntMapped(
+    		ModelMap model)
+            throws Exception {
+		
+		System.out.print("egovComIndexService.selectMenuDidntMapped()"+egovComIndexService.selectMenuDidntMapped());
+		
+		model.addAttribute("success", "yes");
+		model.addAttribute("result", egovComIndexService.selectMenuDidntMapped());
+
+      	return "jsonView";
+    }
+    
+    @RequestMapping(value="/sym/mnu/mpm/AjaxSelectAllContentsDidntMapped.do")
+    public String selectAllContentsDidntMapped(
+    		ModelMap model)
+            throws Exception {
+		
+		System.out.print("egovComIndexService.selectMenuDidntMapped()"+egovComIndexService.selectContentsDidntMapped());
+		
+		model.addAttribute("success", "yes");
+		model.addAttribute("result", egovComIndexService.selectContentsDidntMapped());
+
+      	return "jsonView";
+    }
+    
+    @RequestMapping(value="/sym/mnu/mpm/AjaxEgovContentsMenuMapping.do")
+    public String contentsMenuMapping(
+    		@RequestParam HashMap<String, String> param, ModelMap model)
+            throws Exception {
+		
+    	System.out.println("paramparamparamparamparamparamparamparamparamparamparamparam"+param);
+		System.out.print("egovComIndexService.selectMenuDidntMapped()"+egovComIndexService.selectMenuDidntMapped());
+		egovComIndexService.contentsMenuMapping(param);
+		
+		model.addAttribute("success", "yes");
+
+      	return "jsonView";
+    }
+    /*public String selectMenuManageList(
+    		@ModelAttribute("searchVO") ComDefaultVO searchVO,
+    		ModelMap model)
+            throws Exception {
+        // 0. Spring Security 사용자권한 처리
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+        	return "egovframework/com/uat/uia/EgovLoginUsr";
+    	}
+    	// 내역 조회
+    	*//** EgovPropertyService.sample *//*
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+    	*//** pageing *//*
     	PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -156,7 +236,7 @@ public class EgovMenuManageController {
         model.addAttribute("paginationInfo", paginationInfo);
 
       	return "egovframework/com/sym/mnu/mpm/EgovMenuManage";
-    }
+    }*/
 
     /**
      * 메뉴목록 멀티 삭제한다.

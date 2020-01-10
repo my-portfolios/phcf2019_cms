@@ -4,6 +4,7 @@
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%
  /**
   * @Class Name : EgovMenuManage.jsp
@@ -32,8 +33,16 @@
 <title><spring:message code="comSymMnuMpm.menuManage.title"/></title><!-- 메뉴관리리스트 -->
 <link href="<c:url value="/css/egovframework/com/com.css"/>" rel="stylesheet" type="text/css">
 <link href="<c:url value="/css/egovframework/com/button.css"/>" rel="stylesheet" type="text/css">
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 <script language="javascript1.2" type="text/javaScript">
 <!--
+$(function(){
+	refreshSelectBox();
+});
+
 /* ********************************************************
  * 모두선택 처리 함수
  ******************************************************** */
@@ -150,9 +159,44 @@ function fMenuManageSelect(){
     document.menuManageForm.submit();
 }
 <c:if test="${!empty resultMsg}">alert("${resultMsg}");</c:if>
+
+function refreshSelectBox(){
+	$.ajax({
+		url: "/sym/mnu/mpm/AjaxSelectAllContentsDidntMapped.do",
+		type: "post",
+		dataType: "json",
+		success: function(data){
+			$(".selectContentsDidntMapped").empty();
+			$(".selectContentsDidntMapped").append("<option value='0'>맵핑하지 않음</option>");
+			for(var i=0; i< data.result.length; i++){
+				$(".selectContentsDidntMapped").append("<option value='"+data.result[i].nttId+"'>"+data.result[i].nttJs+"</option>");
+			}
+		},
+		error: function(request, status, error) {
+			console.log("error");
+		}
+	});
+}
+
+function menuBttClick(id){
+	alert(id+"-"+$("#menuSelectNo"+id+" option:selected").val());
+	$.ajax({
+		url: "/sym/mnu/mpm/AjaxEgovContentsMenuMapping.do",
+		type: "post",
+		dataType: "json",
+		data: {menuNo:id, nttId:$("#menuSelectNo"+id+" option:selected").val()},
+		success: function(data){
+			console.log(data);
+			refreshSelectBox();
+		},
+		error: function(request, status, error) {
+			console.log("error");
+		}
+	});
+}
+
 -->
 </script>
-
 </head>
 <body>
 
@@ -169,13 +213,17 @@ function fMenuManageSelect(){
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />"><!-- 이 레이아웃은 하단 정보를 대한 검색 정보로 구성되어 있습니다. -->
 		<ul>
 			<li>
+				<form:select path="searchVO.pageNm" title="${title} ${inputTxt}" cssClass="txt">
+					<form:option value="" label="전체" />
+					<form:options items="${pageList}"/>
+				</form:select>
 				<label for=""><spring:message code="comSymMnuMpm.menuManage.menuNm"/> : </label><!-- 메뉴명 -->
 				<input class="s_input2 vat" name="searchKeyword" type="text" value="${searchVO.searchKeyword }" size="25" title="<spring:message code="title.searchCondition"/>" /><!-- 검색조건 -->
 				
 				<input class="s_btn" type="submit" value='<spring:message code="button.inquire" />' title='<spring:message code="button.inquire" />' onclick="selectMenuManageList(); return false;" /><!-- 조회 -->
-				<span class="btn_b"><a href="<c:url value='/sym/mnu/mpm/EgovMenuRegistInsert.do'/>" onclick="bndeInsertMenuManage(); return false;" title="<spring:message code="button.bulkUpload" />"><spring:message code="button.bulkUpload" /></a></span><!-- 일괄등록 -->
-				<span class="btn_b"><a href="<c:url value='/sym/mnu/mpm/EgovMenuRegistInsert.do'/>" onclick="insertMenuManage(); return false;" title='<spring:message code="button.create" />'><spring:message code="button.create" /></a></span><!-- 등록 -->
-				<span class="btn_b"><a href="#" onclick="fDeleteMenuList(); return false;" title='<spring:message code="button.delete" />'><spring:message code="button.delete" /></a></span><!-- 삭제 -->
+<%-- 				<span class="btn_b"><a href="<c:url value='/sym/mnu/mpm/EgovMenuRegistInsert.do'/>" onclick="bndeInsertMenuManage(); return false;" title="<spring:message code="button.bulkUpload" />"><spring:message code="button.bulkUpload" /></a></span><!-- 일괄등록 --> --%>
+<%-- 				<span class="btn_b"><a href="<c:url value='/sym/mnu/mpm/EgovMenuRegistInsert.do'/>" onclick="insertMenuManage(); return false;" title='<spring:message code="button.create" />'><spring:message code="button.create" /></a></span><!-- 등록 --> --%>
+<%-- 				<span class="btn_b"><a href="#" onclick="fDeleteMenuList(); return false;" title='<spring:message code="button.delete" />'><spring:message code="button.delete" /></a></span><!-- 삭제 --> --%>
 			</li>
 		</ul>
 	</div>
@@ -185,37 +233,46 @@ function fMenuManageSelect(){
 	<table class="board_list">
 		<caption></caption>
 		<colgroup>
-			<col style="width:30px" />
+			<%-- <col style="width:30px" /> --%>
 			<col style="width:100px" />
 			<col style="width:120px" />
 			<col style="width:200px" />
+			<col style="width:167px" />
 			<col style="width:167px" />
 			<col style="width:100px" />
 		</colgroup>
 		<thead>
 			<tr>
-			   <th scope="col"><input type="checkbox" name="checkAll" class="check2" onclick="fCheckAll();" title="전체선택"/></th><!-- 전체선택 -->
-			   <th scope="col"><spring:message code="comSymMnuMpm.menuManage.menuNo"/></th><!-- 메뉴ID -->
-			   <th scope="col"><spring:message code="comSymMnuMpm.menuManage.menuNmHn"/></th><!-- 메뉴한글명 -->
-			   <th scope="col"><spring:message code="comSymMnuMpm.menuManage.progrmFileNm"/></th><!-- 프로그램파일명 -->
-			   <th scope="col"><spring:message code="comSymMnuMpm.menuManage.menuDc"/></th><!-- 메뉴설명 -->
-			   <th scope="col"><spring:message code="comSymMnuMpm.menuManage.upperMenuId"/></th><!-- 상위메뉴ID -->
+			   <!-- <th scope="col"><input type="checkbox" name="checkAll" class="check2" onclick="fCheckAll();" title="전체선택"/></th>전체선택 -->
+			   <th scope="col">사이트</th><!-- 메뉴ID -->
+			   <th scope="col">메뉴명</th><!-- 메뉴한글명 -->
+			   <th scope="col">주소</th><!-- 프로그램파일명 -->
+			   <th scope="col">구조</th><!-- 메뉴설명 -->
+			   <th scope="col">현재맵핑</th><!-- 메뉴설명 -->
+			   <th scope="col">컨텐츠맵핑</th><!-- 상위메뉴ID -->
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="result" items="${list_menumanage}" varStatus="status">
 			  <tr>
-			    <td>
+			    <%-- <td>
 			       <input type="checkbox" name="checkField" class="check2" title="선택"/>
 			       <input name="checkMenuNo" type="hidden" value="<c:out value='${result.menuNo}'/>"/>
-			    </td>
-			    <td><c:out value="${result.menuNo}"/></td>
+			       <c:out value="${result.pageNm}"/>
+			    </td> --%>
+			    <td><c:out value="${result.pageNm}"/></td>
 			    <td style="cursor:hand;">
-			       <span class="link"><a href="<c:url value='/sym/mnu/mpm/EgovMenuManageListDetailSelect.do?req_menuNo='/>${result.menuNo}" onclick="selectUpdtMenuManageDetail('<c:out value="${result.menuNo}"/>'); return false;"><c:out value="${result.menuNm}"/></a></span>
+			       <%-- <span class="link"><a href="<c:url value='/sym/mnu/mpm/EgovMenuManageListDetailSelect.do?req_menuNo='/>${result.menuNo}" onclick="selectUpdtMenuManageDetail('<c:out value="${result.menuNo}"/>'); return false;"><c:out value="${result.menuNm}"/></a></span> --%>
+			       <c:out value="${result.menuNm}"/>
 			    </td>
-			    <td><c:out value="${result.progrmFileNm}"/></td>
-			    <td><c:out value="${result.menuDc}"/></td>
-			    <td><c:out value="${result.upperMenuId}"/></td>
+			    <td><c:out value="${result.link}"/></td>
+			    <td><c:out value="${result.depth1}"/><c:out value="${result.depth2}"/><c:out value="${result.depth3}"/></td>
+			    <td><c:out value="${result.nttSj}"/></td>
+			    <td>
+			    	<select class="selectContentsDidntMapped" id="menuSelectNo${result.menuNo}">
+					</select>
+					<input type="button" id="menuBttNo${result.menuNo}" onclick="javascript:(menuBttClick('${result.menuNo}'));" value="설정"/>
+			    </td>
 			  </tr>
 			 </c:forEach>
 		</tbody>

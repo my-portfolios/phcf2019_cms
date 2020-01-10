@@ -22,14 +22,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <c:set var="pageTitle"><spring:message code="comCopBbs.articleVO.title"/></c:set>
-<!DOCTYPE html>
-<html>
-<head>
-<title>${pageTitle} <spring:message code="title.list" /></title><!-- 게시글 목록 -->
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
-<link href="<c:url value='${brdMstrVO.tmplatCours}' />" rel="stylesheet" type="text/css">
+
 <c:choose>
 <c:when test="${preview == 'true'}">
 <script type="text/javascript">
@@ -98,8 +94,15 @@ function fn_egov_inquire_articledetail(bbsId, nttId) {
 </script>
 </c:otherwise>
 </c:choose>
-</head>
-<body onload="fn_egov_init()">
+<script>
+$(function(){
+	fn_egov_init();
+	
+	$("#searchCate").change(function(){
+		$("#searchCate").submit();
+	});
+});
+</script>
 <!-- javascript warning tag  -->
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
 
@@ -109,7 +112,16 @@ function fn_egov_inquire_articledetail(bbsId, nttId) {
 	<!-- 하단 버튼 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
+			<!-- 카테고리 -->
+			<c:if test="${boardMasterVO.cateUse == 'Y'}">
 			<li>
+				<form:select path="searchVO.searchCate" title="${title} ${inputTxt}" cssClass="txt">
+					<form:option value="" label="전체" />
+					<form:options items="${boardMasterVO.cateNames}"/>
+				</form:select>
+			</li>
+			<li>
+			</c:if>
 				<select name="searchCnd" title="<spring:message code="title.searchCondition" /> <spring:message code="input.cSelect" />">
 					<option value="0"  <c:if test="${searchVO.searchCnd == '0'}">selected="selected"</c:if> ><spring:message code="comCopBbs.articleVO.list.nttSj" /></option><!-- 글 제목  -->
 					<option value="1"  <c:if test="${searchVO.searchCnd == '1'}">selected="selected"</c:if> ><spring:message code="comCopBbs.articleVO.list.nttCn" /></option><!-- 글 내용 -->
@@ -256,7 +268,3 @@ function fn_egov_inquire_articledetail(bbsId, nttId) {
 <input name="nttId" type="hidden" value="0">
 <input name="bbsId" type="hidden" value="${boardMasterVO.bbsId}">
 <input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>">
-
-
-</body>
-</html>

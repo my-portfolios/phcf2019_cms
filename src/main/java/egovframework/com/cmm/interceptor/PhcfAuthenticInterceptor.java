@@ -1,5 +1,6 @@
 package egovframework.com.cmm.interceptor;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -8,13 +9,17 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.util.UrlPathHelper;
+
 
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovComIndexService;
+import egovframework.com.cmm.service.Globals;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sec.phcf.service.AuthManage;
 import egovframework.com.sec.phcf.service.EgovPhcfAuthorService;
@@ -57,7 +62,7 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		this.phcfAuthPatternList = phcfAuthPatternList;
 	}
 	
-	private String page = "cms";
+	private static Logger logger = Logger.getLogger(PhcfAuthenticInterceptor.class);
 	
 	/**
 	 * 인증된 사용자 여부로 인증 여부를 체크한다.
@@ -69,9 +74,12 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		String banGoToUrl = "/sec/phcf/EgovPhcfAuthorBanGoToUrl.do";
 		
 		//현재주소 가져오기
-		String currentUrl = "";
-		if(request.getQueryString()!=null) currentUrl = request.getServletPath()+"?"+request.getQueryString();
-		else currentUrl = request.getServletPath();
+		UrlPathHelper urlPathHelper = new UrlPathHelper();
+		
+		String currentUrl = urlPathHelper.getOriginatingRequestUri(request);
+		String currentQueryString = urlPathHelper.getOriginatingQueryString(request);
+		
+		if(currentQueryString!=null) currentUrl += "?" + currentQueryString;
 		
 		if(!currentUrl.equals(banGoToUrl)) {
 			//로그인정보 가져오기
@@ -82,7 +90,7 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 				
 				paramMap.put("orgnztId", vo.getOrgnztId());
 				paramMap.put("groupId", vo.getGroupId());
-				paramMap.put("page", page);
+				paramMap.put("page", Globals.SITE_NAME);
 				
 				List<AuthManage> authManageList = egovPhcfAuthorService.selectEgovPhcfAuthList(paramMap);
 				
@@ -153,12 +161,14 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		//전체 메뉴구조 및 현재 메뉴위치 가져오기
-		List<HashMap<String, Object>> AllMenuList = egovComIndexService.selectMenuInfoList(page);
+		List<HashMap<String, Object>> AllMenuList = egovComIndexService.selectMenuInfoList(Globals.SITE_NAME);
+		List<HashMap<String, Object>> HeaderMenuList = new ArrayList<HashMap<String,Object>>();
+		
 		HashMap<String, Object> cmMap = new HashMap<String, Object>();
 		
 		if(AllMenuList!=null) {
 			for(HashMap<String, Object> entry : AllMenuList) {
-				if(entry!=null) {
+				if(entry!=null) {					
 					if(currentUrl.matches(".*"+entry.get("LINK")+".*") || currentUrl.equals(entry.get("LINK"))) {
 						cmMap.putAll(entry);
 					}
@@ -170,11 +180,15 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		if(AllMenuList!=null) {
 			AllMenuListJson = CommonMethod.listmapToJsonString(AllMenuList);
 		}
-
+		
 		try {
 			if(!AllMenuListJson.equals("")) request.setAttribute("AllMenuListJson", AllMenuListJson);
 			if(AllMenuList!=null) request.setAttribute("AllMenuList",AllMenuList);
+			if(HeaderMenuList!=null) request.setAttribute("HeaderMenuList",HeaderMenuList);
 			if(cmMap!=null) request.setAttribute("CurrentMenuMap",cmMap);
+			logger.debug("=== currentURL : " + currentUrl);
+			logger.debug("=== menuMAP : " + cmMap);
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CommonPage">
+
+	<select id="selectContentTxt" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 	IFNULL(CONTENTS,"no values in here") AS CONTENTS
+				, IFNULL(PLACE, "default") AS PLACE
+		FROM 	COMMONCONTENTSDATA
+		WHERE	1=1
+		AND	PLACE = #{place}
+		AND	GUBUN = #{gubun}
+		ORDER BY LAST_UPDT_PNTTM DESC
+		LIMIT 1
+	</select>
+	
+	<select id="selectContent" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 	NTT_SJ, NTT_CN, CATE_NAME
+		FROM 	COMTNBBS
+		WHERE	1=1
+		AND	BBS_ID = #{bbsId}
+		AND	NTT_ID = #{nttId}
+		LIMIT 1
+	</select>
+</mapper>

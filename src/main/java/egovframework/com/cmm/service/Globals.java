@@ -23,6 +23,8 @@ public class Globals {
     public static final String DB_TYPE = EgovProperties.getProperty("Globals.DbType");
     //메인 페이지
     public static final String MAIN_PAGE = EgovProperties.getProperty("Globals.MainPage");
+  //메인 페이지
+    public static final String SITE_NAME = EgovProperties.getProperty("Globals.SiteName");
     //ShellFile 경로
     public static final String SHELL_FILE_PATH = EgovProperties.getPathProperty("Globals.ShellFilePath");
     //퍼로퍼티 파일 위치

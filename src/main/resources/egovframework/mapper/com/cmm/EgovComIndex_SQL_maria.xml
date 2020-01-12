@@ -13,6 +13,7 @@
 				, DEPTH3 AS depth3
 				, MENU_NM AS menuNm
 				, HEADER_YN AS headerYn
+				, CONTENTPAGE_YN AS contentpageYn
 				, LINK AS link
 				, CONTENT_ID AS contentID
 				, (SELECT NTT_SJ FROM COMTNBBS b WHERE BBS_ID='BBSMSTR_000000000002' AND m.CONTENT_ID = b.NTT_ID LIMIT 1) AS nttSj
@@ -48,12 +49,13 @@
 				, m.DEPTH3 AS depth3
 				, m.MENU_NM AS menuNm
 				, m.HEADER_YN AS headerYn
+				, m.CONTENTPAGE_YN AS contentpageYn
 				, m.LINK AS link
 				, m.CONTENT_ID AS contentId
 			FROM MENUINFOLIST m
 			LEFT JOIN COMTNBBS b ON
 				b.BBS_ID = 'BBSMSTR_000000000002'
-			WHERE m.CONTENT_ID IS NULL OR m.CONTENT_ID = 0
+			WHERE m.CONTENTPAGE_YN ='Y' AND (m.CONTENT_ID IS NULL OR m.CONTENT_ID = 0)
 		 
 	</select> 
 	
@@ -66,10 +68,19 @@
 			FROM COMTNBBS
 			WHERE BBS_ID = 'BBSMSTR_000000000002' AND
 			NTT_ID NOT IN (
-				SELECT CONTENT_ID FROM MENUINFOLIST WHERE CONTENT_ID IS NOT NULL AND CONTENT_ID != 0
+				SELECT CONTENT_ID FROM MENUINFOLIST WHERE CONTENTPAGE_YN ='Y' AND (CONTENT_ID IS NOT NULL AND CONTENT_ID != 0)
 			)
 		 
 	</select> 
+	
+	<update id="contentsPageYN" parameterType="java.util.HashMap">
+		UPDATE
+			MENUINFOLIST
+		SET
+			CONTENTPAGE_YN = #{contentpageYn}
+		WHERE
+			MENU_NO = #{menuNo}
+	</update>
 	
 	<update id="contentsMenuMapping" parameterType="java.util.HashMap">
 		UPDATE
@@ -87,6 +98,7 @@
 			DEPTH2,
 			DEPTH3,
 			MENU_NM,
+			CONTENTPAGE_YN,
 			HEADER_YN,
 			LINK,
 			CONTENT_ID

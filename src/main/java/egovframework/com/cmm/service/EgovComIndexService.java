@@ -20,5 +20,7 @@ public interface EgovComIndexService {
 	
 	public List<?> selectContentsDidntMapped() throws Exception;
 	
+	public void contentsPageYN(HashMap<String, String> vo) throws Exception;
+	
 	public void contentsMenuMapping(HashMap<String, String> vo) throws Exception;
 }

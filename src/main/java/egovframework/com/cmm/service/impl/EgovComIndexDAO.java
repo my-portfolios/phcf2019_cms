@@ -37,6 +37,10 @@ public class EgovComIndexDAO extends EgovComAbstractDAO{
 		return selectList("EgovComIndexDAO.selectContentsDidntMapped");
 	}
 	
+	public void contentsPageYN(HashMap<String, String> vo) throws Exception{
+		update("EgovComIndexDAO.contentsPageYN", vo);
+	}
+	
 	public void contentsMenuMapping(HashMap<String, String> vo) throws Exception{
 		update("EgovComIndexDAO.contentsMenuMapping", vo);
 	}

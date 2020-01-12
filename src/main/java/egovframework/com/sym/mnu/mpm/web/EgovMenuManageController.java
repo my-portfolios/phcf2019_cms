@@ -190,13 +190,23 @@ public class EgovMenuManageController {
       	return "jsonView";
     }
     
+    @RequestMapping(value="/sym/mnu/mpm/AjaxEgovContentsMenuYN.do")
+    public String contentsMenuYN(
+    		@RequestParam HashMap<String, String> param, ModelMap model)
+            throws Exception {
+		
+		egovComIndexService.contentsPageYN(param);
+		
+		model.addAttribute("success", "yes");
+
+      	return "jsonView";
+    }
+    
     @RequestMapping(value="/sym/mnu/mpm/AjaxEgovContentsMenuMapping.do")
     public String contentsMenuMapping(
     		@RequestParam HashMap<String, String> param, ModelMap model)
             throws Exception {
 		
-    	System.out.println("paramparamparamparamparamparamparamparamparamparamparamparam"+param);
-		System.out.print("egovComIndexService.selectMenuDidntMapped()"+egovComIndexService.selectMenuDidntMapped());
 		egovComIndexService.contentsMenuMapping(param);
 		
 		model.addAttribute("success", "yes");

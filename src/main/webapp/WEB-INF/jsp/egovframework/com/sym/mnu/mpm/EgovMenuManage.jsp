@@ -195,6 +195,24 @@ function menuBttClick(id){
 	});
 }
 
+function contentpageYn(id){
+	console.log($('#contentpageYn'+id).val());
+	$.ajax({
+		url: "/sym/mnu/mpm/AjaxEgovContentsMenuYN.do",
+		type: "post",
+		dataType: "json",
+		data: {menuNo:id, contentpageYn:$('#contentpageYn'+id).val()},
+		success: function(data){
+			console.log(data);
+			if(data.param.contentpageYn=='N') $('#menuDivNo'+data.param.menuNo).hide();
+			else $('#menuDivNo'+data.param.menuNo).show();
+		},
+		error: function(request, status, error) {
+			console.log("error");
+		}
+	});
+}
+
 -->
 </script>
 </head>
@@ -238,6 +256,7 @@ function menuBttClick(id){
 			<col style="width:120px" />
 			<col style="width:200px" />
 			<col style="width:167px" />
+			<col style="width:50px" />
 			<col style="width:167px" />
 			<col style="width:100px" />
 		</colgroup>
@@ -248,6 +267,7 @@ function menuBttClick(id){
 			   <th scope="col">메뉴명</th><!-- 메뉴한글명 -->
 			   <th scope="col">주소</th><!-- 프로그램파일명 -->
 			   <th scope="col">구조</th><!-- 메뉴설명 -->
+			   <th scope="col">컨텐츠여부</th><!-- 메뉴설명 -->
 			   <th scope="col">현재맵핑</th><!-- 메뉴설명 -->
 			   <th scope="col">컨텐츠맵핑</th><!-- 상위메뉴ID -->
 			</tr>
@@ -267,11 +287,19 @@ function menuBttClick(id){
 			    </td>
 			    <td><c:out value="${result.link}"/></td>
 			    <td><c:out value="${result.depth1}"/><c:out value="${result.depth2}"/><c:out value="${result.depth3}"/></td>
+			    <td>
+			    	<select id="contentpageYn${result.menuNo}" name="contentpageYn" onchange="javascript:contentpageYn('${result.menuNo}');">
+			    		<option <c:if test="${result.contentpageYn=='Y'}">selected</c:if>>Y</option>
+			    		<option <c:if test="${result.contentpageYn!='Y'}">selected</c:if>>N</option>
+			    	</select>
+			    </td>
 			    <td><c:out value="${result.nttSj}"/></td>
 			    <td>
-			    	<select class="selectContentsDidntMapped" id="menuSelectNo${result.menuNo}">
-					</select>
-					<input type="button" id="menuBttNo${result.menuNo}" onclick="javascript:(menuBttClick('${result.menuNo}'));" value="설정"/>
+			    	<div id="menuDivNo${result.menuNo}" <c:if test="${result.contentpageYn!='Y'}">style="display:none;"</c:if>>
+				    	<select class="selectContentsDidntMapped" id="menuSelectNo${result.menuNo}">
+						</select>
+						<input type="button" id="menuBttNo${result.menuNo}" onclick="javascript:(menuBttClick('${result.menuNo}'));" value="설정"/>
+					</div>
 			    </td>
 			  </tr>
 			 </c:forEach>

@@ -53,7 +53,7 @@ public class EgovComIndexServiceImpl extends EgovAbstractServiceImpl implements 
 	
 	@Override
 	public void contentsPageYN(HashMap<String, String> vo) throws Exception{
-		dao.contentsMenuMapping(vo);
+		dao.contentsPageYN(vo);
 	}
 	
 	@Override

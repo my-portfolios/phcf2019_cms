@@ -179,15 +179,16 @@ function refreshSelectBox(){
 }
 
 function menuBttClick(id){
-	alert(id+"-"+$("#menuSelectNo"+id+" option:selected").val());
 	$.ajax({
 		url: "/sym/mnu/mpm/AjaxEgovContentsMenuMapping.do",
 		type: "post",
 		dataType: "json",
-		data: {menuNo:id, nttId:$("#menuSelectNo"+id+" option:selected").val()},
+		data: {menuNo:id, nttId:$("#menuSelectNo"+id+" option:selected").val(), nttSj:$("#menuSelectNo"+id+" option:selected").text()},
 		success: function(data){
 			console.log(data);
 			refreshSelectBox();
+			if(data.param.nttId != 0) $('#menuNttSj'+id).html(data.param.nttSj);
+			else $('#menuNttSj'+id).html('');
 		},
 		error: function(request, status, error) {
 			console.log("error");
@@ -293,7 +294,7 @@ function contentpageYn(id){
 			    		<option <c:if test="${result.contentpageYn!='Y'}">selected</c:if>>N</option>
 			    	</select>
 			    </td>
-			    <td><c:out value="${result.nttSj}"/></td>
+			    <td id="menuNttSj${result.menuNo}"><c:out value="${result.nttSj}"/></td>
 			    <td>
 			    	<div id="menuDivNo${result.menuNo}" <c:if test="${result.contentpageYn!='Y'}">style="display:none;"</c:if>>
 				    	<select class="selectContentsDidntMapped" id="menuSelectNo${result.menuNo}">

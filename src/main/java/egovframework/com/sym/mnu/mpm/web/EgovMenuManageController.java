@@ -211,6 +211,7 @@ public class EgovMenuManageController {
 		egovComIndexService.contentsMenuMapping(param);
 		
 		model.addAttribute("success", "yes");
+		model.addAttribute("param", param);
 
       	return "jsonView";
     }

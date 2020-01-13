@@ -70,13 +70,78 @@
 	</c:import>
 	</div>
 	
+	<div class="dashboard_box5"><p class="dash_subtitle">업무 요청 게시판</p>
+		<div class="chart-container div_box"  align="center" style="height: auto; width:96.5%;">
+		<p> 월별 접속자 통계 </p>
+		<canvas id="canvas" style="height: auto; width:100%;" ></canvas>
+	  </div>
+	</div>
+	
 	<div class="cler"></div>
+	
+	
 </div>
 
 <script>
 
 var chartLabels = []; // 받아올 데이터를 저장할 배열 선언
 
+var lineChartData = {
+	labels : [],
+	datasets : [
+		{
+			label : "월별 접속자 통계",
+			fillColor : "rbga(151,187,205,0.2)",
+			strokeColor : "rbga(151,187,205,1)",
+			pointColor : "rbga(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			pointHighlightFill : "#fff",
+			pointHighlightStroke : "rbga(151,187,205,1)",
+			data : [] //일단은 빈 데이터로 먼저 베이스만 그리고 데이터를 조회해 오면 update를 이용해서 다시 호출해서 데이터를 뿌려주는 방식
+		}
+	]
+}
+
+$(document).ready(function() {
+	
+	var LineChartDemo = new Chart($("#canvas"), {
+		type : 'line',
+		data : lineChartData,
+		options :{
+			scales : {
+				yAxes : [{
+					ticks :{
+						beginAtZero : true
+					}
+				}],
+				xAxes : [{
+					ticks :{
+						beginAtZero : true
+					}
+				}]
+			}
+		}
+	});
+	
+	$.getJSON("/cms/statistic/selectMonthlyReport.do", { }, function(result){
+		
+		var resultData = [];
+		var resultDataMonth = [];
+		$.each(result.data, function(i, v) {
+			resultData.push(v.OCNT);
+		});
+		
+		$.each(result.data, function(i, v) {
+			resultDataMonth.push(v.OMONTH + "월");
+		});
+		
+		console.log('resultData : ', resultDataMonth);
+		lineChartData.datasets[0].data = resultData; // [17, 23, 17, 23, 17, 23, 25, 35, 129]
+		lineChartData.labels = resultDataMonth ;
+		LineChartDemo.update();
+	});
+
+});
 
 
 //인기메뉴목록 JSGRID2 셋팅

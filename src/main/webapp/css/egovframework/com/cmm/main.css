@@ -90,7 +90,8 @@ div,table,form,fieldset,p,th,td,input,textarea,select,button {
 		ul.lnb_title > li > ul > li a {background: #eeeeee;padding: 7px 5px 7px 15px;font-weight:normal !important; font-size: 95%;}
 		ul.lnb_title > li > ul > li a::before {content:"·"; margin-right: 5px;}
 		ul.lnb_title > li > ul > li a:hover {background: #4383b1  !important; color: #ffffff  !important;}
-		ul.lnb_title > li > ul > li:hover, ul.lnb_title > li a.noicon:hover { color: #ffffff  !important; font-weight: bold; }
+		ul.lnb_title > li > ul > li:hover{ color: #ffffff  !important; font-weight: bold; }
+		ul.lnb_title > li a.noicon:hover {color: #ffffff !important;  font-weight: bold; background: #4383b1 !important;}
 		ul.lnb_title > li > ul .2depth  {padding: 10px 5px;background: #f7f7f7;}
 		
 	#contents { position: absolute; left: 300px; top: 25px; right: 0; bottom: 0; overflow-y: auto; }
@@ -154,6 +155,7 @@ a, button, input[type="button"] { cursor: pointer; }
 	.dashboard_box2 {float: left; width: 35%;}
 	.dashboard_box3 {float: left; width: 49%; margin-top: 10px; padding-right: 10px;}
 	.dashboard_box4 {float: right; width: 50%; margin-top: 10px;}
+	.dashboard_box5 {float: right; width: 100%; margin-top: 10px;}
 	
 	.btn_more {    
 		border: 1px solid #d8d8d8;

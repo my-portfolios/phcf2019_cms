@@ -212,6 +212,79 @@ function fn_egov_init(){
    				<div><form:errors path="sjBoldAt" cssClass="error" /></div>     
 			</td>
 		</tr>
+		<c:if test="${boardMasterVO.acYn == 'Y'}">
+	  	<!-- 추가칼럼  -->
+		<c:set var="title"> ${boardMasterVO.ac1Nm} </c:set>
+		<tr>
+			<th><label for="ac1">${title } <span class="pilsu">*</span></label></th>
+			<td class="nopd" colspan="3">
+				<input type="text" id="ac1" name="ac1" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			</td>
+		</tr>
+		<c:set var="title"> ${boardMasterVO.ac2Nm} </c:set>
+		<tr>
+			<th><label for="ac2">${title } <span class="pilsu">*</span></label></th>
+			<td class="nopd" colspan="3">
+				<input type="text" id="ac2" name="ac2" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			</td>
+		</tr>
+		<c:set var="title"> ${boardMasterVO.ac3Nm} </c:set>
+		<tr>
+			<th><label for="ac3">${title } <span class="pilsu">*</span></label></th>
+			<td class="nopd" colspan="3">
+				<input type="text" id="ac3" name="ac3" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			</td>
+		</tr>
+		<c:set var="title"> ${boardMasterVO.ac4Nm} </c:set>
+		<tr>
+			<th><label for="ac4">${title } <span class="pilsu">*</span></label></th>
+			<td class="nopd" colspan="4">
+				<input type="text" id="ac4" name="ac4" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			</td>
+		</tr>
+		<c:set var="title"> ${boardMasterVO.ac5Nm} </c:set>
+		<tr>
+			<th><label for="ac5">${title } <span class="pilsu">*</span></label></th>
+			<td class="nopd" colspan="4">
+				<input type="text" id="ac5" name="ac5" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			</td>
+		</tr>
+		<c:set var="title"> ${boardMasterVO.ac6Nm} </c:set>
+		<tr>
+			<th><label for="ac6">${title } <span class="pilsu">*</span></label></th>
+			<td class="nopd" colspan="4">
+				<input type="text" id="ac6" name="ac6" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			</td>
+		</tr>
+		<c:set var="title"> ${boardMasterVO.ac7Nm} </c:set>
+		<tr>
+			<th><label for="ac7">${title } <span class="pilsu">*</span></label></th>
+			<td class="nopd" colspan="4">
+				<input type="text" id="ac7" name="ac7" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			</td>
+		</tr>
+		<c:set var="title"> ${boardMasterVO.ac8Nm} </c:set>
+		<tr>
+			<th><label for="ac8">${title } <span class="pilsu">*</span></label></th>
+			<td class="nopd" colspan="4">
+				<input type="text" id="ac8" name="ac8" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			</td>
+		</tr>
+		<c:set var="title"> ${boardMasterVO.ac9Nm} </c:set>
+		<tr>
+			<th><label for="ac9">${title } <span class="pilsu">*</span></label></th>
+			<td class="nopd" colspan="4">
+				<input type="text" id="ac9" name="ac9" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			</td>
+		</tr>
+		<c:set var="title"> ${boardMasterVO.ac10Nm} </c:set>
+		<tr>
+			<th><label for="ac10">${title } <span class="pilsu">*</span></label></th>
+			<td class="nopd" colspan="4">
+				<input type="text" id="ac10" name="ac10" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			</td>
+		</tr>
+		</c:if>
 		<!-- 글 내용  -->
 		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.nttCn"/> </c:set>
 		<tr>
@@ -220,48 +293,6 @@ function fn_egov_init(){
 				<form:textarea path="nttCn" title="${title} ${inputTxt}" cols="300" rows="20" />   
 
 				<div><form:errors path="nttCn" cssClass="error" /></div>  
-			</td>
-		</tr>
-		
-		<!-- 공지신청 여부  -->
-		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.noticeAt"/> </c:set>
-		<tr>
-			<th><label for="noticeAt">${title}</label></th>
-			<td class="left" colspan="3">
-				<form:checkbox path="noticeAt" value="Y"/>
-				<div><form:errors path="noticeAt" cssClass="error" /></div>       
-			</td>
-		</tr>
-		
-		<!-- 비밀글 여부 -->
-		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.secretAt"/> </c:set>
-		<tr>
-			<th><label for="secretAt">${title}</label></th>
-			<td class="left" colspan="3">
-				<form:checkbox path="secretAt" value="Y"/>
-				<div><form:errors path="secretAt" cssClass="error" /></div>       
-			</td>
-		</tr>
-		
-		<!-- 익명등록 여부  -->
-		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.anonymousAt"/> </c:set>
-		<tr>
-			<th><label for="anonymousAt">${title}</label></th>
-			<td class="left" colspan="3">
-				<form:checkbox path="anonymousAt" value="Y"/>
-				<div><form:errors path="anonymousAt" cssClass="error" /></div>       
-			</td>
-		</tr>
-		
-		<!-- 유효기간 설정  -->
-		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.ntceDe"/> </c:set>
-		<tr>
-			<th><label for="ntceBgnde">${title} </label></th>
-			<td class="left" colspan="3">
-				<form:input path="ntceBgnde" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;" readonly="true" />
-				&nbsp;~&nbsp;<form:input path="ntceEndde" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;" readonly="true" />
-				<div><form:errors path="ntceBgnde" cssClass="error" /></div>       
-				<div><form:errors path="ntceEndde" cssClass="error" /></div>       
 			</td>
 		</tr>
 		
@@ -276,23 +307,6 @@ function fn_egov_init(){
 			</td>
 		</tr>
 	  	</c:if>
-	  	
-	  	<c:if test="${boardMasterVO.acYn == 'Y'}">
-	  	<!-- 추가칼럼1  -->
-		<c:set var="title"> ${boardMasterVO.ac1Nm} </c:set>
-		<tr>
-			<th><label for="ac1">${title } <span class="pilsu">*</span></label></th>
-			<td class="nopd" colspan="3">
-				<input type="text" id="ac1" name="ac1" title="${title} ${inputTxt}" size="70" maxlength="70" />
-			</td>
-		</tr>
-		<tr>
-			<th><label for="ac1">${title } <span class="pilsu">*</span></label></th>
-			<td class="nopd" colspan="3">
-				<input type="text" id="ac1" name="ac1" title="${title} ${inputTxt}" size="70" maxlength="70" />
-			</td>
-		</tr>
-		</c:if>
 
 	</tbody>
 	</table>

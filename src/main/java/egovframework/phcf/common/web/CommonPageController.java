@@ -69,7 +69,7 @@ public class CommonPageController {
 		
 		
 //		String jspPath = "/WEB-INF/jsp/egovframework/phcf/munhwaArtCenter/municipalArtCmpny.jsp";
-//		String templatePath = "template/_contents/basic";
+//		String templatePath = "template/_layout/basic";
 //		ModelAndView mav = CommonMethod.ContentIntoTemplate(request, templatePath, jspPath);
 
 //		service.insertInfo()

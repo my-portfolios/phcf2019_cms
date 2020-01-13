@@ -205,7 +205,10 @@ function contentpageYn(id){
 		data: {menuNo:id, contentpageYn:$('#contentpageYn'+id).val()},
 		success: function(data){
 			console.log(data);
-			if(data.param.contentpageYn=='N') $('#menuDivNo'+data.param.menuNo).hide();
+			if(data.param.contentpageYn=='N') {
+				$('#menuDivNo'+data.param.menuNo).hide();
+				$('#menuNttSj'+id).html('');
+			}
 			else $('#menuDivNo'+data.param.menuNo).show();
 		},
 		error: function(request, status, error) {

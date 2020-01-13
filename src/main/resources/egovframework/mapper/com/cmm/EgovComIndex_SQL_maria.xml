@@ -78,6 +78,9 @@
 			MENUINFOLIST
 		SET
 			CONTENTPAGE_YN = #{contentpageYn}
+			<if test='contentpageYn == "N"'>,
+			CONTENT_ID = 0
+			</if>
 		WHERE
 			MENU_NO = #{menuNo}
 	</update>

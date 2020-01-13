@@ -99,7 +99,7 @@
          <li class="menu">
             <a>아트투어신청 관리</a>
             <ul class="hide">
-                <li><a href="#" target="_content">신청자 리스트</a></li>
+                <li><a href="" target="_content">신청자 리스트</a></li>
             </ul>
         </li>
         
@@ -115,7 +115,7 @@
             <a>회원정보 관리</a>
             <ul class="hide">
                 <li><a href="/uss/umt/EgovMberManage.do" target="_content">회원정보 리스트</a></li>
-                <li><a href="/cms/support/listView.do" target="_content">휴먼회원 리스트</a></li>
+                <li><a href="#" target="_content">휴먼회원 리스트</a></li>
                 <li><a href="#" target="_content">휴먼회원 전환 관리</a></li>
             </ul>
         </li>

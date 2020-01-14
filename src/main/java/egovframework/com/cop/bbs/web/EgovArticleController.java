@@ -471,8 +471,8 @@ public class EgovArticleController {
 		    }
 		    
 		    //컨텐츠 관리 게시판은 태그제거 생략
-		    if(!master.getBbsId().equals("BBSMSTR_000000000002")) board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
-		    else board.setNttCn(board.getNttCn());
+		    if(master.getBbsId().equals("BBSMSTR_000000000002")) board.setNttCn(board.getNttCn());
+		    else board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
 		    
 		    board.setAcYn(master.getAcYn());
 		    egovArticleService.insertArticle(board);
@@ -591,9 +591,9 @@ public class EgovArticleController {
             return "egovframework/com/uat/uia/EgovLoginUsr";
         }
 		
+		BoardMasterVO master = new BoardMasterVO();
 		beanValidator.validate(board, bindingResult);
 		if (bindingResult.hasErrors()) {
-		    BoardMasterVO master = new BoardMasterVO();
 		    
 		    master.setBbsId(boardVO.getBbsId());
 		    master.setUniqId(user.getUniqId());
@@ -643,7 +643,9 @@ public class EgovArticleController {
 		    	board.setNtcrNm(user.getName()); //게시물 통계 집계를 위해 등록자 Name 저장
 		    	
 		    }
-		    board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
+		    //컨텐츠 관리 게시판은 태그제거 생략
+		    if(master.getBbsId().equals("BBSMSTR_000000000002")) board.setNttCn(board.getNttCn());
+		    else board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
 		    
 		    egovArticleService.insertArticle(board);
 		}
@@ -747,7 +749,7 @@ public class EgovArticleController {
 	    @RequestParam(required=false, defaultValue="") String[] ac11, @RequestParam(required=false, defaultValue="") String[] ac12, @RequestParam(required=false, defaultValue="") String[] ac13, @RequestParam(required=false, defaultValue="") String[] ac14, @RequestParam(required=false, defaultValue="") String[] ac15, 
 	    @RequestParam(required=false, defaultValue="") String[] ac16, @RequestParam(required=false, defaultValue="") String[] ac17, @RequestParam(required=false, defaultValue="") String[] ac18, @RequestParam(required=false, defaultValue="") String[] ac19, @RequestParam(required=false, defaultValue="") String[] ac20,
 	    BindingResult bindingResult, ModelMap model) throws Exception {
-
+    	
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		
@@ -813,7 +815,10 @@ public class EgovArticleController {
 		    board.setNtcrNm("");	// dummy 오류 수정 (익명이 아닌 경우 validator 처리를 위해 dummy로 지정됨)
 		    board.setPassword("");	// dummy 오류 수정 (익명이 아닌 경우 validator 처리를 위해 dummy로 지정됨)
 		    
-		    board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
+		    //컨텐츠 관리 게시판은 태그제거 생략
+		    if(bmvo.getBbsId().equals("BBSMSTR_000000000002")) board.setNttCn(board.getNttCn());
+		    else board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
+		    
 		    board.setAcYn(bmvo.getAcYn());
 		    egovArticleService.updateArticle(board);
 		    

@@ -158,8 +158,8 @@ public class EgovWebApplicationInitializer implements WebApplicationInitializer 
 		//-------------------------------------------------------------	
 	    // HTMLTagFIlter의 경우는 JSP의 <c:out /> 등을 사용하지 못하는 특수한 상황에서 사용하시면 됩니다.
 	    // (<c:out />의 경우 뷰단에서 데이터 출력시 XSS 방지 처리가 됨)
-		FilterRegistration.Dynamic htmlTagFilter = servletContext.addFilter("htmlTagFilter", new HTMLTagFilter());
-		htmlTagFilter.addMappingForUrlPatterns(null, false, "*.do");
+		//FilterRegistration.Dynamic htmlTagFilter = servletContext.addFilter("htmlTagFilter", new HTMLTagFilter());
+		//htmlTagFilter.addMappingForUrlPatterns(null, false, "*.do");
 		
 		//-------------------------------------------------------------
 		// Spring RequestContextListener 설정

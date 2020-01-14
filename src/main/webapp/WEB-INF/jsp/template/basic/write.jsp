@@ -182,6 +182,20 @@ function fn_egov_init(){
 	</colgroup>
 	<tbody>
 		<!-- 입력 -->
+		<!-- 카테고리 -->
+		<c:if test="${boardMasterVO.cateUse == 'Y'}">
+		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.cateName"/> </c:set>
+		<tr>
+			<th><label for=cateName>${title} <span class="pilsu">*</span></label></th>
+			<td class="left">
+				<form:select path="cateName" title="${title} ${inputTxt}" cssClass="txt">
+					<form:option value="" label="--선택하세요--" />
+					<form:options items="${boardMasterVO.cateNames}"/>
+				</form:select>
+				<div><form:errors path="cateName" cssClass="error" /></div>       
+			</td>
+		</tr>
+		</c:if>
 		<c:set var="inputTxt"><spring:message code="input.input" /></c:set>
 		<!-- 글 제목, 제목 Bold여부   -->
 		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.nttSj"/> </c:set>

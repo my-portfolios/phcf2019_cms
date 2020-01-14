@@ -81,7 +81,7 @@ public class EgovGroupManageController {
 	 * @return String
 	 * @exception Exception
 	 */
-    @IncludedInfo(name="그룹관리", listUrl="/sec/gmt/EgovGroupList.do", order = 80,gid = 20)
+    //@IncludedInfo(name="그룹관리", listUrl="/sec/gmt/EgovGroupList.do", order = 80,gid = 20)
     @RequestMapping(value="/sec/gmt/EgovGroupList.do")
 	public String selectGroupList(@ModelAttribute("groupManageVO") GroupManageVO groupManageVO, 
                                    ModelMap model) throws Exception {

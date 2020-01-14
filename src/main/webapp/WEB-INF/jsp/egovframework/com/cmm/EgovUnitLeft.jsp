@@ -55,11 +55,11 @@
                 <li><a href="/uss/umt/dpt/selectDeptManageListView.do" target="_content">부서 관리</a></li>
                 <li><a href="/sec/drm/EgovDeptAuthorList.do" target="_content">부서권한관리 </a></li>
                 <li><a href="/uss/umt/EgovUserManage.do" target="_content">업무 사용자 관리</a></li>
-                <li><a href="/uat/uia/egovLoginUsr.do" target="_parent">권한 관리</a></li>
-                <li><a href="/sec/gmt/EgovGroupList.do" target="_content">그룹 관리</a></li>
-                <li><a href="/sec/rmt/EgovRoleList.do" target="_content">롤 관리</a></li>
-                <li><a href="/sym/ccm/cca/SelectCcmCmmnCodeList.do" target="_content">공통 코드</a></li>
-                <li><a href="/sym/ccm/ccc/SelectCcmCmmnClCodeList.do" target="_content">공통분류 코드관리</a></li>                
+                <li><a href="/sec/ram/EgovAuthorList.do" target="_content">권한 관리</a></li>
+                <!-- <li><a href="/sec/gmt/EgovGroupList.do" target="_content">그룹 관리</a></li>
+                <li><a href="/sec/rmt/EgovRoleList.do" target="_content">롤 관리</a></li> -->
+                <li><a href="/sym/ccm/ccc/SelectCcmCmmnClCodeList.do" target="_content">공통 분류코드 관리</a></li>   
+                <li><a href="/sym/ccm/cca/SelectCcmCmmnCodeList.do" target="_content">공통 코드상세 관리</a></li>             
                 <li><a href="/cop/bbs/selectBBSMasterInfs.do" target="_content">게시판 관리</a></li>
                 <li><a href="/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000002" target="_content">컨텐츠관리</a></li>
             </ul>
@@ -138,7 +138,7 @@
             <a>홈페이지 통계</a>
             <ul class="hide">
                 <li><a href="/cms/statistic/phcfStatusReport.do" target="_content">게시물 통계</a></li>
-                <li><a href="/sts/cst/selectConectStats.do" target="_content">접속 통계</a></li>
+                <!-- <li><a href="/sts/cst/selectConectStats.do" target="_content">접속 통계</a></li> -->
                 <li><a href="/sts/ust/selectUserStats.do" target="_content">사용자 통계</a></li>
                 <li><a href="/sym/log/lgm/SelectSysLogList.do" target="_content">로그 관리</a></li>
                 <li><a href="/sym/log/wlg/SelectWebLogList.do" target="_content">웹로그 관리</a></li>

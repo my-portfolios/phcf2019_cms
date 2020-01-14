@@ -93,7 +93,7 @@ public class EgovRoleManageController {
 	 * @return String
 	 * @exception Exception
 	 */
-    @IncludedInfo(name="롤관리", listUrl="/sec/rmt/EgovRoleList.do", order = 90,gid = 20)
+    //@IncludedInfo(name="롤관리", listUrl="/sec/rmt/EgovRoleList.do", order = 90,gid = 20)
     @RequestMapping(value="/sec/rmt/EgovRoleList.do")
 	public String selectRoleList(@ModelAttribute("roleManageVO") RoleManageVO roleManageVO,
 			                      ModelMap model) throws Exception {

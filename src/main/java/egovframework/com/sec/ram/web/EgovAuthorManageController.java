@@ -106,6 +106,36 @@ public class EgovAuthorManageController {
 
         return "egovframework/com/sec/ram/EgovAuthorManage";
     } 
+    /*@IncludedInfo(name="권한관리", listUrl="/sec/ram/EgovAuthorList.do", order = 60,gid = 20)
+    @RequestMapping(value="/sec/ram/EgovAuthorList.do")
+    public String selectAuthorList(@ModelAttribute("authorManageVO") AuthorManageVO authorManageVO, 
+    		                        ModelMap model)
+            throws Exception {
+    	
+    	*//** EgovPropertyService.sample *//*
+    	//authorManageVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	//authorManageVO.setPageSize(propertiesService.getInt("pageSize"));
+    	
+    	*//** paging *//*
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(authorManageVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(authorManageVO.getPageUnit());
+		paginationInfo.setPageSize(authorManageVO.getPageSize());
+		
+		authorManageVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		authorManageVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		authorManageVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		authorManageVO.setAuthorManageList(egovAuthorManageService.selectAuthorList(authorManageVO));
+        model.addAttribute("authorList", authorManageVO.getAuthorManageList());
+        
+        int totCnt = egovAuthorManageService.selectAuthorListTotCnt(authorManageVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+        model.addAttribute("paginationInfo", paginationInfo);
+        model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+
+        return "egovframework/com/sec/ram/EgovAuthorManage";
+    } */
     
     /**
 	 * 권한 세부정보를 조회한다.

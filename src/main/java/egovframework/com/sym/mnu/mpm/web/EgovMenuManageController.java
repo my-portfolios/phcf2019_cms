@@ -131,12 +131,14 @@ public class EgovMenuManageController {
     public String selectMenuManageList(
     		@ModelAttribute("searchVO") ComDefaultVO searchVO, ModelMap model)
             throws Exception {
+    	
         // 0. Spring Security 사용자권한 처리
     	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
     	if(!isAuthenticated) {
     		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
         	return "egovframework/com/uat/uia/EgovLoginUsr";
     	}
+    	
     	// 내역 조회
     	/** EgovPropertyService.sample */
     	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -151,16 +153,15 @@ public class EgovMenuManageController {
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
 		Map<String, Object> list_menumanage = egovComIndexService.selectAllMenuInfoList(searchVO);
 		model.addAttribute("list_menumanage", list_menumanage.get("resultList"));
 		model.addAttribute("pageList", CommonMethod.pageList);
 		
-		System.out.print("egovComIndexService.selectMenuDidntMapped()"+egovComIndexService.selectMenuDidntMapped());
-
         int totCnt = Integer.parseInt((String)list_menumanage.get("resultCnt"));
 		paginationInfo.setTotalRecordCount(totCnt);
         model.addAttribute("paginationInfo", paginationInfo);
-
+        
       	return "egovframework/com/sym/mnu/mpm/EgovMenuManage";
     }
     

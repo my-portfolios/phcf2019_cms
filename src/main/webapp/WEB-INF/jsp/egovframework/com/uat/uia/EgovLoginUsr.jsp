@@ -224,7 +224,7 @@ function fnShowLogin(stat) {
 		<div style="text-align: center;"><img src="<c:url value='/images/egovframework/com/cmm/main/login_logo.png'/>" alt="login title image"  title="login title image"></div>
 		<div class="login_type" style="display:block;">
 			<ul id="ulLoginType">
-				<li>11111111<a href="javascript:fnLoginTypeSelect('typeGnr');" id="typeGnr" title=""><spring:message code="comUatUia.loginForm.GNR"/></a></li> <!-- 일반 -->
+				<li><a href="javascript:fnLoginTypeSelect('typeGnr');" id="typeGnr" title=""><spring:message code="comUatUia.loginForm.GNR"/></a></li> <!-- 일반 -->
 				<li><a href="javascript:fnLoginTypeSelect('typeEnt');" id="typeEnt" title=""><spring:message code="comUatUia.loginForm.ENT"/></a></li> <!-- 기업 -->
 				<li><a href="javascript:fnLoginTypeSelect('typeUsr');" id="typeUsr" title=""><spring:message code="comUatUia.loginForm.USR"/></a></li> <!-- 업무 -->
 			</ul>

@@ -72,6 +72,14 @@ input[type="text"] { /*height:15px; vertical-align:middle; */ }
 input[type="file"] { width:100%; }
 input[type="radio"] { vertical-align:text-bottom; }
 
+input[type="button"], input[type="submit"] {
+	padding: 5px 10px;
+    border: 0;
+    border-radius: 5px;
+    background: #dedede;
+    cursor: pointer;
+}
+
 .vam { vertical-align:middle !important; }
 .ml10 { margin-left:10px !important; }
 .mr10 { margin-right:10px !important; }
@@ -220,7 +228,7 @@ input[type="radio"] { vertical-align:text-bottom; }
 .search_box select {height:24px; /*padding:3px 3px 3px 4px;*/ border:1px solid #dedede; }
 .search_box input.s_input {width:140px; height:22px; margin-right:3px; padding-left:5px; }
 .search_box input.s_input2 {width:140px; height:22px; margin-right:3px; padding-left:5px; }
-.search_box input.s_btn { height:24px; padding:0 8px; border:none; color:#fff; background:#266089; border-radius:2px; cursor:pointer; }
+.search_box input.s_btn {font-weight: normal; height:24px; padding:0 8px; border:none; color:#fff; background:#266089; border-radius:2px; cursor:pointer; }
 .search_box input.s_btn:hover { background:#7dabdf; }
 
 .s_btn { height:24px; padding:0 8px; border:none; color:#fff; background:#266089; border-radius:2px; cursor:pointer; }
@@ -332,6 +340,7 @@ width:100%;
 .wTable input[readonly="readonly"] {height:22px; border:1px solid #d2d2d2; }
 .wTable > tbody > tr > td input[type=checkbox] {vertical-align:-3px; }
 
+.wTable > tbody > tr > th .btn { text-align: center;cursor: pointer; float: none; }
 
 /* toolbar */
 .toolbar { height:52px; background-color:#e5e5e5; padding-bottom:4px; border-bottom:1px solid #dedede; }
@@ -402,7 +411,7 @@ width:100%;
 .pagination ul li.next a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_next_on.gif') no-repeat; }
 .pagination ul li.last a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_last_on.gif') no-repeat; }
 .pagination ul li.current a,
-.pagination ul li a:hover { border:none; color:#fff; font-size:15px; font-weight:600; width:28px; height:28px; line-height:28px; background:#4688d2; }
+.pagination ul li a:hover { border:none; color:#fff; font-size:15px; font-weight:600; width:28px; height:28px; line-height:28px; background:#266089; }
 
 /* pagination by reply */
 .paging { float:left; display:inline; width:100%; font-size:1em; text-align:center; margin:15px 0 20px; position:relative;  }
@@ -443,7 +452,7 @@ span.btn_r:hover { background:#7dabdf;}
 span.btn_r a { vertical-align:text-top; color:#fff; display:block; line-height:16px; padding:0px 10px 0px 10px;}
 
 .btn { float:right; margin-top:18px; margin-bottom:15px; font-size:14px; }
-.btn input.s_submit {padding:12px 20px; border:0 !important; border-radius: 5px !important; color:#fff;  font-weight:200; background:#266089; vertical-align:top; cursor:pointer; }
+.btn input.s_submit {padding:12px 20px; border:0 !important; border-radius: 5px !important; color:#fff;  font-weight:normal; background:#266089; vertical-align:top; cursor:pointer; }
 .btn input.s_submit:hover { background:#7dabdf; }
 
 .blog_title { border-bottom:1px solid #e3e3e3; padding-bottom:10px; }

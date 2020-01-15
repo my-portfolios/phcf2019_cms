@@ -1,6 +1,5 @@
 package egovframework.com.sec.phcf.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,5 +18,9 @@ import java.util.List;
  *
  */
 public interface EgovPhcfAuthorService {
-	List<AuthManage> selectEgovPhcfAuthList(HashMap<String, String> map) throws Exception;
+	List<AuthManageVO> selectEgovPhcfAuthList(AuthManageVO map) throws Exception;
+	
+	List<AuthManageVO> selectAllEgovPhcfAuthList(AuthManageVO map) throws Exception;
+	
+	int selectEgovPhcfAuthListCnt(AuthManageVO map) throws Exception;
 }

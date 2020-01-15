@@ -7,6 +7,7 @@
 		<result property="seq" column="SEQ"/>
 		<result property="authNm" column="AUTH_NAME"/>
 		<result property="orgnztId" column="ORGNZT_ID"/>
+		<result property="orgnztNm" column="ORGNZT_NM"/>
 		<result property="groupId" column="GROUP_ID"/>
 		<result property="acceptLink" column="ACCEPT_LINK"/>
 		<result property="banLink" column="BAN_LINK"/>
@@ -17,31 +18,94 @@
 		<result property="uptId" column="UPT_ID"/>
 		<result property="uptDt" column="UPT_DT"/>
 	</resultMap>
-
-    <select id="selectEgovPhcfAuthList" parameterType="java.util.HashMap" resultMap="authList">
+	
+	<select id="selectAllEgovPhcfAuthList" parameterType="egovframework.com.sec.phcf.service.AuthManageVO" resultMap="authList">
+        
+            SELECT SEQ, auth.AUTH_NAME, 
+            auth.ORGNZT_ID,
+            org.ORGNZT_NM,
+            auth.GROUP_ID, auth.ACCEPT_LINK, auth.BAN_LINK, auth.AUTH_PRIORITY, auth.USE_YN, 
+            auth.INS_ID, DATE_FORMAT(INS_DT,'%Y-%m-%dT%H:%i:%s') AS INS_DT, 
+            auth.UPT_ID, DATE_FORMAT(UPT_DT,'%Y-%m-%dT%H:%i:%s') AS UPT_DT
+              FROM AUTHMANAGE auth
+            LEFT JOIN (SELECT ORGNZT_ID, ORGNZT_NM FROM COMTNORGNZTINFO) AS org
+            ON auth.ORGNZT_ID = org.ORGNZT_ID
+             WHERE USE_YN = 'Y' 
+             <if test='page != null and page != "" and page != "all"'>AND
+             	auth.PAGE LIKE CONCAT('%', #{page}, '%')
+             </if>
+             <if test='page == "all"'>
+             
+             </if>
+             <if test='authNm != null and authNm != ""'>AND
+             	auth.AUTH_NAME LIKE CONCAT('%', #{authNm}, '%')
+             </if>
+             <if test='orgnztId != null and orgnztId != ""'>AND
+                auth.ORGNZT_ID LIKE CONCAT('%', #{orgnztId}, '%')
+            </if>
+            <if test='orgnztNm != null and orgnztNm != ""'>AND
+                org.ORGNZT_NM LIKE CONCAT('%', #{orgnztNm}, '%')
+            </if>
+             <if test='groupId != null and groupId != ""'>AND
+                auth.GROUP_ID LIKE CONCAT('%', #{groupId}, '%')
+            </if>
+            <if test='useYn != null and useYn != ""'>AND
+             	auth.USE_YN = #{useYn}
+             </if>
+        	ORDER BY auth.SEQ ASC
+    </select>
+	
+    <select id="selectEgovPhcfAuthList" parameterType="egovframework.com.sec.phcf.service.AuthManageVO" resultMap="authList">
         
             SELECT SEQ, AUTH_NAME, ORGNZT_ID, GROUP_ID, ACCEPT_LINK, BAN_LINK, AUTH_PRIORITY, USE_YN, 
             INS_ID, DATE_FORMAT(INS_DT,'%Y-%m-%dT%H:%i:%s') AS INS_DT, 
             UPT_ID, DATE_FORMAT(UPT_DT,'%Y-%m-%dT%H:%i:%s') AS UPT_DT
               FROM AUTHMANAGE 
-             WHERE USE_YN = 'Y' AND 
-             <if test="page != null">
-             PAGE = #{page} AND
+             WHERE USE_YN = 'Y' 
+             <if test='page != null and page != "" and page != "all"'>
+             AND PAGE = #{page}
              </if>
-             <if test="page == null">
-             (PAGE = '' OR PAGE IS NULL) AND
+             <if test='page == null and page != ""'>
+             AND (PAGE = '' OR PAGE IS NULL)
              </if>
-             <if test="page == 'all'"></if>
-             (
+             <if test='page == "all"'>
+             
+             </if>
+             AND (
              1=0
-             <if test="orgnztId != null">OR
+             <if test='orgnztId != null and orgnztId != ""'>OR
                 ORGNZT_ID=#{orgnztId}
             </if>
-             <if test="groupId != null">OR
+             <if test='groupId != null and groupId != ""'>OR
                 GROUP_ID=#{groupId}
             </if>
         	)
         	ORDER BY SEQ ASC
+    </select>
+    
+    <select id="selectEgovPhcfAuthListCnt" parameterType="egovframework.com.sec.phcf.service.AuthManageVO" resultType="java.lang.Integer">
+        
+            SELECT COUNT(SEQ)
+              FROM AUTHMANAGE 
+             WHERE USE_YN = 'Y' 
+             <if test='page != null and page != "" and page != "all"'>
+             AND PAGE = #{page}
+             </if>
+             <if test='page == null and page != ""'>
+             AND (PAGE = '' OR PAGE IS NULL)
+             </if>
+             <if test='page == "all"'>
+             
+             </if>
+             AND (
+             1=0
+             <if test='orgnztId != null and orgnztId != ""'>OR
+                ORGNZT_ID=#{orgnztId}
+            </if>
+             <if test='groupId != null and groupId != ""'>OR
+                GROUP_ID=#{groupId}
+            </if>
+        	)
     </select>
 
 	<insert id="insertGroup">

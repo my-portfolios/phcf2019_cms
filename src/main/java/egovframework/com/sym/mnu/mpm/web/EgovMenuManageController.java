@@ -1,20 +1,26 @@
 package egovframework.com.sym.mnu.mpm.web;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.annotation.IncludedInfo;
+import egovframework.com.cmm.service.CmmnDetailCode;
+import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.service.EgovComIndexService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sym.mnu.mpm.service.EgovMenuManageService;
 import egovframework.com.sym.mnu.mpm.service.MenuManageVO;
 import egovframework.com.sym.prm.service.EgovProgrmManageService;
 import egovframework.phcf.hubizCommonMethod.CommonMethod;
+import egovframework.phcf.util.JsonUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -77,6 +83,9 @@ public class EgovMenuManageController {
 	
 	@Resource(name="EgovComIndexService")
 	private EgovComIndexService egovComIndexService;
+	
+	@Resource(name="EgovCmmUseService")
+	private EgovCmmUseService cmmUseService;
 
     /** EgovFileMngService */
 //	@Resource(name="EgovFileMngService")
@@ -126,7 +135,8 @@ public class EgovMenuManageController {
      * @return 출력페이지정보 "sym/mnu/mpm/EgovMenuManage"
      * @exception Exception
      */
-    @IncludedInfo(name="메뉴관리리스트", order = 1091 ,gid = 60)
+    @SuppressWarnings("null")
+	@IncludedInfo(name="메뉴관리리스트", order = 1091 ,gid = 60)
     @RequestMapping(value="/sym/mnu/mpm/EgovMenuManageSelect.do")
     public String selectMenuManageList(
     		@ModelAttribute("searchVO") ComDefaultVO searchVO, ModelMap model)
@@ -156,7 +166,16 @@ public class EgovMenuManageController {
 		
 		Map<String, Object> list_menumanage = egovComIndexService.selectAllMenuInfoList(searchVO);
 		model.addAttribute("list_menumanage", list_menumanage.get("resultList"));
-		model.addAttribute("pageList", CommonMethod.pageList);
+		
+		ComDefaultCodeVO voComCode = new ComDefaultCodeVO();
+    	// 문화재단 사이트 코드를 가져온다
+		voComCode.setCodeId("PHC009");
+		List<CmmnDetailCode> codeMap = cmmUseService.selectCmmCodeDetail(voComCode);
+		ArrayList<String> pageList = new ArrayList<String>();
+		for(CmmnDetailCode cdmap : codeMap) {
+			pageList.add(cdmap.getCode());
+		}
+		model.addAttribute("pageList", pageList);
 		
         int totCnt = Integer.parseInt((String)list_menumanage.get("resultCnt"));
 		paginationInfo.setTotalRecordCount(totCnt);

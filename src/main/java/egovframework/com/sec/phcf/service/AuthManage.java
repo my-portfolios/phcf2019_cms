@@ -1,6 +1,8 @@
 package egovframework.com.sec.phcf.service;
 
-public class AuthManage {
+import egovframework.com.cmm.ComDefaultVO;
+
+public class AuthManage extends ComDefaultVO {
 	/**
 	 * serialVersionUID
 	 */
@@ -14,7 +16,11 @@ public class AuthManage {
 	
 	private String authNm;
 	
+	private String page;
+	
 	private String orgnztId;
+	
+	private String orgnztNm;
 	
 	private String groupId;
 	
@@ -57,6 +63,14 @@ public class AuthManage {
 	public void setAuthNm(String authNm) {
 		this.authNm = authNm;
 	}
+	
+	public String getPage() {
+		return page;
+	}
+
+	public void setPage(String page) {
+		this.page = page;
+	}
 
 	public String getOrgnztId() {
 		return orgnztId;
@@ -64,6 +78,14 @@ public class AuthManage {
 
 	public void setOrgnztId(String orgnztId) {
 		this.orgnztId = orgnztId;
+	}
+
+	public String getOrgnztNm() {
+		return orgnztNm;
+	}
+
+	public void setOrgnztNm(String orgnztNm) {
+		this.orgnztNm = orgnztNm;
 	}
 
 	public String getGroupId() {

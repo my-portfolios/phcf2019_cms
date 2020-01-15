@@ -22,9 +22,11 @@ import egovframework.com.cmm.service.EgovComIndexService;
 import egovframework.com.cmm.service.Globals;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sec.phcf.service.AuthManage;
+import egovframework.com.sec.phcf.service.AuthManageVO;
 import egovframework.com.sec.phcf.service.EgovPhcfAuthorService;
 import egovframework.com.utl.cas.service.EgovSessionCookieUtil;
 import egovframework.phcf.hubizCommonMethod.CommonMethod;
+import egovframework.phcf.util.JsonUtil;
 
 /**
  * 문화재단 권한 체크 인터셉터
@@ -45,7 +47,7 @@ import egovframework.phcf.hubizCommonMethod.CommonMethod;
 
 public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 	
-	@Resource(name="EgovPhcfAuthorService")
+	@Resource(name="egovPhcfAuthorService")
     private EgovPhcfAuthorService egovPhcfAuthorService;
 	
 	@Resource(name="EgovComIndexService")
@@ -86,13 +88,13 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 			if(EgovUserDetailsHelper.isAuthenticated()) {
 				LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
 			
-				HashMap<String, String> paramMap = new HashMap<String, String>();
+				AuthManageVO amvo = new AuthManageVO();
 				
-				paramMap.put("orgnztId", vo.getOrgnztId());
-				paramMap.put("groupId", vo.getGroupId());
-				paramMap.put("page", Globals.SITE_NAME);
+				amvo.setOrgnztId(vo.getOrgnztId());
+				amvo.setGroupId(vo.getGroupId());
+				amvo.setPage(Globals.SITE_NAME);
 				
-				List<AuthManage> authManageList = egovPhcfAuthorService.selectEgovPhcfAuthList(paramMap);
+				List<AuthManageVO> authManageList = egovPhcfAuthorService.selectEgovPhcfAuthList(amvo);
 				
 				//AUTH_PRIORITY 적용 (우선순위, authpriority > INS_DT > ban_link > SEQ(적은것)
 				// 내림차순 정렬
@@ -178,7 +180,7 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		
 		String AllMenuListJson = "";
 		if(AllMenuList!=null) {
-			AllMenuListJson = CommonMethod.listmapToJsonString(AllMenuList);
+			AllMenuListJson = JsonUtil.getJsonStringFromList(AllMenuList);
 		}
 		
 		try {

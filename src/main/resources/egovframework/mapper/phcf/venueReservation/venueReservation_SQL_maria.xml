@@ -69,8 +69,8 @@
 				AND RESULT = #{resultCnd}
 			</if>
 			<choose>
-				<when test = 'searchCnd == "SEARCH_DATE"'>
-					AND (USE_DATE1 LIKE "%" #{keyword} "%" OR USE_DATE2 LIKE "%" #{keyword} "%" OR USE_DATE3 LIKE "%" #{keyword} "%" OR USE_DATE4 LIKE "%" #{keyword} "%" OR USE_DATE5 LIKE "%" #{keyword} "%")
+				<when test = 'searchCnd == "SEARCH_DATE" and keyword != null and keyword != ""'>
+					AND (USE_DATE1 = #{keyword} OR USE_DATE2 = #{keyword} OR USE_DATE3 = #{keyword} OR USE_DATE4 = #{keyword} OR USE_DATE5 = #{keyword})
 				</when>
 				<otherwise>
 					<if test='searchCnd != null and searchCnd != "" and keyword != null and keyword != ""'>

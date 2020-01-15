@@ -55,15 +55,21 @@
 					$.ajax({
 						type: 'POST',
 						url: '/venueReservation/selectReservationListToJson.do',
-						dataType: 'json',
+						dataType: 'JSON',
 						data: filter,
 						success : function(data){
 							try {
 								jsonString = data.venueReservationRegJson;
-								jsonString = JSON.parse(jsonString);
-								var list = {
-									data: jsonString,
-									itemsCount : jsonString[0].LENGTH
+								console.log(jsonString);	
+								if(jsonString == "") {
+									alert("데이터가 없습니다.");	
+								}
+								else {
+									jsonString = JSON.parse(jsonString);
+									var list = {
+										data: jsonString,
+										itemsCount : jsonString[0]["LENGTH"]
+									}	
 								}
 							}
 							catch(e){

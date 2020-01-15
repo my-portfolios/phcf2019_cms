@@ -61,7 +61,7 @@
 							try {
 								jsonString = data.venueReservationRegJson;
 								console.log(jsonString);	
-								if(jsonString == "") {
+								if(jsonString == "[]") {
 									alert("데이터가 없습니다.");	
 								}
 								else {

@@ -49,12 +49,7 @@
 </script>
 </head>
 <body>
-<c:if test="${loginVO != null}">
-	${loginVO.name }<spring:message code="comCmm.unitContent.2"/> <a href="${pageContext.request.contextPath }/uat/uia/actionLogout.do"><spring:message code="comCmm.unitContent.3"/></a>
-</c:if>
-<c:if test="${loginVO == null }">
-	<jsp:forward page="/uat/uia/egovLoginUsr.do"/>
-</c:if>
+
 <!--헤더시작-->
 	<header style="position:fixed; width: 100%; top: 0;">
 		<c:import url="${pageContext.request.contextPath}/EgovTop.do" />

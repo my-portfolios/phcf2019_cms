@@ -81,13 +81,13 @@ $('#jsGrid').jsGrid({
 	width: '100%'
 	, height: 'auto'
 	, autoload: true
-// 	, filtering: true
+ 	, filtering: true
 	, editing: false
-	, paging: false
+	, paging: true
 	, pageLoading: true
-//		, pageSize: 10
-//		, pageButtoncount: 5
-//		, pageIndex: 1
+		, pageSize: 10
+		, pageButtoncount: 5
+	, pageIndex: 1
 	
 	, controller: {
 		loadData: function(filter) {

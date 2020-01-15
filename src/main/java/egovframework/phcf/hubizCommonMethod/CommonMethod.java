@@ -1,16 +1,21 @@
 package egovframework.phcf.hubizCommonMethod;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.DatatypeConverter;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -29,7 +34,9 @@ public class CommonMethod {
 	 * @author 김량래
 	 * @since 2019-12-03
 	 */
-	public static final List<String> pageList = Arrays.asList("cms", "main", "place", "festival");
+	
+	@Resource(name="CommonService")
+	private CommonService commonService;
 	
 	public static String checkDateCompare(String date1,String date2,String format) throws Exception {
 		Date dt1 = stringToDate(date1,format);
@@ -74,9 +81,16 @@ public class CommonMethod {
 	 * @author 김량래
 	 * @since 2019-12-03
 	 */
-	public static Date stringToDate(String date, String format) throws Exception {		
-		SimpleDateFormat fmt = new SimpleDateFormat(format);
-		Date dt = fmt.parse(date);
+	public static Date stringToDate(String date, String format) {
+		Date dt = null;
+		
+		try {
+			SimpleDateFormat fmt = new SimpleDateFormat(format);
+			dt = fmt.parse(date);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return dt;
 	}
@@ -90,9 +104,16 @@ public class CommonMethod {
 	 * @author 김량래
 	 * @since 2019-12-03
 	 */
-	public static String dateToString(Date date, String format) throws Exception {
-		SimpleDateFormat fmt = new SimpleDateFormat(format);
-		String dt = fmt.format(date);
+	public static String dateToString(Date date, String format) {
+		String dt = null;
+		
+		try {
+			SimpleDateFormat fmt = new SimpleDateFormat(format);
+			dt = fmt.format(date);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return dt;
 	}
@@ -122,10 +143,11 @@ public class CommonMethod {
 	 * @param date
 	 * @return list
 	 */
-	public static ArrayList<Object> addList(ArrayList<Object> list, String date) {
-		if(!list.contains(date)) list.add(date);
+	public static ArrayList<Object> addList(ArrayList<Object> list, String obj) {
+		if(!list.contains(obj)) list.add(obj);
 		return list;
 	}
+
 	
 	/**
 	 * 권혜진
@@ -162,30 +184,50 @@ public class CommonMethod {
 	 * 컨텐츠 페이지마다 공통적으로 들어가는 부분 - 템플릿 적용
 	 * @throws Exception 
 	*/
-	public static ModelAndView ContentBoardTemplate(HttpServletRequest request, String skinNm, CommonService commonService) throws Exception {
-		
-		@SuppressWarnings("unchecked")
-		HashMap<String, Object> x = (HashMap<String, Object>) request.getAttribute("CurrentMenuMap");
-		HashMap<String, String> paramMap = new HashMap<String, String>();
-		
-		paramMap.put("bbsId", "BBSMSTR_000000000002");
-		paramMap.put("nttId", x.get("CONTENT_ID").toString());
-		
-		HashMap<String, String> contentMap = commonService.selectContent(paramMap);
-		
-		if(skinNm==null || skinNm.equals("")) skinNm="board_contents";
-		String templatePath = "template/_layout/"+skinNm;
-		
-		String tmpltDir = request.getServletContext().getRealPath("/WEB-INF/jsp/"+templatePath+".jsp");
-		File fTmplt = new File(tmpltDir);
+	public static ModelAndView ContentsIntoTemplate(HttpServletRequest request, String jspPath, String skinNm, CommonService commonService) throws Exception {
 		
 		ModelAndView mav=new ModelAndView();
-		
-		if(fTmplt.exists()) {
-			mav = new ModelAndView(templatePath);
-			mav.addObject("content", contentMap.get("NTT_CN").toString()); 
+		@SuppressWarnings("unchecked")
+		HashMap<String, Object> x = (HashMap<String, Object>) request.getAttribute("CurrentMenuMap");
+		if(x.get("CONTENT_ID").toString() != null && !x.get("CONTENT_ID").toString().equals("0") && !x.get("CONTENT_ID").toString().equals("")) {
+			HashMap<String, String> paramMap = new HashMap<String, String>();
+			
+			paramMap.put("bbsId", "BBSMSTR_000000000002");
+			paramMap.put("nttId", x.get("CONTENT_ID").toString());
+			
+			HashMap<String, String> contentMap = commonService.selectContent(paramMap);
+			
+			if(skinNm==null || skinNm.equals("")) skinNm="board_contents";
+			String templatePath = "template/_layout/"+skinNm;
+			
+			String tmpltDir = request.getServletContext().getRealPath("/WEB-INF/jsp/"+templatePath+".jsp");
+			File fTmplt = new File(tmpltDir);
+			
+			if(fTmplt.exists()) {
+				mav = new ModelAndView(templatePath);
+				mav.addObject("content", contentMap.get("NTT_CN").toString()); 
+			} else {
+				mav = new ModelAndView("error/noContentErrorPage"); 
+			}
 		} else {
-			mav = new ModelAndView("error/noContentErrorPage"); 
+			if(skinNm==null || skinNm.equals("")) skinNm="basic";
+			String templatePath = "template/_layout/"+skinNm;
+			
+			String tmpltDir = request.getServletContext().getRealPath("/WEB-INF/jsp/"+templatePath+".jsp");
+			String mavUrl = ""; 
+			File fTmplt = new File(tmpltDir);
+			
+			if(fTmplt.exists()) {
+				String isDir = request.getServletContext().getRealPath(jspPath); 
+				File f = new File(isDir);
+				if(f.exists()) mavUrl = templatePath;
+				else mavUrl = "error/noTmpltErrorPage";
+				mav = new ModelAndView(mavUrl);  
+				mav.addObject("jspPath", jspPath); 
+			} else {
+				mavUrl = "error/noContentErrorPage";
+				mav = new ModelAndView(mavUrl); 
+			}
 		}
 		
 		return mav;
@@ -223,5 +265,15 @@ public class CommonMethod {
 		return json;
 	}
 	
-	
+	public static boolean base64ImageDecoder(String base64, String target){
+		byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64);
+		try {
+			BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(imageBytes));
+			ImageIO.write(bufImg, "jpg", new File(target+dateToString(new Date(), "yyyyMMddHHmmssSSS")+".jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }

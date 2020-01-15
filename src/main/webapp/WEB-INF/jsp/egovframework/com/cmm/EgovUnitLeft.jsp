@@ -91,8 +91,8 @@
         <li class="menu">
             <a>대관신청관리</a>
             <ul class="hide">
-                <li><a href="/cms/hallreq/phcfHallReqView.do" target="_content">접수날짜 관리</a></li>
-                <li><a href="/cms/hallreq/phcfHallReqView.do" target="_content">대관신청리스트</a></li>
+                <li><a href="/venueReservation/selectReservationManageList.do" target="_content">접수날짜 관리</a></li>
+                <li><a href="/venueReservation/selectReservationList.do" target="_content">대관신청리스트</a></li>
             </ul>
         </li>
         

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="VenueReservationDAO">
+	
+	<select id="selectVenueReservationMaster" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		/* VenueReservationDAO.selectVenueReservationMaster */
+		SELECT
+			VENUE_ID,
+			VENUE_NAME,
+			DATE_FORMAT(USE_START_DT,'%Y/%m/%d') AS USE_START_DT,
+			DATE_FORMAT(USE_END_DT,'%Y/%m/%d') AS USE_END_DT,
+			DATE_FORMAT(REG_START_DT,'%Y/%m/%d %H:%i') AS REG_START_DT,
+			DATE_FORMAT(REG_END_DT,'%Y/%m/%d %H:%i') AS REG_END_DT,
+			LIMIT_TIME,
+			USE_YN
+		FROM
+			VENUERESERVATIONMASTER
+	</select>
+	
+	<select id="selectVenueReservationRegList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		/* VenueReservationDAO.selectVenueReservationRegList */
+		SELECT
+			SEQ,
+			VENUE,
+			USE_ROOM,
+			USE_DATE1,
+			USE_DATE2,
+			USE_DATE3,
+			USE_DATE4,
+			USE_DATE5,
+			DATE_FORMAT(USE_START_TIME1,'%H:%i') AS USE_START_TIME1,
+			DATE_FORMAT(USE_END_TIME1,'%H:%i') AS USE_END_TIME1,
+			
+			DATE_FORMAT(USE_START_TIME2,'%H:%i') AS USE_START_TIME2,
+			DATE_FORMAT(USE_END_TIME2,'%H:%i') AS USE_END_TIME2,
+			
+			DATE_FORMAT(USE_START_TIME3,'%H:%i') AS USE_START_TIME3,
+			DATE_FORMAT(USE_END_TIME3,'%H:%i') AS USE_END_TIME3,
+			
+			DATE_FORMAT(USE_START_TIME4,'%H:%i') AS USE_START_TIME4,
+			DATE_FORMAT(USE_END_TIME4,'%H:%i') AS USE_END_TIME4,
+			
+			DATE_FORMAT(USE_START_TIME5,'%H:%i') AS USE_START_TIME5,
+			DATE_FORMAT(USE_END_TIME5,'%H:%i') AS USE_END_TIME5,
+			MANAGER_NAME,
+			MANAGER_GRADE,
+			EVENT_NAME,
+			ORGAN_NAME,
+			TELNUMBER,
+			EMAIL,
+			FILE_ID,
+			USER_ID,
+			RESULT,
+			CHECK_YN,
+			CREATE_DT,
+			UPDATE_DT
+		FROM
+			VENUERESERVATIONREG
+		WHERE 1=1
+			<if test='venueCnd != null and venueCnd != ""'>
+				AND VENUE = #{venueCnd}
+			</if>
+			<if test='resultCnd != null and resultCnd != ""'>
+				AND RESULT = #{resultCnd}
+			</if>
+			<if test='searchCnd != null and searchCnd != "" and keyword != null and keyword != ""'>
+				AND ${searchCnd} LIKE '%' #{keyword} '%'
+			</if>
+	</select>
+	
+	<update id="updateReservationMaster" parameterType="java.util.HashMap">
+		/* VenueReservationDAO.updateReservationMaster */
+		
+		UPDATE 
+			VENUERESERVATIONMASTER
+		SET
+			USE_START_DT = #{useStartDt},
+			USE_END_DT = #{useEndDt},
+			REG_START_DT = #{regStartDt},
+			REG_END_DT = #{regEndDt},
+			LIMIT_TIME = #{limitTime},
+			USE_YN = #{useYn} 
+		WHERE 1=1
+			AND VENUE_NAME = #{venueName}  
+			
+	</update>
+	
+	<update id="updateReservationItem" parameterType="java.util.HashMap">
+		/* VenueReservationDAO.updateReservationMaster */
+		
+		UPDATE
+			VENUERESERVATIONREG
+		SET
+			RESULT = #{RESULT},
+			CHECK_YN = 'Y'
+		WHERE 1=1
+			AND SEQ = #{SEQ}
+			
+	</update>
+	
+	<select id="selectDetailCodeList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+			CODE,
+			CODE_NM,
+			CODE_DC
+		FROM
+			COMTCCMMNDETAILCODE
+		WHERE 1=1
+			AND CODE_ID = #{code}
+	</select>
+</mapper>

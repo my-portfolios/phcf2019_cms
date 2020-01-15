@@ -1,4 +1,4 @@
-package egovframework.phcf.util;
+package egovframework.phcf.util.web;
 
 import java.util.HashMap;
 

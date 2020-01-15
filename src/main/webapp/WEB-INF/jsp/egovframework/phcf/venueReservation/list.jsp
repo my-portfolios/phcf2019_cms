@@ -60,17 +60,13 @@
 						success : function(data){
 							try {
 								jsonString = data.venueReservationRegJson;
-								console.log(jsonString);	
-								if(jsonString == "[]") {
-									alert("데이터가 없습니다.");	
-								}
-								else {
-									jsonString = JSON.parse(jsonString);
-									var list = {
-										data: jsonString,
-										itemsCount : jsonString[0]["LENGTH"]
-									}	
-								}
+								jsonString = JSON.parse(jsonString);
+								console.log(jsonString);
+								
+								var list = {
+									data: jsonString,
+									itemsCount : jsonString == 0 ? 0 : jsonString[0]["LENGTH"]
+								}	
 							}
 							catch(e){
 								alert("오류 발생! \n"+e);

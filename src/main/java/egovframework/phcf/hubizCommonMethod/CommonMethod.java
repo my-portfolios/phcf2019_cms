@@ -233,6 +233,27 @@ public class CommonMethod {
 		return mav;
 	}
 	
+	// list<map> 을 json 형태로 변형.
+	public static String listmapToJsonString(List<HashMap<String, Object>> allMenuList)
+	{       
+	    JSONArray json_arr=new JSONArray();
+	    for (Map<String, Object> map : allMenuList) {
+	        JSONObject json_obj=new JSONObject();
+	        for (Map.Entry<String, Object> entry : map.entrySet()) {
+	            String key = entry.getKey();
+	            Object value = entry.getValue();
+	            try {
+	                json_obj.put(key,value);
+	            } catch (JSONException e) {
+	                // TODO Auto-generated catch block
+	                e.printStackTrace();
+	            }                           
+	        }
+	        json_arr.put(json_obj);
+	    }
+	    return json_arr.toString();
+	}
+	
 	public static boolean base64ImageDecoder(String base64, String target){
 		byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64);
 		try {

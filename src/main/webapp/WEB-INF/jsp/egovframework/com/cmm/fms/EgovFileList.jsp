@@ -106,7 +106,7 @@
 	<table id="egov_file_view_table" style="border:0px solid #666;">
 		<c:forEach var="fileVO" items="${fileList}" varStatus="status">
 		<tr id="egov_file_view_table_tr_${status.count}">
-			<td style="border:0px solid #666;text-align:left;padding:0 0 0 0;margin:0 0 0 0;" height="22">
+			<td style="border:0px solid #666;text-align:center;padding:0 0 0 0;margin:0 0 0 0;" height="22">
 			<c:choose>
 				<c:when test="${updateFlag eq 'Y'}">
 					<c:out value="${fileVO.orignlFileNm}"/>&nbsp;[<c:out value="${fileVO.fileMg}"/>&nbsp;byte]

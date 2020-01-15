@@ -20,11 +20,19 @@
 <script src="<c:url value='/js/egovframework/com/cmm/Chart.min.js' />"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/Chart.bundle.min.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.js'/>"></script>
-ss
-<script>
 
+<script>
 	var jsonString;
+	var resultCode = [{Name : "접수 요청", Id: "R"},
+ 			{Name : "접수 취소", Id: "C"},
+ 			{Name : "접수 완료", Id: "S"},
+ 			{Name : "접수 취소", Id: "C"},
+ 			{Name : "승인 완료", Id: "A"},
+ 			{Name : "승인 거절", Id: "D"},
+ 			{Name : "승인 취소", Id: "O"}];
+	
 	$(function(){
+		
 		$('#jsGrid').jsGrid({
 			width: '100%',
 			height: 'auto',
@@ -53,8 +61,9 @@ ss
 							jsonString = JSON.parse(jsonString);
 							var list = {
 								data: jsonString,
-								itemsCount : jsonString.length
+								itemsCount : jsonString[0].LENGTH
 							}
+							
 							d.resolve(list);
 						}
 					});
@@ -92,26 +101,7 @@ ss
 				 	{name: 	'USE_DATE5', 	title: '5일차대관일시', 	type: 'text', 	editing: false, width: 120, align: "center"},
 				 	{name: 	'EVENT_NAME', 	title: '행사명', 	type: 'text', 	editing: false, width: 250, align: "center" },
 				 	{name: 	'ORGAN_NAME', 	title: '업체 및 단체명', 	type: 'text', 	editing: false, width: 200, align: "center"},
-				 	{name: 	'RESULT', 	
-				 		title: '상태', 	
-				 		type: 'select', 
-				 		items: [
-				 			{Name : "접수 요청", Id: "R"},
-				 			{Name : "접수 취소", Id: "C"},
-				 			{Name : "접수 완료", Id: "S"},
-				 			{Name : "접수 취소", Id: "C"},
-				 			{Name : "승인 완료", Id: "A"},
-				 			{Name : "승인 거절", Id: "D"},
-				 			{Name : "승인 취소", Id: "O"}
-				 		], 
-				 		readOnly: false,
-				 		valueType: "string",
-				 		valueField: "Id", 
-				 		textField: "Name", 
-				 		editing: true,
-				 		width: 100, 
-				 		align: "center"
-				 	},
+				 	{name: 	'RESULT', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true,width: 100, align: "center"},
 				 	{type: 'control', 
 				 		editButton: true, 
 				 		deleteButton: false,
@@ -123,10 +113,11 @@ ss
 				 	}
 			]
 		});
-		
-	})
+	});
+	
 	function about(seq){
 		var fileId;
+
 		$.each(jsonString, function(index, item){
 			if(item.SEQ == seq){
 				$("#about_table tr td").each(function(index2, item2){
@@ -135,6 +126,13 @@ ss
 					if(jsonId != "FILE_ID"){
 						if(!Number.isInteger(jsonText) && jsonText != null && jsonText != '' && jsonText.includes("<br/>")) {
 							jsonText = jsonText.replace("<br/>", " ");
+						}
+						else if(jsonId == "RESULT"){
+							$.each(resultCode, function(index3, item3){
+								if(item3.Id == jsonText) {
+									jsonText = item3.Name;
+								}
+							});
 						}
 						$(item2).text(jsonText);
 					}
@@ -155,9 +153,11 @@ ss
 			}
 		});
 		
-		$(".popup_modal").css("top","30%");
-		$(".popup_modal").css("left","38%");
+		
+		$(".popup_modal").css("top","25%");
+		$(".popup_modal").css("left","30%");
 		$(".popup_modal").css("display","");
+		$(".popup_modal").draggable();
 	}
 	
 	function search(){
@@ -179,51 +179,54 @@ ss
 </head>
 
 <div class="board">
-<h1>대관신청 리스트</h1>
-		<div class="search_box">
-			<ul>
-				<li><!-- 상태-->
-	                <select class="floatleft" id="RESULT">
-						<option value="">상태</option>
-						<option value="R">접수요청</option>
-						<option value="C">접수취소</option>
-						<option value="S">접수완료</option>
-						<option value="A">승인완료</option>	
-						<option value="D">승인거절</option>	
-						<option value="O">승인취소</option>
-					</select>
-				</li>
-				<li><!-- 조건 -->
-	                <select class="floatleft" id="VENUE">
-						<option value="">대관 장소</option>					
-							<option value="포항문화예술회관">포항문화예술회관</option>					
-							<option value="중앙아트홀">중앙아트홀</option>					
-							<option value="대잠홀">대잠홀</option>					
-							<option value="구룡포생활문화센터(아라예술촌)">구룡포생활문화센터(아라예술촌)</option>					
-							<option value="귀비고">귀비고</option>					
-							<option value="기타">기타</option>					
-					</select>
-				</li>
-				<li>
-	                <select id="searchType"><!--  -->
-	                    <option value="USER_ID">아이디</option>
-	                    <option value="MANAGER_NAME">이름</option>
-	                </select>
-				</li>
-				<!-- 검색키워드 및 조회버튼 -->
-				<li>
-					<input class="s_input" id="keyword" type="text"/>
-					<input type="submit" class="s_btn" value="검색" onclick="search();"/>
-				</li>
-			</ul>
-		</div>
-	
+	<h1>대관신청 리스트</h1>
+	<div class="search_box">
+		<ul>
+			<li><!-- 상태-->
+                <select class="floatleft" id="RESULT">
+					<option value="">상태</option>
+					<option value="R">접수요청</option>
+					<option value="C">접수취소</option>
+					<option value="S">접수완료</option>
+					<option value="A">승인완료</option>	
+					<option value="D">승인거절</option>	
+					<option value="O">승인취소</option>
+				</select>
+			</li>
+			<li><!-- 조건 -->
+                <select class="floatleft" id="VENUE">
+					<option value="">대관 장소</option>					
+						<option value="포항문화예술회관">포항문화예술회관</option>					
+						<option value="중앙아트홀">중앙아트홀</option>					
+						<option value="대잠홀">대잠홀</option>					
+						<option value="구룡포생활문화센터(아라예술촌)">구룡포생활문화센터(아라예술촌)</option>					
+						<option value="귀비고">귀비고</option>					
+						<option value="기타">기타</option>					
+				</select>
+			</li>
+			<li>
+                <select id="searchType"><!--  -->
+                    <option value="USER_ID">아이디</option>
+                    <option value="MANAGER_NAME">이름</option>
+                </select>
+			</li>
+			<!-- 검색키워드 및 조회버튼 -->
+			<li>
+				<input class="s_input" id="keyword" type="text"/>
+				<input type="submit" class="s_btn" value="검색" onclick="search();"/>
+			</li>
+		</ul>
+	</div>
 	<div id="jsGrid"></div>
 </div>	
 
 <div style="text-align:center;">
 	<div class="popup_modal" style="display:none;">
-		<table id="about_table" border="">
+		<table id="about_table" style="margin:auto;width:550px">
+			<colgroup>
+				<col style="width: 40%;">
+				<col style="width: 60%;">
+			</colgroup>
 			<tr>
 				<th>번호</th>
 				<td id="SEQ"></td>
@@ -282,9 +285,7 @@ ss
 			</tr>
 			<tr>
 				<th>첨부파일</th>
-				<td id="FILE_ID">
-					
-				</td>
+				<td id="FILE_ID"></td>
 			</tr>
 			<tr>
 				<th>신청아이디</th>

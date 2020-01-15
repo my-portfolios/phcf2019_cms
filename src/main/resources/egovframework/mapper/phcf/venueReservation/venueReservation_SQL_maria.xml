@@ -21,6 +21,7 @@
 	<select id="selectVenueReservationRegList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		/* VenueReservationDAO.selectVenueReservationRegList */
 		SELECT
+			(SELECT COUNT(*) FROM VENUERESERVATIONREG) AS LENGTH,
 			SEQ,
 			VENUE,
 			USE_ROOM,
@@ -66,6 +67,10 @@
 			</if>
 			<if test='searchCnd != null and searchCnd != "" and keyword != null and keyword != ""'>
 				AND ${searchCnd} LIKE '%' #{keyword} '%'
+			</if>
+		ORDER BY SEQ DESC
+			<if test='pageSize != null and pageSize != "" and pageOffset != null and pageOffset != ""'>
+				LIMIT ${pageSize} OFFSET ${pageOffset}
 			</if>
 	</select>
 	

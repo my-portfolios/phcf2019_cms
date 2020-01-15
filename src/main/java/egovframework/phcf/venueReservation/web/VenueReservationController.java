@@ -63,6 +63,13 @@ public class VenueReservationController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/venueReservation/searchView.do")
+	public ModelAndView searchView(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, String> paramMap) {
+		ModelAndView mav = new ModelAndView("egovframework/phcf/venueReservation/search"); 
+		
+		return mav;
+	}
+	
 	@RequestMapping(value="/venueReservation/selectReservationManageList.do")
 	public ModelAndView selectReservationManageList(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, String> paramMap) throws Exception {
 		ModelAndView mav = new ModelAndView("egovframework/phcf/venueReservation/manage");
@@ -85,7 +92,7 @@ public class VenueReservationController {
 			pageOffset = (Integer.parseInt(pageIndex.toString())-1) * Integer.parseInt(pageSize.toString());
 			paramMap.put("pageOffset", pageOffset);
 		}
-		
+		System.out.println("=== paramMap" + paramMap);
 		List<HashMap<String, Object>> venueReservationRegList = service.selectVenueReservationRegList(paramMap);
 		List<HashMap<String, Object>> mergedVenueReservationRegList = new ArrayList<>();
 		

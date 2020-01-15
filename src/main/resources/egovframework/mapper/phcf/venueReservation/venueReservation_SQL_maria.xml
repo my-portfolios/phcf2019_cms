@@ -59,17 +59,27 @@
 		FROM
 			VENUERESERVATIONREG
 		WHERE 1=1
+			<if test='fixStatus != null and fixStatus == "Y"'>
+				AND RESULT NOT IN ('C','D','O')
+			</if>
 			<if test='venueCnd != null and venueCnd != ""'>
 				AND VENUE = #{venueCnd}
 			</if>
 			<if test='resultCnd != null and resultCnd != ""'>
 				AND RESULT = #{resultCnd}
 			</if>
-			<if test='searchCnd != null and searchCnd != "" and keyword != null and keyword != ""'>
-				AND ${searchCnd} LIKE '%' #{keyword} '%'
-			</if>
-		ORDER BY SEQ DESC
-			<if test='pageSize != null and pageSize != "" and pageOffset != null and pageOffset != ""'>
+			<choose>
+				<when test = 'searchCnd == "SEARCH_DATE"'>
+					AND (USE_DATE1 LIKE "%" #{keyword} "%" OR USE_DATE2 LIKE "%" #{keyword} "%" OR USE_DATE3 LIKE "%" #{keyword} "%" OR USE_DATE4 LIKE "%" #{keyword} "%" OR USE_DATE5 LIKE "%" #{keyword} "%")
+				</when>
+				<otherwise>
+					<if test='searchCnd != null and searchCnd != "" and keyword != null and keyword != ""'>
+						AND ${searchCnd} LIKE '%' #{keyword} '%'
+					</if>
+				</otherwise>
+			</choose>
+			ORDER BY SEQ DESC
+			<if test='pageSize != null and pageOffset != null'>
 				LIMIT ${pageSize} OFFSET ${pageOffset}
 			</if>
 	</select>

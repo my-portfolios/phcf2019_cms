@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>대관신청관리</title>
+<title>대관신청리스트</title>
 <link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/jqueryui.css' />">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/Chart.min.css' />">
@@ -40,12 +40,13 @@
 			editing: true,
 			paging: true,
 			pageLoading: true,
-			pageSize: 5,
+			pageSize: 10,
 			pageIndex: 1,
 			pageNextText : "다음",
 			pagePrevText : "이전",
 			pageFirstText : "처음",
 			pageLastText  : "마지막",
+			pagerFormat : "{prev} {pages} {next}",
 			controller: {
 				loadData: function(filter) {			
 					var d = $.Deferred();
@@ -57,13 +58,17 @@
 						dataType: 'json',
 						data: filter,
 						success : function(data){
-							jsonString = data.venueReservationRegJson;
-							jsonString = JSON.parse(jsonString);
-							var list = {
-								data: jsonString,
-								itemsCount : jsonString[0].LENGTH
+							try {
+								jsonString = data.venueReservationRegJson;
+								jsonString = JSON.parse(jsonString);
+								var list = {
+									data: jsonString,
+									itemsCount : jsonString[0].LENGTH
+								}
 							}
-							
+							catch(e){
+								alert("오류 발생! \n"+e);
+							}
 							d.resolve(list);
 						}
 					});
@@ -91,26 +96,18 @@
 			noDataContent: '데이터가 없습니다.',
 			loadMessage: '조회 중...',
 			fields: [
-					{name: 	'SEQ', 	title: '번호', 	type: 'text', 	editing: false, width:80, align: "center"},
-				 	{name: 	'VENUE', 	title: '대관장소', 	type: 'text', 	editing: false, width: 180, align: "center"},
-				 	{name: 	'USE_ROOM', 	title: '대관시설', 	type: 'text', 	editing: false, width: 120, align: "center"},
-				 	{name: 	'USE_DATE1', 	title: '1일차대관일시', 	type: 'text', 	editing: false, width: 120, align: "center"},
-				 	{name: 	'USE_DATE2', 	title: '2일차대관일시', 	type: 'text', 	editing: false, width: 120, align: "center"},
-				 	{name: 	'USE_DATE3', 	title: '3일차대관일시', 	type: 'text', 	editing: false, width: 120, align: "center"},
-				 	{name: 	'USE_DATE4', 	title: '4일차대관일시', 	type: 'text', 	editing: false, width: 120, align: "center"},
-				 	{name: 	'USE_DATE5', 	title: '5일차대관일시', 	type: 'text', 	editing: false, width: 120, align: "center"},
-				 	{name: 	'EVENT_NAME', 	title: '행사명', 	type: 'text', 	editing: false, width: 250, align: "center" },
-				 	{name: 	'ORGAN_NAME', 	title: '업체 및 단체명', 	type: 'text', 	editing: false, width: 200, align: "center"},
-				 	{name: 	'RESULT', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true,width: 100, align: "center"},
-				 	{type: 'control', 
-				 		editButton: true, 
-				 		deleteButton: false,
-				 		width: 50,
-				 		updateButtonTooltip: "수정",
-				 		cancelEditButtonTooltip: "취소",
-				 		searchButtonTooltip: "검색",
-				 		clearFilterButtonTooltip: "검색 취소"
-				 	}
+				{name: 	'SEQ', 	title: '번호', 	type: 'text', 	editing: false, width:80, align: "center"},
+			 	{name: 	'VENUE', 	title: '대관 장소', 	type: 'text', 	editing: false, width: 230, align: "center"},
+			 	{name: 	'USE_ROOM', 	title: '대관 시설', 	type: 'text', 	editing: false, width: 120, align: "center"},
+			 	{name: 	'USE_DATE1', 	title: '1일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
+			 	{name: 	'USE_DATE2', 	title: '2일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
+			 	{name: 	'USE_DATE3', 	title: '3일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
+			 	{name: 	'USE_DATE4', 	title: '4일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
+			 	{name: 	'USE_DATE5', 	title: '5일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
+			 	{name: 	'EVENT_NAME', 	title: '행사 명', 	type: 'text', 	editing: false, width: 250, align: "center" },
+			 	{name: 	'ORGAN_NAME', 	title: '업체 및 단체명', 	type: 'text', 	editing: false, width: 200, align: "center"},
+			 	{name: 	'RESULT', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true,width: 110, align: "center"},
+			 	{type: 'control', editButton: true, deleteButton: false, width: 70,updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
 			]
 		});
 	});
@@ -157,7 +154,6 @@
 		$(".popup_modal").css("top","25%");
 		$(".popup_modal").css("left","30%");
 		$(".popup_modal").css("display","");
-		$(".popup_modal").draggable();
 	}
 	
 	function search(){
@@ -180,43 +176,7 @@
 
 <div class="board">
 	<h1>대관신청 리스트</h1>
-	<div class="search_box">
-		<ul>
-			<li><!-- 상태-->
-                <select class="floatleft" id="RESULT">
-					<option value="">상태</option>
-					<option value="R">접수요청</option>
-					<option value="C">접수취소</option>
-					<option value="S">접수완료</option>
-					<option value="A">승인완료</option>	
-					<option value="D">승인거절</option>	
-					<option value="O">승인취소</option>
-				</select>
-			</li>
-			<li><!-- 조건 -->
-                <select class="floatleft" id="VENUE">
-					<option value="">대관 장소</option>					
-						<option value="포항문화예술회관">포항문화예술회관</option>					
-						<option value="중앙아트홀">중앙아트홀</option>					
-						<option value="대잠홀">대잠홀</option>					
-						<option value="구룡포생활문화센터(아라예술촌)">구룡포생활문화센터(아라예술촌)</option>					
-						<option value="귀비고">귀비고</option>					
-						<option value="기타">기타</option>					
-				</select>
-			</li>
-			<li>
-                <select id="searchType"><!--  -->
-                    <option value="USER_ID">아이디</option>
-                    <option value="MANAGER_NAME">이름</option>
-                </select>
-			</li>
-			<!-- 검색키워드 및 조회버튼 -->
-			<li>
-				<input class="s_input" id="keyword" type="text"/>
-				<input type="submit" class="s_btn" value="검색" onclick="search();"/>
-			</li>
-		</ul>
-	</div>
+	<c:import url="/venueReservation/searchView.do"/>
 	<div id="jsGrid"></div>
 </div>	
 

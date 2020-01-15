@@ -35,6 +35,8 @@
 		      		eventBackgroundColor : "white",
 		      		eventBorderColor : "black", 
 		      		showNonCurrentDates: false,
+		      		buttonText : {today:    '오늘',list:     '리스트'}
+		      			
 		    	});
 	
 		    	calendarObj.render();

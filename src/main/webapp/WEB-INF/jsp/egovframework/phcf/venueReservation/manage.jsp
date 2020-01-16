@@ -87,24 +87,24 @@
 						<col style="">
 					</colgroup>
 					<tbody>
-					<tr>
-						<th>접수날짜 <span class="pilsu">*</span></th>						
+					<tr>						
+						<th>대관기간 <span class="pilsu">*</span></th>
 						<td class="left">
-						<input type="text" id="${venueItems.CODE}_regStartDt1"/> ~
-						<input type="text" id="${venueItems.CODE}_regEndDt1"/>						
-						※ 접수 할 날짜와 시간을 설정합니다.
+						<input type="text" id="${venueItems.CODE}_useStartDt1" /> ~
+						<input type="text" id="${venueItems.CODE}_useEndDt1" />						
+						※ 대관 가능 날짜를 설정합니다.
 						</td>
 						<th rowspan="4">
 							<div class="btn">
 							<input type="button" onclick="updateReservationManage('${venueItems.CODE_NM}','${venueItems.CODE}');" value="설정" class="s_submit"/>						
 							</div>
 						</th>
-					</tr><tr>						
-						<th>대관접수 설정 <span class="pilsu">*</span></th>
+					</tr><tr>
+						<th>접수기간 및 시간<span class="pilsu">*</span></th>						
 						<td class="left">
-						<input type="text" id="${venueItems.CODE}_useStartDt1" /> ~
-						<input type="text" id="${venueItems.CODE}_useEndDt1" />						
-						※ 접수 받을  날짜를 설정합니다.
+						<input type="text" id="${venueItems.CODE}_regStartDt1"/> ~
+						<input type="text" id="${venueItems.CODE}_regEndDt1"/>						
+						※ 접수 받을  날짜와 시간을 설정합니다.
 						</td>
 					</tr><tr>
 						<th>대관 신청서 작성 제한 시간 <span class="pilsu">*</span></th>

@@ -186,13 +186,14 @@ function fnLoginTypeSelect(objName){
 		
 		document.getElementById(objName).className = "on";
 		
-		if(objName == "typeGnr"){ //일반회원
+		/* if(objName == "typeGnr"){ //일반회원
 			document.loginForm.userSe.value = "GNR";
 		}else if(objName == "typeEnt"){	//기업회원
 			 document.loginForm.userSe.value = "ENT";
 		}else if(objName == "typeUsr"){	//업무사용자
 			 document.loginForm.userSe.value = "USR";
-		}
+		} */
+		document.loginForm.userSe.value = "USR";
 	
 }
 
@@ -222,7 +223,7 @@ function fnShowLogin(stat) {
 	
 	<fieldset>
 		<div style="text-align: center;"><img src="<c:url value='/images/egovframework/com/cmm/main/login_logo.png'/>" alt="login title image"  title="login title image"></div>
-		<div class="login_type" style="display:block;">
+		<div class="login_type" style="display:none;">
 			<ul id="ulLoginType">
 				<li><a href="javascript:fnLoginTypeSelect('typeGnr');" id="typeGnr" title=""><spring:message code="comUatUia.loginForm.GNR"/></a></li> <!-- 일반 -->
 				<li><a href="javascript:fnLoginTypeSelect('typeEnt');" id="typeEnt" title=""><spring:message code="comUatUia.loginForm.ENT"/></a></li> <!-- 기업 -->

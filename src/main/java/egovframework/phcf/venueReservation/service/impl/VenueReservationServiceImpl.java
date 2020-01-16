@@ -25,6 +25,11 @@ public class VenueReservationServiceImpl extends EgovAbstractServiceImpl impleme
 	}
 	
 	@Override
+	public int selectVenueReservationRegListCnt(HashMap<String, Object> paramMap) throws Exception {
+		return dao.selectVenueReservationRegListCnt(paramMap);
+	}
+	
+	@Override
 	public void updateReservationMaster(HashMap<String,Object> paramMap) throws Exception {
 		dao.updateReservationMaster(paramMap);
 	}

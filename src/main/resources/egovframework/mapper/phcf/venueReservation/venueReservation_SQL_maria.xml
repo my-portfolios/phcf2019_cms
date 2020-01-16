@@ -84,6 +84,34 @@
 			</if>
 	</select>
 	
+	<select id="selectVenueReservationRegListCnt" parameterType="java.util.HashMap" resultType="int">
+		/* VenueReservationDAO.selectVenueReservationRegListCnt */
+		SELECT
+			COUNT(*)
+		FROM
+			VENUERESERVATIONREG
+		WHERE 1=1
+			<if test='fixStatus != null and fixStatus == "Y"'>
+				AND RESULT NOT IN ('C','D','O')
+			</if>
+			<if test='venueCnd != null and venueCnd != ""'>
+				AND VENUE = #{venueCnd}
+			</if>
+			<if test='resultCnd != null and resultCnd != ""'>
+				AND RESULT = #{resultCnd}
+			</if>
+			<choose>
+				<when test = 'searchCnd == "SEARCH_DATE" and keyword != null and keyword != ""'>
+					AND (USE_DATE1 = #{keyword} OR USE_DATE2 = #{keyword} OR USE_DATE3 = #{keyword} OR USE_DATE4 = #{keyword} OR USE_DATE5 = #{keyword})
+				</when>
+				<otherwise>
+					<if test='searchCnd != null and searchCnd != "" and keyword != null and keyword != ""'>
+						AND ${searchCnd} LIKE '%' #{keyword} '%'
+					</if>
+				</otherwise>
+			</choose>
+	</select>
+	
 	<update id="updateReservationMaster" parameterType="java.util.HashMap">
 		/* VenueReservationDAO.updateReservationMaster */
 		

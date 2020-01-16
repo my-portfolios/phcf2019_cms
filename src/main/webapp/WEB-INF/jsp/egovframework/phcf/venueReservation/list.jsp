@@ -65,7 +65,7 @@
 								
 								var list = {
 									data: jsonString,
-									itemsCount : jsonString == 0 ? 0 : jsonString[0]["LENGTH"]
+									itemsCount : jsonString == 0 ? 0 : JSON.parse(data.venueReservationRegListCnt)
 								}	
 							}
 							catch(e){
@@ -119,10 +119,11 @@
 
 		$.each(jsonString, function(index, item){
 			if(item.SEQ == seq){
-				$("#about_table tr td").each(function(index2, item2){
+				$("#about_table td").each(function(index2, item2){
 					var jsonId = $(item2).attr("id");
 					var jsonText = item[jsonId];
 					if(jsonId != "FILE_ID"){
+						console.log(jsonId);
 						if(!Number.isInteger(jsonText) && jsonText != null && jsonText != '' && jsonText.includes("<br/>")) {
 							jsonText = jsonText.replace("<br/>", " ");
 						}
@@ -133,7 +134,16 @@
 								}
 							});
 						}
-						$(item2).text(jsonText);
+						
+						console.log("aa");
+						console.log(jsonId);
+						console.log(jsonText);
+						console.log("bb");
+						
+						if(jsonId != "closebtn"){
+							if(jsonText == "" || jsonText == null || typeof jsonText == "undefined" || jsonText == undefined) $(item2).text(""); 
+							else $(item2).text(jsonText);
+						}
 					}
 					else fileId = jsonText;
 				});
@@ -153,8 +163,7 @@
 		});
 		
 		
-		$(".popup_modal").css("top","25%");
-		$(".popup_modal").css("left","30%");
+		$(".popup_modal").css("left","10%");
 		$(".popup_modal").css("display","");
 	}
 	
@@ -177,96 +186,87 @@
 </head>
 
 <div class="board">
-	<h1>대관신청 리스트</h1>
+	<h1>대관신청 리스트1</h1>
 	<c:import url="/venueReservation/searchView.do"/>
 	<div id="jsGrid"></div>
 </div>	
 
 <div style="text-align:center;">
 	<div class="popup_modal" style="display:none;">
-		<table id="about_table" style="margin:auto;width:550px">
-			<colgroup>
-				<col style="width: 40%;">
-				<col style="width: 60%;">
-			</colgroup>
+		<table id="about_table" class="wTable" style="margin:auto;width:1300px">
+			
 			<tr>
 				<th>번호</th>
 				<td id="SEQ"></td>
+				
+				<th>행사명</th>
+				<td id="EVENT_NAME" colspan="2"></td>
 			</tr>
 			<tr>
 				<th>대관장소</th>
 				<td id="VENUE"></td>
-			</tr>
-			<tr>
+				
 				<th>대관시설</th>
-				<td id="USE_ROOM"></td>
+				<td id="USE_ROOM" colspan="2"></td>
 			</tr>
 			<tr>
-				<th>1일차대관일시</th>
+				<th style="text-align:center;">1일차대관일시</th>
+				
+				<th style="text-align:center;">2일차대관일시</th>
+				
+				<th style="text-align:center;">3일차대관일시</th>
+				
+				<th style="text-align:center;">4일차대관일시</th>
+				
+				<th style="text-align:center;">5일차대관일시</th>
+			</tr>
+			<tr>
 				<td id="USE_DATE1"></td>
-			</tr>
-			<tr>
-				<th>2일차대관일시</th>
 				<td id="USE_DATE2"></td>
-			</tr>
-			<tr>
-				<th>3일차대관일시</th>
 				<td id="USE_DATE3"></td>
-			</tr>
-			<tr>
-				<th>4일차대관일시</th>
 				<td id="USE_DATE4"></td>
-			</tr>
-			<tr>
-				<th>5일차대관일시</th>
 				<td id="USE_DATE5"></td>
-			</tr>
+			</tr>	
 			<tr>
-				<th>담당자 이름</th>
-				<td id="MANAGER_NAME"></td>
-			</tr>
-			<tr>
-				<th>담당자 직위</th>
-				<td id="MANAGER_GRADE"></td>
-			</tr>
-			<tr>
-				<th>행사명</th>
-				<td id="EVENT_NAME"></td>
-			</tr>
-			<tr>
-				<th>업체 및 단체명</th>
-				<td id="ORGAN_NAME"></td>
-			</tr>
-			<tr>
-				<th>연락처</th>
-				<td id="TELNUMBER"></td>
-			</tr>
-			<tr>
-				<th>이메일</th>
-				<td id="EMAIL"></td>
-			</tr>
-			<tr>
-				<th>첨부파일</th>
-				<td id="FILE_ID"></td>
-			</tr>
-			<tr>
-				<th>신청아이디</th>
-				<td id="USER_ID"></td>
+				<th>신청일시</th>
+				<td id="CREATE_DT"></td>
+				
+				<th>수정일시</th>
+				<td id="UPDATE_DT" colspan="2"></td>
 			</tr>
 			<tr>
 				<th>상태</th>
 				<td id="RESULT"></td>
+					
+				<th>첨부파일</th>
+				<td id="FILE_ID" colspan="2"></td>
 			</tr>
 			<tr>
-				<th>신청일시</th>
-				<td id="CREATE_DT"></td>
+				<th colspan="5" style="text-align:center;">신청자 정보</th>
 			</tr>
 			<tr>
-				<th>수정일시</th>
-				<td id="UPDATE_DT"></td>
+				<th>업체 및 단체명</th>
+				<td id="ORGAN_NAME"></td>
+				
+				<th>연락처</th>
+				<td id="TELNUMBER" colspan="2" ></td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<th>담당자 이름</th>
+				<td id="MANAGER_NAME"></td>
+				
+				<th>담당자 직위</th>
+				<td id="MANAGER_GRADE" colspan="2" ></td>
+			</tr>
+			<tr>
+				<th>신청아이디</th>
+				<td id="USER_ID"></td>
+				
+				<th>이메일</th>
+				<td id="EMAIL" colspan="2" ></td>
+			</tr>
+			<tr>
+				<td colspan="5" id="closebtn" >
 					<input type="button" onclick="$('.popup_modal').css('display','none');" value="닫기"/>
 				</td>
 			</tr>

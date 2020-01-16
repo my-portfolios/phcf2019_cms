@@ -31,9 +31,9 @@
 		    	calendarObj = new FullCalendar.Calendar(calendarEl, {
 		      		plugins: [ 'dayGrid' ],
 		      		locale : 'ko',
-		      		height : 650,
+		      		height : 720,
 		      		eventBackgroundColor : "white",
-		      		eventBorderColor : "black", 
+		      		eventBorderColor : "white", 
 		      		showNonCurrentDates: false,
 		      		buttonText : {today:    '오늘',list:     '리스트'}
 		      			
@@ -70,9 +70,18 @@
 							
 							for(var i=1;i<=5;i++){
 								if(item["USE_DATE" + i] != null) {
+									var colorCode = "white";
+									if(item["VENUE"]=="포항문화예술회관") colorCode = "#AED6F1";
+									else if(item["VENUE"]=="대잠홀") colorCode = "#76D7C4";
+									else if(item["VENUE"]=="중앙아트홀") colorCode = "#F9E79F";
+									else if(item["VENUE"]=="구룡포생활문화센터(아라예술촌)") colorCode = "#D2B4DE";
+									else if(item["VENUE"]=="아르코공연연습센터@포항") colorCode = "#F5B7B1";
+										
 									events.title = item["EVENT_NAME"];
 									events.start = item["USE_DATE" + i].substring(0,10) + "T" + item["USE_START_TIME" + i];
 									events.end = item["USE_DATE" + i].substring(0,10) + "T" + item["USE_END_TIME" + i];
+									events.backgroundColor = colorCode;
+									events.textColor = "white";
 									
 									calendarObj.addEvent(events);
 								}

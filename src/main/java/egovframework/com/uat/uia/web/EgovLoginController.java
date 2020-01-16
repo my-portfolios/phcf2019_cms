@@ -323,7 +323,7 @@ public class EgovLoginController {
 		request.getSession().setAttribute("loginVO", null);
 
 		//return "redirect:/egovDevIndex.jsp";
-		return "redirect:/EgovContent.do";
+		return "redirect:/index.do";
 	}
 
 	/**

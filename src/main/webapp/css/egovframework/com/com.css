@@ -604,7 +604,10 @@ form#deptSchdulManageVO #content {width: 100% !important;}
 .jsgrid-pager-page:hover a, .jsgrid-pager-nav-button:hover a {color: #ffffff !important;}
 .jsgrid-pager-current-page {background: #266089; color: #ffffff !important; border: 1px solid #266089;}
 
-.jsgrid-update-button {background: url(/images/egovframework/phcf/admin/bnts.png) 51% 35% no-repeat !important; width: 47px !important; height: 26px !important;}
+.jsgrid .jsgrid-button {background: url(/images/egovframework/phcf/admin/bnts.png) 100% 35% no-repeat; width: 47px !important; height: 26px !important;}
+.jsgrid-update-button {background: url(/images/egovframework/phcf/admin/bnts.png) 100% 100% no-repeat !important; width: 47px !important; height: 26px !important;}
+.jsgrid-cancel-edit-button {background: url(/images/egovframework/phcf/admin/bnts.png) 88% 0% no-repeat !important; width: 47px !important; height: 26px !important;}
+
 
 .popup_modal {
 	border-radius: 0px;

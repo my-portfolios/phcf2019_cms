@@ -25,7 +25,6 @@ import egovframework.com.sec.phcf.service.AuthManage;
 import egovframework.com.sec.phcf.service.AuthManageVO;
 import egovframework.com.sec.phcf.service.EgovPhcfAuthorService;
 import egovframework.com.utl.cas.service.EgovSessionCookieUtil;
-import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.phcf.util.JsonUtil;
 
 /**

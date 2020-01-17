@@ -1,20 +1,31 @@
 package egovframework.com.sec.phcf.web;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.SessionVO;
 import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.service.EgovComIndexService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.com.sec.drm.service.DeptAuthorVO;
 import egovframework.com.sec.drm.service.EgovDeptAuthorService;
+import egovframework.com.sec.gmt.service.EgovGroupManageService;
+import egovframework.com.sec.gmt.service.GroupManageVO;
+import egovframework.com.sec.phcf.service.AuthManage;
 import egovframework.com.sec.phcf.service.AuthManageVO;
 import egovframework.com.sec.phcf.service.EgovPhcfAuthorService;
 import egovframework.com.sec.ram.service.EgovAuthorManageService;
-import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.phcf.util.JsonUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 
@@ -24,8 +35,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
-import com.google.gson.Gson;
 
 import org.apache.log4j.Logger;
 
@@ -55,8 +64,14 @@ public class EgovPhcfAuthorController {
     @Resource(name = "egovDeptAuthorService")
     private EgovDeptAuthorService egovDeptAuthorService;
     
+    @Resource(name = "egovGroupManageService")
+    private EgovGroupManageService egovGroupManageService;
+    
     @Resource(name = "egovAuthorManageService")
     private EgovAuthorManageService egovAuthorManageService;
+    
+    @Resource(name="EgovComIndexService")
+	private EgovComIndexService egovComIndexService;
     
     /** EgovPropertyService */
     @Resource(name = "propertiesService")
@@ -102,19 +117,52 @@ public class EgovPhcfAuthorController {
 	}
     
     @RequestMapping(value="/sec/phcf/listView.do")
-	public String support(@RequestParam HashMap<String, Object> paramMap, ModelMap model) throws Exception {
+	public String phcfAuthorList(ModelMap model) throws Exception {
     	
     	ComDefaultCodeVO voComCode = new ComDefaultCodeVO();
     	// 문화재단 사이트 코드를 가져온다
 		voComCode.setCodeId("PHC009");
 		model.addAttribute("pageList", JsonUtil.getJsonArrayFromVOList( cmmUseService.selectCmmCodeDetail(voComCode) ));
+		
+		//조직(부서)목록 가져오기
+		DeptAuthorVO deptAuthorVO = new DeptAuthorVO();
+		deptAuthorVO.setSearchCondition(null);
+		deptAuthorVO.setDeptList(egovDeptAuthorService.selectDeptList(deptAuthorVO));
+        model.addAttribute("deptList", JsonUtil.getJsonArrayFromVOList(deptAuthorVO.getDeptList()));
+        
+        //그룹목록 가져오기
+        GroupManageVO groupManageVO = new GroupManageVO();
+        groupManageVO.setSearchCondition(null);
+        groupManageVO.setGroupManageList(egovGroupManageService.selectGroupList(groupManageVO));
+        model.addAttribute("groupList", JsonUtil.getJsonArrayFromVOList(groupManageVO.getGroupManageList()));
+        
+        //메뉴목록 가져오기
+        List<HashMap<String, Object>> menuMap = egovComIndexService.selectMenuInfoList("cms");
+        for(HashMap<String, Object> mmap : menuMap) {
+        	String temp = (String) mmap.get("menuNm");
+        	mmap.remove("menuNm");
+        	mmap.put("menuNm", mmap.get("pageNm")+" >> "+temp);
+        }
+        menuMap.sort(new Comparator<HashMap<String, Object>>() {
+			@Override
+			public int compare(HashMap<String, Object> arg0, HashMap<String, Object> arg1) {
+				String priority0 = arg0.get("pageNm").toString();
+				String priority1 = arg1.get("pageNm").toString();
+				
+				return priority0.compareTo(priority1);
+			}
+		});
+		model.addAttribute("menuList", JsonUtil.getJsonArrayFromList(menuMap));
     	
 		return "egovframework/com/sec/phcf/phcfAuthorList";
 	}
     
     @RequestMapping(value="/sec/phcf/getEgovPhcfAuthorList.do")
 	public String getEgovPhcfAuthorList(@ModelAttribute("authManageVO") AuthManageVO authManageVO, ModelMap model) throws Exception {
-
+    	
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	authManageVO.setInsId(user.getUniqId());
+    	logger.debug("=================== authManageVO : " + authManageVO);
 		authManageVO.setPhcfAuthorList(egovPhcfAuthorService.selectAllEgovPhcfAuthList(authManageVO));
         model.addAttribute("value", authManageVO.getPhcfAuthorList());
         
@@ -124,11 +172,44 @@ public class EgovPhcfAuthorController {
         return "jsonView";
 	}
     
+    @RequestMapping(value="/sec/phcf/insertEgovPhcfAuthorList.do")
+	public String insertEgovPhcfAuthorList(@ModelAttribute("authManageVO") AuthManageVO authManageVO, ModelMap model) throws Exception {
+    	
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	authManageVO.setInsId(user.getUniqId());
+    	
+    	egovPhcfAuthorService.insertEgovPhcfAuthList(authManageVO);
+        
+        model.addAttribute("msg", "success");
+        
+        return "jsonView";
+	}
+    
+    @RequestMapping(value="/sec/phcf/updateEgovPhcfAuthorList.do")
+	public String updateEgovPhcfAuthorList(@ModelAttribute("authManageVO") AuthManageVO authManageVO, ModelMap model) throws Exception {
+    	
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	authManageVO.setUptId(user.getUniqId());
+    	
+    	egovPhcfAuthorService.updateEgovPhcfAuthList(authManageVO);
+        
+        model.addAttribute("msg", "success");
+        
+        return "jsonView";
+	}
+    
+    @RequestMapping(value="/sec/phcf/deleteEgovPhcfAuthorList.do")
+	public String deleteEgovPhcfAuthorList(@ModelAttribute("authManageVO") AuthManageVO authManageVO, ModelMap model) throws Exception {
+
+    	egovPhcfAuthorService.deleteEgovPhcfAuthList(authManageVO);
+        
+        model.addAttribute("msg", "success");
+        
+        return "jsonView";
+	}
+    
     @RequestMapping(value="/sec/phcf/EgovPhcfAuthorBanGoToUrl.do")
 	public String EgovPhcfAuthorBanGoToUrl(ModelMap model) throws Exception {
-
-    	
-        
-        return "error/noTmpltErrorPage";
+        return "error/noAuthorRightErrorPage";
 	}
 }

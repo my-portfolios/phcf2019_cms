@@ -22,5 +22,11 @@ public interface EgovPhcfAuthorService {
 	
 	List<AuthManageVO> selectAllEgovPhcfAuthList(AuthManageVO map) throws Exception;
 	
+	void insertEgovPhcfAuthList(AuthManageVO map) throws Exception;
+	
+	void updateEgovPhcfAuthList(AuthManageVO map) throws Exception;
+	
+	void deleteEgovPhcfAuthList(AuthManageVO map) throws Exception;
+	
 	int selectEgovPhcfAuthListCnt(AuthManageVO map) throws Exception;
 }

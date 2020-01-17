@@ -94,21 +94,24 @@
 			MENU_NO = #{menuNo}
 	</update>
 
-	<select id="selectMenuInfoList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<select id="selectMenuInfoList" parameterType="java.lang.String" resultType="java.util.HashMap">
 		SELECT
-			PAGE_NM,
-			DEPTH1,
-			DEPTH2,
-			DEPTH3,
-			MENU_NM,
-			CONTENTPAGE_YN,
-			HEADER_YN,
-			LINK,
-			CONTENT_ID
+			MENU_NO AS menuNo,
+			PAGE_NM AS pageNm,
+			DEPTH1 AS depth1,
+			DEPTH2 AS depth2,
+			DEPTH3 AS depth3,
+			MENU_NM AS menuNm,
+			CONTENTPAGE_YN AS contentpageYn,
+			HEADER_YN AS headerYn,
+			LINK AS link,
+			CONTENT_ID AS contentId
 		FROM
 			MENUINFOLIST
 		WHERE 1=1
-			AND PAGE_NM = #{pageNm}
+			<if test='value != null and value != ""'>
+			AND PAGE_NM = #{value}
+			</if>
 		ORDER BY DEPTH1 ASC, DEPTH2 ASC, DEPTH3 ASC
 	</select>
 	

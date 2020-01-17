@@ -42,12 +42,14 @@ $(document).ready(function() {
 	// 필터링 기능 때문에 전체를 조회 할 수 있는 코드값을 추가 함.
 	var pageArr = ${pageList};
 	pageArr.unshift({code: '', codeNm: '전체'});
-	//var gradeListArr = '';
-	//gradeListArr.unshift({code: '', code_nm: '전체'})
-	//var spMhTpArr = '';
-	//spMhTpArr.unshift({code: '', codeNm: '전체'});
-	//var scPriceTpArr = '';
-	//scPriceTpArr.unshift({code: '', codeNm: '전체'});
+	var deptArr = ${deptList};
+	deptArr.unshift({deptCode: '', deptNm: '전체'})
+	var groupArr = ${groupList};
+	groupArr.unshift({groupId: '', groupNm: '전체'});
+	var menuArr = ${menuList};
+	menuArr.unshift({link: '', menuNm: '전체'});
+	var useYnArr = [{code : 'Y', codeNm: 'Y'}, {code : 'N', codeNm: 'N'}];
+	useYnArr.unshift({code: '', codeNm: '전체'});
 	
 	// jsGrid 셋팅
 	$('#jsGrid').jsGrid({
@@ -58,7 +60,7 @@ $(document).ready(function() {
 		
 		, filtering: true
 		, editing: true
-		
+		, inserting: true
 		, paging: true
 		, pageLoading: true
 		, pageSize: 10
@@ -68,7 +70,7 @@ $(document).ready(function() {
 		, deleteConfirm: "삭제 하시겠습니까?"
 		, controller: {
 			loadData: function(filter) {
-				
+				console.log(filter);
 				var d = $.Deferred();
 				
 				$.ajax({
@@ -82,10 +84,25 @@ $(document).ready(function() {
 				
 				return d.promise();
 			}
+			, insertItem: function(item) {
+				return $.ajax({
+					type: 'POST'
+					, url: '/sec/phcf/insertEgovPhcfAuthorList.do'
+					, data: item
+					, success: function(result) {
+						console.log(result);
+						$("#jsGrid").jsGrid("loadData");
+					}
+					, error: function(e) {
+						console.log('== error :', e);
+						alert('삽입 중 오류 발생.');
+					}
+				});
+			} 
 			, updateItem: function(item) {
 				return $.ajax({
 					type: 'POST'
-					, url: '/'
+					, url: '/sec/phcf/updateEgovPhcfAuthorList.do'
 					, data: item
 					, success: function(result) {
 						$("#jsGrid").jsGrid("loadData");
@@ -99,13 +116,13 @@ $(document).ready(function() {
 			, deleteItem: function(item) {
 				return $.ajax({
 					type: 'POST'
-					, url : '/'
+					, url : '/sec/phcf/deleteEgovPhcfAuthorList.do'
 					, data: item
 					, success: function(result) {
 						$("#jsGrid").jsGrid("loadData");
 					}
 					, error: function(e) {
-						console.log('== error :', e);
+						console.log('== error :', e.responseText);
 						alert('삭제 중 오류 발생.');
 					}
 				});
@@ -114,18 +131,17 @@ $(document).ready(function() {
 	
 		, noDateContent: '데이터가 없습니다.'
 		, loadMessage: '조회 중...'
-	
+			
 		, fields: [
-			{name: 'seq', title:'순번', type: 'text', editing: false, filtering: false, width: 50, align: 'center' }
-			, {name: 'authName', title: '권한이름', type: 'text', editing: false, width: 80, align: 'center' }
-			, {name: 'page', title: '페이지', type: 'select', items: pageArr, valueField: 'code', textField: 'codeNm', editing: false, width: 70, align: 'center' }
-			/* , {name: 'orgnztId', title: '조직ID', type: 'text', editing: false, width: 150, align: 'center' } */
-			, {name: 'orgnztNm', title: '조직이름', type: 'text', editing: false, width: 120 }
-			, {name: 'groupId', title: '그룹ID', type: 'text', editing: false, width: 100 }
-			, {name: 'acceptLink', title: '허용LINK', type: 'text', editing: false, filtering: false, width: 200 }
-			, {name: 'banLink', title: '차단LINK', type: 'text', editing: false, filtering: false, width: 200 }
-			, {name: 'authPriority', title: '우선순위', type: 'text', editing: false, filtering: false, align: 'center' }
-			, {name: 'useYn', title: '사용유무', type: 'text', editing: false, align: 'center' }
+			{name: 'seq', title:'순번', type: 'text', editing: false, filtering: false, inserting: false, width: 50, align: 'center' }
+			, {name: 'authNm', title: '권한이름', type: 'text', editing: true, width: 80, align: 'center' }
+			, {name: 'page', title: '페이지', type: 'select', items: pageArr, valueField: 'code', textField: 'codeNm', editing: true, width: 70, align: 'center' }
+			, {name: 'orgnztId', title: '조직(부서)', type: 'select', items: deptArr, valueField: 'deptCode', textField: 'deptNm', editing: true, width: 120 }
+			, {name: 'groupId', title: '사용자그룹', type: 'select', items: groupArr, valueField: 'groupId', textField: 'groupNm', editing: true, width: 100 }
+			, {name: 'acceptLink', title: '허용메뉴', type: 'select', items: menuArr, valueField: 'link', textField: 'menuNm', editing: true, filtering: true, width: 200 }
+			, {name: 'banLink', title: '차단메뉴', type: 'select', items: menuArr, valueField: 'link', textField: 'menuNm', editing: true, filtering: true, width: 200 }
+			, {name: 'authPriority', title: '우선순위', type: 'text', editing: true, filtering: false, align: 'center' }
+			, {name: 'useYn', title: '사용유무', type: 'select', items: useYnArr, valueField: 'code', textField: 'codeNm', editing: true, align: 'center' }
 			/* , {name: 'insId', title: '등록자', type: 'text', editing: false, filtering: false, align: 'center' }
 			, {name: 'insDt', title: '생성일', type: 'text', editing: false, filtering: false, width: 180, align: 'center' } */
 			, {type: 'control'}

@@ -25,6 +25,21 @@ public class EgovPhcfAuthorServiceImpl extends EgovAbstractServiceImpl implement
 	public List<AuthManageVO> selectAllEgovPhcfAuthList(AuthManageVO map) throws Exception {
 		return egovPhcfAuthorDAO.selectAllEgovPhcfAuthList(map);
 	}
+	
+	@Override
+	public void insertEgovPhcfAuthList(AuthManageVO map) throws Exception {
+		egovPhcfAuthorDAO.insertEgovPhcfAuthList(map);
+	}
+	
+	@Override
+	public void updateEgovPhcfAuthList(AuthManageVO map) throws Exception {
+		egovPhcfAuthorDAO.updateEgovPhcfAuthList(map);
+	}
+	
+	@Override
+	public void deleteEgovPhcfAuthList(AuthManageVO map) throws Exception {
+		egovPhcfAuthorDAO.deleteEgovPhcfAuthList(map);
+	}
 
 	@Override
 	public int selectEgovPhcfAuthListCnt(AuthManageVO map) throws Exception {

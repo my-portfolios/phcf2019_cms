@@ -10,8 +10,6 @@ public class AuthManage extends ComDefaultVO {
 	/**
 	 * 문화재단 권한 관리
 	 */
-	private AuthManage authManage;
-	
 	private String seq;
 	
 	private String authNm;
@@ -39,14 +37,6 @@ public class AuthManage extends ComDefaultVO {
 	private String uptId;
 	
 	private String uptDt;
-
-	public AuthManage getAuthManage() {
-		return authManage;
-	}
-
-	public void setAuthManage(AuthManage authManage) {
-		this.authManage = authManage;
-	}
 
 	public String getSeq() {
 		return seq;

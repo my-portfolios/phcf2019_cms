@@ -22,6 +22,7 @@
 	<select id="selectAllEgovPhcfAuthList" parameterType="egovframework.com.sec.phcf.service.AuthManageVO" resultMap="authList">
         
             SELECT SEQ, auth.AUTH_NAME, 
+            auth.PAGE,
             auth.ORGNZT_ID,
             org.ORGNZT_NM,
             auth.GROUP_ID, auth.ACCEPT_LINK, auth.BAN_LINK, auth.AUTH_PRIORITY, auth.USE_YN, 
@@ -48,6 +49,12 @@
             </if>
              <if test='groupId != null and groupId != ""'>AND
                 auth.GROUP_ID LIKE CONCAT('%', #{groupId}, '%')
+            </if>
+            <if test='acceptLink != null and acceptLink != ""'>AND
+                auth.ACCEPT_LINK LIKE CONCAT('%', #{acceptLink}, '%')
+            </if>
+            <if test='banLink != null and banLink != ""'>AND
+                auth.BAN_LINK LIKE CONCAT('%', #{banLink}, '%')
             </if>
             <if test='useYn != null and useYn != ""'>AND
              	auth.USE_YN = #{useYn}
@@ -108,20 +115,40 @@
         	)
     </select>
 
-	<insert id="insertGroup">
+	<insert id="insertEgovPhcfAuthList" parameterType="egovframework.com.sec.phcf.service.AuthManageVO">
+	
+		INSERT INTO AUTHMANAGE 
+		(AUTH_NAME, PAGE, ORGNZT_ID, GROUP_ID, ACCEPT_LINK, 
+		BAN_LINK, AUTH_PRIORITY, USE_YN, INS_ID, INS_DT)
+		VALUES 
+		(#{authNm}, #{page}, #{orgnztId}, #{groupId}, #{acceptLink}, 
+		#{banLink}, #{authPriority}, #{useYn}, #{insId}, SYSDATE())
 		
 	</insert>
 	
-	<update id="updateGroup" parameterType="egovframework.com.sec.gmt.service.GroupManage">
+	<update id="updateEgovPhcfAuthList" parameterType="egovframework.com.sec.phcf.service.AuthManageVO">
+	
+		UPDATE AUTHMANAGE SET
+		AUTH_NAME = #{authNm},
+		PAGE = #{page}, 
+		ORGNZT_ID = #{orgnztId}, 
+		GROUP_ID = #{groupId}, 
+		ACCEPT_LINK = #{acceptLink}, 
+		BAN_LINK = #{banLink}, 
+		AUTH_PRIORITY = #{authPriority}, 
+		USE_YN = #{useYn}, 
+		UPT_ID = #{uptId}, 
+		UPT_DT = SYSDATE()
+		WHERE SEQ = #{seq}
+		
 	
 	</update>
 	
-	<delete id="deleteGroup">
+	<delete id="deleteEgovPhcfAuthList" parameterType="egovframework.com.sec.phcf.service.AuthManageVO">
+	
+		DELETE FROM AUTHMANAGE
+		WHERE SEQ = #{seq}
 		
 	</delete>
-	
-	<select id="selectGroupListTotCnt" parameterType="egovframework.com.sec.gmt.service.GroupManageVO" resultType="int">
-
-	</select>
 
 </mapper>

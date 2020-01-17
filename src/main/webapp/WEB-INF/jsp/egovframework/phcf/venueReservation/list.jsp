@@ -186,7 +186,7 @@
 </head>
 
 <div class="board">
-	<h1>대관신청 리스트1</h1>
+	<h1>대관신청 리스트</h1>
 	<c:import url="/venueReservation/searchView.do"/>
 	<div id="jsGrid"></div>
 </div>	

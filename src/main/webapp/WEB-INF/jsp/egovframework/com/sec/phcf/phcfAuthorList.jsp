@@ -19,21 +19,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>문화재단권한관리</title><!-- 부서권한관리 목록 -->
+<title>문화재단 권한관리</title><!-- 부서권한관리 목록 -->
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
-
-<style>
-a:hover {
-cursor: pointer;
-}
-@media all and (max-width: 1550px) {
-	.table_scroll {   overflow-x: auto;   white-space: nowrap; }
-}
-input[type="button"], input[type="submit"] {
-    background: #266089;
-}
-</style>
 
 <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/jquery-1.12.4.min.js' />"></script>
 <link type="text/css" rel="stylesheet" href="/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.css" />
@@ -160,23 +148,28 @@ $(document).ready(function() {
 
 <body>
 
-<form name="frm" id="frm" action="${ctx}/sec/phcf/getEgovPhcfAuthorList.do" method="post" >
-
-<div class="search_box" >
-	<ul style="display:none;">
-		<li class="div-left"></li>
-		<li></li>
-		<li></li>
-	</ul>
-</div>
-
-<input type="hidden" id="page_no" name="page_no" value="${paramMap.page_no }">
-
-	<div class="area">
-		<div id="jsGrid"></div>
+<div class="board">
+<h1>문화재단 권한관리</h1>
+<!-- <h1><spring:message code="ussCmt.cmtManageList.cmtManage"/></h1> -->
+	<form name="frm" id="frm" action="${ctx}/sec/phcf/getEgovPhcfAuthorList.do" method="post" >
+	
+	
+	<div class="search_box" >
+		<ul style="display:none;">
+			<li class="div-left"></li>
+			<li></li>
+			<li></li>
+		</ul>
 	</div>
-
-</form>
+	
+	<input type="hidden" id="page_no" name="page_no" value="${paramMap.page_no }">
+	
+		<div class="area">
+			<div id="jsGrid"></div>
+		</div>
+	
+	</form>
+</div>
 
 </body>
 </html>

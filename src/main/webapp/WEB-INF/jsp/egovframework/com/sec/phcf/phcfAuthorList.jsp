@@ -21,12 +21,17 @@
 <head>
 <title>문화재단권한관리</title><!-- 부서권한관리 목록 -->
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
+
 <style>
 a:hover {
 cursor: pointer;
 }
 @media all and (max-width: 1550px) {
 	.table_scroll {   overflow-x: auto;   white-space: nowrap; }
+}
+input[type="button"], input[type="submit"] {
+    background: #266089;
 }
 </style>
 

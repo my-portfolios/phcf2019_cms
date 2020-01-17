@@ -68,18 +68,18 @@
         </li>
         
         <li class="menu">
-            <a>이미지 관리</a>
-            <ul class="hide">
-                <li><a href="/uss/ion/msi/selectMainImageList.do" target="_content">메인이미지 관리</a></li>
-                <li><a href="/uss/ion/bnr/selectBannerList.do" target="_content">배너 관리</a></li>
-            </ul>
-        </li>
-        
-        <li class="menu">
             <a>메뉴 관리</a>
             <ul class="hide">
                 <li><a href="/sym/mnu/mpm/EgovMenuManageSelect.do" target="_content">메뉴관리 리스트</a></li>
                 <li><a href="/sym/mnu/bmm/selectBkmkMenuManageList.do" target="_content">바로가기 메뉴 관리</a></li>
+            </ul>
+        </li>
+        
+        <li class="menu">
+            <a>이미지 관리</a>
+            <ul class="hide">
+                <li><a href="/uss/ion/msi/selectMainImageList.do" target="_content">메인이미지 관리</a></li>
+                <li><a href="/uss/ion/bnr/selectBannerList.do" target="_content">배너 관리</a></li>
             </ul>
         </li>
         
@@ -153,9 +153,11 @@
         <li class="menu">
             <a>업무관리</a>
             <ul class="hide">
-                <li><a href="/cop/smt/djm/addDeptJob.do" target="_content">부서업무 등록</a></li>
-                <li><a href="/cop/smt/djm/selectDeptJobList.do" target="_content">부서업무 목록</a></li>
-                <li><a href="/cop/smt/sdm/EgovDeptSchdulManageList.do" target="_content">부서일정관리</a></li>
+                <li><a href="/cop/smt/djm/addDeptJob.do" target="_content">부서업무</a></li>
+                <li><a href="/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000331" target="_content">업무요청게시판</a></li>
+                
+                <!-- <li><a href="/cop/smt/djm/selectDeptJobList.do" target="_content">부서업무 목록</a></li>
+                <li><a href="/cop/smt/sdm/EgovDeptSchdulManageList.do" target="_content">부서일정관리</a></li> -->
             </ul>
         </li>
         

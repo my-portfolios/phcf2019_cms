@@ -1,238 +1,144 @@
-<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>eGovFrame 공통 컴포넌트</title>
-<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-<link href="<c:url value='/css/egovframework/com/cmm/main.css' />" rel="stylesheet" type="text/css">
-<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-<style>
-    .menu li {cursor:pointer;}
-    .menu .hide{display:none;}
-</style>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/common/include.jsp" %>
 
-<script>
-    $(document).ready(function(){
-        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
-        $(".menu>a").click(function(){
-            var submenu = $(this).next("ul"); 
-            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
-            if( submenu.is(":visible") ){
-                submenu.slideUp();
-            }else{
-                submenu.slideDown();
-            }
-        });
-    });
-</script>
+<form name="frm" id="frm" action="${ctx}/cms/popup/edit.do" method="post"  enctype="multipart/form-data">
+<input type="hidden" id="CSRFToken" name="CSRFToken" value="${paramMap.CSRFToken}" />
+<input type="hidden" name="com_hbz_request_token" value="${paramMap.com_hbz_request_token}"/>
+<input type="hidden" name="hbzEvent" id="hbzEvent" value="${paramMap.hbzEvent}"  />
+<input type="hidden" name="page_no" id="page_no" value="${paramMap.page_no}" />
+<input type="hidden" name="LANG" id="LANG" value="${paramMap.LANG}" />
+<input type="hidden" name="POPUP_SEQ" id="POPUP_SEQ" value="${popupInfo.POPUP_SEQ}" />
+		<div class="area">
+			<table class="tablestyle_green">
+				<caption class="dpnone">팝업관리</caption>
+				<tbody>
+				<tr>
+					<th class="table_id">제목</th>
+					<td><div class="inputtextarea table_email floatleft"><input type="text" class="resetinput"  name="POPUP_NAME" value="${popupInfo.POPUP_NAME}"  /></div><span class="floatleft margintop5 marginleft5 colorgray">관리자가 알아볼 수 있도록 제목을 입력해주세요</span></td>
+				</tr>
+				<tr>
+					<th>기간</th>
+					<td>
+						<div class="floatleft"><span class="floatleft margintop5">시작일 : </span>
+						<div class="marginleft5 inputtextarea width80px floatleft"><input type="text"  class="resetinput" id="startDate" name="START_DT" value="${popupInfo.START_DT}"  /></div></div>
+						<div class="floatleft"><span class="floatleft margintop5 marginleft5">종료일 : </span>
+						<div class="marginleft5 inputtextarea width80px floatleft"><input type="text"  class="resetinput" id="endDate" name="END_DT" value="${popupInfo.END_DT}"  /></div></div>
+					</td>
+				</tr>
+				<tr>
+					<th>이미지설명</th>
+					<td><textarea class="textarea width99 height100" name="IMG_TEXT" ><c:out value="${popupInfo.IMG_TEXT }" /></textarea></td>
+				</tr>
+				<!-- 추가 시작 -->
+				<tr>
+					<th>이미지링크</th><!-- 스토리보드에는 없는 내용입니다 추가되야될거 같아 넣어놓습니다 -->
+					<td><div class="inputtextarea width99 floatleft"><input type="text" class="resetinput"  name="LINK_PATH" value="${popupInfo.LINK_PATH}"  /></div></td>
+				</tr>
+				<tr>
+					<th>내용 ( html )</th>
+					<td><textarea class="textarea width99 height100" name="HTML"><c:out value="${popupInfo.HTML}" /></textarea></td>
+				</tr>
+				<!-- 추가 끝 -->
+				<tr>
+					<th>팝업위치(x)</th>
+					<td><div class="inputtextarea width80px floatleft"><input type="text" class="resetinput" name="LOC_X" value="${popupInfo.LOC_X}"  /></div><span class="margintop5 marginleft5 floatleft">브라우저 기준 PX단위</span></td>
+				</tr>
+				<tr>
+					<th>팝업위치(y)</th>
+					<td><div class="inputtextarea width80px floatleft"><input type="text" class="resetinput" name="LOC_Y" value="${popupInfo.LOC_Y}"  /></div><span class="margintop5 marginleft5 floatleft">브라우저 기준 PX단위</span></td>
+				</tr>
+				<!-- 추가 시작 -->
+				<tr>
+					<th>팝업넓이</th>
+					<td><div class="inputtextarea width80px floatleft"><input type="text" class="resetinput"  name="POPUP_WIDTH" value="${popupInfo.POPUP_WIDTH}"  /></div><span class="margintop5 marginleft5 floatleft">단위 px (입력하지 않으면 컨텐츠 크기에 따라 자동으로 늘어납니다)</span></td>
+				</tr>
+				<tr>
+					<th>팝업높이</th>
+					<td><div class="inputtextarea width80px floatleft"><input type="text" class="resetinput"  name="POPUP_HEIGHT" value="${popupInfo.POPUP_HEIGHT}"  /></div><span class="margintop5 marginleft5 floatleft">단위 px (입력하지 않으면 컨텐츠 크기에 따라 자동으로 늘어납니다)</span></td>
+				</tr>
+                <tr>
+                    <th>새창여부</th>
+                    <td><div class="width80px floatleft"><input id="c1" type="checkbox" class="checkbox" name="WIN_OPEN_YN" value="Y"  ${popupInfo.WIN_OPEN_YN.equals("Y")?"checked":"" } />&nbsp;&nbsp;<label for="c1" class="marginleft5">새창</label></div>
+                    &nbsp;<span class="margintop5 marginleft5 floatleft">체크박스에 체크를 하면 팝업화면의 링크가 새창으로(기본 메인화면) 열립니다.</span></td>
+                </tr>
+				<!-- 추가 끝 -->
+				<tr>
+					<th>이미지업로드</th>
+					<td><input type="file" id="ATTACH_IMAGE" name="ATTACH_IMAGE" />
+                       <c:if test="${not empty popupInfo.IMG_FILE_NAME }">
+                           <div class="paddingtop5">현재등록된 이미지 : <a class="colorgray" href="${ctx}/common/file/download.do?upload_file_name=${popupInfo.IMG_FILE_PATH}" ><c:out value="${popupInfo.IMG_FILE_NAME }" /></a></div>
+                       </c:if>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<!--button-->
+		<div class="buttonarea floatright">
+            <input type="button" id='${paramMap.hbzEvent.equals("insert")?"insert_btn":"modify_btn"}' class="button btn_middle btn_blue" data-con="저장 하시겠습니까?" data-type="submit" data-src="frm" data-action="${ctx}/cms/popup/edit.do" onclick="fn_edit(this);" value="${paramMap.hbzEvent.equals("insert")?"등록":"수정"}" />
+            <input type="button" class="button btn_middle btn_white" data-con="취소 하시겠습니까?" data-type="parent_pop" onclick="fn_list();" value="목록" />
+		</div>
+		<!--button_end-->
+</form>
 
+    <script>
+    $("#frm").validate({
+        onsubmit: false, 
+        rules: {
+        	POPUP_NAME: "required",
+            START_DT: {
+                required: true,
+                date: true
+            },
+            END_DT: {
+                required: true,
+                date: true
+            },
+            LINK_PATH: "url",
+            LOC_X: "digits",
+            LOC_Y: "digits",
+            POPUP_WIDTH: "digits",
+            POPUP_HEIGHT: "digits"
+        },
+        messages: {
+        	POPUP_NAME: "제목을 입력해 주세요",
+            START_DT: {
+              required: "시작일자를 입력해 주세요.",
+              date: "날짜를 올바르게 입력해 주세요."
+            },
+            END_DT: {
+                required: "종료일자를 입력해 주세요.",
+                date: "날짜를 올바르게 입력해 주세요."
+            },
+            LINK_PATH: "URL을 올바르게 입력해 주세요",
+            LOC_X: "숫자만 입력해 주세요",
+            LOC_Y: "숫자만 입력해 주세요",
+            POPUP_WIDTH: "숫자만 입력해 주세요",
+            POPUP_HEIGHT: "숫자만 입력해 주세요"
+        }
+      });
 
-<div id="lnb">
-<c:set var="isMai" value="false"/>
-<c:set var="isUat" value="false"/>
-<c:set var="isSec" value="false"/>
-<c:set var="isSts" value="false"/>
-<c:set var="isCop" value="false"/>
-<c:set var="isUss" value="false"/>
-<c:set var="isSym" value="false"/>
-<c:set var="isSsi" value="false"/>
-<c:set var="isDam" value="false"/>
-<c:set var="isCom" value="false"/>
-<c:set var="isExt" value="false"/>
+    // 리스트 조회
+    function fn_list() {
+        document.frm.hbzEvent.value = "list";
+        jQuery('#frm').attr("action", "${ctx}/cms/popup/list.do");
+        jQuery('#frm').submit();
+    }
+    //등록,수정
+    function fn_edit(obj) {
+    	if( $("#ATTACH_IMAGE").val() != "" ){
+    		var ext = $('#ATTACH_IMAGE').val().split('.').pop().toLowerCase();
+    		      if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+	    		     alert('이미지 업로드 파일은 gif,png,jpg,jpeg 확장자만 업로드 할수 있습니다.');
+	    		     return;
+   		      }
+   		}
 
-
-    <ul class="lnb_title">
-		<li class="menu noicon" >
-            <a href="${pageContext.request.contextPath}/EgovContent.do" target="_content" class="noicon" >Dashboard</a>
-        </li>
- 
-        <li class="menu">
-            <a>CMS 관리</a>
-            <ul class="hide">
-                <li><a href="/uss/umt/dpt/selectDeptManageListView.do" target="_content">부서 관리</a></li>
-                <!-- <li><a href="/sec/phcf/EgovPhcfAuthorList.do" target="_content">문화재단권한관리 </a></li> -->
-                <li><a href="/sec/phcf/listView.do" target="_content">문화재단권한관리 </a></li>
-                <li><a href="/uss/umt/EgovUserManage.do" target="_content">업무 사용자 관리</a></li>
-                <!-- <li><a href="/sec/ram/EgovAuthorList.do" target="_content">권한 관리</a></li> -->
-                <!-- <li><a href="/sec/gmt/EgovGroupList.do" target="_content">그룹 관리</a></li>
-                <li><a href="/sec/rmt/EgovRoleList.do" target="_content">롤 관리</a></li> -->
-                <li><a href="/sym/ccm/ccc/SelectCcmCmmnClCodeList.do" target="_content">공통 분류코드 관리</a></li>   
-                <li><a href="/sym/ccm/cca/SelectCcmCmmnCodeList.do" target="_content">공통 분류코드 상세</a></li>   
-                <li><a href="/sym/ccm/cde/SelectCcmCmmnDetailCodeList.do" target="_content">공통 코드상세 관리</a></li>             
-                <li><a href="/cop/bbs/selectBBSMasterInfs.do" target="_content">게시판 관리</a></li>
-                <li><a href="/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000002" target="_content">컨텐츠관리</a></li>
-            </ul>
-        </li>
-        
-        <li class="menu">
-            <a>메뉴 관리</a>
-            <ul class="hide">
-                <li><a href="/sym/mnu/mpm/EgovMenuManageSelect.do" target="_content">메뉴관리 리스트</a></li>
-                <li><a href="/sym/mnu/bmm/selectBkmkMenuManageList.do" target="_content">바로가기 메뉴 관리</a></li>
-            </ul>
-        </li>
-        
-        <li class="menu">
-            <a>이미지 관리</a>
-            <ul class="hide">
-                <li><a href="/uss/ion/msi/selectMainImageList.do" target="_content">메인이미지 관리</a></li>
-                <li><a href="/uss/ion/bnr/selectBannerList.do" target="_content">배너 관리</a></li>
-            </ul>
-        </li>
-        
-        <li class="menu">
-            <a>팝업창 관리</a>
-            <ul class="hide">
-                <li><a href="/uss/ion/pwm/listPopup.do" target="_content">팝업창 리스트</a></li>
-            </ul>
-        </li>
-        
-        <li class="menu">
-            <a>대관신청관리</a>
-            <ul class="hide">
-                <li><a href="/venueReservation/selectReservationManageList.do" target="_content">접수날짜 관리</a></li>
-                <li><a href="/venueReservation/selectReservationCalendar.do" target="_content">대관신청 캘린더</a></li>
-                <li><a href="/venueReservation/selectReservationList.do" target="_content">대관신청 리스트</a></li>
-            </ul>
-        </li>
-        
-         <li class="menu">
-            <a>아트투어신청 관리</a>
-            <ul class="hide">
-                <li><a href="" target="_content">신청자 리스트</a></li>
-            </ul>
-        </li>
-        
-        <li class="menu">
-            <a>버스킹 신청 관리</a>
-            <ul class="hide">
-                <li><a href="#" target="_content">무대 신청자 리스트</a></li>
-                <li><a href="#" target="_content">단체 접수 관리</a></li>
-            </ul>
-        </li>
-        
-        <li class="menu">
-            <a>회원정보 관리</a>
-            <ul class="hide">
-                <li><a href="/uss/umt/EgovMberManage.do" target="_content">회원정보 리스트</a></li>
-                <li><a href="#" target="_content">휴먼회원 리스트</a></li>
-                <li><a href="#" target="_content">휴먼회원 전환 관리</a></li>
-            </ul>
-        </li>
-        
-        <li class="menu">
-            <a>유료멤버쉽 신청관리</a>
-            <ul class="hide">
-                <li><a href="/premiumMember/selectMembershipRegList.do" target="_content">유료회원 리스트</a></li>
-            </ul>
-        </li>
-        
-        <li class="menu">
-            <a>후원 신청관리</a>
-            <ul class="hide">
-                <li><a href="/cms/support/listView.do" target="_content">후원 신청 리스트</a></li>
-            </ul>
-        </li>
-        
-        <li class="menu">
-            <a>홈페이지 통계</a>
-            <ul class="hide">
-                <li><a href="/cms/statistic/phcfStatusReport.do" target="_content">게시물 통계</a></li>
-                <!-- <li><a href="/sts/cst/selectConectStats.do" target="_content">접속 통계</a></li> -->
-                <li><a href="/sts/ust/selectUserStats.do" target="_content">사용자 통계</a></li>
-                <li><a href="/sym/log/lgm/SelectSysLogList.do" target="_content">로그 관리</a></li>
-                <li><a href="/sym/log/wlg/SelectWebLogList.do" target="_content">웹로그 관리</a></li>
-                <li><a href="/sym/log/ulg/SelectUserLogList.do" target="_content">사용자 로그 관리</a></li>
-                <li><a href="/sym/log/ulg/SelectUserLogList.do" target="_content">접속 로그 관리</a></li>
-            </ul>
-        </li>
-        
-        <li class="menu">
-            <a>업무관리</a>
-            <ul class="hide">
-                <li><a href="/cop/smt/djm/addDeptJob.do" target="_content">부서업무</a></li>
-                <li><a href="/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000331" target="_content">업무요청게시판</a></li>
-                
-                <!-- <li><a href="/cop/smt/djm/selectDeptJobList.do" target="_content">부서업무 목록</a></li>
-                <li><a href="/cop/smt/sdm/EgovDeptSchdulManageList.do" target="_content">부서일정관리</a></li> -->
-            </ul>
-        </li>
-        
-        <p style="padding: 20px 0px; text-align: center;">
-            <a href="http://hubizict.com/new/bbs/board.php?bo_table=mn05_2" target="_blank"><img src="<c:url value='/images/egovframework/com/cmm/main/cms_banner01.png' />" alt="휴비즈아이씨티 작업요청게시판으로 이동합니다." /></a>
-        </p>
-        
-    </ul>
-
-<br /><br />
-
-
-<!-- 기존 메뉴 -->
-<ul class="lnb_title" style="display: none;">
-<li class="">
-
-	<c:forEach var="result" items="${resultList}" varStatus="status">
-	
+        if($( "#frm" ).valid()){
+            jQuery('#frm').attr("action", "${ctx}/cms/popup/edit.do");
+            //jQuery('#frm').submit(); 
+            fn_alert(obj);
+        }
+    }
+    </script>
 		
-		<c:if test="${isMai == 'false' && result.gid == '0'}">								
-			<a><strong class="left_title_strong"><strong class="top_title_strong"><spring:message code="comCmm.mai.title"/></strong></strong></a><!-- 포털(예제) 메인화면 -->	
-			<c:set var="isMai" value="true"/>
-		</c:if>
-		
-		<c:if test="${isUat == 'false' && result.gid == '10'}">
-			<a><strong class="left_title_strong"><strong class="top_title_strong"><spring:message code="comCmm.uat.title"/></strong></strong></a><!-- 사용자디렉토리/통합인증 -->		
-			<c:set var="isUat" value="true"/>
-		</c:if>
-		
-		<c:if test="${isSec == 'false' && result.gid == '20'}">
-			<a><strong class="left_title_strong"><strong class="top_title_strong"><spring:message code="comCmm.sec.title"/></strong></strong></a><!-- 보안 -->
-			<c:set var="isSec" value="true"/>
-		</c:if>
-		
-		<c:if test="${isSts == 'false' && result.gid == '30'}">
-			<a><strong class="left_title_strong"><strong class="top_title_strong"><spring:message code="comCmm.sts.title"/></strong></strong></a><!-- 통계/리포팅 -->
-			<c:set var="isSts" value="true"/>
-		</c:if>
-		<c:if test="${isCop == 'false' && result.gid == '40'}">
-			<a><strong class="left_title_strong"><strong class="top_title_strong"><spring:message code="comCmm.cop.title"/></strong></strong></a><!-- 협업 -->
-			<c:set var="isCop" value="true"/>
-		</c:if>
-		<c:if test="${isUss == 'false' && result.gid == '50'}">
-			<a><strong class="left_title_strong"><strong class="top_title_strong"><spring:message code="comCmm.uss.title"/></strong></strong></a><!-- 사용자지원 -->
-			<c:set var="isUss" value="true"/>
-		</c:if>
-		<c:if test="${isSym == 'false' && result.gid == '60'}">
-			<a><strong class="left_title_strong"><strong class="top_title_strong"><spring:message code="comCmm.sym.title"/></strong></strong></a><!-- 시스템관리 -->
-			<c:set var="isSym" value="true"/>
-		</c:if>
-		<c:if test="${isSsi == 'false' && result.gid == '70'}">
-			<a><strong class="left_title_strong"><strong class="top_title_strong"><spring:message code="comCmm.ssi.title"/></strong></strong></a><!-- 시스템/서비스연계  -->
-			<c:set var="isSsi" value="true"/>
-		</c:if>
-		<c:if test="${isDam == 'false' && result.gid == '80'}">
-			<a><strong class="left_title_strong"><strong class="top_title_strong"><spring:message code="comCmm.dam.title"/></strong></strong></a><!-- 디지털 자산 관리 -->
-			<c:set var="isDam" value="true"/>
-		</c:if>
-		<c:if test="${isCom == 'false' && result.gid == '90'}">
-			<a><strong class="left_title_strong"><strong class="top_title_strong"><spring:message code="comCmm.com.title"/></strong></strong></a> <!-- 요소기술 -->
-			<c:set var="isCom" value="true"/>
-		</c:if>
-		<c:if test="${isExt == 'false' && result.gid == '100'}">
-			<a><strong class="left_title_strong"><strong class="top_title_strong"><spring:message code="comCmm.ext.title"/></strong></strong></a><!-- 외부 추가 컴포넌트 -->
-			<c:set var="isExt" value="true"/>
-		</c:if>
-		
-		<ul class="hide">
-		<c:set var="componentMsgKey">comCmm.left.${result.order}</c:set>				
-		<li class="2depth"><a href="${pageContext.request.contextPath}<c:out value="${result.listUrl}"/>" target="_content" class="link"> <c:out value="${result.order}"/>. <spring:message code="${componentMsgKey}"/><!-- <c:out value="${result.name}"/> --></a>
-		</li>
-		</ul>
-	
-	</c:forEach>
-
-</li>	
-</ul>
-<!-- 기존 메뉴 -->

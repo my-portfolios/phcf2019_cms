@@ -162,7 +162,6 @@ public class EgovPhcfAuthorController {
     	
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	authManageVO.setInsId(user.getUniqId());
-    	logger.debug("=================== authManageVO : " + authManageVO);
 		authManageVO.setPhcfAuthorList(egovPhcfAuthorService.selectAllEgovPhcfAuthList(authManageVO));
         model.addAttribute("value", authManageVO.getPhcfAuthorList());
         

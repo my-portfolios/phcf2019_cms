@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page isErrorPage="true" import="java.io.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +33,16 @@ function fncGoAfterErrorPage(){
 		</div>
 	</div>
 </div>
-
+<%=exception %>
+<%
+  out.println("<pre>");
+  StringWriter sw = new StringWriter();
+  PrintWriter pw = new PrintWriter(sw);
+  exception.printStackTrace(pw);
+  out.print(sw.toString());
+  sw.close();
+  pw.close();
+  out.println("</pre>");
+%>
 </body>
 </html>

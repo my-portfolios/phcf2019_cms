@@ -15,6 +15,7 @@
 				, HEADER_YN AS headerYn
 				, CONTENTPAGE_YN AS contentpageYn
 				, LINK AS link
+				, TARGET AS target
 				, CONTENT_ID AS contentID
 				, (SELECT NTT_SJ FROM COMTNBBS b WHERE BBS_ID='BBSMSTR_000000000002' AND m.CONTENT_ID = b.NTT_ID LIMIT 1) AS nttSj
 				, (SELECT NTT_CN FROM COMTNBBS b WHERE BBS_ID='BBSMSTR_000000000002' AND m.CONTENT_ID = b.NTT_ID LIMIT 1) AS nttCn
@@ -51,6 +52,7 @@
 				, m.HEADER_YN AS headerYn
 				, m.CONTENTPAGE_YN AS contentpageYn
 				, m.LINK AS link
+				, m.TARGET AS target
 				, m.CONTENT_ID AS contentId
 			FROM MENUINFOLIST m
 			LEFT JOIN COMTNBBS b ON
@@ -105,6 +107,7 @@
 			CONTENTPAGE_YN AS contentpageYn,
 			HEADER_YN AS headerYn,
 			LINK AS link,
+			TARGET AS target,
 			CONTENT_ID AS contentId
 		FROM
 			MENUINFOLIST

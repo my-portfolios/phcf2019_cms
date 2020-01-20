@@ -24,8 +24,13 @@ public class PremiumMemberServiceImpl extends EgovAbstractServiceImpl implements
 	private PremiumMemberDAO dao;
 
 	@Override
-	public List<HashMap<String, String>> selectMembershipRegList(HashMap<String, String> paramMap) throws Exception {
+	public List<HashMap<String, Object>> selectMembershipRegList(HashMap<String, String> paramMap) throws Exception {
 		return dao.selectMembershipRegList(paramMap);
+	}
+	
+	@Override
+	public int selectMembershipRegListCnt(HashMap<String, String> paramMap) throws Exception {
+		return dao.selectMembershipRegListCnt(paramMap);
 	}
 	
 	@Override

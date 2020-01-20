@@ -18,11 +18,11 @@
 		FROM
 			MEMBERSHIPREGLOG
 		WHERE 1=1
-		<if test="id != null and id != ''">
-			AND SEQ = #{id}
+		<if test="SEQ != null and SEQ != ''">
+			AND SEQ = #{SEQ}
 		</if>
 		<if test="search_data != null and search_data != ''">
-			AND ${search_type} LIKE '%' #{search_data} '%'
+			AND ${searchType} LIKE '%' #{search_data} '%'
 		</if>
 		<if test="type != null and type != ''">
 			AND PRE_TYPE = #{type}
@@ -30,10 +30,31 @@
 		<if test="check_yn != null and check_yn != ''">
 			AND CHECK_YN = #{check_yn}
 		</if>
-		<if test="start_dt != null and start_dt != '' and end_dt != null and end_dt != ''">
-			AND CREATE_DT BETWEEN #{start_dt} AND DATE_ADD(#{end_dt}, INTERVAL 1 DAY)
-		</if>
 		ORDER BY CHECK_YN ASC, CREATE_DT DESC
+		<if test='pageSize != null and pageOffset != null'>
+			LIMIT ${pageSize} OFFSET ${pageOffset}
+		</if>
+	</select>
+	
+	<select id="selectMembershipRegListCnt" parameterType="java.util.HashMap" resultType="int">
+		/* premiumMember.selectMembershipRegListCnt */
+		SELECT
+			COUNT(*) AS LENGTH
+		FROM
+			MEMBERSHIPREGLOG
+		WHERE 1=1
+		<if test="SEQ != null and SEQ != ''">
+			AND SEQ = #{SEQ}
+		</if>
+		<if test="search_data != null and search_data != ''">
+			AND ${searchType} LIKE '%' #{search_data} '%'
+		</if>
+		<if test="type != null and type != ''">
+			AND PRE_TYPE = #{type}
+		</if>
+		<if test="check_yn != null and check_yn != ''">
+			AND CHECK_YN = #{check_yn}
+		</if>
 	</select>
 	
 	<update id="updateMembershipStatus" parameterType="java.util.HashMap">
@@ -42,11 +63,11 @@
 		UPDATE
 			MEMBERSHIPREGLOG
 		SET
-			RESULT = #{value},
+			RESULT = #{RESULT},
 			CHECK_YN = 'Y',
 			UPDATE_DT = NOW()
 		WHERE 
-			SEQ = #{id}
+			SEQ = #{SEQ}
 	</update>
 	
 	<update id="updateMembershipGrade" parameterType="java.util.HashMap">

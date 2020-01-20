@@ -12,7 +12,8 @@ import java.util.List;
 
 public interface PremiumMemberService {
 
-	public List<HashMap<String, String>> selectMembershipRegList(HashMap<String, String> paramMap) throws Exception;
+	public List<HashMap<String, Object>> selectMembershipRegList(HashMap<String, String> paramMap) throws Exception;
+	public int selectMembershipRegListCnt(HashMap<String, String> paramMap) throws Exception;
 	public void updateMembershipStatus(HashMap<String, String> paramMap) throws Exception;
 	public void updateMembershipGrade(HashMap<String, String> paramMap) throws Exception;
 }

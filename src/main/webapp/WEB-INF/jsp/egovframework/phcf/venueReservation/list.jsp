@@ -22,14 +22,16 @@
 <script type="text/javascript" src="<c:url value='/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.js'/>"></script>
 
 <script>
+	var searchFilter = new Object();
 	var jsonString;
-	var resultCode = [{Name : "접수 요청", Id: "R"},
+	var resultCode = [
+			{Name : "접수 요청", Id: "R"},
  			{Name : "접수 취소", Id: "C"},
  			{Name : "접수 완료", Id: "S"},
- 			{Name : "접수 취소", Id: "C"},
  			{Name : "승인 완료", Id: "A"},
  			{Name : "승인 거절", Id: "D"},
- 			{Name : "승인 취소", Id: "O"}];
+ 			{Name : "승인 취소", Id: "O"}
+ 		];
 	
 	$(function(){
 		
@@ -51,17 +53,18 @@
 				loadData: function(filter) {			
 					var d = $.Deferred();
 					
-					if(filter == null) filter = "";
+					searchFilter.pageIndex = filter.pageIndex;
+					searchFilter.pageSize = filter.pageSize;
+					
 					$.ajax({
 						type: 'POST',
 						url: '/venueReservation/selectReservationListToJson.do',
 						dataType: 'JSON',
-						data: filter,
+						data: searchFilter,
 						success : function(data){
 							try {
 								jsonString = data.venueReservationRegJson;
 								jsonString = JSON.parse(jsonString);
-								console.log(jsonString);
 								
 								var list = {
 									data: jsonString,
@@ -123,7 +126,6 @@
 					var jsonId = $(item2).attr("id");
 					var jsonText = item[jsonId];
 					if(jsonId != "FILE_ID"){
-						console.log(jsonId);
 						if(!Number.isInteger(jsonText) && jsonText != null && jsonText != '' && jsonText.includes("<br/>")) {
 							jsonText = jsonText.replace("<br/>", " ");
 						}
@@ -134,11 +136,6 @@
 								}
 							});
 						}
-						
-						console.log("aa");
-						console.log(jsonId);
-						console.log(jsonText);
-						console.log("bb");
 						
 						if(jsonId != "closebtn"){
 							if(jsonText == "" || jsonText == null || typeof jsonText == "undefined" || jsonText == undefined) $(item2).text(""); 
@@ -161,10 +158,17 @@
 				$("#FILE_ID").html(data);
 			}
 		});
-		
-		
+				
 		$(".popup_modal").css("left","10%");
 		$(".popup_modal").css("display","");
+		$(".popup_modal").css("padding","1%");
+		
+		$(".popup_bg").css("width","100%");
+		$(".popup_bg").css("height","100%");
+		$(".popup_bg").css("background","rgb(234,236,238,0.5)");
+		$(".popup_bg").css("position","absolute");
+		$(".popup_bg").css("top","0");
+		$(".popup_bg").css("display","");
 	}
 	
 	function search(){
@@ -173,13 +177,13 @@
 		var result = $("#RESULT").val();
 		var keyword = $("#keyword").val();
 		
-		var searchObject = new Object();
-		searchObject.searchCnd = searchType;
-		searchObject.venueCnd = venue;
-		searchObject.resultCnd = result;
-		searchObject.keyword = keyword;
+		searchFilter = new Object();
+		searchFilter.searchCnd = searchType;
+		searchFilter.venueCnd = venue;
+		searchFilter.resultCnd = result;
+		searchFilter.keyword = keyword;
 		
-		$("#jsGrid").jsGrid("loadData", searchObject);
+		$("#jsGrid").jsGrid("loadData");
 	}
 </script>
 
@@ -211,13 +215,9 @@
 			</tr>
 			<tr>
 				<th style="text-align:center;">1일차대관일시</th>
-				
 				<th style="text-align:center;">2일차대관일시</th>
-				
 				<th style="text-align:center;">3일차대관일시</th>
-				
 				<th style="text-align:center;">4일차대관일시</th>
-				
 				<th style="text-align:center;">5일차대관일시</th>
 			</tr>
 			<tr>
@@ -241,9 +241,7 @@
 				<th>첨부파일</th>
 				<td id="FILE_ID" colspan="2"></td>
 			</tr>
-			<tr>
-				<th colspan="5" style="text-align:center;">신청자 정보</th>
-			</tr>
+			
 			<tr>
 				<th>업체 및 단체명</th>
 				<td id="ORGAN_NAME"></td>
@@ -267,11 +265,12 @@
 			</tr>
 			<tr>
 				<td colspan="5" id="closebtn" >
-					<input type="button" onclick="$('.popup_modal').css('display','none');" value="닫기"/>
+					<input type="button" style="margin: 1%;"onclick="$('.popup_modal').css('display','none');$('.popup_bg').css('display','none');" value="닫기"/>
 				</td>
 			</tr>
 		</table>
 	</div>
+	<div class="popup_bg" style="display:none;"></div>
 </div>
 </body>
 </html>

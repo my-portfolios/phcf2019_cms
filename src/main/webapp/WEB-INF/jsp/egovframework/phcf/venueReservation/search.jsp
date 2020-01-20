@@ -7,7 +7,7 @@
 <script src="/js/egovframework/phcf/datepicker.ko.js"></script>
 <script>
 	var datePicker;
-	
+	var datePicker_use = false;
 	$(function(){
 		$("#searchType").on("change",function(){
 			if($(this).val() == "SEARCH_DATE"){
@@ -21,8 +21,12 @@
 						days: 'yyyy 년 MM'
 					}
 				}).data('datepicker');
+				datePicker_use = true;
 			}
-			else datePicker.destroy();
+			else if(datePicker_use) {
+				datePicker.destroy();
+				datePicker_use = false;
+			}
 		});
 		
 	});
@@ -53,7 +57,7 @@
 			</select>
 		</li>
 		<li>
-	        <select id="searchType"><!--  -->
+	        <select class="floatleft" id="searchType"><!--  -->
 	            <option value="USER_ID">아이디</option>
 	            <option value="MANAGER_NAME">이름</option>
 	            <c:if test='<%= request.getParameter("fixStatus") == null %>'>
@@ -64,7 +68,7 @@
 		<!-- 검색키워드 및 조회버튼 -->
 		<li>
 			<input class="s_input" id="keyword" type="text"/>
-			<input type="submit" class="s_btn" value="검색" onclick="search();"/>
+			<input type="button" class="s_btn" value="검색" onclick="search();"/>
 		</li>
 	</ul>
 </div>

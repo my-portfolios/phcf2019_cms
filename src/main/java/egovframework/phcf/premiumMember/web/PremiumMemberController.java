@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.json.Json;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.phcf.premiumMember.service.PremiumMemberService;
+import egovframework.phcf.util.JsonUtil;
 
 
 /**
@@ -28,28 +30,48 @@ public class PremiumMemberController {
 	@Resource(name="PremiumMemberService")
 	private PremiumMemberService service;
 	
-	@IncludedInfo(name="유료멤버십신청관리", order=40000, gid=100) //name 즉, 메뉴명은 message-common_ko.properties에 등록해줘야 한다.
 	@RequestMapping(value="/premiumMember/selectMembershipRegList.do")
-	public String selectMembershipRegList(ModelMap model, @RequestParam HashMap<String, String> paramMap) throws Exception {
+	public ModelAndView selectMembershipRegList(ModelMap model, @RequestParam HashMap<String, String> paramMap) throws Exception {
+		ModelAndView mav = new ModelAndView("egovframework/phcf/premiumMember/view");
 		
-		List<HashMap<String, String>> payList = service.selectMembershipRegList(paramMap);
+		return mav;
+	}
+	
+	@RequestMapping(value="/premiumMember/selectMembershipRegListJson.do")
+	public ModelAndView selectMembershipRegListJson(ModelMap model, @RequestParam HashMap<String, String> paramMap) throws Exception {
+		ModelAndView mav = new ModelAndView("jsonView");
 		
-		model.addAttribute("payList",payList);
-		return "egovframework/phcf/premiumMember/view";
+		String pageIndex = paramMap.get("pageIndex");
+		String pageSize = paramMap.get("pageSize");
+		int pageOffset  = 0;
+		if(pageIndex != null && pageSize != null) {
+			pageOffset = (Integer.parseInt(pageIndex.toString())-1) * Integer.parseInt(pageSize.toString());
+			paramMap.put("pageOffset", pageOffset + "");
+		}
+
+		int payListCnt = service.selectMembershipRegListCnt(paramMap);
+		List<HashMap<String, Object>> payList = service.selectMembershipRegList(paramMap);
+		
+		String payListJson = JsonUtil.getJsonArrayFromList(payList).toString();
+		
+		model.addAttribute("payListCnt",payListCnt);
+		model.addAttribute("payListJson",payListJson);
+		return mav;
 	}
 	
 	@RequestMapping(value="/premiumMember/updateMembershipStatus.do", method=RequestMethod.POST)
 	public ModelAndView updateMembershipStatus(@RequestParam HashMap<String, String> paramMap) throws Exception {
 		ModelAndView mav = new ModelAndView("jsonView");
 		
+		
 		service.updateMembershipStatus(paramMap);
 		HashMap<String, String> hashMap = new HashMap<String, String>();
-		List<HashMap<String, String>> payList = service.selectMembershipRegList(paramMap);
+		List<HashMap<String, Object>> payList = service.selectMembershipRegList(paramMap);
 		
-		hashMap.put("TYPE", payList.get(0).get("PRE_TYPE"));
-		hashMap.put("ID", payList.get(0).get("MEM_ID"));
+		hashMap.put("TYPE", payList.get(0).get("PRE_TYPE").toString());
+		hashMap.put("ID", payList.get(0).get("MEM_ID").toString());
 		
-		String result = payList.get(0).get("RESULT");
+		String result = payList.get(0).get("RESULT").toString();
 		mav.addObject("result",result);
 		
 		if(result.equals("Y")) {

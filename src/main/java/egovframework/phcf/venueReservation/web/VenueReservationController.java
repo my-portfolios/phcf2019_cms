@@ -93,7 +93,7 @@ public class VenueReservationController {
 			pageOffset = (Integer.parseInt(pageIndex.toString())-1) * Integer.parseInt(pageSize.toString());
 			paramMap.put("pageOffset", pageOffset);
 		}
-		System.out.println("=== paramMap" + paramMap);
+
 		int venueReservationRegListCnt = service.selectVenueReservationRegListCnt(paramMap);
 		List<HashMap<String, Object>> venueReservationRegList = service.selectVenueReservationRegList(paramMap);
 		List<HashMap<String, Object>> mergedVenueReservationRegList = new ArrayList<>();
@@ -119,7 +119,6 @@ public class VenueReservationController {
 			mergedVenueReservationRegList.add(newObj);
 		}
 		
-		System.out.println("=== mergedVenueReservationRegList" + mergedVenueReservationRegList);
 		String venueReservationRegJson = JsonUtil.getJsonArrayFromList(mergedVenueReservationRegList).toString();
 		
 		mav.addObject("venueReservationRegListCnt", venueReservationRegListCnt);

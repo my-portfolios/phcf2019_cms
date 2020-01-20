@@ -31,7 +31,7 @@
 		    	calendarObj = new FullCalendar.Calendar(calendarEl, {
 		      		plugins: [ 'dayGrid' ],
 		      		locale : 'ko',
-		      		height : 720,
+		      		height : 670,
 		      		eventBackgroundColor : "white",
 		      		eventBorderColor : "white", 
 		      		showNonCurrentDates: false,

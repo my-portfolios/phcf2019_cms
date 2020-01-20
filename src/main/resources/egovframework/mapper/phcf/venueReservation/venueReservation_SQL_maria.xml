@@ -151,5 +151,6 @@
 			COMTCCMMNDETAILCODE
 		WHERE 1=1
 			AND CODE_ID = #{code}
+		ORDER BY REMARKS ASC
 	</select>
 </mapper>

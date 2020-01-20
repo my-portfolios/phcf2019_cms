@@ -263,7 +263,7 @@ padding-bottom :12px;
 .board_list {width:100%; /* table-layout:fixed; */ border-top:2px solid #266089; }
 .board_list caption { display:none; }
 .board_list thead th,
-.board_list tbody th { color:#222 ; font-size:13px; font-weight:400; background:#f4f4f4; padding:12px 0; border-bottom:1px solid #d9d9d9; }
+.board_list tbody th { color:#222 ; font-size:13px; font-weight:400; background:#f4f4f4; padding:12px 0; border-bottom:1px solid #d9d9d9;     min-width: 100px;}
 .board_list tbody tr.odd {  }
 .board_list tbody.ov tr:hover { background:#f9f9f9; }
 .board_list tbody th {  text-align: center; padding-left:14px; }
@@ -284,7 +284,7 @@ width:100%;
 .board_list tbody td.bold { text-align:left; font-size:14px; font-weight :bold;}
 .board_list tbody td a:hover { text-decoration:underline; }
 .board_list tbody td input.bbs_Nm { width:99%; }
-.board_list tbody td input.link {color:#666; }
+.board_list tbody td input.link {color:#666; background: #ffffff; padding: 0px; border-radius: 0px;}
 .board_list tbody td input.tmp { width:160px; }
 .board_list tbody td textarea { width:99%; height:50px; }
 .board_list tbody td textarea.txt { width:96%; height:300px; margin:8px; padding:5px; }
@@ -318,7 +318,7 @@ width:100%;
 .wTable > thead > tr > th { text-align:left; padding-left:14px; }
 .wTable > thead > tr > th.vtop { vertical-align:top; }
 .wTable > thead > tr > th span.pilsu { color:#d0270b; font-weight:500; margin-left:3px; }
-.wTable > tbody > tr > th { padding-left:28px; padding: 10px 10px 10px 28px; border-bottom:1px solid #d9d9d9; text-align:left; background:#f4f4f4; }
+.wTable > tbody > tr > th { padding-left:28px; padding: 10px 10px 10px 28px; border-bottom:1px solid #d9d9d9; text-align:left; background:#f4f4f4;  min-width: 130px;}
 .wTable > tbody > tr > th.vtop { vertical-align:top; }
 .wTable > tbody > tr > th span.pilsu { color:#d0270b; font-weight:500; margin-left:3px; }
 .wTable > tbody > tr > td { text-align:center; padding:14px 5px; border-bottom:1px solid #d9d9d9; }
@@ -609,6 +609,12 @@ form#deptSchdulManageVO #content {width: 100% !important;}
 .jsgrid-cancel-edit-button {background: url(/images/egovframework/phcf/admin/bnts.png) 88% 0% no-repeat !important; width: 47px !important; height: 26px !important;}
  */
 
+/* core.min.css */
+.fc td, .fc th {height: 36px; vertical-align: middle !important;}
+.fc-button-primary {    background-color: #266089 !important; border-color: #266089 !important;}
+.fc-button-primary:focus { box-shadow: 0 0 0 0rem rgba(76,91,106,.5) !important;}
+.fc-button-group>.fc-button:not(:first-child) {margin-left: -2px !important;}
+
 .popup_modal {
 	border-radius: 0px;
     padding: 0.5%;
@@ -620,6 +626,7 @@ form#deptSchdulManageVO #content {width: 100% !important;}
     min-width: 500px;
 }
 .popup_modal .wTable > tbody > tr > td {    padding: 0px 5px !important;}	
+
 @media all and (max-width: 1000px){
-	.board, .wTable {min-width: 1000px;}
+	.board, .wTable {min-width: 1000px; /* overflow-x: scroll; */}	
 	}

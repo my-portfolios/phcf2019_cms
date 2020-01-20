@@ -27,7 +27,7 @@
                         <div class="col-xs-12">
                             <div class="eg-button">
                             	크기 조정 : <input type="number" id="percentage" style="text-align:center;"value="100"/> %<br/>
-                            	- 크기가 클수록 팝업 창을 표시하는 시간이 증가합니다.<br/><br/>
+                            	- 크기가 클수록 이미지를 표시하는 시간이 증가합니다.<br/><br/>
                                 <label class="btn btn-primary" for="inputImage" title="이미지 파일 업로드">
                                     <input class="hide" id="inputImage" name="file" accept="image/*" type="file">
                                     <span data-original-title="파일 선택..." class="docs-tooltip" data-toggle="tooltip" title="">
@@ -118,6 +118,7 @@
 	      	        	console.log("resized : " + dataURL);
 	      	        	dataURL = dataURL.split(",")[1];
 	      	        	
+	      	        	$("#popupImageView", opener.document).attr("src","data:image/png;base64," + dataURL);
 		      	      	$("#popupImage", opener.document).val(dataURL);
 		                $("#popupWSize", opener.document).val(canvas.width+20);
 		                $("#popupHSize", opener.document).val(canvas.height+40);

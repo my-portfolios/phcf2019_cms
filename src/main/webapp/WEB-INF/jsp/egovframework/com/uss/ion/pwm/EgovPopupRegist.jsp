@@ -34,12 +34,7 @@
 <script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/jqueryui.js' />"></script>
 <script type="text/javaScript" language="javascript">
-/* ********************************************************
- * 초기화
- ******************************************************** */
-function fn_egov_init_PopupManage(){
 
-}
 /* ********************************************************
  * 저장처리화면
  ******************************************************** */
@@ -50,16 +45,19 @@ function fn_egov_save_PopupManage(){
 		varFrom.action =  "<c:url value='/uss/ion/pwm/registPopup.do' />";
 		if(!validatePopupManageVO(varFrom)){
 			return;
-		}else{
-
-
+		}
+		else{
 			var ntceBgndeYYYMMDD = document.getElementById('ntceBgndeYYYMMDD').value;
 			var ntceEnddeYYYMMDD = document.getElementById('ntceEnddeYYYMMDD').value;
 
 			var iChkBeginDe = Number( ntceBgndeYYYMMDD.replaceAll("-","") );
 			var iChkEndDe = Number( ntceEnddeYYYMMDD.replaceAll("-","") );
 
-			if(iChkBeginDe > iChkEndDe || iChkEndDe < iChkBeginDe ){
+			if(ntceBgndeYYYMMDD == '' || ntceEnddeYYYMMDD == ''){
+				alert("게시기간을 입력하세요!");
+				return;
+			}
+			else if(iChkBeginDe > iChkEndDe || iChkEndDe < iChkBeginDe ){
 				alert("<spring:message code="ussIonPwm.popupRegist.validate.iChkDate"/>");/* 게시시작일자는 게시종료일자 보다 클수 없고,\n게시종료일자는 게시시작일자 보다 작을수 없습니다. */
 				return;
 			}
@@ -156,7 +154,7 @@ function fn_egov_init_date(){
 }
 </script>
 </head>
-<body onLoad="fn_egov_init_PopupManage(); fn_egov_init_date();">
+<body onLoad=" fn_egov_init_date();">
 <form:form commandName="popupManageVO" name="popupManageVO" action="${pageContext.request.contextPath}/uss/ion/pwm/registPopup.do" method="post" >
 
 <div class="wTableFrm">
@@ -188,54 +186,65 @@ function fn_egov_init_date(){
 			<th>팝업 이미지<span class="pilsu">*</span></th><!-- 팝업창 이미지 -->
 	         <td class="left">
 	             <input type="button" onclick="window.open('/editimage/imageCropper.do','popupImage','width=1000,height=640,resizable=no');" value="선택"/>
-	             <input type="text" id="popupImage" name="popupImage" readOnly/>
+	             <input type="hidden" id="popupImage" name="popupImage" readOnly/>
 	         </td>
+	    </tr>
+		<tr>
+			<th>팝업 이미지 미리보기</th>
+			<td>
+				<img id="popupImageView"/>
+			</td>
+		</tr>
+		<tr>
+			<th>HTML 코드</th>
+			<td>
+				<textarea name="popupHtml"></textarea>
+			</td>
+		</tr>
 		<tr>
 			<th>팝업창 표시 페이지 <span class="pilsu">*</span></th><!-- 팝업창표시페이지 -->
 			<td class="left">
 				<select name="popupDisplayPage">
-					<option value="main">메인</option>
-					<option value="place">문화공간</option>
-					<option value="festival">축제</option>
+					<option value="메인">메인</option>
+					<option value="문화공간">문화공간</option>
+					<option value="축제">축제</option>
 				</select>
 			</td>
 		</tr>
-		<tr>
+		<tr style="display:none;">
 			<th><spring:message code="ussIonPwm.popupRegist.popupLoca"/> <span class="pilsu">*</span></th><!-- 팝업창위치 -->
 			<td class="left">
-				<spring:message code="ussIonPwm.popupRegist.popupWlce"/> <form:input path="popupWlc" maxlength="10" cssStyle="width:38px; margin:0 10px 0 5px"/><!-- 가로 -->
-				<spring:message code="ussIonPwm.popupRegist.popupHlc"/><form:input path="popupHlc" maxlength="10" cssStyle="width:38px; margin-left:5px"/><!-- 세로 -->
+				<spring:message code="ussIonPwm.popupRegist.popupWlce"/> <form:input path="popupWlc" maxlength="10" cssStyle="width:38px; margin:0 10px 0 5px" value="0"/><!-- 가로 -->
+				<spring:message code="ussIonPwm.popupRegist.popupHlc"/><form:input path="popupHlc" maxlength="10" cssStyle="width:38px; margin-left:5px" value="0"/><!-- 세로 -->
 				<form:errors path="popupWlc" cssClass="error"/>
 				<form:errors path="popupHlc" cssClass="error"/>
 			</td>
 		</tr>
-		<%-- <tr>
+		<tr style="display:none;">
 			<th><spring:message code="ussIonPwm.popupRegist.popupSize"/> <span class="pilsu">*</span></th><!-- 팝업창사이즈 -->
 			<td class="left">
-				<spring:message code="ussIonPwm.popupRegist.popupWSize"/> <form:input path="popupWSize" maxlength="10" cssStyle="width:38px; margin:0 10px 0 5px"/><!-- WIDTH -->
-				<spring:message code="ussIonPwm.popupRegist.popupHSize"/><form:input path="popupHSize" maxlength="10" cssStyle="width:38px; margin-left:5px"/><!-- HEIGHT --> --%>
-				<input type="hidden" id="popupWSize" name="popupWSize" />
-				<input type="hidden" id="popupHSize" name="popupHSize"/>
-			<!-- </td>
-		</tr> -->
+				<spring:message code="ussIonPwm.popupRegist.popupWSize"/> <form:input path="popupWSize" maxlength="10" cssStyle="width:38px; margin:0 10px 0 5px" value="0"/><!-- WIDTH -->
+				<spring:message code="ussIonPwm.popupRegist.popupHSize"/><form:input path="popupHSize" maxlength="10" cssStyle="width:38px; margin-left:5px" value="0"/><!-- HEIGHT -->
+			 </td>
+		</tr>
 		<tr>
 			<th><spring:message code="ussIonPwm.popupRegist.ntcePeriod"/> <span class="pilsu">*</span></th><!-- 게시기간 -->
 			<td class="left">
 				<input id="ntceBgndeYYYMMDD" type="text" name="ntceBgndeYYYMMDD" size="15" maxlength="10" class="readOnlyClass" title="게시기간" readonly="readonly" style="width:68px" />
 				<form:select path="ntceBgndeHH">
 					<form:options items="${ntceBgndeHH}" itemValue="code" itemLabel="codeNm"/>
-				</form:select> H
+				</form:select> 시
 				<form:select path="ntceBgndeMM">
 					<form:options items="${ntceBgndeMM}" itemValue="code" itemLabel="codeNm"/>
-				</form:select> M
+				</form:select> 분
 				&nbsp;~&nbsp;
 				<input id="ntceEnddeYYYMMDD" type="text" name="ntceEnddeYYYMMDD" size="15" maxlength="10" class="readOnlyClass" title="게시기간" readonly="readonly" style="width:68px" />
 				<form:select path="ntceEnddeHH">
 					<form:options items="${ntceEnddeHH}" itemValue="code" itemLabel="codeNm"/>
-				</form:select> H
+				</form:select> 시
 				<form:select path="ntceEnddeMM">
 					<form:options items="${ntceEnddeMM}" itemValue="code" itemLabel="codeNm"/>
-				</form:select> M
+				</form:select> 분
 			</td>
 		</tr>
 		<tr>

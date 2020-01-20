@@ -31,7 +31,7 @@
  * 초기화
  ******************************************************** */
 function fn_egov_init_PopupManage(){
-
+	document.getElementById("popupHtml").innerText = "${popupManageVO.popupHtml}";
 }
 /* ********************************************************
  * 목록 으로 가기
@@ -91,21 +91,34 @@ function fn_egov_delete_PopupManage(){
 			</td>
 		</tr>
 		<tr>
-			<th>팝업창 표시 페이지 <span class="pilsu">*</span></th><!-- 팝업창URL -->
-			<td class="left">
-				<c:choose>
-					<c:when test="${popupManageVO.popupDisplayPage eq 'main'}">메인</c:when>
-					<c:when test="${popupManageVO.popupDisplayPage eq 'place'}">문화공간</c:when>
-					<c:when test="${popupManageVO.popupDisplayPage eq 'festival'}">축제</c:when>
-				</c:choose>
+			<th>팝업 이미지 미리보기</th>
+			<td>
+				<c:if test="${popupManageVO.popupImage == 'Y'}">
+					<img id="popupImageView" src="/upload/POPUP/${popupManageVO.popupId}.png?<%=new java.util.Date()%>"/>
+				</c:if>
 			</td>
 		</tr>
 		<tr>
+			<th>HTML 코드</th>
+			<td id="popupHtml">
+			</td>
+		</tr>
+		<tr>
+			<th>팝업창 표시 페이지 <span class="pilsu">*</span></th><!-- 팝업창URL -->
+			<td class="left">
+				<c:choose>
+					<c:when test="${popupManageVO.popupDisplayPage eq '메인'}">메인</c:when>
+					<c:when test="${popupManageVO.popupDisplayPage eq '문화공간'}">문화공간</c:when>
+					<c:when test="${popupManageVO.popupDisplayPage eq '축제'}">축제</c:when>
+				</c:choose>
+			</td>
+		</tr>
+		<%-- <tr>
 			<th><spring:message code="ussIonPwm.popupDetail.popupLoca"/> <span class="pilsu">*</span></th><!-- 팝업창위치 -->
 			<td class="left">
 			    <spring:message code="ussIonPwm.popupDetail.popupWlce"/>: <c:out value="${popupManageVO.popupWlc}" />&nbsp;  <spring:message code="ussIonPwm.popupDetail.popupHlc"/>: <c:out value="${popupManageVO.popupHlc}" escapeXml="false" />
 			</td>
-		</tr>
+		</tr> --%>
 		<%-- <tr>
 			<th><spring:message code="ussIonPwm.popupDetail.popupSize"/> <span class="pilsu">*</span></th><!-- 팝업창사이즈 -->
 			<td class="left">

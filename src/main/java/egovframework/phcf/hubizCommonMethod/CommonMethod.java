@@ -22,6 +22,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.phcf.common.service.CommonService;
 
 public class CommonMethod {
@@ -233,12 +234,14 @@ public class CommonMethod {
 		return mav;
 	}
 	
-	public static boolean base64ImageDecoder(String base64, String target){
+	public static boolean base64ImageDecoder(String base64, String target, String title){
+		String savePath = EgovProperties.getProperty("Globals.fileStorePath")+target+"/"+title+".png";
+		System.out.println("savePath = " + savePath);
 		byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64);
 		try {
 			BufferedImage bufImg = ImageIO.read(new ByteArrayInputStream(imageBytes));
-			ImageIO.write(bufImg, "jpg", new File(target+dateToString(new Date(), "yyyyMMddHHmmssSSS")+".jpg"));
-		} catch (IOException e) {
+			ImageIO.write(bufImg, "png", new File(savePath));
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}

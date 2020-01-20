@@ -187,20 +187,20 @@ function fnGetCookie(name) {
 <div class="board">
 <form name="listForm" action="<c:url value='/uss/ion/pwm/listPopup.do'/>" method="post">
 	<h1><spring:message code="ussIonPwm.popupList.popupList"/></h1><!-- 팝업창관리 목록 -->
-	<span><spring:message code="ussIonPwm.popupList.guide"/> </span>
-
 	<div class="search_box" title="<spring:message code="common.noScriptTitle.msg"/>"><!-- 이 레이아웃은 하단 정보를 대한 검색 정보로 구성되어 있습니다. -->
 		<ul>
 			<li>
+				최근 수정한 팝업 3개만 표시됩니다.
+			</li>
+			<li>
 				<select name="searchCondition" class="select" title="<spring:message code="select.searchCondition"/>"><!-- 검색조건선택 -->
-					<option value=''>--<spring:message code="input.select"/>--</option><!-- 선택하세요 -->
-					<option value='POPUP_SJ_NM' <c:if test="${searchCondition == 'POPUP_SJ_NM'}">selected</c:if>><spring:message code="ussIonPwm.popupList.popupTitleNm"/></option><!-- 팝업창명 -->
-					<option value='FILE_URL' <c:if test="${searchCondition == 'FILE_URL'}">selected</c:if>><spring:message code="ussIonPwm.popupList.fileUrl"/></option><!-- 팝업창URL -->
+					<option value=''><spring:message code="input.select"/></option><!-- 선택하세요 -->
+					<option value='POPUP_SJ_NM' <c:if test="${searchCondition == 'POPUP_SJ_NM'}">selected</c:if>>제목</option><!-- 팝업창명 -->
+					<option value='POPUP_DISPLAY_PAGE' <c:if test="${searchCondition == 'POPUP_DISPLAY_PAGE'}">selected</c:if>>표시 페이지</option><!-- 팝업창명 -->
 				</select>
 				<input class="s_input2 vat" name="searchKeyword" type="text" value="" size="10" onkeypress="press();" title="<spring:message code="input.input"/>" /><!-- 검색단어입력 -->
 				
 				
-				<span class="btn_b"><a href="" onclick="fn_egov_view_PopupManage(); return false;" title="새창 열림"><spring:message code="button.preview"/></a></span><!-- 미리보기 -->
 				<input class="s_btn" type="submit" value="<spring:message code="button.inquire" />" title="<spring:message code="button.inquire" />" onclick="fn_egov_search_PopupManage(); return false;" />
 				<span class="btn_b"><a href="<c:url value='/uss/ion/pwm/registPopup.do'/>" onclick="" title="<spring:message code="button.create" />"><spring:message code="button.create" /></a></span>
 			</li>
@@ -253,9 +253,9 @@ function fnGetCookie(name) {
 				<td>
 					<%-- <c:out value="${resultInfo.fileUrl}"/> --%>
 					<c:choose>
-						<c:when test="${resultInfo.popupDisplayPage eq 'main'}">메인</c:when>
-						<c:when test="${resultInfo.popupDisplayPage eq 'place'}">문화공간</c:when>
-						<c:when test="${resultInfo.popupDisplayPage eq 'festival'}">축제</c:when>
+						<c:when test="${resultInfo.popupDisplayPage eq '메인'}">메인</c:when>
+						<c:when test="${resultInfo.popupDisplayPage eq '문화공간'}">문화공간</c:when>
+						<c:when test="${resultInfo.popupDisplayPage eq '축제'}">축제</c:when>
 					</c:choose>
 				</td>
 				<td>

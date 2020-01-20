@@ -39,15 +39,17 @@ public class PopupManage extends ComDefaultVO implements Serializable {
 	 * 팝업 이미지
 	 */
 	private String popupImage;
+	
+	private String popupHtml;
 	/**
 	 * 팝업창이 화면에 보여지는 가로 위치정보
 	 */
 	private String popupWlc;
 
-        /**
-         * 팝업창이 화면에 보여지는 세로 위치정보
-         */
-        private String popupHlc;
+    /**
+     * 팝업창이 화면에 보여지는 세로 위치정보
+     */
+    private String popupHlc;
 
 	/**
 	 * 팝업창의 높이
@@ -157,7 +159,15 @@ public class PopupManage extends ComDefaultVO implements Serializable {
         this.fileUrl = fileUrl;
     }
     
-    /**
+    public String getPopupHtml() {
+		return popupHtml;
+	}
+
+	public void setPopupHtml(String popupHtml) {
+		this.popupHtml = popupHtml;
+	}
+
+	/**
      * popupDisplayPage 리턴
      * @return the popupDisplayPage
      */

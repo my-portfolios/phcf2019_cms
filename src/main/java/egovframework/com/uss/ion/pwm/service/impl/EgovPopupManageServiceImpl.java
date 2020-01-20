@@ -3,9 +3,10 @@ package egovframework.com.uss.ion.pwm.service.impl;
 import java.util.HashMap;
 import java.util.List;
 
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.uss.ion.pwm.service.EgovPopupManageService;
 import egovframework.com.uss.ion.pwm.service.PopupManageVO;
-
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 
@@ -60,6 +61,11 @@ public class EgovPopupManageServiceImpl extends EgovAbstractServiceImpl implemen
 	public void insertPopup(PopupManageVO popupManageVO) throws Exception {
 		String sMakeId = idgenService.getNextStringId();
 		popupManageVO.setPopupId(sMakeId);
+		if(popupManageVO.getPopupImage() != "") {
+			CommonMethod.base64ImageDecoder(popupManageVO.getPopupImage(), "POPUP", sMakeId);
+			popupManageVO.setPopupImage("Y");
+		}
+		else popupManageVO.setPopupImage("N");
 		dao.insertPopup(popupManageVO);
 	}
 
@@ -72,6 +78,13 @@ public class EgovPopupManageServiceImpl extends EgovAbstractServiceImpl implemen
 	 */
 	@Override
 	public void updatePopup(PopupManageVO popupManageVO) throws Exception {
+		if(popupManageVO.getPopupImage() != "") {
+			String sMakeId = popupManageVO.getPopupId();
+			CommonMethod.base64ImageDecoder(popupManageVO.getPopupImage(), "POPUP", sMakeId);
+			popupManageVO.setPopupImage("Y");
+		}
+		else popupManageVO.setPopupImage("N");
+		
 		dao.updatePopup(popupManageVO);
 	}
 

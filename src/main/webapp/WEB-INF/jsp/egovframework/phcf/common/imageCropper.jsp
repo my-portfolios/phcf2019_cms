@@ -4,21 +4,44 @@
     <head>
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <link  href="/css/egovframework/phcf/editimage/cropper.min.css" rel="stylesheet">
-        <link href="<c:url value="/css/egovframework/com/com.css"/>" rel="stylesheet" type="text/css">
+        <link href="<c:url value="/css/egovframework/com/com.css"/>" rel="stylesheet" type="text/css">        
         <script src="/js/egovframework/phcf/editimage/cropper.min.js"></script>
         <style>img {max-width: 100%;}</style>
     </head>
 <body>
-    <div style="text-align: center;">
-        <div style="background:#eeeeee;width:100%;height:80%;">
-            <img id="image"></img> 
-        </div>
-        <div>
-            <input type="text" id="percentage" value="100"/> % <br/><br/>
-            <input id="imgFile" type="file" value="파일 선택..." accept='image/*' onchange="openFile(event)"/>
-            <input type="button" value="완료" onclick="done();"/>
-        </div>
-    </div>
+<div class="wTableFrm" >
+    <h2>이미지 등록</h2>
+    <table class="wTable" >
+		<colgroup>
+			<col style="width:16%">
+			<col style="">
+		</colgroup>
+		<tbody>
+		<tr>
+			<th>파일 선택 <span class="pilsu">*</span></th><!-- 배너ID -->
+			<td class="left">
+				<input id="imgFile" type="file" value="파일 선택" accept='image/*' onchange="openFile(event)" style="width:300px;"/><br />
+				
+				<div style="background:#eeeeee;width:80%;height:80%;">
+		            <img id="image"></img> 
+		        </div>
+			</td>
+		</tr>
+		<tr>
+			<th>이미지 사이즈</th><!-- 배너명 -->
+			<td class="left">
+				<input type="text" id="percentage" value="100"/>%
+			</td>
+		</tr>
+	</tbody>
+	</table>	
+	<div class="div_center">
+		<input type="button" value="등록" onclick="done();" class="s_submit"/>
+	</div>
+	
+    
+    
+</div>
 </body>
 <script>
     var cropper;

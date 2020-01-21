@@ -108,6 +108,10 @@ input[type="button"], input[type="submit"] {
 .btn_style3c { padding:5px 8px; background:#3d70b6; border-radius:1px; color:#fff; font-size:14px; cursor:pointer;}
 .btn_style4 { padding:5px 14px; }
 
+.div_left {text-align:left !important;  margin: 10px 0px;}
+.div_center {text-align:center !important;  margin: 10px 0px;}
+.div_right {text-align:right !important;  margin: 10px 0px;}
+
 .btn_right { float:right; }
 .blue { background:#3d70b6; }
 .gray { background:#9e9e9e; }

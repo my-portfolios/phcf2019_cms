@@ -69,21 +69,18 @@
             UPT_ID, DATE_FORMAT(UPT_DT,'%Y-%m-%dT%H:%i:%s') AS UPT_DT
               FROM AUTHMANAGE 
              WHERE USE_YN = 'Y' 
-             <if test='page != null and page != "" and page != "all"'>
+             <if test='page != null and !page.equals("") and !page.equals("all")'>
              AND PAGE = #{page}
              </if>
-             <if test='page == null and page != ""'>
-             AND (PAGE = '' OR PAGE IS NULL)
-             </if>
-             <if test='page == "all"'>
+             <if test='page.equals("all")'>
              
              </if>
              AND (
              1=0
-             <if test='orgnztId != null and orgnztId != ""'>OR
+             <if test='orgnztId != null and !orgnztId.equals("")'>OR
                 ORGNZT_ID=#{orgnztId}
             </if>
-             <if test='groupId != null and groupId != ""'>OR
+             <if test='groupId != null and !groupId.equals("")'>OR
                 GROUP_ID=#{groupId}
             </if>
         	)

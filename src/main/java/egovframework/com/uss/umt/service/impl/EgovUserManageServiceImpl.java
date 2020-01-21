@@ -134,7 +134,7 @@ public class EgovUserManageServiceImpl extends EgovAbstractServiceImpl implement
 	 * @throws Exception
 	 */
 	@Override
-	public int selectUserListTotCnt(UserDefaultVO userSearchVO) {
+	public int selectUserListTotCnt(UserManageVO userSearchVO) {
 		return userManageDAO.selectUserListTotCnt(userSearchVO);
 	}
 

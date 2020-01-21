@@ -5,6 +5,7 @@ import java.util.List;
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 import egovframework.com.uss.umt.service.MberManageVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
+import egovframework.com.uss.umt.service.UserManageVO;
 
 import org.springframework.stereotype.Repository;
 
@@ -43,7 +44,7 @@ public class MberManageDAO extends EgovComAbstractDAO{
      * @param userSearchVO 검색조건
      * @return int 일반회원총갯수
      */
-    public int selectMberListTotCnt(UserDefaultVO userSearchVO) {
+    public int selectMberListTotCnt(UserManageVO userSearchVO) {
         return (Integer)selectOne("mberManageDAO.selectMberListTotCnt", userSearchVO);
     }
 

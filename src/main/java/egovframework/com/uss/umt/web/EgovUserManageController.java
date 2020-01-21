@@ -77,7 +77,7 @@ public class EgovUserManageController {
 	 */
 	@IncludedInfo(name = "업무사용자관리", order = 460, gid = 50)
 	@RequestMapping(value = "/uss/umt/EgovUserManage.do")
-	public String selectUserList(@ModelAttribute("userSearchVO") UserDefaultVO userSearchVO, ModelMap model) throws Exception {
+	public String selectUserList(@ModelAttribute("userSearchVO") UserManageVO userSearchVO, ModelMap model) throws Exception {
 
 		// 미인증 사용자에 대한 보안처리
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

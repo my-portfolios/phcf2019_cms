@@ -5,6 +5,7 @@ import java.util.List;
 import egovframework.com.uss.umt.service.EgovMberManageService;
 import egovframework.com.uss.umt.service.MberManageVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
+import egovframework.com.uss.umt.service.UserManageVO;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.com.utl.sim.service.EgovFileScrty;
 
@@ -99,7 +100,7 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
      * @return 일반회원총갯수(int)
      */
     @Override
-	public int selectMberListTotCnt(UserDefaultVO userSearchVO) {
+	public int selectMberListTotCnt(UserManageVO userSearchVO) {
     	return mberManageDAO.selectMberListTotCnt(userSearchVO);
     }
 

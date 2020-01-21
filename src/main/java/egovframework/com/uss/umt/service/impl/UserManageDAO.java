@@ -78,7 +78,7 @@ public class UserManageDAO extends EgovComAbstractDAO{
      * @param userSearchVO 검색조건
      * @return int 업무사용자 총갯수
      */
-    public int selectUserListTotCnt(UserDefaultVO userSearchVO) {
+    public int selectUserListTotCnt(UserManageVO userSearchVO) {
         return (Integer)selectOne("userManageDAO.selectUserListTotCnt_S", userSearchVO);
     }
 

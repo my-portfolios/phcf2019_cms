@@ -333,7 +333,13 @@
 			</if>	
 			<if test="searchCnd == 2">AND
 					b.USER_NM LIKE CONCAT ('%', #{searchWrd},'%') 		
-			</if>			
+			</if>		
+			<if test='cateName != null and !cateName.equals("")'>AND
+					a.CATE_NAME = #{cateName}		
+			</if>	
+			<if test='searchBgnDe != null and !searchBgnDe.equals("") and searchEndDe != null and !searchEndDe.equals("")'>AND
+					FRST_REGIST_PNTTM BETWEEN DATE(#{searchBgnDe}) AND DATE(#{searchEndDe})
+			</if>	
 	</select>	
  
 	<select id="selectArticleDetail" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultMap="boardDetail">
@@ -610,8 +616,11 @@
 			LEFT OUTER JOIN 
 				COMVNUSERMASTER b
 			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
-			WHERE
-			a.BBS_ID = #{bbsId}
+			WHERE 1=1
+			AND BBS_ID != 'BBSMSTR_000000000002'
+			<if test="bbsId != '' and bbsId!=null">
+			AND a.BBS_ID = #{bbsId}
+			</if>
 			<if test="cateName != '' and cateName!=null">
 			AND a.CATE_NAME = #{cateName}	
 			</if>

@@ -27,7 +27,7 @@
 		<li class="header_quickmenu">
 			<div><span>포항문화재단</span> <span>문화공간</span> <span>축제</span></div>
 			<div><span class="quickmenu_down">메뉴얼 다운로드</span></div>
-			<div>2020/01/02 12:00</div>
+			<div>${currentDateTime}</div>
 			<div>  
 			<img src="<c:url value='/images/egovframework/com/cmm/main/ic_icon01.png' />">(공연전시팀) 
 			<c:if test="${loginVO != null}">

@@ -11,6 +11,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.uss.umt.service.EgovMberManageService;
 import egovframework.com.uss.umt.service.MberManageVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
+import egovframework.com.uss.umt.service.UserManageVO;
 import egovframework.com.utl.sim.service.EgovFileScrty;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -78,7 +79,7 @@ public class EgovMberManageController {
 	 */
 	@IncludedInfo(name = "일반회원관리", order = 470, gid = 50)
 	@RequestMapping(value = "/uss/umt/EgovMberManage.do")
-	public String selectMberList(@ModelAttribute("userSearchVO") UserDefaultVO userSearchVO, ModelMap model) throws Exception {
+	public String selectMberList(@ModelAttribute("userSearchVO") UserManageVO userSearchVO, ModelMap model) throws Exception {
 
 		// 미인증 사용자에 대한 보안처리
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();

@@ -149,6 +149,8 @@ public class UserManageVO extends UserDefaultVO{
 	 */
 	private String subDn;
 	
+	private String membershipType;
+	
 	private String lockAt;
 	public String getLockAt() {return lockAt;}
 	public void setLockAt(String lockAt) {this.lockAt = lockAt;}
@@ -601,5 +603,12 @@ public class UserManageVO extends UserDefaultVO{
 	public void setSubDn(String subDn) {
 		this.subDn = subDn;
 	}
-
+	
+	public String getMembershipType() {
+		return membershipType;
+	}
+	public void setMembershipType(String membershipType) {
+		this.membershipType = membershipType;
+	}
+	
 }

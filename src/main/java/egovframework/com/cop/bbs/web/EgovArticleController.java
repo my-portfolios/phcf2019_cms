@@ -1594,7 +1594,7 @@ public class EgovArticleController {
      */
     @RequestMapping("/cop/bbs/latestArticleListView.do")
     public String latestArticleListView(HttpServletRequest request,
-    		@RequestParam(required=false, defaultValue="basic") String skinNm, @RequestParam String bbsId, 
+    		@RequestParam(required=false, defaultValue="basic") String skinNm, @RequestParam(required=false) String bbsId, 
     		@RequestParam(required=false, defaultValue="5") String cntOfArticle, @RequestParam(required=false, defaultValue="FRST_REGIST_PNTTM") String ordColmn, 
     		@RequestParam(required=false, defaultValue="DESC") String ordWay, @RequestParam(required=false, defaultValue="") String cateName, ModelMap model) throws Exception {
     	

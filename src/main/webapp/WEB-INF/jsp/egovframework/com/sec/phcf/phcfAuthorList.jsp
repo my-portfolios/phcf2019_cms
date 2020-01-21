@@ -63,7 +63,6 @@ $(document).ready(function() {
 		, deleteConfirm: "삭제 하시겠습니까?"
 		, controller: {
 			loadData: function(filter) {
-				console.log(filter);
 				var d = $.Deferred();
 				
 				$.ajax({
@@ -72,6 +71,7 @@ $(document).ready(function() {
 					, data: filter
 					, dataType: 'JSON'
 				}).done(function(response) {
+					console.log(response.value);
 					d.resolve({data: response.value, itemsCount: response.totCnt });
 				});
 				
@@ -148,28 +148,23 @@ $(document).ready(function() {
 
 <body>
 
-<div class="board">
-<h1>문화재단 권한관리</h1>
-<!-- <h1><spring:message code="ussCmt.cmtManageList.cmtManage"/></h1> -->
-	<form name="frm" id="frm" action="${ctx}/sec/phcf/getEgovPhcfAuthorList.do" method="post" >
-	
-	
-	<div class="search_box" >
-		<ul style="display:none;">
-			<li class="div-left"></li>
-			<li></li>
-			<li></li>
-		</ul>
-	</div>
-	
-	<input type="hidden" id="page_no" name="page_no" value="${paramMap.page_no }">
-	
-		<div class="area">
-			<div id="jsGrid"></div>
-		</div>
-	
-	</form>
+<form name="frm" id="frm" action="${ctx}/sec/phcf/getEgovPhcfAuthorList.do" method="post" >
+
+<div class="search_box" >
+	<ul style="display:none;">
+		<li class="div-left"></li>
+		<li></li>
+		<li></li>
+	</ul>
 </div>
+
+<input type="hidden" id="page_no" name="page_no" value="${paramMap.page_no }">
+
+	<div class="area">
+		<div id="jsGrid"></div>
+	</div>
+
+</form>
 
 </body>
 </html>

@@ -61,7 +61,15 @@ FROM(
                 GROUP_ID              groupId,
                 MBER_STTUS            sttus,
                 SBSCRB_DE             sbscrbDe
-            FROM    COMTNGNRLMBER
+            FROM    COMTNGNRLMBER WHERE 1=1
+            <if test='membershipType != null and !membershipType.equals("") and sbscrbDeBegin != null and !sbscrbDeBegin.equals("") and sbscrbDeEnd != null and !sbscrbDeEnd.equals("")'>AND
+					MEMBERSHIP_TYPE LIKE #{membershipType}
+					AND
+					MEMBERSHIP_START_DT BETWEEN DATE(#{sbscrbDeBegin}) AND DATE(#{sbscrbDeEnd})
+			</if>	
+            <if test='(membershipType == null or membershipType.equals("")) and sbscrbDeBegin != null and !sbscrbDeBegin.equals("") and sbscrbDeEnd != null and !sbscrbDeEnd.equals("")'>AND
+					SBSCRB_DE BETWEEN DATE(#{sbscrbDeBegin}) AND DATE(#{sbscrbDeEnd})
+			</if>	
             ) A
         WHERE 1=1
             <if test='sbscrbSttus != null and sbscrbSttus neq "0" and sbscrbSttus neq ""'>

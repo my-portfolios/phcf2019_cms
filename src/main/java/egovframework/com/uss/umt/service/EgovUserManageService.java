@@ -64,7 +64,7 @@ public interface EgovUserManageService  {
 	 * @return 총사용자갯수(int)
 	 * @throws Exception
 	 */
-	public int selectUserListTotCnt(UserDefaultVO userSearchVO) throws Exception;
+	public int selectUserListTotCnt(UserManageVO userSearchVO) throws Exception;
 
 	/**
 	 * 화면에 조회된 사용자의 기본정보를 수정하여 항목의 정합성을 체크하고 수정된 데이터를 데이터베이스에 반영

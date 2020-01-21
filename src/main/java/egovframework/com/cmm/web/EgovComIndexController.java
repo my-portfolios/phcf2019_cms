@@ -1,5 +1,9 @@
 package egovframework.com.cmm.web;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +39,11 @@ import javax.annotation.Resource;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovComIndexService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.com.cop.bbs.service.BoardVO;
+import egovframework.com.cop.bbs.service.impl.EgovArticleDAO;
+import egovframework.com.uss.umt.service.EgovMberManageService;
+import egovframework.com.uss.umt.service.UserManageVO;
+import egovframework.com.uss.umt.service.impl.MberManageDAO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +60,13 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	
 	@Resource(name="EgovComIndexService")
 	private EgovComIndexService egovComIndexService;
+	
+	@Resource(name = "EgovArticleDAO")
+    private EgovArticleDAO egovArticleDao;
+    
+	/** mberManageDAO */
+	@Resource(name="mberManageDAO")
+	private MberManageDAO mberManageDAO;
 	
 	private ApplicationContext applicationContext;
 
@@ -73,7 +89,15 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	}
 
 	@RequestMapping("/EgovTop.do")
-	public String top() {
+	public String top(ModelMap model) {
+		Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        
+        String currentDateTime = df.format(cal.getTime());
+		
+		model.addAttribute("currentDateTime", currentDateTime);
+		
 		return "egovframework/com/cmm/EgovUnitTop";
 	}
 
@@ -87,7 +111,68 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		model.addAttribute("loginVO", loginVO);
-
+		
+		//날짜 설정
+		Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        cal.add(Calendar.DATE, -1);
+        String startT = df.format(cal.getTime());
+        cal.add(Calendar.DATE, +1);
+        String endT = df.format(cal.getTime());
+        
+		BoardVO bvo = new BoardVO();
+		bvo.setSearchBgnDe(startT); //검색시작일
+		bvo.setSearchEndDe(endT); //검색종료일
+		
+		model.addAttribute("currentDateTime", endT);
+		
+		// 재단 공지사항 갯수
+		bvo.setBbsId("BBSMSTR_000000000297");
+		int fndNoticeArticleCnt = egovArticleDao.selectArticleListCnt(bvo);
+		model.addAttribute("fndNoticeArticleCnt", fndNoticeArticleCnt);
+		
+		// 외부 공지사항 갯수
+		bvo.setBbsId("BBSMSTR_000000000307");
+		int extNoticeArticleCnt = egovArticleDao.selectArticleListCnt(bvo);
+		model.addAttribute("extNoticeArticleCnt", extNoticeArticleCnt);
+		
+		// 채용공고 갯수
+		bvo.setBbsId("BBSMSTR_000000000310");
+		int rcrtArticleCnt = egovArticleDao.selectArticleListCnt(bvo);
+		model.addAttribute("rcrtArticleCnt", rcrtArticleCnt);
+		
+		// 입찰공고 갯수
+		bvo.setBbsId("BBSMSTR_000000000309");
+		int auctArticleCnt = egovArticleDao.selectArticleListCnt(bvo);
+		model.addAttribute("auctArticleCnt", auctArticleCnt);
+		
+		UserManageVO uvo = new UserManageVO();
+		
+		//날짜 재설정
+		cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        cal.add(Calendar.DATE, -30); // 최근 한달(30일)내 신규회원
+        startT = df.format(cal.getTime());
+        cal.add(Calendar.DATE, +30);
+        endT = df.format(cal.getTime());
+        
+        // 신규회원 수
+		uvo.setSbscrbDeBegin(startT);
+		uvo.setSbscrbDeEnd(endT);
+		int newMemCnt = mberManageDAO.selectMberListTotCnt(uvo);
+		model.addAttribute("newMemCnt", newMemCnt);
+		
+		// 유료회원 수
+		uvo.setSbscrbDeBegin(startT);
+		uvo.setSbscrbDeEnd(endT);
+		uvo.setMembershipType("B");
+		int newPrmMemCnt = mberManageDAO.selectMberListTotCnt(uvo);
+		uvo.setMembershipType("P");
+		newPrmMemCnt += mberManageDAO.selectMberListTotCnt(uvo);
+		model.addAttribute("newPrmMemCnt", newPrmMemCnt);
+		
 		return "egovframework/com/cmm/EgovUnitContent";
 	}
 

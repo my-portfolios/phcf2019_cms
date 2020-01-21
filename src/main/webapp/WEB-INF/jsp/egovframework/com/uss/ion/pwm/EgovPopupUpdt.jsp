@@ -155,25 +155,15 @@ function fn_egov_init_date(){
 	});
 }
 
-function fileDecode(file){
-	console.log("START");
-	var result;
-	
-	// 정상 로드시 result에 인코딩 값을 저장하기
-	var reader = new FileReader();
-	reader.onload = function(e) {
-	  result = e.target.result;
-	  console.log("data : " + data);
+/* ********************************************************
+ * 삭제처리
+ ******************************************************** */
+function fn_egov_delete_PopupManage(){
+	var vFrom = document.getElementById("formDelete");
+	if(confirm('<spring:message code="common.delete.msg"/>')){/* 삭제 하시겠습니까? */
+		vFrom.action = "<c:url value='/uss/ion/pwm/detailPopup.do' />";
+		vFrom.submit();
 	}
-
-	// 실패할 경우 에러 출력하기
-	reader.onerror = function (error) {
-	   console.log('Error');
-	};
-	
-	console.log(result);
-	$("#popupImageCode").val(result);
-
 }
 </script>
 
@@ -211,16 +201,14 @@ function fileDecode(file){
 		<tr>			
 			<th>팝업 이미지<span class="pilsu">*</span></th><!-- 팝업창 이미지 -->
 	         <td class="left">
-	             <input type="button" onclick="window.open('/editimage/imageCropper.do','popupImage','width=1000,height=640,resizable=no');" value="<c:choose><c:when test="${popupManageVO.popupImage != null && popupManageVO.popupImage != ''}">변경</c:when><c:otherwise>선택</c:otherwise></c:choose>"/>
+	             <input type="button" onclick="window.open('/common/imageCropper.do','popupImage','width=1000,height=640,resizable=no');" value="<c:choose><c:when test="${popupManageVO.popupImage != null && popupManageVO.popupImage != ''}">변경</c:when><c:otherwise>선택</c:otherwise></c:choose>"/>
 	             <input type="hidden" id="popupImage" name="popupImage" value="${popupManageVO.popupImage}" readOnly/>
 	         </td>
 		</tr>
 		<tr>
 			<th>팝업 이미지 미리보기</th>
 			<td>
-				<c:if test="${popupManageVO.popupImage == 'Y'}">
-					<img id="popupImageView" src="/upload/POPUP/${popupManageVO.popupId}.png?<%=new java.util.Date()%>">
-				</c:if>
+				<img id="popupImageView" <c:if test="${popupManageVO.popupImage == 'Y'}"> src="/upload/POPUP/${popupManageVO.popupId}.png?<%=new java.util.Date()%>" </c:if>>
 			</td>
 		</tr>
 		<tr>
@@ -295,16 +283,19 @@ function fileDecode(file){
 	<!-- 하단 버튼 -->
 	<div class="btn">
 		<input class="s_submit" type="submit" value='<spring:message code="button.save" />' onclick="fn_egov_save_PopupManage(); return false;" />
+		<input class="s_submit" type="button" value='<spring:message code="button.delete" />' onclick="fn_egov_delete_PopupManage(); return false;" />
 		<span class="btn_s"><a href="<c:url value='/uss/ion/pwm/listPopup.do' />" onclick=""><spring:message code="button.list" /></a></span>
 	</div>
 	<div style="clear:both;"></div>
 </div>
-
 <form:hidden path="ntceBgnde" />
 <form:hidden path="ntceEndde" />
 <input name="popupId" type="hidden" value="${popupManageVO.popupId}">
 <input name="cmd" type="hidden" value="<c:out value='save'/>"/>
 </form:form>
-
+<form id="formDelete" method="post" style="display:inline">
+	<input name="popupId" type="hidden" value="${popupManageVO.popupId}">
+	<input name="cmd" type="hidden" value="del"/>
+</form>
 </body>
 </html>

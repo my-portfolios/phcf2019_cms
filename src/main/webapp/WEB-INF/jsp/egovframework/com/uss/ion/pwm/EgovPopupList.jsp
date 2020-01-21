@@ -211,19 +211,10 @@ function fnGetCookie(name) {
 </form>
 
 	<table class="board_list">
-		<caption></caption>
-		<colgroup>
-			<col style="width:35px" />
-			<col style="width:30px" />
-			<col style="width:120px" />
-			<col style="width:200px" />
-			<col style="width:120px" />
-			<col style="width:70px" />
-		</colgroup>
+
 		<thead>
 			<tr>
 			   <th scope="col"><spring:message code="table.num"/></th><!-- 순번 -->
-			   <th scope="col"><input type="checkbox" name="checkAll" id="checkAll" class="check2" value="1" onClick="fn_egov_checkAll_PopupManage();"/></th>
 			   <th scope="col"><spring:message code="ussIonPwm.popupList.popupTitleNm"/></th><!-- 제목 -->
 			   <th scope="col"><spring:message code="ussIonPwm.popupList.ntcePeriod"/></th><!-- 게시기간 -->
 			   <%-- <th scope="col"><spring:message code="ussIonPwm.popupList.fileUrl"/></th><!-- 파일 --> --%>
@@ -237,14 +228,7 @@ function fnGetCookie(name) {
 			<tr>
 				<td><c:out value="${(popupManageVO.pageIndex-1) * popupManageVO.pageSize + status.count}"/></td>
 				<td>
-					<input type="checkbox" name="checkList" id="checkList" class="check2" value="${resultInfo.popupId}"/>
-				</td>
-				<td>
-					<form name="subForm" method="post" action="<c:url value='/uss/ion/pwm/detailPopup.do'/>">
-						<input name="popupId" type="hidden" value="${resultInfo.popupId}">
-						<input name="pageIndex" type="hidden" value="<c:out value='${popupManageVO.pageIndex}'/>"/>
-						<span class="link"><input type="submit" style="width:200px;text-align:left;" value="<c:out value="${resultInfo.popupTitleNm}"/>" onclick="fn_egov_detail_PopupManage('${resultInfo.popupId}'); return false;"></span>
-					</form>
+					<a href="/uss/ion/pwm/updtPopup.do?popupId=${resultInfo.popupId}">${resultInfo.popupTitleNm}</a>
 				</td>
 				<td>
 					<c:out value="${fn:substring(resultInfo.ntceBgnde, 0, 4)}"/>-<c:out value="${fn:substring(resultInfo.ntceBgnde, 4, 6)}"/>-<c:out value="${fn:substring(resultInfo.ntceBgnde, 6, 8)}"/> <c:out value="${fn:substring(resultInfo.ntceBgnde, 8, 10)}"/>:<c:out value="${fn:substring(resultInfo.ntceBgnde, 10, 12)}"/>

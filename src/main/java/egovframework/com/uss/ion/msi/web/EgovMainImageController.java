@@ -21,6 +21,7 @@
 
 package egovframework.com.uss.ion.msi.web;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.uss.ion.msi.service.EgovMainImageService;
 import egovframework.com.uss.ion.msi.service.MainImage;
 import egovframework.com.uss.ion.msi.service.MainImageVO;
-
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -155,6 +156,8 @@ public class EgovMainImageController {
 	public String insertMainImage(final MultipartHttpServletRequest multiRequest,
 			                      @ModelAttribute("mainImage") MainImage mainImage,
 			                      @ModelAttribute("mainImageVO") MainImageVO mainImageVO,
+			                      @RequestParam String popupImage,
+			                      @RequestParam HashMap<String,String> paramMap,
 			                       BindingResult bindingResult,
 			                       ModelMap model) throws Exception {
 
@@ -164,37 +167,15 @@ public class EgovMainImageController {
     		model.addAttribute("mainImageVO", mainImageVO);
 			return "egovframework/com/uss/ion/msi/EgovMainImageRegist";
 		} else {
-
-	    	List<FileVO> result = null;
-
-	    	String uploadFolder = "";
-	    	String image = "";
-	    	String imageFile = "";
-	    	String atchFileId = "";
-
-	    	final Map<String, MultipartFile> files = multiRequest.getFileMap();
-
-	    	if(!files.isEmpty()){
-	    	    result = fileUtil.parseFileInf(files, "MSI_", 0, "", uploadFolder);
-	    	    atchFileId = fileMngService.insertFileInfs(result);
-
-	        	FileVO vo = result.get(0);
-	        	Iterator<FileVO> iter = result.iterator();
-
-	        	while (iter.hasNext()) {
-	        	    vo = iter.next();
-	        	    image = vo.getOrignlFileNm();
-	        	    imageFile = vo.getStreFileNm();
-	        	}
-	    	}
-
-	    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
 	    	mainImage.setImageId(egovMainImageIdGnrService.getNextStringId());
-	    	mainImage.setImage(image);
-	    	mainImage.setImageFile(atchFileId);
-	    	mainImage.setImageId(mainImage.getImageId());
 	    	mainImage.setUserId(user.getId());
+	    	
+	    	CommonMethod.base64ImageDecoder(popupImage, "MAIN_IMG", mainImage.getImageId());
+	    	
+	    	String imageDc = paramMap.get("mainSubject") + "|" + paramMap.get("subSubject") + "|" + paramMap.get("connectPage");
+	    	mainImage.setImageDc(imageDc);
 
 	    	model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
 	    	model.addAttribute("mainImage", egovMainImageService.insertMainImage(mainImage, mainImageVO));
@@ -214,6 +195,8 @@ public class EgovMainImageController {
 	@RequestMapping(value="/uss/ion/msi/updtMainImage.do")
 	public String updateMainImage(final MultipartHttpServletRequest multiRequest,
                                   @ModelAttribute("mainImage") MainImage mainImage,
+                                  @RequestParam String popupImage,
+                                  @RequestParam HashMap<String,String> paramMap,
                                    BindingResult bindingResult,
                                    ModelMap model) throws Exception {
 
@@ -223,42 +206,13 @@ public class EgovMainImageController {
     		model.addAttribute("mainImageVO", mainImage);
 			return "egovframework/com/uss/ion/msi/EgovMainImageUpdt";
 		} else {
+			CommonMethod.base64ImageDecoder(popupImage, "MAIN_IMG", mainImage.getImageId());
 
-	    	List<FileVO> result = null;
-
-	    	String uploadFolder = "";
-	    	String image = "";
-	    	String imageFile = "";
-	    	String atchFileId = "";
-
-	    	final Map<String, MultipartFile> files = multiRequest.getFileMap();
-
-	    	if(!files.isEmpty()){
-	    	    result = fileUtil.parseFileInf(files, "MSI_", 0, "", uploadFolder);
-	    	    atchFileId = fileMngService.insertFileInfs(result);
-
-	        	FileVO vo = null;
-	        	Iterator<FileVO> iter = result.iterator();
-
-	        	while (iter.hasNext()) {
-	        	    vo = iter.next();
-	        	    image = vo.getOrignlFileNm();
-	        	    imageFile = vo.getStreFileNm();
-	        	}
-
-	        	if (vo == null) {
-	        		mainImage.setAtchFile(false);
-	        	} else {
-	        		mainImage.setImage(image);
-	        		mainImage.setImageFile(atchFileId);
-	        		mainImage.setAtchFile(true);
-	        	}
-	    	} else {
-	    		mainImage.setAtchFile(false);
-	    	}
-
+			String imageDc = paramMap.get("mainSubject") + "|" + paramMap.get("subSubject") + "|" + paramMap.get("connectPage");
+			
 	    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 	    	mainImage.setUserId(user.getId());
+	    	mainImage.setImageDc(imageDc);
 
 	    	egovMainImageService.updateMainImage(mainImage);
 //	    	return "forward:/uss/ion/msi/getMainImage.do";

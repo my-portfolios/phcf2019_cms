@@ -30,6 +30,10 @@ public class MainImage extends ComDefaultVO {
 	 * 메인 이미지
 	 */	
 	private String image;
+	
+	private String displayPage;
+	
+	private String sortOrdr;
 	/**
 	 * 메인 이미지 파일
 	 */	
@@ -102,6 +106,21 @@ public class MainImage extends ComDefaultVO {
 	 */
 	public void setImageFile(String imageFile) {
 		this.imageFile = imageFile;
+	}
+	
+	
+	
+	public String getDisplayPage() {
+		return displayPage;
+	}
+	public void setDisplayPage(String displayPage) {
+		this.displayPage = displayPage;
+	}
+	public String getSortOrdr() {
+		return sortOrdr;
+	}
+	public void setSortOrdr(String sortOrdr) {
+		this.sortOrdr = sortOrdr;
 	}
 	/**
 	 * @return the imageDc

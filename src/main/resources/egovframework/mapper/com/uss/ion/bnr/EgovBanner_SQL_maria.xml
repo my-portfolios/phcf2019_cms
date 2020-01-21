@@ -11,6 +11,7 @@
         <result property="bannerImageFile" column="BANNER_IMAGE_FILE"/>
         <result property="bannerDc" column="BANNER_DC"/>
         <result property="sortOrdr" column="SORT_ORDR"/>
+        <result property="displayPage" column="DISPLAY_PAGE"/>
         <result property="reflctAt" column="REFLCT_AT"/>
         <result property="userId" column="FRST_REGISTER_ID"/>
         <result property="regDate" column="FRST_REGIST_PNTTM"/>
@@ -41,7 +42,8 @@
     <select id="selectBannerList" parameterType="egovframework.com.uss.ion.bnr.service.BannerVO" resultMap="banner">
             SELECT BANNER_ID,            
                    BANNER_NM,            
-                   LINK_URL,             
+                   LINK_URL,
+                   DISPLAY_PAGE,                    
                    BANNER_IMAGE,       
                    BANNER_IMAGE_FILE,  
                    BANNER_DC, 
@@ -76,6 +78,7 @@
                    BANNER_IMAGE,      
                    BANNER_IMAGE_FILE,   
                    BANNER_DC,
+                   DISPLAY_PAGE,
                    SORT_ORDR,            
                    REFLCT_AT,            
                    FRST_REGISTER_ID,
@@ -91,6 +94,7 @@
                    (BANNER_ID,
                     BANNER_NM,
                     LINK_URL,             
+                    DISPLAY_PAGE,     
                     BANNER_IMAGE,   
                     BANNER_IMAGE_FILE,      
                     BANNER_DC,    
@@ -101,6 +105,7 @@
             VALUES (#{bannerId},
                     #{bannerNm}, 
                     #{linkUrl},
+                    #{displayPage},
                     #{bannerImage},
                     #{bannerImageFile},
                     #{bannerDc},
@@ -116,10 +121,9 @@
             UPDATE COMTNBANNER
                SET BANNER_NM = #{bannerNm},
                    LINK_URL = #{linkUrl},
-                   <if test="isAtchFile == true">
                    BANNER_IMAGE = #{bannerImage},
                    BANNER_IMAGE_FILE = #{bannerImageFile},
-                   </if>
+                   DISPLAY_PAGE = #{displayPage},
                    BANNER_DC = #{bannerDc},
                    SORT_ORDR = #{sortOrdr},
                    REFLCT_AT = #{reflctAt},

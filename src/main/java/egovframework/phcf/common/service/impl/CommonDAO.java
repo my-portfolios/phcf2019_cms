@@ -16,10 +16,6 @@ import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 @Repository("CommonDAO")
 public class CommonDAO extends EgovComAbstractDAO{
 
-	public List<HashMap<String, Object>> selectGyList(HashMap<String, String> paramMap) {
-		return selectList("CommonPage.selectGyList", paramMap);
-	}
-	
 	public HashMap<String, String> selectContent(HashMap<String, String> paramMap) {
 		return selectOne("CommonPage.selectContent", paramMap);
 	}

@@ -57,7 +57,7 @@ public interface EgovBannerService {
 	 * 
 	 * @param banner
 	 */
-	public void updateBanner(Banner banner) throws Exception;
+	public void updateBanner(Banner banner, BannerVO bannerVO) throws Exception;
 
 	/**
 	 * 기 등록된 배너정보를 삭제한다.

@@ -35,6 +35,9 @@ public class Banner extends ComDefaultVO {
 	 * 배너 이미지
 	 */
 	private String bannerImage;
+	
+	private String displayPage;
+	
 	/**
 	 * 배너 이미지 파일
 	 */
@@ -88,6 +91,15 @@ public class Banner extends ComDefaultVO {
 	public void setBannerNm(String bannerNm) {
 		this.bannerNm = bannerNm;
 	}
+	
+	
+	public String getDisplayPage() {
+		return displayPage;
+	}
+	public void setDisplayPage(String displayPage) {
+		this.displayPage = displayPage;
+	}
+	
 	/**
 	 * @return the linkUrl
 	 */

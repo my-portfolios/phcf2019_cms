@@ -55,6 +55,8 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 	/** 관리자 접근 권한 패턴 목록 */
 	private List<String> phcfAuthPatternList;
 	
+	private List<HashMap<String,Object>> DBMenuList;
+	
 	public List<String> getPhcfAuthPatternList() {
 		return phcfAuthPatternList;
 	}
@@ -162,7 +164,11 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		//전체 메뉴구조 및 현재 메뉴위치 가져오기
-		List<HashMap<String, Object>> AllMenuList = egovComIndexService.selectMenuInfoList(Globals.SITE_NAME);
+		if(DBMenuList == null || currentUrl.equals("/phcf/menuRefresh.do")) DBMenuList  = egovComIndexService.selectMenuInfoList(Globals.SITE_NAME);
+		
+		List<HashMap<String, Object>> AllMenuList = new ArrayList<>();
+		AllMenuList.addAll(DBMenuList);
+		
 		List<HashMap<String, Object>> HeaderMenuList = new ArrayList<HashMap<String,Object>>();
 		
 		HashMap<String, Object> cmMap = new HashMap<String, Object>();

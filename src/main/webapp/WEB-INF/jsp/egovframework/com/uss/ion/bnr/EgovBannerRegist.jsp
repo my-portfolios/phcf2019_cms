@@ -35,6 +35,7 @@
 <link href="<c:url value="/css/egovframework/com/button.css"/>" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>"></script>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
+<script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
 <validator:javascript formName="banner" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javaScript" language="javascript">
 
@@ -51,7 +52,12 @@ function fncBannerInsert() {
     if(confirm("<spring:message code="ussIonBnr.bannerRegist.saveImage"/>")){/* 저장 하시겠습니까? */
         if(!validateBanner(varFrom)){           
             return;
-        }else{
+        }
+        else if($("#popupImage").val() == ''){
+        	alert("이미지를 선택하세요!");
+        	return;
+        }
+        else{
             if(varFrom.bannerImage.value != '') {
                 varFrom.submit();
             } else {
@@ -93,7 +99,7 @@ function fncBannerDelete() {
 			<col style="width:16%" />
 			<col style="" />
 		</colgroup>
-		<tr>
+		<tr style="display:none;">
 			<th><spring:message code="ussIonBnr.bannerRegist.bannerId"/> <span class="pilsu">*</span></th><!-- 배너ID -->
 			<td class="left">
 				<input id="bannerId" type="text" name="bannerId" value="<c:out value='${banner.bannerId}'/>" title="<spring:message code="ussIonBnr.bannerRegist.bannerId"/>" readonly="readonly" style="width:188px" />
@@ -110,15 +116,15 @@ function fncBannerDelete() {
 			<th><spring:message code="ussIonBnr.bannerRegist.linkUrl"/> <span class="pilsu">*</span></th><!-- 링크URL -->
 			<td class="left">
 				<input id="linkUrl" type="text" name="linkUrl" value="<c:out value='${banner.linkUrl}'/>" title="<spring:message code="ussIonBnr.bannerRegist.linkUrl"/>" maxLength="255" />
-				<form:errors path="linkUrl" />
+				<form:errors path="linkUrl" /><br/>
 				페이지 이동을 하지 않으려면 #을 입력하십시오.
 			</td>
 		</tr>
 		<tr>
 			<th><spring:message code="ussIonBnr.bannerRegist.bannerImage"/> <span class="pilsu">*</span></th><!-- 배너이미지 -->
 			<td class="left">
-				<input type="button" onclick="window.open('/editimage/imageCropper.do','bannerImage','width=1000,height=640,resizable=no');" value="선택"/>
-	            <input type="text" id="popupImage" name="popupImage" readOnly/>
+				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=1.8','bannerImage','width=1000,height=640,resizable=no');" value="선택"/>
+	            <input type="hidden" id="popupImage" name="popupImage" readOnly/>
 			</td>
 			<%-- <div class="egov_file_box" style="display:inline-block">
 			<label for="egovfile_0" id="file_label"><spring:message code="title.attachedFileSelect"/></label> <!-- 파일선택 -->
@@ -126,6 +132,20 @@ function fncBannerDelete() {
 			</div><input name="bannerImage" id="bannerImage" type="text" title="<spring:message code="ussIonBnr.bannerRegist.bannerImage"/>" value="<c:out value="${banner.bannerImage}"/>" maxLength="30" readonly="readonly" style="width:525px" /> --%>
 		</tr>
 		<tr>
+			<th>배너 이미지 미리보기</th>
+			<td><img id="popupImageView" /></td>
+		</tr>
+		<tr>
+			<th>배너 표시 페이지 <span class="pilsu">*</span></th>
+			<td class="left">
+				<select name="displayPage">
+					<option value="메인">메인</option>
+					<option value="문화공간">문화공간</option>
+					<option value="축제">축제</option>
+				</select>
+			</td>
+		</tr>
+		<tr style="display:none;">
 			<th><spring:message code="ussIonBnr.bannerRegist.bannerDc"/> </th><!-- 배너설명 -->
 			<td class="left">
 				<input id="bannerDc" type="text" name="bannerDc" value="<c:out value='${banner.bannerDc}'/>" title="<spring:message code="ussIonBnr.bannerRegist.bannerDc"/>" maxLength="100" />

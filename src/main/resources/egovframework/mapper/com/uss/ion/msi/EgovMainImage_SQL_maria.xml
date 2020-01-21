@@ -7,6 +7,8 @@
         <result property="imageId" column="IMAGE_ID"/>
         <result property="imageNm" column="IMAGE_NM"/>
         <result property="image" column="IMAGE"/>
+        <result property="displayPage" column="DISPLAY_PAGE"/>
+        <result property="sortOrdr" column="SORT_ORDR"/>
         <result property="imageFile" column="IMAGE_FILE"/>
         <result property="imageDc" column="IMAGE_DC"/>
         <result property="reflctAt" column="REFLCT_AT"/>
@@ -27,6 +29,8 @@
             SELECT IMAGE_ID,
                    IMAGE_NM,
                    IMAGE,
+                   DISPLAY_PAGE,
+                   SORT_ORDR,
                    IMAGE_FILE,
                    IMAGE_DC,
                    REFLCT_AT,
@@ -56,6 +60,8 @@
             SELECT IMAGE_ID,
                    IMAGE_NM,
                    IMAGE,
+                   DISPLAY_PAGE,
+                   SORT_ORDR,
                    IMAGE_FILE,
                    IMAGE_DC,
                    REFLCT_AT,
@@ -72,6 +78,8 @@
                        (IMAGE_ID,
                         IMAGE_NM,
                         IMAGE,
+                        DISPLAY_PAGE,
+                   		SORT_ORDR,
                         IMAGE_FILE,
                         IMAGE_DC,
                         REFLCT_AT,
@@ -80,6 +88,8 @@
                 VALUES (#{imageId},
                         #{imageNm},
                         #{image},
+                        #{displayPage},
+                        #{sortOrdr},
                         #{imageFile},
                         #{imageDc},
                         #{reflctAt},
@@ -91,10 +101,10 @@
     <update id="updateMainImage" parameterType="egovframework.com.uss.ion.msi.service.MainImage">
             UPDATE COMTNMAINIMAGE
                SET IMAGE_NM = #{imageNm},
-                   <if test="isAtchFile == true">
                    IMAGE = #{image},
                    IMAGE_FILE = #{imageFile},
-                   </if>
+                   DISPLAY_PAGE = #{displayPage},
+                   SORT_ORDR = #{sortOrdr},
                    IMAGE_DC = #{imageDc},
                    REFLCT_AT = #{reflctAt},
                    LAST_UPDUSR_ID = #{userId},

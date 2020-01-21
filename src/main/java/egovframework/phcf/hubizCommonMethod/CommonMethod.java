@@ -23,6 +23,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.com.cmm.service.EgovProperties;
+import egovframework.com.cmm.service.FileVO;
 import egovframework.phcf.common.service.CommonService;
 
 public class CommonMethod {
@@ -246,5 +247,11 @@ public class CommonMethod {
 			return false;
 		}
 		return true;
+	}
+	
+	public static boolean removeFile(String target, String title) {
+		File file = new File(EgovProperties.getProperty("Globals.fileStorePath") + target + "/" + title);
+		if(file.delete()) return true;
+		else return false;
 	}
 }

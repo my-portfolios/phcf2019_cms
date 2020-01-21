@@ -196,6 +196,7 @@ public class EgovBannerController {
     @SuppressWarnings("unused")
 	@RequestMapping(value="/uss/ion/bnr/updtBanner.do")
 	public String updateBanner(@ModelAttribute("banner") Banner banner,
+								@ModelAttribute("bannerVO") BannerVO bannerVO,
 			                    BindingResult bindingResult,
                                 SessionStatus status,
                                 @RequestParam(value="popupImage") String popupImage,
@@ -216,7 +217,7 @@ public class EgovBannerController {
 			banner.setUserId(user.getId());
 
 
-			egovBannerService.updateBanner(banner);
+			egovBannerService.updateBanner(banner, bannerVO);
 			//	    	return "forward:/uss/ion/bnr/getBanner.do";
 			return "forward:/uss/ion/bnr/selectBannerList.do";
 

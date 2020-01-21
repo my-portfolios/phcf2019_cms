@@ -185,10 +185,11 @@ function press() {
 		</colgroup>
 		<thead>
 			<tr>
-			   <th scope="col"><spring:message code="uss.ion.msi.mainImageList.mainImageNm" /></th><!-- 이미지 명 -->
-			   <th scope="col"><spring:message code="uss.ion.msi.mainImageList.mainImage" /></th><!-- 이미지 -->
-			   <th scope="col"><spring:message code="uss.ion.msi.mainImageList.mainImageDc" /></th><!-- 이미지 설명 -->
-			   <th scope="col"><spring:message code="uss.ion.msi.mainImageList.mainImageReflctAt" /></th><!-- 반영여부 -->
+			   <th scope="col">제목</th><!-- 이미지 명 -->
+			   <th scope="col">표시 될 페이지</th><!-- 이미지 -->
+			   <th scope="col">정렬순서</th><!-- 이미지 -->
+			   <%-- <th scope="col"><spring:message code="uss.ion.msi.mainImageList.mainImageDc" /></th><!-- 이미지 설명 --> --%>
+			   <th scope="col">반영여부</th><!-- 반영여부 -->
 			</tr>
 		</thead>
 		<tbody>
@@ -204,16 +205,12 @@ function press() {
 			<c:forEach var="mainImage" items="${mainImageList}" varStatus="status">
 			<tr>
 				<td>
-					<form name="item" method="post" action="<c:url value='/uss/ion/msi/getMainImage.do'/>">
-					<input type="hidden" name="imageId" value="<c:out value="${mainImage.imageId}"/>">
-					<input type="hidden" name="pageIndex" value="<c:out value='${mainImageVO.pageIndex}'/>">
-					<input type="hidden" name="searchCondition" value="<c:out value='${mainImageVO.searchCondition}'/>">
-					<input type="hidden" name="searchKeyword" value="<c:out value="${mainImageVO.searchKeyword}"/>">
-					<input class="link" type="submit" value="<c:out value="${mainImage.imageNm}"/>" onclick="fncSelectMainImage('<c:out value="${mainImage.imageId}"/>'); return false;">
-					</form>
+					<a href="/uss/ion/msi/getMainImage.do?imageId=${mainImage.imageId}">${mainImage.imageNm}</a>
 				</td>
-				<td><c:out value="${mainImage.image}"/></td>
-				<td><c:out value="${mainImage.imageDc}"/></td>
+				<%-- <td><c:out value="${mainImage.image}"/></td>
+				<td><c:out value="${mainImage.imageDc}"/></td> --%>
+				<td><c:out value="${mainImage.displayPage}"/></td>
+				<td><c:out value="${mainImage.sortOrdr}"/></td>
 				<td><c:out value="${mainImage.reflctAt}"/></td>
 			</tr>
 			</c:forEach>

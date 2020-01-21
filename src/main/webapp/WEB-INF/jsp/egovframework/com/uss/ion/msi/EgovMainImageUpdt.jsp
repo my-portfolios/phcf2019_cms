@@ -35,8 +35,20 @@
 <link href="<c:url value="/css/egovframework/com/button.css"/>" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>"></script>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
+<script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
 <validator:javascript formName="mainImage" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javaScript" language="javascript">
+
+$(function(){
+	$("#displayPage").on("change", function(){
+		if($(this).val()=="메인"){
+			$(".mainTitle").css("display","");
+		}
+		else {
+			$(".mainTitle").css("display","none");
+		}
+	});
+});
 
 function fncSelectMainImageList() {
     var varFrom = document.getElementById("mainImage");
@@ -51,7 +63,8 @@ function fncMainImageUpdate() {
     if(confirm("<spring:message code="uss.ion.msi.mainImageUpdt.saveImage" />")){/* 저장 하시겠습니까? */
         if(!validateMainImage(varFrom)){           
             return;
-        }else{
+        }
+        else{
             varFrom.submit();
         } 
     }
@@ -88,7 +101,7 @@ function fncOnChangeImage() {
 			<col style="width:16%" />
 			<col style="" />
 		</colgroup>
-		<tr>
+		<tr style="display:none;">
 			<th><spring:message code="uss.ion.msi.mainImageUpdt.mainImageId" /> <span class="pilsu">*</span></th><!-- 이미지ID -->
 			<td class="left">
 			    <input name="imageId" id="imageId" title="<spring:message code="uss.ion.msi.mainImageUpdt.mainImageId" />" type="text" value="<c:out value='${mainImage.imageId}'/>" readonly="readonly" style="width:188px" />
@@ -103,16 +116,56 @@ function fncOnChangeImage() {
 		<tr>
 			<th><spring:message code="uss.ion.msi.mainImageUpdt.mainImage" /> <span class="pilsu">*</span></th><!-- 이미지 -->
 			<td class="left">
+				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=2.80','mainImage','width=1000,height=640,resizable=no');" value="선택"/>
+	            <input type="hidden" id="popupImage" name="popupImage" readOnly/>
+			</td>
+			<%-- 
+			<td class="left">
 			    <div class="egov_file_box" style="display:inline-block">
 				<label for="egovfile_0" id="file_label"><spring:message code="title.attachedFileSelect"/></label> 
 				<input type="file" name="file_1" id="egovfile_0" title="<spring:message code="uss.ion.msi.mainImageUpdt.mainImage" />" onchange="fncOnChangeImage();"/> 
 				</div><input name="mainImage" id="mainImage" type="text" title="<spring:message code="uss.ion.msi.mainImageUpdt.mainImage" />" value="<c:out value="${mainImage.image}"/>" maxLength="30" readonly="readonly" style="width:525px" /><!-- 이미지 -->
+			</td> --%>
+		</tr>
+		<tr>
+			<th>메인 이미지 미리보기</th>
+			<td><img id="popupImageView" style="width:80%;" src="/upload/MAIN_IMG/${mainImage.imageId}.png?<%=new java.util.Date()%>" /></td>
+		</tr>
+		<tr>
+			<th>메인이미지 표시 페이지 <span class="pilsu">*</span></th><!-- 팝업창표시페이지 -->
+			<td class="left">
+				<select name="displayPage" id="displayPage">
+					<option value="메인" <c:if test="${mainImage.displayPage eq '메인'}">selected</c:if>>메인</option>
+					<option value="문화공간" <c:if test="${mainImage.displayPage eq '문화공간'}">selected</c:if>>문화공간</option>
+					<option value="축제" <c:if test="${mainImage.displayPage eq '축제'}">selected</c:if>>축제</option>
+				</select>
+			</td>
+		</tr>
+		<tr class="mainTitle" <c:if test="${mainImage.displayPage != '메인'}">style="display:none;"</c:if>>
+			<th>주 제목</th>
+			<td class="left">
+			    <input name="mainSubject" title="주 제목" type="text" value="<c:out value='${fn:split(mainImage.imageDc,"|")[0]}'/>" maxLength="100" />
+			</td>
+		</tr>
+		<tr class="mainTitle" <c:if test="${mainImage.displayPage != '메인'}">style="display:none;"</c:if>>
+			<th>부 제목</th>
+			<td class="left">
+			    <input name="subSubject" title="부 제목" type="text" value="<c:out value='${fn:split(mainImage.imageDc,"|")[1]}'/>" maxLength="100" />
+			</td>
+		</tr>
+		<tr class="mainTitle" <c:if test="${mainImage.displayPage != '메인'}">style="display:none;"</c:if>>
+			<th>연결될 페이지</th>
+			<td class="left">
+			    <input name="connectPage" title="연결될 페이지" type="text" value="<c:out value='${fn:split(mainImage.imageDc,"|")[2]}'/>" maxLength="100" />
+			    <br/>
+			    페이지 이동을 하지 않으려면 #을 입력하십시오.
 			</td>
 		</tr>
 		<tr>
-			<th><spring:message code="uss.ion.msi.mainImageUpdt.mainImageDc" /></th><!-- 이미지설명 -->
+			<th><spring:message code="ussIonBnr.bannerRegist.sortOrdr"/> <span class="pilsu">*</span></th><!-- 정렬순서 -->
 			<td class="left">
-			    <input name="imageDc" id="imageDc" title="<spring:message code="uss.ion.msi.mainImageUpdt.mainImageDc" />" type="text" value="<c:out value='${mainImage.imageDc}'/>" maxLength="100" />
+				<input id="sortOrdr" type="text" name="sortOrdr" title="<spring:message code="ussIonBnr.bannerRegist.sortOrdr"/>" value="<c:out value='${mainImage.sortOrdr}'/>" maxLength="5" style="width:68px" />
+				<form:errors path="sortOrdr" />
 			</td>
 		</tr>
 		<tr>
@@ -124,7 +177,7 @@ function fncOnChangeImage() {
 				</select>
 			</td>
 		</tr>
-		<tr>
+		<tr style="display:none;">
 			<th><spring:message code="uss.ion.msi.mainImageUpdt.mainImageregDate" /></th><!-- 등록일시 -->
 			<td class="left">
 			    <input name="regDate" id="regDate" title="<spring:message code="uss.ion.msi.mainImageUpdt.mainImageregDate" />" type="text" value="<c:out value="${fn:substring(mainImage.regDate,0,19)}"/>" maxLength="50" readonly="readonly" style="width:188px" />
@@ -135,7 +188,9 @@ function fncOnChangeImage() {
 	<!-- 하단 버튼 -->
 	<div class="btn">
 		<input class="s_submit" type="submit" value='<spring:message code="button.save" />' onclick="fncMainImageUpdate(); return false;" />
-		<span class="btn_s"><a href="<c:url value='/uss/ion/msi/removeMainImage.do'/>?imageId=<c:out value='${mainImageVO.imageId}'/>" onclick="fncMainImageDelete(); return false;"><spring:message code="button.delete" /></a></span>
+		<c:if test="${!fn:contains(mainImage.imageId, 'MainImg')}">
+			<span class="btn_s"><a href="<c:url value='/uss/ion/msi/removeMainImage.do'/>?imageId=<c:out value='${mainImageVO.imageId}'/>" onclick="fncMainImageDelete(); return false;"><spring:message code="button.delete" /></a></span>
+		</c:if>
 		<span class="btn_s"><a href="<c:url value='/uss/ion/msi/selectMainImageList.do'/>?pageIndex=<c:out value='${mainImageVO.pageIndex}'/>&amp;searchKeyword=<c:out value="${mainImageVO.searchKeyword}"/>&amp;searchCondition=1" onclick="fncSelectMainImageList(); return false;"><spring:message code="button.list" /></a></span>
 	</div>
 	<div style="clear:both;"></div>

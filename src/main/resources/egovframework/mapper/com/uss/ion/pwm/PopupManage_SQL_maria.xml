@@ -12,6 +12,7 @@
 		<result property="popupId" column="POPUP_ID"/>
 		<result property="popupTitleNm" column="POPUP_SJ_NM"/>
 		<result property="fileUrl" column="FILE_URL"/>
+		<result property="popupHtml" column="POPUP_HTML"/>
 		<result property="popupDisplayPage" column="POPUP_DISPLAY_PAGE"/>
 		<result property="popupImage" column="POPUP_IMAGE"/>
 		<result property="popupHlc" column="POPUP_VRTICL_LC"/>

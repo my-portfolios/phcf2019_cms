@@ -19,6 +19,7 @@ import egovframework.com.cmm.service.FileVO;
 import egovframework.com.uss.ion.bnr.service.Banner;
 import egovframework.com.uss.ion.bnr.service.BannerVO;
 import egovframework.com.uss.ion.bnr.service.EgovBannerService;
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 import javax.annotation.Resource;
@@ -68,8 +69,12 @@ public class EgovBannerServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * @param banner - 배너 model
 	 */
 	public BannerVO insertBanner(Banner banner, BannerVO bannerVO) throws Exception{
-        bannerDAO.insertBanner(banner);
+		CommonMethod.base64ImageDecoder(banner.getBannerImage(), "BANNER", banner.getBannerId());
+		banner.setBannerImage("");
+		
+		bannerDAO.insertBanner(banner);
         bannerVO.setBannerId(banner.getBannerId());
+        
         return selectBanner(bannerVO);
 	}
 
@@ -77,8 +82,11 @@ public class EgovBannerServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * 기 등록된 배너정보를 수정한다.
 	 * @param banner - 배너 model
 	 */
-	public void updateBanner(Banner banner) throws Exception{
-        bannerDAO.updateBanner(banner);
+	public void updateBanner(Banner banner, BannerVO bannerVO) throws Exception{
+		CommonMethod.base64ImageDecoder(banner.getBannerImage(), "BANNER", banner.getBannerId());
+		banner.setBannerImage("");
+		
+		bannerDAO.updateBanner(banner);
 	}
 
 	/**
@@ -86,7 +94,7 @@ public class EgovBannerServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * @param banner - 배너 model
 	 */
 	public void deleteBanner(Banner banner) throws Exception {
-		
+		CommonMethod.removeFile("BANNER",banner.getBannerId() + ".png");
         bannerDAO.deleteBanner(banner);
 	}
 

@@ -21,19 +21,7 @@ public class CommonServiceImpl extends EgovAbstractServiceImpl implements Common
 
 	@Resource(name="CommonDAO")
 	private CommonDAO dao;
-	
-	@Override
-	public List<HashMap<String, Object>> selectGyList(HashMap<String, String> paramMap) throws Exception {
-		
-		return dao.selectGyList(paramMap);
-	}
 
-	@Override
-	public boolean getUserChk(String added_id) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
 	@Override
 	public HashMap<String, String> selectContent(HashMap<String, String> paramMap) throws Exception {
 		// TODO Auto-generated method stub

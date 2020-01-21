@@ -33,11 +33,25 @@
 <title><spring:message code="uss.ion.msi.mainImageRegist.mainImageRegist" /></title><!-- 메인화면이미지 등록 -->
 <link href="<c:url value="/css/egovframework/com/com.css"/>" rel="stylesheet" type="text/css">
 <link href="<c:url value="/css/egovframework/com/button.css"/>" rel="stylesheet" type="text/css">
-
+<link href="<c:url value="/css/egovframework/com/cmm/jqueryui.css"/>" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>"></script>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
+<script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
+<script src="<c:url value='/js/egovframework/com/cmm/jqueryui.js' />"></script>
 <validator:javascript formName="mainImage" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javaScript" language="javascript">
+
+
+$(function(){
+	$("#displayPage").on("change", function(){
+		if($(this).val()=="메인"){
+			$(".mainTitle").css("display","");
+		}
+		else {
+			$(".mainTitle").css("display","none");
+		}
+	});
+});
 
 function fncSelectMainImageList() {
     var varFrom = document.getElementById("mainImage");
@@ -53,7 +67,12 @@ function fncMainImageInsert() {
     if(confirm("<spring:message code="uss.ion.msi.mainImageRegist.saveImage" />")){/* 저장 하시겠습니까? */
         if(!validateMainImage(varFrom)){
             return;
-        }else{
+        }
+        else if($("#popupImage").val() == ''){
+        	alert("이미지를 선택하세요!");
+        	return;
+        }
+        else{
             if(varFrom.mainImage.value != '') {
                 varFrom.submit();
             } else {
@@ -88,33 +107,76 @@ function fncOnChangeImage() {
 			<col style="width:16%" />
 			<col style="" />
 		</colgroup>
-		<tr>
+		<%-- <tr>
 			<th><spring:message code="uss.ion.msi.mainImageRegist.mainImageId" /> <span class="pilsu">*</span></th><!-- 이미지ID -->
 			<td class="left">
 			    <input name="imageId" id="imageId" title="<spring:message code="uss.ion.msi.mainImageRegist.mainImageId" />" type="text" value="<c:out value='${mainImage.imageId}'/>" class="readOnlyClass" readonly="readonly" style="width:188px" />
 			</td>
-		</tr>
-		<tr>
+		</tr> --%>
+	 	<tr>
 			<th><spring:message code="uss.ion.msi.mainImageRegist.mainImageNm" /> <span class="pilsu">*</span></th><!-- 이미지명 -->
 			<td class="left">
 			    <input name="imageNm" id="imageNm" title="<spring:message code="uss.ion.msi.mainImageRegist.mainImageNm" />" type="text" value="<c:out value='${mainImage.imageNm}'/>" maxLength="10" style="width:188px" />&nbsp;<form:errors path="imageNm" />
 			</td>
-		</tr>
+		</tr> 
 		<tr>
 			<th><spring:message code="uss.ion.msi.mainImageRegist.mainImage" /> <span class="pilsu">*</span></th><!-- 이미지 -->
 			<td class="left">
-			    <div class="egov_file_box" style="display:inline-block">
+				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=2.80','mainImage','width=1000,height=640,resizable=no');" value="선택"/>
+	            <input type="hidden" id="popupImage" name="popupImage" readOnly/>
+			</td>
+			    <%-- <div class="egov_file_box" style="display:inline-block">
 				<label for="egovfile_0" id="file_label"><spring:message code="title.attachedFileSelect"/></label> <!-- 파일선택 -->
 				<input type="file" name="file_1" id="egovfile_0" title="<spring:message code="uss.ion.msi.mainImageRegist.mainImage" />" onchange="fncOnChangeImage();" /> 
-				</div><input name="mainImage" id="mainImage" type="text" title="<spring:message code="uss.ion.msi.mainImageRegist.mainImage"/>" value="<c:out value="${mainImage.image}"/>" maxLength="30" readonly="readonly" style="width:525px" />
+				</div><input name="mainImage" id="mainImage" type="text" title="<spring:message code="uss.ion.msi.mainImageRegist.mainImage"/>" value="<c:out value="${mainImage.image}"/>" maxLength="30" readonly="readonly" style="width:525px" /> --%>
+		</tr>
+		<tr>
+			<th>메인 이미지 미리보기</th>
+			<td><img id="popupImageView" style="width:80%;"/></td>
+		</tr>
+		<tr>
+			<th>팝업창 표시 페이지 <span class="pilsu">*</span></th><!-- 팝업창표시페이지 -->
+			<td class="left">
+				<select name="displayPage" id="displayPage">
+					<option value="메인">메인</option>
+					<option value="문화공간">문화공간</option>
+					<option value="축제">축제</option>
+				</select>
+			</td>
+		</tr>
+		<tr class="mainTitle">
+			<th>주 제목</th>
+			<td class="left">
+			    <input name="mainSubject" title="주 제목" type="text"  maxLength="100" />
+			</td>
+		</tr>
+		<tr class="mainTitle">
+			<th>부 제목</th>
+			<td class="left">
+			    <input name="subSubject" title="부 제목" type="text"  maxLength="100" />
+			</td>
+		</tr>
+		<tr class="mainTitle">
+			<th>연결될 페이지</th>
+			<td class="left">
+			    <input name="connectPage" title="연결될 페이지" type="text" maxLength="100" />
+			    <br/>
+			    페이지 이동을 하지 않으려면 #을 입력하십시오.
 			</td>
 		</tr>
 		<tr>
+			<th><spring:message code="ussIonBnr.bannerRegist.sortOrdr"/> <span class="pilsu">*</span></th><!-- 정렬순서 -->
+			<td class="left">
+				<input id="sortOrdr" type="text" name="sortOrdr" title="<spring:message code="ussIonBnr.bannerRegist.sortOrdr"/>" value="<c:out value='${banner.sortOrdr}'/>" maxLength="5" style="width:68px" />
+				<form:errors path="sortOrdr" />
+			</td>
+		</tr>
+		<%-- <tr>
 			<th><spring:message code="uss.ion.msi.mainImageRegist.mainImageDc" /></th><!-- 이미지설명 -->
 			<td class="left">
 			    <input name="imageDc" id="imageDc" title="<spring:message code="uss.ion.msi.mainImageRegist.mainImageDc" />" type="text" value="<c:out value='${mainImage.imageDc}'/>" maxLength="100" />
 			</td>
-		</tr>
+		</tr> --%>
 		<tr>
 			<th><spring:message code="uss.ion.msi.mainImageRegist.mainImageReflctAt" /> <span class="pilsu">*</span></th><!-- 반영여부 -->
 			<td class="left">
@@ -124,7 +186,7 @@ function fncOnChangeImage() {
 				</select>
 			</td>
 		</tr>
-		<tr>
+		<tr style="display:none;">
 			<th><spring:message code="uss.ion.msi.mainImageRegist.mainImageregDate" /></th><!-- 등록일시 -->
 			<td class="left">
 			    <input name="regDate" id="regDate" type="text" value="<c:out value="${loginScrinImage.regDate}"/>" maxLength="20" size="20" readonly="readonly" title="<spring:message code="uss.ion.msi.mainImageRegist.mainImageregDate" />" style="width:188px" />

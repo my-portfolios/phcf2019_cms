@@ -176,35 +176,24 @@ function press() {
 	</form>
 
 	<table class="board_list">
-		<caption></caption>
-		<colgroup>
-			<col style="width:20%" />
-			<col style="width:30%" />
-			<col style="" />
-			<col style="width:15%" />
-		</colgroup>
 		<thead>
 			<tr>
-			   <th scope="col"><spring:message code="ussIonBnr.bannerList.bannerNm"/></th><!-- 배너명 -->
-			   <th scope="col"><spring:message code="ussIonBnr.bannerList.linkUrl"/></th><!-- 링크 URL -->
-			   <th scope="col"><spring:message code="ussIonBnr.bannerList.bannerDc"/></th><!-- 배너 설명 -->
-			   <th scope="col"><spring:message code="ussIonBnr.bannerList.reflctAtt"/></th><!-- 반영여부 -->
+			   <th scope="col">배너 명</th><!-- 배너명 -->
+			   <th scope="col">링크 URL</th><!-- 링크 URL -->
+			   <th scope="col">정렬순서</th><!-- 링크 URL -->
+			   <th scope="col">표시 페이지</th><!-- 링크 URL -->
+			   <th scope="col">반영여부</th><!-- 반영여부 -->
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="banner" items="${bannerList}" varStatus="status">
 			<tr>
 				<td>
-					<form name="item" method="post" action="<c:url value='/uss/ion/bnr/getBanner.do'/>">
-						<input type="hidden" name="bannerId" value="<c:out value="${banner.bannerId}"/>">
-						<input type="hidden" name="pageIndex" value="<c:out value='${bannerVO.pageIndex}'/>">
-						<input type="hidden" name="searchCondition" value="<c:out value='${bannerVO.searchCondition}'/>">
-						<input type="hidden" name="searchKeyword" value="<c:out value="${bannerVO.searchKeyword}"/>">
-						<input class="link" type="submit" value="<c:out value="${banner.bannerNm}"/>" onclick="fncSelectBanner('<c:out value="${banner.bannerId}"/>'); return false;">
-					</form>
-				</td><!-- 배너 명 -->
+					<a href="/uss/ion/bnr/getBanner.do?bannerId=${banner.bannerId}">${banner.bannerNm}</a>
+				</td>
 				<td class="left"><c:out value="${banner.linkUrl}"/></td><!-- 링크 URL -->
-				<td><c:out value="${banner.bannerDc}"/></td><!-- 배너 설명 -->
+				<td><c:out value="${banner.sortOrdr}"/></td>
+				<td><c:out value="${banner.displayPage}"/></td>
 				<td><c:out value="${banner.reflctAt}"/></td><!-- 반영여부 -->
 			</tr>
 			</c:forEach>
@@ -229,3 +218,4 @@ function press() {
 </div>
 </body>
 </html>
+

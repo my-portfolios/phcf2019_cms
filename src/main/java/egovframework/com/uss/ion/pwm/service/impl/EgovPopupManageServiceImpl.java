@@ -47,6 +47,8 @@ public class EgovPopupManageServiceImpl extends EgovAbstractServiceImpl implemen
 	 */
 	@Override
 	public void deletePopup(PopupManageVO popupManageVO) throws Exception {
+		CommonMethod.removeFile("POPUP",popupManageVO.getPopupId() + ".png");
+		
 		dao.deletePopup(popupManageVO);
 	}
 

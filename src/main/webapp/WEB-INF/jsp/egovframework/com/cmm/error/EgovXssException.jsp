@@ -17,10 +17,9 @@ function fncGoAfterErrorPage(){
 </head>
 <body>
 <div style="width: 1000px; margin: 50px auto 50px;">
-	<p style="font-size: 18px; color: #000; margin-bottom: 10px; "><img src="<c:url value='/images/egovframework/com/cmm/er_logo.jpg' />" width="379" height="57" /></p>
+	
 	<div style="border: ppx solid #666; padding: 20px;">
-		<!-- Xss(Cross Site Scripting) Error -->
-		<p style="color:red; margin-bottom: 8px; ">User authorization Error</p> 
+		
 
 		<div class="boxType1" style="width: 700px;">
 			<div class="box">

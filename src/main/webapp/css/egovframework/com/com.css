@@ -8,20 +8,6 @@
 @font-face { font-family: 'Noto Sans KR'; font-style: normal; font-weight: 700; src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype'); }
 @font-face { font-family: 'Noto Sans KR'; font-style: normal; font-weight: 900; src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype'); }
 
-/*
-  Css Name :com.css
-  Description :공통 CSS
-  Modification Information
-
-      수정일                 수정자          수정내용
-   ----------    --------  ---------------------------
-   2016.06.08    서민영          최초 생성
-   2018.06.01    유현우          공통컴포넌트 3.8 개선
-
-    author   :공통컴포넌트 개발팀 서민영
-    since    :2016.06.08
-*/
-
 html,body{font-family: "Noto Sans KR", sans-serif; font-size:14px;height:auto;}
 
 * { margin: 0; padding: 0; border: 0; }
@@ -90,11 +76,11 @@ input[type="button"], input[type="submit"] {
 
 
 /* box Style *****************************/
-.boxType1 { position:relative; border:4px solid #ececec; background:#f7f7f7; }
+.boxType1 { position:relative; border:4px solid #ececec; margin: 100px auto;    border-radius: 0px;width: 60%;}
 .boxType1 .box { background:#fff; margin:4px; }
-.boxType1 .box .error { padding:25px 0 25px 190px; min-height:50px; background:url('../images/bul_i.jpg') 30px 50% no-repeat; }
-.boxType1 .box .error p.title { color:#DB6415; font-size:16px; line-height:21px; font-weight:bold; margin-bottom:10px; }
-.boxType1 .box .error p.cont { line-height:18px; }
+.boxType1 .box .error { padding:50px; min-height:50px; background:url('../images/bul_i.jpg') 30px 50% no-repeat; }
+.boxType1 .box .error p.title { color:#DB6415; font-size:16px; line-height:21px; font-weight:bold; margin-bottom:10px;     text-align: center;}
+.boxType1 .box .error p.cont { line-height:18px; margin-bottom: 50px !important;}
 
 .boxType2 { position:relative; border:4px solid #f1f1f1; background:#f7f7f7; }
 
@@ -335,7 +321,7 @@ width:100%;
 .wTable > tbody > tr > td a:hover { text-decoration:underline; }
 .wTable > tbody > tr > td input[type=text] {width:auto; height:26px; padding: 0px 10px;}
 .wTable > tbody > tr > td input.tmp { width:160px; }
-.wTable > tbody > tr > td textarea { width:99%; height:50px; }
+.wTable > tbody > tr > td textarea { width:99%; height:50px; padding: 0px 10px;}
 .wTable > tbody > tr > td textarea.txt { width:96%; height:50px; margin:8px; padding:5px; }
 .wTable > tbody > tr > td textarea.re_txt { float:left; width:80%; }
 .wTable > tbody > tr > td a.re_btn { float:right; padding:43px 30px; margin:1px 0 0 0;  font-weight:600; }

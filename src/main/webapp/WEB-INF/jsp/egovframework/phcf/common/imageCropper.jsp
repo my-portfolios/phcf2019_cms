@@ -11,7 +11,7 @@
 <body>
 <div class="wTableFrm" >
     <h2>이미지 등록</h2>
-    <table class="wTable" >
+    <table class="wTable" style="min-width: 500px !important;">
 		<colgroup>
 			<col style="width:16%">
 			<col style="">

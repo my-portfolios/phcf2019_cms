@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/common/include.jsp"%>
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
 <style>
 a:hover {
@@ -56,7 +58,7 @@ a:hover {
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${not empty cmsStatus}">
+						<c:when test="${cmsStatus != null && cmsStatus != ''}">
 							<c:forEach var="list" items="${cmsStatus}" varStatus="i">
 								<tr>
 									<td class="textcenter"><c:out value="${list.cms_id}" /></td>
@@ -67,10 +69,10 @@ a:hover {
 									<td class="textcenter"><c:out value="${list.pay_send_yn}" /></td>
 									<td class="textcenter">
 										<c:choose>
-											<c:when test="${list.user_send_yn eq 'Y' && list.del_send_yn ne 'Y' }">
+											<c:when test="${list.user_send_yn == 'Y' && list.del_send_yn != 'Y' }">
 												<select name="select_del_user" cms_id="${list.cms_id }">
-													<option value="Y" <c:if test="${list.del_target_yn eq 'Y' }">selected="selected"</c:if>>Y</option>
-													<option value="N"<c:if test="${list.del_target_yn eq 'N' }">selected="selected"</c:if>>N</option>
+													<option value="Y" <c:if test="${list.del_target_yn == 'Y' }">selected="selected"</c:if>>Y</option>
+													<option value="N"<c:if test="${list.del_target_yn == 'N' }">selected="selected"</c:if>>N</option>
 												</select>
 											</c:when>
 											<c:otherwise>
@@ -162,7 +164,7 @@ a:hover {
 		
 		$('#list_btn').click(function() {
 			// 목록 버튼 보기
-			location.href="/cms/support/list.do";
+			location.href="/cms/support/listView.do";
 		});
 		
 	});

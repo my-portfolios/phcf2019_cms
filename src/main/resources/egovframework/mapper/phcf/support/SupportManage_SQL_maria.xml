@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="SupportManageDAO">
 
+<mapper namespace="SupportManageDAO">
+	
 <delete id="deleteCmsSupportItem" parameterType="java.util.HashMap">
 	DELETE FROM tb_support_log
 	WHERE sp_id = #{sp_id}
@@ -136,5 +137,463 @@
 	ORDER BY sp_id desc
 	LIMIT ${pageSize} OFFSET ${firstIndex}
 </select>   
+	
+	<update id="updateDetailInfo" parameterType="egovframework.phcf.common.service.ParamMap">
+		update tb_support_log set user_mf=#{user_mf}, user_birth=#{user_birth}, user_number=#{user_number}
+			, user_phone1=#{user_phone1}, user_phone2=#{user_phone2}, user_phone3=#{user_phone3}
+			, user_email1=#{user_email1}, user_email2=#{user_email2},  user_post=#{user_post}, user_add=#{user_add}, user_add_detail=#{user_add_detail}
+			, user_comp_nm=#{user_comp_nm}, user_comp_number=#{user_comp_number}
+			, support_msg=#{support_msg}, admin_msg=#{admin_msg}
+		where sp_id=#{sp_id}
+	</update>
+	
+	<delete id="deleteCgInfo" parameterType="egovframework.phcf.common.service.ParamMap">
+		delete from 
+			tb_support_cg_info 
+		where 
+			scg_tp = #{user_tp} 
+			and scg_nm = #{user_comp_nm}
+	</delete>
+	
+	<delete id="deleteDetailInfo" parameterType="egovframework.phcf.common.service.ParamMap">
+		delete from tb_support_log where sp_id = #{sp_id}
+	</delete>
+	
+	<delete id="deleteStatus" parameterType="egovframework.phcf.common.service.ParamMap">
+		delete from tb_support_cms where cms_id = #{cms_id}
+	</delete>
+	
+	<update id="updateTargetYn" parameterType="egovframework.phcf.common.service.ParamMap">
+		update tb_support_cms set del_target_yn = #{del_target_yn} where cms_id = #{cms_id}
+	</update>
+	
+	<select id="getSupportDetailInfo" parameterType="java.lang.String" resultType="egovframework.phcf.common.service.ParamMap">
+		/* 후원관리 상세화면 보기 */
+		SELECT 
+			sp_id						/* 순번 */
+			, DECODE(sp_mh_tp, 'O', '일시후원', 'M', '정기후원', '미분류') AS sp_mh_tp				/* 후원방식 */
+			, sp_tp_arr				/* 후원종류 */
+			, user_id					/* 회원ID */
+			, user_tp as user_tp_cd
+			, DECODE(user_tp, 'U', '개인', 'C', '기업', 'G', '단체', '미분류') AS user_tp					/* 회원종류 */
+			, user_comp_nm		/* 기업 또는 단체명 */
+			, user_comp_number/* 기업 또는 단체 번호 */
+			, user_nm				/* 회원 이름 */
+			, user_mf				/* 회원 성별 */
+			, user_birth				/* 회원 생년월일 */
+			, user_phone1			/* 회원 연락처1 */
+			, user_phone2			/* 회원 연락처2 */
+			, user_phone3			/* 회원 연락처3 */
+			, user_email1			/* 회원 email1 */
+			, user_email2			/* 회원 email2 */
+			, user_tax_yn			/* 후원금영수증신청 */
+			, user_number			/* 회원 주민번호 */
+			, user_add				/* 회원 주소 */
+			, user_add_detail		/* 회원 주소 상세 */
+			, user_post				/* 회원 우편번호 */
+			, user_revinfo_tp_arr	/* 회원 수신동의 */
+			, sc_tp					/* 후원 종목 */
+			, TO_CHAR(sc_price, '999,999,999,999,999') AS sc_price				/* 후원 금액 */
+			, sc_price_tp			/* 결제방식 */
+			, support_msg			/* 후원메시지 */
+			, admin_msg			/* 감사메시지 */
+			, order_num			/* 주문번호 */
+			, TO_CHAR(create_dt, 'YYYY-MM-DD HH24:MI:SS') AS create_dt	/* 컬럼생성일 */
+			, browser				/* 결제모드 */
+		FROM
+			tb_support_log
+		WHERE 
+			sp_id = #{sp_id}
+	</select>
+	
+	<update id="updateStatusModify" parameterType="egovframework.phcf.common.service.ParamMap">
+		/* CMS전송현황의 데이터 사용유무를 update 한다. */
+		UPDATE tb_support_cms SET use_yn = #{use_yn} where cms_id = #{cms_id}
+	</update>
+	
+	<select id="getStatusDetailInfo" parameterType="java.lang.String" resultType="egovframework.phcf.common.service.ParamMap">
+		/* CMS전송현황 상세정보를 가져온다. */
+		SELECT 
+			cms_id			/* 순번 */
+			, user_id			/* 사용자ID */
+			, DECODE(acc_tp, 'S', '순수후원금', '기타') AS acc_tp		/* 후원종류 */
+			, agree_send_yn		/* CMS이체 동의서 전송여부 */
+			, user_send_yn			/* 회원정보 등록 여부 */
+			, user_send_file		/* 회원정보 등록 파일명 */
+			, pay_send_yn			/* 출금정보 등록여부 */
+			, agree_num			/* 출금승인 번호 */
+			, user_name			/* 등록회원 이름 */
+			, user_phone			/* 등록회원 연락처 */
+			, user_email				/* 등록회원 이메일 */
+			, bank_code			/* CMS계좌이체 은행 */
+			, bank_acc_num		/* CMS계좌이체 번호 */
+			, bank_acc_user_nm	/* CMS계좌이체 계좌주명 */
+			, card_num				/* 카드후원 카드번호 */
+			, card_year_month	/* 카드후원 카드년/월 */
+			, TO_CHAR(sc_price, '999,999,999,999,999') AS sc_price				/* 정기후원 금액 */
+			, sc_req_dd				/* 정기후원 이체일 */
+			, sc_cnt					/* 현재정기후원 출금 횟수 */
+			, use_yn					/* 해당컬럼정보 사용 유무 */
+			, TO_CHAR(create_dt, 'YYYY-MM-DD HH24:MI:SS') AS create_dt				/* 해당컬럼정보 생성일 */
+			, ins_id					/* 해당컬럼정보 등록자 */
+		FROM 
+			tb_support_cms
+		WHERE 
+			cms_id = #{cms_id}
+	</select>
+	
+	<update id="updateAdminMsg" parameterType="egovframework.phcf.common.service.ParamMap">
+		/* 관리자 메시지 수정 */
+		UPDATE tb_support_log SET admin_msg = #{admin_msg} where sp_id = #{sp_id}
+	</update>
+	
+	<insert id="compCmsInsertProcCms" parameterType="egovframework.phcf.common.service.ParamMap">
+		/* 기업회원 정기후원 CMS자동이체 데이터를 tb_support_cms 테이블에 저장 한다. */
+		INSERT INTO tb_support_cms
+		( user_id, acc_tp, user_name, user_phone, user_email
+			, bank_code, bank_acc_num, bank_acc_user_nm, bank_acc_user_num
+			, sc_price, sc_req_dd, ins_id )
+		VALUES
+		( #{acc_user_id}, #{sc_price_tp}, #{acc_user_nm}, #{acc_user_phone}, #{acc_user_email}
+			, #{bankList}, #{acc_number}, #{acc_user_nm}, #{acc_user_number}
+			, #{cms_sc_price}, #{sc_req_dd}, #{ins_id} )
+	</insert>
+	
+	<insert id="compCardInsertProcCms" parameterType="egovframework.phcf.common.service.ParamMap">
+		/* 기업회원 정기후원 카드결제 데이터를 tb_support_cms 테이블에 저장 한다. */
+		INSERT INTO tb_support_cms
+		( user_id, acc_tp, user_name, user_phone, user_email
+			, card_num, card_year_month
+			, sc_price, sc_req_dd, ins_id )
+		VALUES
+		( #{card_user_id}, #{sc_price_tp}, #{card_user_nm}, #{card_user_phone}, #{card_user_email}
+			, #{card_number}, concat(#{card_yy}, #{card_mm})
+			, #{card_sc_price}, #{card_sc_req_dd}, #{ins_id} )
+	</insert>
+	
+	<insert id="compCmsInsertProcLog" parameterType="egovframework.phcf.common.service.ParamMap">
+		/* 기업회원 정기후원 CMS자동이체 데이터를 tb_support_log 테이블에 저장 한다. */
+		INSERT INTO tb_support_log 
+		( sp_id
+			, sp_mh_tp, user_id, user_tp, user_comp_nm, user_comp_number, user_nm
+			, user_phone1, user_phone2, user_phone3
+			, user_email1, user_email2, user_tax_yn
+			, sc_tp, sc_price, sc_price_tp, order_num
+			, ins_id )
+		VALUES
+		( SEQ_TB_SUPPORT_LOG.NEXT_VALUE
+			, #{sp_mh_tp}, #{manager_id}, #{user_tp}, #{user_comp_nm}, #{user_comp_number}, #{manager_nm}
+			, #{comp_manager_phone1}, #{comp_manager_phone2}, #{comp_manager_phone3}
+			, #{comp_manager_email1}, #{comp_manager_email2}, #{tax_yn}
+			, 'S', #{cms_sc_price}, #{sc_price_tp}, #{order_num}
+			, #{ins_id} ) 
+	</insert>
+	
+	<insert id="compCardInsertProcLog" parameterType="egovframework.phcf.common.service.ParamMap">
+		/* 기업회원 정기후원 카드결제 데이터를 tb_support_log 테이블에 저장 한다. */
+		INSERT INTO tb_support_log 
+		( sp_id
+			, sp_mh_tp, user_id, user_tp, user_comp_nm, user_comp_number, user_nm
+			, user_phone1, user_phone2, user_phone3
+			, user_email1, user_email2
+			, sc_tp, sc_price, sc_price_tp, order_num
+			, ins_id )
+		VALUES
+		( SEQ_TB_SUPPORT_LOG.NEXT_VALUE
+			, #{sp_mh_tp}, #{manager_id}, #{user_tp}, #{user_comp_nm}, #{user_comp_number}, #{manager_nm}
+			, #{comp_manager_phone1}, #{comp_manager_phone2}, #{comp_manager_phone3}
+			, #{comp_manager_email1}, #{comp_manager_email2}
+			, 'S', #{card_sc_price}, #{sc_price_tp}, #{order_num}
+			, #{ins_id} ) 
+	</insert>
+	
+	<insert id="upsertSupportCgInfo" parameterType="egovframework.phcf.common.service.ParamMap">
+		/* 후원관리자화면 tb_support_cg_info 테이블에 데이터를 저장한다. */
+		INSERT INTO tb_support_cg_info (
+			scg_id
+			, scg_tp
+			, scg_nm
+			, scg_number
+			, img_file_name
+			, img_file_path
+			, img_thum_v_name
+			, img_thum_l_name
+			, scg_url
+		) VALUES (
+			#{scg_id}
+			, #{user_tp}
+			, #{user_comp_nm}
+			, #{user_comp_number}
+			, #{img_file_name}
+			, #{img_file_path}
+			, #{img_thum_v_name}
+			, #{img_thum_l_name}
+			, #{scg_url}
+		)
+		on duplicate key update
+			img_file_name = #{img_file_name}
+			, img_file_path = #{img_file_path}
+			, img_thum_v_name = #{img_thum_v_name}
+			, img_thum_l_name = #{img_thum_l_name}
+			, scg_url = #{scg_url}
+	</insert>
+	
+	<select id="getCompLogoInfo" parameterType="egovframework.phcf.common.service.ParamMap" resultType="egovframework.phcf.common.service.ParamMap">
+		/* 관리자화면 tb_support_cg_info 테이블을 조회하여 정보를 넘겨준다. */
+		SELECT
+			scg_id		/* 등록이미지 ID */ 
+			, scg_tp		/* 회원종류 */
+			, scg_nm	/* 회원이름(사업자명or단체명) */
+			, scg_number	/* 회원번호(기업은 사업자번호, 단체는 없음) */
+			, img_file_name			/* 파일저장이름 */
+			, img_file_path				/* 파일저장경로 */
+			, img_thum_v_name		/* 썸네일이미지 이름 */
+			, img_thum_l_name		/* 썸네일이미지저장 위치 */
+			, scg_url			/* 대표사이트 주소 */
+		FROM 
+			tb_support_cg_info
+		WHERE 1=1
+			<if test='userTp != null and !userTp.equals("")'>
+				AND scg_tp = #{userTp}
+			</if>
+			<if test='compNm != null and !compNm.equals("")'>
+				AND scg_nm = #{compNm}
+			</if>
+			<if test='compNumber != null and !compNumber.equals("")'>
+				AND scg_number = #{compNumber}
+			</if>
+		ORDER BY create_dt desc
+		LIMIT 1
+	</select>
+	
+	<insert id="insertCompSupportLog" parameterType="egovframework.phcf.common.service.ParamMap">
+		/* 관리자화면 후원종류가 일시후원이고 결제방식 무통장입금일 경우 처리 데이터 */
+		INSERT INTO tb_support_log(
+			sp_id
+			, sp_mh_tp		/* 후원방식 */
+			, user_id			/* 담당자ID */
+			, user_tp		/* 회원종류 */
+			, user_comp_nm	/* 회사명 */
+			, user_comp_number	/* 사업자번호 */
+			, user_nm		/* 담당자 이름  */
+			, user_phone1	/* 담당자 전화번호1 */
+			, user_phone2	/* 담당자 전화번호2 */
+			, user_phone3	/* 담당자 전화번호3 */
+			, user_email1	/* 담당자 이메일1 */
+			, user_email2	/* 담당자 이메일2 */
+			, sc_price		/* 입금액 */
+			, sc_price_tp	/* 결제방식 */
+			, ins_id			/* 컬럼생성자ID */
+		) VALUES (
+			SEQ_TB_SUPPORT_LOG.NEXT_VALUE
+			, #{sp_mh_tp}
+			, #{manager_id}
+			, #{user_tp}
+			, #{user_comp_nm}
+			, #{user_comp_number}
+			, #{manager_nm}
+			, #{comp_manager_phone1}
+			, #{comp_manager_phone2}
+			, #{comp_manager_phone3}
+			, #{comp_manager_email1}
+			, #{comp_manager_email2}
+			, #{default_sc_price}
+			, #{sc_price_tp}
+			, #{ins_id}
+		)
+	</insert>
+	
+	<select id="getCompLogList" parameterType="egovframework.phcf.common.service.ParamMap" resultType="egovframework.phcf.common.service.ParamMap">
+		/* 관리자화면 사업자명*사업자번호를 이용한 기존 tb_support_log 테이블을 조회해 온다. */
+		SELECT
+			user_id		/* 담당자ID */
+			, user_nm	/* 담당자명 */
+			, user_phone1	/* 담당자 전번1 */
+			, user_phone2	/* 담당자 전번2 */
+			, user_phone3	/* 담당자 전번3 */
+			, user_email1	/* 담당자 이메일1 */
+			, user_email2	/* 담당자 이메일2 */
+		FROM 
+			tb_support_log
+		WHERE 1=1
+			<if test='userTp != null and !userTp.equals("")'>
+				AND user_tp = #{userTp}
+			</if>
+			<if test='compNm != null and !compNm.equals("")'>
+				AND user_comp_nm = #{compNm}
+			</if>
+			<if test='compNumber != null and !compNumber.equals("")'>
+				AND user_comp_number = #{compNumber}
+			</if>
+		ORDER BY sp_id desc
+		LIMIT 1
+	</select>
+	
+	<select id="cmsGetUserInfo" parameterType="java.lang.String" resultType="egovframework.phcf.common.service.ParamMap">
+		/* 관리자화면 userId를 이용해 회원 정보를 돌려준다. */
+		SELECT 
+			user_id			/* 유저ID */
+			, SUBSTR(user_email, 0, INSTR(user_email, '@') - 1) AS user_email1		/* 유저email1 */
+			, SUBSTR(user_email, INSTR(user_email, '@') + 1) AS user_email2			/* 유저email2 */
+			, SUBSTR(user_phone, 0, 3) AS user_phone1	/* 폰번호1 */
+			, DECODE(LENGTH(user_phone), 11, SUBSTR(user_phone, 4, 4), SUBSTR(user_phone, 4, 3)) AS user_phone2
+			, RIGHT(user_phone, 4) AS user_phone3			/* 폰번호3 */
+			, user_name	/* 사용자 이름 */
+		FROM 
+			hbz_user_t
+		WHERE 
+			user_id = #{userId}
+	</select>
+	
+	<select id="cmsUserChkCnt" parameterType="java.lang.String" resultType="java.lang.Integer">
+		/* 관리자화면 userId를 이용해 회원 정보 갯수를 돌려준다. */
+		SELECT 
+			COUNT(1) AS userCnt
+		FROM 
+			hbz_user_t
+		WHERE 
+			user_id = #{userId}
+	</select>
+	
+	<insert id="insertUserSupportLog" parameterType="egovframework.phcf.common.service.ParamMap">
+		/* 관리자화면 개인회원 CMS자동이체 정보 저장 로직 */
+		INSERT INTO tb_support_log (
+				sp_id
+				, sp_mh_tp	/* 후원방식 */
+				, user_id		/* 회원ID */
+				, user_tp		/* 회원종류 */
+				, user_nm	/* 이름  */
+				, user_phone1	/* 전화번호1 */
+				, user_phone2	/* 전화번호2 */
+				, user_phone3	/* 전화번호3 */
+				, user_email1	/* 이메일1 */
+				, user_email2	/* 이메일2 */
+				, user_tax_yn	/* 현금영수증 신청여부 */
+				, user_number	/* 주민번호 */
+				, sc_price		/* 입금액 */
+				, sc_price_tp	/* 결제방식 */
+				, ins_id			/* 컬럼생성자ID */ )
+		VALUES (
+				SEQ_TB_SUPPORT_LOG.NEXT_VALUE
+				, 'M'
+				, #{user_id}
+				, #{user_tp} 
+				, #{user_nm}
+				, #{user_phone1}
+				, #{user_phone2}
+				, #{user_phone3}
+				, #{user_email1}
+				, #{user_email2}
+				, #{tax_yn}
+				, #{acc_user_number}
+				, #{cms_sc_price}
+				, #{sc_price_tp}
+				, #{ins_id}
+		)
+	</insert>
+	
+	<select id="getCmsSupportCnt" resultType="java.lang.Integer">
+		/* CMS관리자용 후원정보 전체 건수 */
+		SELECT
+			count(1) as total_article
+		FROM
+			tb_support_log
+		WHERE 1=1
+			<if test='search_user_tp != null and !search_user_tp.equals("")'>
+				AND user_tp = #{search_user_tp}
+			</if>
+	</select>
+	
+	<update id="updateGrade" parameterType="egovframework.phcf.common.service.ParamMap">
+		/* 회원등급 정보를 업데이트 한다. */
+		UPDATE hbz_user_t 
+		SET 
+			user_grade = #{user_grade} 
+		WHERE 
+			user_id = #{user_id}
+	</update>
+	
+	<select id="getGradeCodeList" parameterType="java.lang.String" resultType="egovframework.phcf.common.service.ParamMap">
+		/* 회원등급 코드 리스트를 유저구분별로 가져온다. */
+		SELECT 
+			cd_v			/* 후원코드값 */
+			, cd_nm		/* 후원등급명 */
+		FROM 
+			hbz_code_t
+		WHERE 
+			cd_group = '1028'
+			AND cd_expl2 = #{userTp}
+	</select>
+	
+	<select id="getCmsSupportList" parameterType="egovframework.phcf.common.service.ParamMap" resultType="egovframework.phcf.common.service.ParamMap">
+		/* CMS관리자용 후원정보 조회 */
+		SELECT
+			sp_id							/* seq */
+			, DECODE( user_tp, 'U', '개인', 'C', '기업', '단체' ) AS user_tp		/* 후원유저종류 */
+			, IF(T2.user_grade IS NULL, '미분류', (SELECT cd_nm FROM hbz_code_t WHERE cd_v = T2.user_grade) ) AS user_grade			/* 회원등급 */
+			, T1.user_id			/* 회원ID (로그인 사용자 OR 비로그인 사용자 */
+			, DECODE( user_tp, 'U', T1.user_nm, T1.user_comp_nm) AS user_nm		/* 휴원유저종류에 따라 유저명 또는 기업,단체명 입력 */
+			, CONCAT( user_phone1, '-', user_phone2, '-', user_phone3 ) AS user_phone		/* 후원자 연락처 */
+			, IF(user_email1 IS NULL OR user_email2 IS NULL OR LENGTH(user_email1) = 0 OR LENGTH(user_email2) = 0, NULL, CONCAT( user_email1, '@', user_email2 ) ) AS user_email	/* 후원자 이메일 */
+			, DECODE( sp_mh_tp, 'O', '일시후원', '정기후원' ) AS sp_mh_tp		/* 후원방식 */
+			, DECODE( sc_price_tp, 'C', '카드', 'E', '계좌이체', 'M', '무통장', 'D', '카드', 'S', 'CMS계좌', '없음' ) AS sc_price_tp
+			, to_char(T1.sc_price, '999,999,999,999,999') as sc_price		/* 후원금액 */
+			, to_char(T1.create_dt, 'YYYY-MM-DD HH24:MI:SS') as create_dt		/* 등록일 */
+			, T1.browser			/* 결제모드 */
+			, T1.ins_id				/* 등록자 */
+			, T1.admin_msg		/* 관리자감사메시지 */
+		FROM 
+			tb_support_log T1		/* 후원 log 테이블 */
+			LEFT JOIN
+			( SELECT user_id, user_grade FROM hbz_user_t ) T2	/* 회원정보 테이블 */
+			ON T1.user_id = T2.user_id
+		WHERE 1=1
+			<if test='search_user_tp != null and !search_user_tp.equals("")'>
+				AND user_tp = #{search_user_tp}
+			</if>
+		ORDER BY sp_id desc
+		LIMIT ${page_no}, ${page_size}
+	</select>    
+    
+    <!-- CMS전송현황 Limit-->
+	<select id="getCmsStatusList" resultType="egovframework.phcf.common.service.ParamMap" parameterType="egovframework.phcf.common.service.ParamMap">
+		SELECT
+			cms_id,
+			user_id,
+			CASE WHEN acc_tp = 'D' THEN '카드' WHEN acc_tp = 'S' THEN 'CMS' ELSE '기타' END AS acc_tp,
+			agree_send_yn,
+			user_send_yn,
+			pay_send_yn,
+			del_target_yn,
+			del_send_yn,
+			user_name,
+			sc_price,
+			sc_req_dd,
+			sc_cnt,
+			use_yn,
+			create_dt,
+			ins_id
+		FROM
+			tb_support_cms
+		WHERE 1=1
+			<if test='search_s != null and !search_s.equals("")'>
+				AND user_id LIKE CONCAT('%',#{search_s},'%')
+			</if>
+		order by
+			cms_id desc
+		LIMIT ${page_no}, ${page_size}
+	</select>
+	
+	    <!-- CMS전송현황 전체 건수-->
+	<select id="getCmsStatusTotalCnt" parameterType="egovframework.phcf.common.service.ParamMap" resultType="java.lang.Integer">
+		select
+			count(1)
+		from
+			tb_support_cms
+		where 1=1
+			<if test='search_s != null and !search_s.equals("")'>
+				AND user_id LIKE CONCAT('%',#{search_s},'%')
+			</if>
+	</select>
 
 </mapper>

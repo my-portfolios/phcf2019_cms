@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import egovframework.phcf.nicepay.NicepayService;
+import egovframework.phcf.nicepay.service.NicepayService;
 
 /**
  * CMS 계좌이체 CMS자동이체 동의서 전송 스케줄링.

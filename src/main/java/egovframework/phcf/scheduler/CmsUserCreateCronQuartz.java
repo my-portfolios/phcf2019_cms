@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import egovframework.com.cmm.service.EgovProperties;
-import egovframework.phcf.nicepay.NicepayService;
+import egovframework.phcf.nicepay.service.NicepayService;
 import egovframework.phcf.scheduler.userspec.UserCreateData;
 import egovframework.phcf.scheduler.userspec.UserCreateHeader;
 import egovframework.phcf.scheduler.userspec.UserCreateTail;

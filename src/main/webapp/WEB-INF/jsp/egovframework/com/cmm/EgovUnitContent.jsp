@@ -177,12 +177,12 @@ $('#jsGrid2').jsGrid({
 			return d.promise();
 		}
 	} 
-	
+	, rowClick: function(args) { console.log(args); }
 	, noDateContent: '데이터가 없습니다.'
 	, loadMessage: '조회 중...'
 
 	, fields: [
-			{name: 	'PROGRM_KOREAN_NM', 	title: '메뉴명', 	type: 'text', 	editing: false, 	align: 'center' }
+			{name: 	'MENU_NM', 	title: '메뉴명', 	type: 'text', 	editing: false, 	align: 'center' }
 		, 	{name: 'RDCNT', 	title: '접속자수', 	type: 'text', 	editing: false, 	align: 'center' }
 	]
 });

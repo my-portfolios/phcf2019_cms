@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SendMail">
+	
+	<select id="getSendMailContents" parameterType="java.lang.String" resultType="java.lang.String">
+		<!-- select
+			CLOB_TO_CHAR(html) as html
+		from
+			hbz_page_t
+		where
+			page_seq = #{page_seq} -->
+	</select>
+	
+	<select id="getMailUserList" resultType="egovframework.phcf.common.service.ParamMap">
+		SELECT 
+			user_id
+			, user_email as toMail
+			, user_name as toName
+			, send_mail_yn
+		FROM 
+			hbz_user_t
+		WHERE 
+			send_mail_yn = 'Y'
+	</select>
+	
+	<insert id="insertSendMailLog" parameterType="egovframework.phcf.common.service.ParamMap">
+		INSERT INTO tb_send_maillog (mail_tp, create_id, recv_mail, recv_nm) 
+			VALUES ( #{mail_tp}, #{create_id}, #{recv_mail}, #{recv_nm} )
+	</insert>
+	
+</mapper>

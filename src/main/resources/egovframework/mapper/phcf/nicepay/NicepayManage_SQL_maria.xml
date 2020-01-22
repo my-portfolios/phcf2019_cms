@@ -44,7 +44,7 @@
 
 <update id="updatePaySendYn" parameterType="java.util.HashMap">
 	/* 출금정보 update 처리 */
-	update tb_support_cms set pay_send_yn = 'Y', agree_num = #agreeNum#
+	update tb_support_cms set pay_send_yn = 'Y', agree_num = #{agreeNum}
 	where
 		<if test="userId != null">
 			user_id = #{userId}
@@ -98,6 +98,136 @@
 	WHERE 
 		use_yn = 'Y'
 		AND agree_send_yn = 'N'
+</select>
+
+<insert id="insertUserCmsInfo" parameterType="egovframework.phcf.common.service.ParamMap">
+	/* 개인 CMS자동이체 정보를 tb_support_cms에 등록 한다(upsert 처리) */
+	INSERT INTO tb_support_cms 
+		( user_id, acc_tp, user_name, user_phone, user_email
+			, bank_code, bank_acc_num, bank_acc_user_nm, bank_acc_user_num
+			, sc_price, sc_req_dd, ins_id )
+	VALUES
+		( #{acc_user_id}, #{sc_price_tp}, #{user_nm}, #{acc_user_phone}, #{acc_user_email}
+			, #{bankList}, #{acc_number}, #{acc_user_nm}, #{acc_user_number}
+			, #{cms_sc_price}, #{sc_req_dd}, #{ins_id} )
+</insert>
+
+<select id="checkAgreeUser" parameterType="egovframework.phcf.common.service.ParamMap" resultType="java.lang.String">
+	/* 등록된 회원인지 and CMS이체동의서를 전송 했는지 여부를 돌려준다. */
+	SELECT 
+		IF(COUNT(1) = 0, 'false', 'true') AS chk
+	FROM 
+		tb_support_cms
+	WHERE 
+		user_id = #{accUserId}
+		AND del_send_yn = 'N'
+		<if test='isAgreeSendYn != null and !isAgreeSendYn.equals("")'>
+			AND agree_send_yn = 'Y'
+		</if>
+</select>
+
+<update id="updateUserSendYn" parameterType="egovframework.phcf.common.service.ParamMap">
+	update tb_support_cms set user_send_yn = 'Y', user_send_file = #{userMemFileName}
+	where cms_id in
+	<foreach collection="updateUserSendList" item="item" open="(" separator="," close=")">
+		#{item}#
+	</foreach>
+</update>
+
+<insert id="insertCardInfoProc" parameterType="egovframework.phcf.common.service.ParamMap">
+	/* CMS 정보등록 테이블(tb_support_cms) 카드 정보 데이터 저장 */
+	insert into tb_support_cms(
+		user_id
+		, acc_tp
+		, user_name
+		, user_phone
+		, user_email
+		, card_num
+		, card_year_month
+		, sc_price
+		, sc_req_dd
+	) values (
+		#{user_id}
+		, #{sc_price_tp}
+		, #{$1}
+		, concat(#{user_phone1}, #{user_phone2}, #{user_phone3})
+		, concat(#{user_email1}, '@', #{user_email2})
+		, concat(#{user_card_number1}, #{user_card_number2}, #{user_card_number3}, #{user_card_number4})
+		, concat(#{user_card_valid_y}, #{user_card_valid_m})
+		, #{sc_price}
+		, #{sc_req_dd}
+	)
+</insert>
+
+<insert id="insertProc" parameterType="egovframework.phcf.common.service.ParamMap">
+	/* 결제성공 후 데이터 저장 */
+	insert into tb_support_log(
+		sp_id
+		, sp_mh_tp
+		, sp_tp_arr
+		, user_id
+		, user_tp
+		, user_nm
+		, user_mf
+		, user_birth
+		, user_phone1
+		, user_phone2
+		, user_phone3
+		, user_email1
+		, user_email2
+		, user_tax_yn
+		, user_add
+		, user_add_detail
+		, user_post
+		, user_revinfo_tp_arr
+		, sc_tp
+		, sc_price
+		, sc_price_tp
+		, order_num
+		, browser
+		, admin_msg
+	) values (
+		seq_tb_support_log.next_value
+		, #{sp_mh_tp}
+		, #{sp_tp_arr}
+		, #{user_id}
+		, #{user_tp}
+		, #{user_nm}
+		, #{user_mf}
+		, concat(#{user_birth_y}, #{user_birth_m}, #{user_birth_d})
+		, #{user_phone1}
+		, #{user_phone2}
+		, #{user_phone3}
+		, #{user_email1}
+		, #{user_email2}
+		, #{user_tax_yn}
+		, #{user_add} 
+		, #{user_add_detail}
+		, #{user_post}
+		, #{user_revinfo_tp_arr}
+		, #{sc_tp}
+		, #{sc_price}
+		, #{sc_price_tp}
+		, #{orderNum}
+		, #{browser}
+		, concat(#{user_nm}, '님 후원에 감사 드립니다.')
+	)
+</insert>
+
+<select id="getOrderNumber" resultType="java.lang.String">
+	/* 결제관련 주문번호 생성 쿼리 */
+	SELECT 
+		CONCAT('PHCF'
+			, TO_CHAR(SYSDATE, 'YYYYMM')
+			, LPAD((
+				SELECT
+					COUNT(1) + 1
+				FROM 
+					tb_support_log
+				WHERE 
+					create_dt >= CONCAT(TO_CHAR(SYSDATE, 'YYYYMM'), '01 00:00:00')
+			), 5, '0')
+		) AS orderNum
 </select>
 
 </mapper>

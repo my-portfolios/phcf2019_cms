@@ -1,4 +1,4 @@
-package egovframework.phcf.nicepay.impl;
+package egovframework.phcf.nicepay.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,10 +6,23 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
+import egovframework.phcf.common.service.ParamMap;
 
 @Repository("NicepayDAO")
 public class NicepayDAO extends EgovComAbstractDAO {
-
+	
+	public String getOrderNumber() {
+		return (String) selectOne("NicepayDAO.getOrderNumber");
+	}
+	
+	public String checkAgreeUser(ParamMap paramMap) {
+		return (String) selectOne("NicepayDAO.checkAgreeUser", paramMap);
+	}
+	
+	public void insertUserCmsInfo(ParamMap paramMap) {
+		insert("NicepayDAO.insertUserCmsInfo", paramMap);
+	}
+	
 	public List<HashMap<String, Object>> selectAgreeCheckList() throws Exception {
 		return selectList("NicepayDAO.selectAgreeCheckList");
 	}
@@ -37,5 +50,14 @@ public class NicepayDAO extends EgovComAbstractDAO {
 	public void updateDelSendYn(HashMap<String, Object> paramMap) throws Exception {
 		update("NicepayDAO.updateDelSendYn", paramMap);
 	}
+	
+	public void insertProc(ParamMap paramMap) {
+		insert("NicepayDAO.insertProc", paramMap);
+	}
+	
+	public void insertCardInfoProc(ParamMap paramMap) {
+		insert("NicepayDAO.insertCardInfoProc", paramMap);
+	}
+	
 	
 }

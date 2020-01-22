@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.service.EgovProperties;
-import egovframework.phcf.nicepay.NicepayService;
+import egovframework.phcf.nicepay.service.NicepayService;
 import egovframework.phcf.scheduler.payspec.PayCreateData;
 import egovframework.phcf.scheduler.payspec.PayCreateHeader;
 import egovframework.phcf.scheduler.payspec.PayCreateTail;

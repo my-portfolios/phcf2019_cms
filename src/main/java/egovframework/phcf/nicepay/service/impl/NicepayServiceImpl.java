@@ -1,4 +1,4 @@
-package egovframework.phcf.nicepay.impl;
+package egovframework.phcf.nicepay.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
-import egovframework.phcf.nicepay.NicepayService;
+import egovframework.phcf.common.service.ParamMap;
+import egovframework.phcf.nicepay.service.NicepayService;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 @Service("NicepayService")
@@ -16,6 +18,36 @@ public class NicepayServiceImpl extends EgovAbstractServiceImpl implements Nicep
 	
 	@Resource(name = "NicepayDAO")
 	NicepayDAO nicepayDAO;
+	
+	@Override
+	public String getOrderNumber() throws Exception {
+		return nicepayDAO.getOrderNumber();
+	}
+	
+	@Override
+	public boolean checkAgreeUser(String accUserId) throws Exception {
+		return checkAgreeUser(accUserId, false);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public boolean checkAgreeUser(String accUserId, boolean isCheckAgreeSendYn) throws Exception {
+		if(accUserId == null || accUserId.equalsIgnoreCase("null") || accUserId.length() < 1) {
+			throw new IllegalArgumentException("accUserId 값은 필수 항목 입니다.");
+		}
+		
+		ParamMap paramMap = new ParamMap();
+		paramMap.put("accUserId", accUserId);
+		if(isCheckAgreeSendYn) {
+			paramMap.put("isAgreeSendYn", isCheckAgreeSendYn);
+		}
+		
+		return Boolean.valueOf( nicepayDAO.checkAgreeUser(paramMap) );
+	}
+	
+	@Override
+	public void insertUserCmsInfo(ParamMap paramMap) throws Exception {
+		nicepayDAO.insertUserCmsInfo(paramMap);
+	}
 	
 	@Override
 	public List<HashMap<String, Object>> selectAgreeCheckList() throws Exception {
@@ -97,6 +129,25 @@ public class NicepayServiceImpl extends EgovAbstractServiceImpl implements Nicep
 		paramMap.put("userMemFileName", userMemFileName);
 		
 		nicepayDAO.updateDelSendYn(paramMap);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void insertProc(ParamMap paramMap) throws Exception {
+			
+		// 주소의 경우 &#40; &#41; <== 이런 값이 들어간다.. ( ) 값인데.. protocol 으로 변환되면서 값(ASCII)이 들어 가는듯 하다.
+		String user_add = String.valueOf( paramMap.get("user_add") );
+		paramMap.put("user_add", StringUtils.replaceEach(user_add, new String[] { "&#40;", "&#41;" }, new String[] { "(", ")" }));
+		
+		String user_add_detail = String.valueOf( paramMap.get("user_add_detail") );
+		paramMap.put("user_add_detail", StringUtils.replaceEach(user_add_detail, new String[] { "&#40;", "&#41;" }, new String[] { "(", ")" }));
+		
+		nicepayDAO.insertProc(paramMap);
+	}
+	
+	@Override
+	public void insertCardInfoProc(ParamMap paramMap) throws Exception {
+		nicepayDAO.insertCardInfoProc(paramMap);
 	}
 
 }

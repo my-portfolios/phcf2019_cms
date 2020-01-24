@@ -64,6 +64,7 @@
 	<c:import url="/cop/bbs/latestArticleListView.do" charEncoding="utf-8">
  		<c:param name="skinNm" value="" /> <%-- 스킨이름 (기본값 basic) --%>
 		<c:param name="bbsId" value="BBSMSTR_000000000331" /> <%-- 필수 BBS_ID --%>
+		<c:param name="bbsId" value="BBSMSTR_000000000171" /> <%-- 필수 BBS_ID --%>
 		<c:param name="cntOfArticle" value="5" /> <%-- 게시물 갯수(기본값 5) --%>
 		<c:param name="ordColmn" value="" /> <%-- 정렬 칼럼(기본값 FRST_REGIST_PNTTM 최초등록시점) --%>
 		<c:param name="ordWay" value="" /> <%-- 정렬방식 (기본값 DESC) --%>

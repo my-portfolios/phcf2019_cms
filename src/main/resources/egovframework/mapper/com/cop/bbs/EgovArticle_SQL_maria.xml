@@ -632,6 +632,33 @@
 				LIMIT ${cntOfArticle}
 			</if>
 						
+	</select>
+	
+	<select id="latestMultiArticleListView" parameterType="java.util.HashMap" resultMap="boardList">
+			
+			SELECT
+				*
+			FROM
+				COMTNBBS a
+			LEFT OUTER JOIN 
+				COMVNUSERMASTER b
+			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
+			WHERE 1=1
+			AND BBS_ID != 'BBSMSTR_000000000002'
+			<foreach collection="bbsId" item="item" open="AND (" separator="OR" close=")">
+				a.BBS_ID = #{item}
+			</foreach>
+			<if test="cateName != '' and cateName!=null">
+			AND a.CATE_NAME = #{cateName}	
+			</if>
+			AND a.USE_AT = 'Y'
+			ORDER BY ${ordColmn} ${ordWay}
+			<if test="cntOfArticle == '-1'">	
+			</if>
+			<if test="cntOfArticle != '-1'">	
+				LIMIT ${cntOfArticle}
+			</if>
+						
 	</select>	
 	
 	<select id="selectLoginUser" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultType="java.lang.Integer">

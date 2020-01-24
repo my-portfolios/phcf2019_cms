@@ -171,11 +171,20 @@
 		/* 후원관리 상세화면 보기 */
 		SELECT 
 			sp_id						/* 순번 */
-			, DECODE(sp_mh_tp, 'O', '일시후원', 'M', '정기후원', '미분류') AS sp_mh_tp				/* 후원방식 */
+			, CASE 
+				WHEN sp_mh_tp = '0' THEN '일시후원' 
+				WHEN sp_mh_tp = 'M' THEN '정기후원'
+				ELSE '미분류'
+			END AS sp_mh_tp				/* 후원방식 */
 			, sp_tp_arr				/* 후원종류 */
 			, user_id					/* 회원ID */
 			, user_tp as user_tp_cd
-			, DECODE(user_tp, 'U', '개인', 'C', '기업', 'G', '단체', '미분류') AS user_tp					/* 회원종류 */
+			, CASE
+				WHEN user_tp = 'U' THEN '개인'
+				WHEN user_tp = 'C' THEN '기업'
+				WHEN user_tp = 'G' THEN '단체'
+				ELSE '미분류' 
+			END AS user_tp	/* 회원종류 */
 			, user_comp_nm		/* 기업 또는 단체명 */
 			, user_comp_number/* 기업 또는 단체 번호 */
 			, user_nm				/* 회원 이름 */
@@ -193,12 +202,12 @@
 			, user_post				/* 회원 우편번호 */
 			, user_revinfo_tp_arr	/* 회원 수신동의 */
 			, sc_tp					/* 후원 종목 */
-			, TO_CHAR(sc_price, '999,999,999,999,999') AS sc_price				/* 후원 금액 */
+			, sc_price				/* 후원 금액 */
 			, sc_price_tp			/* 결제방식 */
 			, support_msg			/* 후원메시지 */
 			, admin_msg			/* 감사메시지 */
 			, order_num			/* 주문번호 */
-			, TO_CHAR(create_dt, 'YYYY-MM-DD HH24:MI:SS') AS create_dt	/* 컬럼생성일 */
+			, create_dt	/* 컬럼생성일 */
 			, browser				/* 결제모드 */
 		FROM
 			tb_support_log
@@ -216,7 +225,10 @@
 		SELECT 
 			cms_id			/* 순번 */
 			, user_id			/* 사용자ID */
-			, DECODE(acc_tp, 'S', '순수후원금', '기타') AS acc_tp		/* 후원종류 */
+			, CASE
+				WHEN acc_tp = 'S' THEN '순수후원금'
+				ELSE '기타'
+			END AS acc_tp       /* 후원종류 */
 			, agree_send_yn		/* CMS이체 동의서 전송여부 */
 			, user_send_yn			/* 회원정보 등록 여부 */
 			, user_send_file		/* 회원정보 등록 파일명 */
@@ -230,11 +242,11 @@
 			, bank_acc_user_nm	/* CMS계좌이체 계좌주명 */
 			, card_num				/* 카드후원 카드번호 */
 			, card_year_month	/* 카드후원 카드년/월 */
-			, TO_CHAR(sc_price, '999,999,999,999,999') AS sc_price				/* 정기후원 금액 */
+			, sc_price				/* 정기후원 금액 */
 			, sc_req_dd				/* 정기후원 이체일 */
 			, sc_cnt					/* 현재정기후원 출금 횟수 */
 			, use_yn					/* 해당컬럼정보 사용 유무 */
-			, TO_CHAR(create_dt, 'YYYY-MM-DD HH24:MI:SS') AS create_dt				/* 해당컬럼정보 생성일 */
+			, create_dt				/* 해당컬럼정보 생성일 */
 			, ins_id					/* 해당컬럼정보 등록자 */
 		FROM 
 			tb_support_cms

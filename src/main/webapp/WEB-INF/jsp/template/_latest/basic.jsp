@@ -18,7 +18,14 @@
 </tr>
 <c:forEach items="${resultList}" var="resultInfo" varStatus="status">
 <tr>
-	<td>${status.count}</td>
+	<c:choose>
+		<c:when test="${paramMap.pageUse == 'Y' }">
+			<td>${paramMap.totalArticles - (paramMap.pageNum-1)*paramMap.pageArticleNum  - status.count + 1}</td>
+		</c:when>
+		<c:otherwise>
+			<td>${fn:length(resultList) - status.count + 1}</td>
+		</c:otherwise>
+	</c:choose>
 	<td class="left"><c:out value="${resultInfo.nttSj}"/></td>
 	<td><c:out value="${resultInfo.frstRegisterPnttm}"/></td>
 </tr>

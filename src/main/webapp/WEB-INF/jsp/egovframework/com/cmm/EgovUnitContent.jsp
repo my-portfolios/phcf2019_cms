@@ -57,7 +57,8 @@
 		<c:param name="ordWay" value="" /> <%-- 정렬방식 (기본값 DESC) --%>
 		<c:param name="cateName" value="" /> <%-- 카테고리 --%>
 		<c:param name="pageUse" value="Y" /> <%-- 페이지 사용유무 --%>
-		<c:param name="pageGroupNum" value="5" /> <%-- 페이지 사용유무 --%>
+		<c:param name="pageGroupNum" value="5" /> <%-- 페이지 그룹갯수 --%>
+		<c:param name="pageArticleNum" value="5" /> <%-- 한 페이지 게시물갯수 --%>
 	</c:import>
 	</div>
 	

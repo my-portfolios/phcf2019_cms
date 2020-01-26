@@ -56,7 +56,8 @@
 		<c:param name="ordColmn" value="" /> <%-- 정렬 칼럼(기본값 FRST_REGIST_PNTTM 최초등록시점) --%>
 		<c:param name="ordWay" value="" /> <%-- 정렬방식 (기본값 DESC) --%>
 		<c:param name="cateName" value="" /> <%-- 카테고리 --%>
-		<c:param name="pageUse" value="Y" /> <%-- 카테고리 --%>
+		<c:param name="pageUse" value="Y" /> <%-- 페이지 사용유무 --%>
+		<c:param name="pageGroupNum" value="5" /> <%-- 페이지 사용유무 --%>
 	</c:import>
 	</div>
 	

@@ -1731,8 +1731,8 @@ public class EgovArticleController {
     		if(pageN < 1) pageN = 1;
     		if(pageN > pageTotal) pageN = pageTotal;
     		
-    		int pageGS = (int) Math.floor((pageN-1)/pageGN)+1;
-    		int pageGE = (pageGS+pageAN-1>pageTotal) ? pageTotal : pageGS+pageAN-1;
+    		int pageGS = (int) Math.floor((pageN-1)/pageGN)*pageGN+1;
+    		int pageGE = (pageGS+pageGN-1>pageTotal) ? pageTotal : pageGS+pageGN-1;
     		
     		paramMap.put("pageGroupNum", pageGroupNum);
     		paramMap.put("pageArticleNum", pageArticleNum);

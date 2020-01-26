@@ -626,11 +626,18 @@
 			</if>
 			AND a.USE_AT = 'Y'
 			ORDER BY ${ordColmn} ${ordWay}
-			<if test="cntOfArticle == '-1'">	
-			</if>
-			<if test="cntOfArticle != '-1'">	
-				LIMIT ${cntOfArticle}
-			</if>
+			<choose>
+			<when test='pageUse == "Y"'>
+				<if test='pageArticleNum != null and pageArticleNum != "" and startArticle != null and startArticle != "" '>
+					LIMIT ${startArticle}, ${pageArticleNum}
+				</if>
+			</when>
+			<otherwise>
+				<if test="cntOfArticle != '-1'">	
+					LIMIT ${cntOfArticle}
+				</if>
+			</otherwise>
+			</choose>
 						
 	</select>
 	
@@ -653,11 +660,60 @@
 			</if>
 			AND a.USE_AT = 'Y'
 			ORDER BY ${ordColmn} ${ordWay}
-			<if test="cntOfArticle == '-1'">	
+			<choose>
+			<when test='pageUse == "Y"'>
+				<if test='pageArticleNum != null and pageArticleNum != "" and startArticle != null and startArticle != "" '>
+					LIMIT ${startArticle}, ${pageArticleNum}
+				</if>
+			</when>
+			<otherwise>
+				<if test="cntOfArticle != '-1'">	
+					LIMIT ${cntOfArticle}
+				</if>
+			</otherwise>
+			</choose>
+						
+	</select>	
+	
+	<select id="latestArticleListViewCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+			
+			SELECT
+				COUNT(*)
+			FROM
+				COMTNBBS a
+			LEFT OUTER JOIN 
+				COMVNUSERMASTER b
+			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
+			WHERE 1=1
+			AND BBS_ID != 'BBSMSTR_000000000002'
+			<if test="bbsId != '' and bbsId!=null">
+			AND a.BBS_ID = #{bbsId}
 			</if>
-			<if test="cntOfArticle != '-1'">	
-				LIMIT ${cntOfArticle}
+			<if test="cateName != '' and cateName!=null">
+			AND a.CATE_NAME = #{cateName}	
 			</if>
+			AND a.USE_AT = 'Y'
+						
+	</select>
+	
+	<select id="latestMultiArticleListViewCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+			
+			SELECT
+				COUNT(*)
+			FROM
+				COMTNBBS a
+			LEFT OUTER JOIN 
+				COMVNUSERMASTER b
+			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
+			WHERE 1=1
+			AND BBS_ID != 'BBSMSTR_000000000002'
+			<foreach collection="bbsId" item="item" open="AND (" separator="OR" close=")">
+				a.BBS_ID = #{item}
+			</foreach>
+			<if test="cateName != '' and cateName!=null">
+			AND a.CATE_NAME = #{cateName}	
+			</if>
+			AND a.USE_AT = 'Y'
 						
 	</select>	
 	

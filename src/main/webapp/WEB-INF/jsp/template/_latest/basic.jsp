@@ -24,5 +24,15 @@
 </tr>
 </c:forEach>
 </table>
+<!-- 페이징 -->
+<c:if test="${paramMap.pageUse == 'Y' }">
+	<a href="?pageNum=1">&lt;&lt;</a>
+	<a href="?pageNum=${paramMap.pageGroupStart-1 }">&lt;</a>
+	<c:forEach var="page" begin="${paramMap.pageGroupStart}" end="${paramMap.pageGroupEnd}">
+		<a href="?pageNum=${page }">${page }</a>
+	</c:forEach>
+	<a href="?pageNum=${paramMap.pageGroupEnd+1 }">&gt;</a>
+	<a href="?pageNum=${paramMap.pageTotal}">&gt;&gt;</a>
+</c:if>
 </body>
 </html>

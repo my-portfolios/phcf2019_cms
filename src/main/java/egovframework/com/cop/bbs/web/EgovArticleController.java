@@ -1698,15 +1698,50 @@ public class EgovArticleController {
     public String latestArticleListView(HttpServletRequest request,
     		@RequestParam(required=false, defaultValue="basic") String skinNm, @RequestParam(required=false) String[] bbsId, 
     		@RequestParam(required=false, defaultValue="5") String cntOfArticle, @RequestParam(required=false, defaultValue="FRST_REGIST_PNTTM") String ordColmn, 
-    		@RequestParam(required=false, defaultValue="DESC") String ordWay, @RequestParam(required=false, defaultValue="") String cateName, ModelMap model) throws Exception {
+    		@RequestParam(required=false, defaultValue="DESC") String ordWay, 
+    		@RequestParam(required=false, defaultValue="N") String pageUse, @RequestParam(required=false, defaultValue="10") String pageGroupNum, 
+    		@RequestParam(required=false, defaultValue="10") String pageArticleNum, @RequestParam(required=false, defaultValue="1") String pageNum,
+    		@RequestParam(required=false, defaultValue="") String cateName, ModelMap model) throws Exception {
     	
     	HashMap<String, Object> paramMap = new HashMap<String, Object>();
+    	int totalArticles = 0;
     	
     	paramMap.put("skinNm", skinNm);
     	paramMap.put("cntOfArticle", cntOfArticle);
     	paramMap.put("ordColmn", ordColmn);
     	paramMap.put("ordWay", ordWay);
     	if(!cateName.equals("")) paramMap.put("cateName", cateName);
+    	
+    	if(bbsId == null || bbsId.length == 0 || bbsId.length == 1) {
+	    	paramMap.put("bbsId", bbsId[0]);
+	    	totalArticles = egovArticleService.latestArticleListViewCnt(paramMap);
+    	} else {
+    		paramMap.put("bbsId", bbsId);
+	    	totalArticles = egovArticleService.latestMultiArticleListViewCnt(paramMap);
+    	}
+    	paramMap.put("totalArticles", String.valueOf(totalArticles));
+    	
+    	//페이징처리
+    	if(pageUse.equals("Y")) {
+    		paramMap.put("pageUse", pageUse);
+    		int pageGN = Integer.parseInt(pageGroupNum);
+    		int pageAN = Integer.parseInt(pageArticleNum);
+    		int pageTotal = (int) Math.floor(totalArticles/pageAN+1);
+    		int pageN = Integer.parseInt(pageNum);
+    		if(pageN < 1) pageN = 1;
+    		if(pageN > pageTotal) pageN = pageTotal;
+    		
+    		int pageGS = (int) Math.floor((pageN-1)/pageGN)+1;
+    		int pageGE = (pageGS+pageAN-1>pageTotal) ? pageTotal : pageGS+pageAN-1;
+    		
+    		paramMap.put("pageGroupNum", pageGroupNum);
+    		paramMap.put("pageArticleNum", pageArticleNum);
+    		paramMap.put("startArticle", String.valueOf(pageAN*(pageN-1)));
+    		paramMap.put("pageNum", pageNum);
+    		paramMap.put("pageGroupStart", String.valueOf(pageGS));
+    		paramMap.put("pageGroupEnd", String.valueOf(pageGE));
+    		paramMap.put("pageTotal", String.valueOf(pageTotal));
+    	}
 		
     	List<BoardVO> resultList = new ArrayList<BoardVO>();
     	
@@ -1719,6 +1754,7 @@ public class EgovArticleController {
     	}
     	
     	model.addAttribute("resultList", resultList);
+    	model.addAttribute("paramMap", paramMap);
     	
     	//템플릿 파일 유무를 검사한다.
 		String isDir = request.getServletContext().getRealPath("/WEB-INF/jsp/template/_latest/"+skinNm+".jsp");

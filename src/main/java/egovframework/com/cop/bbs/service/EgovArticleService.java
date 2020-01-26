@@ -44,4 +44,8 @@ public interface EgovArticleService {
 	List<BoardVO> selectArticleDetailCn(BoardVO boardVO);
 	
 	int selectLoginUser(BoardVO boardVO);
+
+	int latestArticleListViewCnt(HashMap<String, Object> vo);
+
+	int latestMultiArticleListViewCnt(HashMap<String, Object> vo);
 }

@@ -81,6 +81,14 @@ public class EgovArticleDAO extends EgovComAbstractDAO {
 		return (List<BoardVO>) list("BBSArticle.latestMultiArticleListView", vo);
 	}
 	
+	public int latestArticleListViewCnt(HashMap<String, Object> vo) {
+		return (Integer)selectOne("BBSArticle.latestArticleListViewCnt", vo);
+	}
+	
+	public int latestMultiArticleListViewCnt(HashMap<String, Object> vo) {
+		return (Integer)selectOne("BBSArticle.latestMultiArticleListViewCnt", vo);
+	}
+	
 	/*
 	 * 블로그 관련
 	 */

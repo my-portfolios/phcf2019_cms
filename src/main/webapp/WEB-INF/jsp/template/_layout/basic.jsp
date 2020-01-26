@@ -65,7 +65,17 @@
 	
 	<div id="main" class="scroll-container">
 		
-		<c:import url="${jspPath}" />
+		<c:choose>
+		<c:when test="${contentYN == 'Y'}">
+			<c:out value="${content}" escapeXml="false"/>
+		</c:when>
+		<c:when test="${contentYN != 'Y'}">
+			<c:import url="${jspPath}" />
+		</c:when>
+		<c:otherwise>
+			페이지에 문제가 있습니다.
+		</c:otherwise>
+		</c:choose>
 		
 	</div>
 	<div class="bottom">

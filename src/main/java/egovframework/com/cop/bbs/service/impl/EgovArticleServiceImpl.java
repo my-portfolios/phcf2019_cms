@@ -155,7 +155,6 @@ public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements E
 	public List<BoardVO> latestArticleListView(HashMap<String, Object> vo) {
 		List<BoardVO> list = egovArticleDao.latestArticleListView(vo);
 
-
 		return list;
 	}
 	
@@ -163,8 +162,19 @@ public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements E
 	public List<BoardVO> latestMultiArticleListView(HashMap<String, Object> vo) {
 		List<BoardVO> list = egovArticleDao.latestMultiArticleListView(vo);
 
-
 		return list;
+	}
+	
+	@Override
+	public int latestArticleListViewCnt(HashMap<String, Object> vo) {
+
+		return egovArticleDao.latestArticleListViewCnt(vo);
+	}
+	
+	@Override
+	public int latestMultiArticleListViewCnt(HashMap<String, Object> vo) {
+
+		return egovArticleDao.latestMultiArticleListViewCnt(vo);
 	}
 	
 	@Override

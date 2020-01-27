@@ -6,8 +6,7 @@
 	<select id="selectAllMenuInfoList" parameterType="comDefaultVO" resultType="egovMap">
 		
 			SELECT 
-				MENU_NO AS menuNo
-				, PAGE_NM AS pageNm
+				PAGE_NM AS pageNm
 				, DEPTH1 AS depth1
 				, DEPTH2 AS depth2
 				, DEPTH3 AS depth3
@@ -43,8 +42,7 @@
 	<select id="selectMenuDidntMapped" parameterType="comDefaultVO" resultType="egovMap">
 		
 			SELECT 
-				m.MENU_NO AS menuNo
-				, m.PAGE_NM AS pageNm
+				m.PAGE_NM AS pageNm
 				, m.DEPTH1 AS depth1
 				, m.DEPTH2 AS depth2
 				, m.DEPTH3 AS depth3
@@ -84,7 +82,10 @@
 			CONTENT_ID = 0
 			</if>
 		WHERE
-			MENU_NO = #{menuNo}
+			PAGE_NM = #{pageNm}
+			AND DEPTH1 = #{depth1}
+			AND DEPTH2 = #{depth2}
+			AND DEPTH3 = #{depth3}
 	</update>
 	
 	<update id="contentsMenuMapping" parameterType="java.util.HashMap">
@@ -93,12 +94,14 @@
 		SET
 			CONTENT_ID = #{nttId}
 		WHERE
-			MENU_NO = #{menuNo}
+			PAGE_NM = #{pageNm}
+			AND DEPTH1 = #{depth1}
+			AND DEPTH2 = #{depth2}
+			AND DEPTH3 = #{depth3}
 	</update>
 
 	<select id="selectMenuInfoList" parameterType="java.lang.String" resultType="java.util.HashMap">
 		SELECT
-			MENU_NO AS menuNo,
 			PAGE_NM AS pageNm,
 			DEPTH1 AS depth1,
 			DEPTH2 AS depth2,

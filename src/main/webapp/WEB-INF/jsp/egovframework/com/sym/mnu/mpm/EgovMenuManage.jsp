@@ -278,31 +278,27 @@ function contentpageYn(id){
 		</thead>
 		<tbody>
 			<c:forEach var="result" items="${list_menumanage}" varStatus="status">
+				<c:set var="menuNo">${result.pageNm}_${result.depth1}${result.depth2}${result.depth3}</c:set>
 			  <tr>
-			    <%-- <td>
-			       <input type="checkbox" name="checkField" class="check2" title="선택"/>
-			       <input name="checkMenuNo" type="hidden" value="<c:out value='${result.menuNo}'/>"/>
-			       <c:out value="${result.pageNm}"/>
-			    </td> --%>
 			    <td><c:out value="${result.pageNm}"/></td>
 			    <td style="cursor:hand;">
-			       <%-- <span class="link"><a href="<c:url value='/sym/mnu/mpm/EgovMenuManageListDetailSelect.do?req_menuNo='/>${result.menuNo}" onclick="selectUpdtMenuManageDetail('<c:out value="${result.menuNo}"/>'); return false;"><c:out value="${result.menuNm}"/></a></span> --%>
+			       <%-- <span class="link"><a href="<c:url value='/sym/mnu/mpm/EgovMenuManageListDetailSelect.do?req_menuNo='/>${menuNo}" onclick="selectUpdtMenuManageDetail('<c:out value="${menuNo}"/>'); return false;"><c:out value="${result.menuNm}"/></a></span> --%>
 			       <c:out value="${result.menuNm}"/>
 			    </td>
 			    <td><c:out value="${result.link}"/></td>
 			    <td><c:out value="${result.depth1}"/><c:out value="${result.depth2}"/><c:out value="${result.depth3}"/></td>
 			    <td>
-			    	<select id="contentpageYn${result.menuNo}" name="contentpageYn" onchange="javascript:contentpageYn('${result.menuNo}');">
+			    	<select id="contentpageYn${menuNo}" name="contentpageYn" onchange="javascript:contentpageYn('${menuNo}');">
 			    		<option <c:if test="${result.contentpageYn=='Y'}">selected</c:if>>Y</option>
 			    		<option <c:if test="${result.contentpageYn!='Y'}">selected</c:if>>N</option>
 			    	</select>
 			    </td>
-			    <td id="menuNttSj${result.menuNo}"><c:out value="${result.nttSj}"/></td>
+			    <td id="menuNttSj${menuNo}"><c:out value="${result.nttSj}"/></td>
 			    <td>
-			    	<div id="menuDivNo${result.menuNo}" <c:if test="${result.contentpageYn!='Y'}">style="display:none;"</c:if>>
-				    	<select class="selectContentsDidntMapped" id="menuSelectNo${result.menuNo}">
+			    	<div id="menuDivNo${menuNo}" <c:if test="${result.contentpageYn!='Y'}">style="display:none;"</c:if>>
+				    	<select class="selectContentsDidntMapped" id="menuSelectNo${menuNo}">
 						</select>
-						<input type="button" id="menuBttNo${result.menuNo}" onclick="javascript:(menuBttClick('${result.menuNo}'));" value="설정"/>
+						<input type="button" id="menuBttNo${menuNo}" onclick="javascript:(menuBttClick('${menuNo}'));" value="설정"/>
 					</div>
 			    </td>
 			  </tr>

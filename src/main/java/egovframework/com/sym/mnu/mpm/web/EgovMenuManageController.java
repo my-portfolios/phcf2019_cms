@@ -135,8 +135,7 @@ public class EgovMenuManageController {
      * @return 출력페이지정보 "sym/mnu/mpm/EgovMenuManage"
      * @exception Exception
      */
-    @SuppressWarnings("null")
-	@IncludedInfo(name="메뉴관리리스트", order = 1091 ,gid = 60)
+    @IncludedInfo(name="메뉴관리리스트", order = 1091 ,gid = 60)
     @RequestMapping(value="/sym/mnu/mpm/EgovMenuManageSelect.do")
     public String selectMenuManageList(
     		@ModelAttribute("searchVO") ComDefaultVO searchVO, ModelMap model)
@@ -189,8 +188,6 @@ public class EgovMenuManageController {
     		ModelMap model)
             throws Exception {
 		
-		System.out.print("egovComIndexService.selectMenuDidntMapped()"+egovComIndexService.selectMenuDidntMapped());
-		
 		model.addAttribute("success", "yes");
 		model.addAttribute("result", egovComIndexService.selectMenuDidntMapped());
 
@@ -201,8 +198,6 @@ public class EgovMenuManageController {
     public String selectAllContentsDidntMapped(
     		ModelMap model)
             throws Exception {
-		
-		System.out.print("egovComIndexService.selectMenuDidntMapped()"+egovComIndexService.selectContentsDidntMapped());
 		
 		model.addAttribute("success", "yes");
 		model.addAttribute("result", egovComIndexService.selectContentsDidntMapped());
@@ -215,7 +210,7 @@ public class EgovMenuManageController {
     		@RequestParam HashMap<String, String> param, ModelMap model)
             throws Exception {
 		
-		egovComIndexService.contentsPageYN(param);
+		egovComIndexService.contentsPageYN(getMenuNoFromParam(param));
 		
 		model.addAttribute("success", "yes");
 		model.addAttribute("param", param);
@@ -228,7 +223,7 @@ public class EgovMenuManageController {
     		@RequestParam HashMap<String, String> param, ModelMap model)
             throws Exception {
 		
-		egovComIndexService.contentsMenuMapping(param);
+		egovComIndexService.contentsMenuMapping(getMenuNoFromParam(param));
 		
 		model.addAttribute("success", "yes");
 		model.addAttribute("param", param);
@@ -717,5 +712,35 @@ public class EgovMenuManageController {
             sLocationUrl = "egovframework/com/sym/mnu/mpm/EgovMenuBndeRegist";
         }
     	return sLocationUrl;
+    }
+    
+    protected HashMap<String, String> getMenuNoFromParam(HashMap<String, String> param){
+    	
+    	String menuNo = param.get("menuNo");
+    	
+    	String[] menuNoArr = (menuNo != null) ? menuNo.split("_") : null;
+    	
+    	if(menuNoArr.length > 1 && menuNoArr != null) {
+    		param.put("pageNm", menuNoArr[0]);
+    		param.put("depth1", menuNoArr[1].substring(0, 1));
+    		param.put("depth2", menuNoArr[1].substring(1, 2));
+    		param.put("depth3", menuNoArr[1].substring(2, 3));
+    	}
+    	
+    	return param;
+    }
+    
+    protected int numberToInt(char ch) {
+    	int returnvalue = 0;
+    	if(Character.isUpperCase(ch)) returnvalue = ch - 55;
+    	else returnvalue = ch - 87;
+		return returnvalue;
+    }
+    
+    protected char intToNumber(int num) {
+    	char returnvalue;
+    	if(num>=65 && num<=90) returnvalue = (char) (num + 55);
+    	else returnvalue = (char) (num + 87);
+		return returnvalue;
     }
 }

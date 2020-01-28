@@ -1743,10 +1743,12 @@ public class EgovArticleController {
 	    	paramMap.put("bbsId", bbsId[0]);
 	    	resultList = egovArticleService.latestArticleListView(paramMap);
 
-	    	BoardMasterVO vo = new BoardMasterVO();
-			vo.setBbsId((String) paramMap.get("bbsId"));
-			vo.setUniqId(user.getUniqId());
-			try {
+	    	try {
+		    	BoardMasterVO vo = new BoardMasterVO();
+				vo.setBbsId((String) paramMap.get("bbsId"));
+				if(user != null) vo.setUniqId(user.getUniqId());
+				else vo.setUniqId("");
+			
 				BoardMasterVO master = egovBBSMasterService.selectBBSMasterInf(vo);
 				model.addAttribute("boardMaster", master);
 			} catch(Exception e) { e.printStackTrace(); }

@@ -278,7 +278,7 @@ function contentpageYn(id){
 		</thead>
 		<tbody>
 			<c:forEach var="result" items="${list_menumanage}" varStatus="status">
-				<c:set var="menuNo">${result.pageNm}_${result.depth1}${result.depth2}${result.depth3}</c:set>
+				<c:set var="menuNo">${result.pageNm}_${result.depth1}-${result.depth2}-${result.depth3}</c:set>
 			  <tr>
 			    <td><c:out value="${result.pageNm}"/></td>
 			    <td style="cursor:hand;">

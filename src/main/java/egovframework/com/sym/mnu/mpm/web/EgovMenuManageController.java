@@ -722,25 +722,12 @@ public class EgovMenuManageController {
     	
     	if(menuNoArr.length > 1 && menuNoArr != null) {
     		param.put("pageNm", menuNoArr[0]);
-    		param.put("depth1", menuNoArr[1].substring(0, 1));
-    		param.put("depth2", menuNoArr[1].substring(1, 2));
-    		param.put("depth3", menuNoArr[1].substring(2, 3));
+    		String[] menuDepthArr = (menuNoArr[1] != null) ? menuNoArr[1].split("-") : null; 
+    		param.put("depth1", menuDepthArr[0]);
+    		param.put("depth2", menuDepthArr[1]);
+    		param.put("depth3", menuDepthArr[2]);
     	}
     	
     	return param;
-    }
-    
-    protected int numberToInt(char ch) {
-    	int returnvalue = 0;
-    	if(Character.isUpperCase(ch)) returnvalue = ch - 55;
-    	else returnvalue = ch - 87;
-		return returnvalue;
-    }
-    
-    protected char intToNumber(int num) {
-    	char returnvalue;
-    	if(num>=65 && num<=90) returnvalue = (char) (num + 55);
-    	else returnvalue = (char) (num + 87);
-		return returnvalue;
     }
 }

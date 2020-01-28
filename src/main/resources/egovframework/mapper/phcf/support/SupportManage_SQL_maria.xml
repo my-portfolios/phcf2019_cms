@@ -85,7 +85,10 @@
 		, user_tp					/* 후원유저종류 */
 		, T2.user_grade 			/* 회원등급 */
 		, T1.user_id			/* 회원ID (로그인 사용자 OR 비로그인 사용자 */
-		, ( CASE user_tp WHEN 'U' THEN T1.user_nm ELSE T1.user_comp_nm END ) AS user_nm		/* 휴원유저종류에 따라 유저명 또는 기업,단체명 입력 */
+		, CASE 
+		WHEN user_tp = 'U' THEN T1.user_nm 
+		ELSE T1.user_comp_nm 
+		END AS user_nm		/* 휴원유저종류에 따라 유저명 또는 기업,단체명 입력 */
 		, CONCAT( user_phone1, '-', user_phone2, '-', user_phone3 ) AS user_phone		/* 후원자 연락처 */
 		, IF(user_email1 IS NULL OR user_email2 IS NULL OR LENGTH(user_email1) = 0 OR LENGTH(user_email2) = 0, NULL, CONCAT( user_email1, '@', user_email2 ) ) AS user_email	/* 후원자 이메일 */
 		, sp_mh_tp		/* 후원방식 */
@@ -171,20 +174,20 @@
 		/* 후원관리 상세화면 보기 */
 		SELECT 
 			sp_id						/* 순번 */
-			, CASE 
-				WHEN sp_mh_tp = '0' THEN '일시후원' 
-				WHEN sp_mh_tp = 'M' THEN '정기후원'
-				ELSE '미분류'
+			, CASE
+			WHEN sp_mh_tp = 'O' THEN '입시후원'
+			WHEN sp_mh_tp = 'M' THEN '정기후원'
+			ELSE '미분류'
 			END AS sp_mh_tp				/* 후원방식 */
 			, sp_tp_arr				/* 후원종류 */
 			, user_id					/* 회원ID */
 			, user_tp as user_tp_cd
 			, CASE
-				WHEN user_tp = 'U' THEN '개인'
-				WHEN user_tp = 'C' THEN '기업'
-				WHEN user_tp = 'G' THEN '단체'
-				ELSE '미분류' 
-			END AS user_tp	/* 회원종류 */
+			WHEN user_tp = 'U' THEN '개인'
+			WHEN user_tp = 'C' THEN '기업'
+			WHEN user_tp = 'G' THEN '단체'
+			ELSE '미분류'
+			END AS user_tp					/* 회원종류 */
 			, user_comp_nm		/* 기업 또는 단체명 */
 			, user_comp_number/* 기업 또는 단체 번호 */
 			, user_nm				/* 회원 이름 */
@@ -207,7 +210,7 @@
 			, support_msg			/* 후원메시지 */
 			, admin_msg			/* 감사메시지 */
 			, order_num			/* 주문번호 */
-			, create_dt	/* 컬럼생성일 */
+			, DATE_FORMAT(create_dt, '%Y-%m-%d %H:%i:%S') AS create_dt	/* 컬럼생성일 */
 			, browser				/* 결제모드 */
 		FROM
 			tb_support_log
@@ -226,9 +229,9 @@
 			cms_id			/* 순번 */
 			, user_id			/* 사용자ID */
 			, CASE
-				WHEN acc_tp = 'S' THEN '순수후원금'
-				ELSE '기타'
-			END AS acc_tp       /* 후원종류 */
+			WHEN acc_tp = 'S' THEN '순수후원금'
+			ELSE '기타'
+			END AS acc_tp		/* 후원종류 */
 			, agree_send_yn		/* CMS이체 동의서 전송여부 */
 			, user_send_yn			/* 회원정보 등록 여부 */
 			, user_send_file		/* 회원정보 등록 파일명 */
@@ -242,11 +245,11 @@
 			, bank_acc_user_nm	/* CMS계좌이체 계좌주명 */
 			, card_num				/* 카드후원 카드번호 */
 			, card_year_month	/* 카드후원 카드년/월 */
-			, sc_price				/* 정기후원 금액 */
+			, DATE_FORMAT(sc_price, '999,999,999,999,999') AS sc_price				/* 정기후원 금액 */
 			, sc_req_dd				/* 정기후원 이체일 */
 			, sc_cnt					/* 현재정기후원 출금 횟수 */
 			, use_yn					/* 해당컬럼정보 사용 유무 */
-			, create_dt				/* 해당컬럼정보 생성일 */
+			, DATE_FORMAT(create_dt, '%Y-%m-%d %H:%i:%S') AS create_dt				/* 해당컬럼정보 생성일 */
 			, ins_id					/* 해당컬럼정보 등록자 */
 		FROM 
 			tb_support_cms
@@ -444,17 +447,20 @@
 	<select id="cmsGetUserInfo" parameterType="java.lang.String" resultType="egovframework.phcf.common.service.ParamMap">
 		/* 관리자화면 userId를 이용해 회원 정보를 돌려준다. */
 		SELECT 
-			user_id			/* 유저ID */
-			, SUBSTR(user_email, 0, INSTR(user_email, '@') - 1) AS user_email1		/* 유저email1 */
-			, SUBSTR(user_email, INSTR(user_email, '@') + 1) AS user_email2			/* 유저email2 */
-			, SUBSTR(user_phone, 0, 3) AS user_phone1	/* 폰번호1 */
-			, DECODE(LENGTH(user_phone), 11, SUBSTR(user_phone, 4, 4), SUBSTR(user_phone, 4, 3)) AS user_phone2
-			, RIGHT(user_phone, 4) AS user_phone3			/* 폰번호3 */
-			, user_name	/* 사용자 이름 */
+			mber_id			/* 유저ID */
+			, SUBSTR(mber_email_adres, 0, INSTR(mber_email_adres, '@') - 1) AS mber_email_adres1		/* 유저email1 */
+			, SUBSTR(mber_email_adres, INSTR(mber_email_adres, '@') + 1) AS mber_email_adres2			/* 유저email2 */
+			, SUBSTR(mbtlnum, 1, 3) AS mbtlnum1	/* 폰번호1 */
+			, CASE
+			WHEN LENGTH(mbtlnum) = 11 THEN SUBSTR(mbtlnum, 4, 4)
+			ELSE SUBSTR(mbtlnum, 4, 3)
+			END AS mbtlnum
+			, RIGHT(mbtlnum, 4) AS mbtlnum3			/* 폰번호3 */
+			, mber_nm	/* 사용자 이름 */
 		FROM 
-			hbz_user_t
+			COMTNGNRLMBER
 		WHERE 
-			user_id = #{userId}
+			mber_id = #{mber_id}
 	</select>
 	
 	<select id="cmsUserChkCnt" parameterType="java.lang.String" resultType="java.lang.Integer">
@@ -462,9 +468,9 @@
 		SELECT 
 			COUNT(1) AS userCnt
 		FROM 
-			hbz_user_t
+			COMTNGNRLMBER
 		WHERE 
-			user_id = #{userId}
+			mber_id = #{mber_id}
 	</select>
 	
 	<insert id="insertUserSupportLog" parameterType="egovframework.phcf.common.service.ParamMap">
@@ -518,47 +524,64 @@
 	
 	<update id="updateGrade" parameterType="egovframework.phcf.common.service.ParamMap">
 		/* 회원등급 정보를 업데이트 한다. */
-		UPDATE hbz_user_t 
+		UPDATE COMTNGNRLMBER 
 		SET 
 			user_grade = #{user_grade} 
 		WHERE 
-			user_id = #{user_id}
+			mber_id = #{mber_id}
 	</update>
 	
 	<select id="getGradeCodeList" parameterType="java.lang.String" resultType="egovframework.phcf.common.service.ParamMap">
 		/* 회원등급 코드 리스트를 유저구분별로 가져온다. */
 		SELECT 
-			cd_v			/* 후원코드값 */
-			, cd_nm		/* 후원등급명 */
+			code			/* 후원코드값 */
+			, code_nm		/* 후원등급명 */
 		FROM 
-			hbz_code_t
-		WHERE 
-			cd_group = '1028'
-			AND cd_expl2 = #{userTp}
+			COMTCCMMNDETAILCODE
+		WHERE
+			CODE_ID = 'PHC003'
+			AND cd_expl2 = #{userTp} /* 확인 필요 */
 	</select>
 	
 	<select id="getCmsSupportList" parameterType="egovframework.phcf.common.service.ParamMap" resultType="egovframework.phcf.common.service.ParamMap">
 		/* CMS관리자용 후원정보 조회 */
 		SELECT
 			sp_id							/* seq */
-			, DECODE( user_tp, 'U', '개인', 'C', '기업', '단체' ) AS user_tp		/* 후원유저종류 */
-			, IF(T2.user_grade IS NULL, '미분류', (SELECT cd_nm FROM hbz_code_t WHERE cd_v = T2.user_grade) ) AS user_grade			/* 회원등급 */
+			, CASE
+			WHEN user_tp = 'U' THEN '개인'
+			WHEN user_tp = 'C' THEN '기업'
+			ELSE '단체'
+			END AS user_tp		/* 후원유저종류 */
+			, IF(T2.user_grade IS NULL, '미분류', (SELECT code_nm FROM COMTCCMMNDETAILCODE WHERE code = T2.user_grade) ) AS user_grade			/* 회원등급 */
 			, T1.user_id			/* 회원ID (로그인 사용자 OR 비로그인 사용자 */
-			, DECODE( user_tp, 'U', T1.user_nm, T1.user_comp_nm) AS user_nm		/* 휴원유저종류에 따라 유저명 또는 기업,단체명 입력 */
+			, CASE
+			WHEN user_tp = 'U' THEN T1.user_nm
+			ELSE T1.user_comp_nm
+			END AS user_nm		/* 휴원유저종류에 따라 유저명 또는 기업,단체명 입력 */
 			, CONCAT( user_phone1, '-', user_phone2, '-', user_phone3 ) AS user_phone		/* 후원자 연락처 */
 			, IF(user_email1 IS NULL OR user_email2 IS NULL OR LENGTH(user_email1) = 0 OR LENGTH(user_email2) = 0, NULL, CONCAT( user_email1, '@', user_email2 ) ) AS user_email	/* 후원자 이메일 */
-			, DECODE( sp_mh_tp, 'O', '일시후원', '정기후원' ) AS sp_mh_tp		/* 후원방식 */
-			, DECODE( sc_price_tp, 'C', '카드', 'E', '계좌이체', 'M', '무통장', 'D', '카드', 'S', 'CMS계좌', '없음' ) AS sc_price_tp
-			, to_char(T1.sc_price, '999,999,999,999,999') as sc_price		/* 후원금액 */
-			, to_char(T1.create_dt, 'YYYY-MM-DD HH24:MI:SS') as create_dt		/* 등록일 */
+			, CASE
+			WHEN sp_mh_tp = 'O' THEN '일시후원'
+			ELSE '정기후원'
+			END AS sp_mh_tp		/* 후원방식 */
+			, CASE
+			WHEN sc_price_tp = 'C' THEN '카드'
+			WHEN sc_price_tp = 'E' THEN '계좌이체'
+			WHEN sc_price_tp = 'M' THEN '무통장'
+			WHEN sc_price_tp = 'D' THEN '카드'
+			WHEN sc_price_tp = 'S' THEN 'CMS계좌'
+			ELSE '없음'
+			END AS sc_price_tp
+			, DATE_FORMAT(T1.sc_price, '999,999,999,999,999') as sc_price		/* 후원금액 */
+			, DATE_FORMAT(T1.create_dt, '%Y-%m-%d %H:%i:%S') as create_dt		/* 등록일 */
 			, T1.browser			/* 결제모드 */
 			, T1.ins_id				/* 등록자 */
 			, T1.admin_msg		/* 관리자감사메시지 */
 		FROM 
 			tb_support_log T1		/* 후원 log 테이블 */
 			LEFT JOIN
-			( SELECT user_id, user_grade FROM hbz_user_t ) T2	/* 회원정보 테이블 */
-			ON T1.user_id = T2.user_id
+			( SELECT mber_id_id, user_grade FROM COMTNGNRLMBER ) T2	/* 회원정보 테이블 */
+			ON T1.user_id = T2.mber_id
 		WHERE 1=1
 			<if test='search_user_tp != null and !search_user_tp.equals("")'>
 				AND user_tp = #{search_user_tp}

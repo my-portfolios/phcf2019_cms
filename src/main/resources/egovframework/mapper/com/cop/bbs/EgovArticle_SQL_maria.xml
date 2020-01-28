@@ -607,17 +607,59 @@
 					
 	</select>
 	
-	<select id="latestArticleListView" parameterType="java.util.HashMap" resultMap="boardList">
+	<select id="latestArticleListView" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 			
 			SELECT
-				*
+				a.NTT_ID as nttId,
+				a.NTT_SJ as nttSj, 
+				a.NTT_CN as nttCn, 
+				a.CATE_NAME as cateNm, 
+				a.FRST_REGISTER_ID as frstRegisterId, 
+				IFNULL(b.USER_NM, a.NTCR_NM) as frstRegisterNm,
+				DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as frstRegisterPnttm,
+				a.NTCR_ID as ntcrId,
+				a.RDCNT as inqireCo, 
+				a.PARNTSCTT_NO as parnts, 
+				a.ANSWER_AT as replyAt, 
+				a.ANSWER_LC as replyLc, 
+				a.USE_AT as useAt, 
+				a.ATCH_FILE_ID as atchFileId,
+				a.BBS_ID as bbsId, 
+				a.NTCE_BGNDE as ntceBgnde, 
+				a.NTCE_ENDDE as ntceEndde, 
+				a.SJ_BOLD_AT as sjBoldAt, 
+				a.NOTICE_AT as noticeAt, 
+				a.SECRET_AT as secretAt,
+				c.AC1 AS ac1,
+				c.AC2 AS ac2,
+				c.AC3 AS ac3,
+				c.AC4 AS ac4,
+				c.AC5 AS ac5,
+				c.AC6 AS ac6,
+				c.AC7 AS ac7,
+				c.AC8 AS ac8,
+				c.AC9 AS ac9,
+				c.AC10 AS ac10,
+				c.AC11 AS ac11,
+				c.AC12 AS ac12,
+				c.AC13 AS ac13,
+				c.AC14 AS ac14,
+				c.AC15 AS ac15,
+				c.AC16 AS ac16,
+				c.AC17 AS ac17,
+				c.AC18 AS ac18,
+				c.AC19 AS ac19,
+				c.AC20 AS ac20
 			FROM
 				COMTNBBS a
 			LEFT OUTER JOIN 
 				COMVNUSERMASTER b
 			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
+			LEFT OUTER JOIN
+				BBSADDEDCOLMNS c
+			ON a.BBS_ID = c.BBS_ID AND a.NTT_ID = c.NTT_ID
 			WHERE 1=1
-			AND BBS_ID != 'BBSMSTR_000000000002'
+			AND a.BBS_ID != 'BBSMSTR_000000000002'
 			<if test="bbsId != '' and bbsId!=null">
 			AND a.BBS_ID = #{bbsId}
 			</if>
@@ -641,17 +683,59 @@
 						
 	</select>
 	
-	<select id="latestMultiArticleListView" parameterType="java.util.HashMap" resultMap="boardList">
+	<select id="latestMultiArticleListView" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 			
 			SELECT
-				*
+				a.NTT_ID as nttId,
+				a.NTT_SJ as nttSj, 
+				a.NTT_CN as nttCn, 
+				a.CATE_NAME as cateNm, 
+				a.FRST_REGISTER_ID as frstRegisterId, 
+				IFNULL(b.USER_NM, a.NTCR_NM) as frstRegisterNm,
+				DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as frstRegisterPnttm,
+				a.NTCR_ID as ntcrId,
+				a.RDCNT as inqireCo, 
+				a.PARNTSCTT_NO as parnts, 
+				a.ANSWER_AT as replyAt, 
+				a.ANSWER_LC as replyLc, 
+				a.USE_AT as useAt, 
+				a.ATCH_FILE_ID as atchFileId,
+				a.BBS_ID as bbsId, 
+				a.NTCE_BGNDE as ntceBgnde, 
+				a.NTCE_ENDDE as ntceEndde, 
+				a.SJ_BOLD_AT as sjBoldAt, 
+				a.NOTICE_AT as noticeAt, 
+				a.SECRET_AT as secretAt,
+				c.AC1 AS ac1,
+				c.AC2 AS ac2,
+				c.AC3 AS ac3,
+				c.AC4 AS ac4,
+				c.AC5 AS ac5,
+				c.AC6 AS ac6,
+				c.AC7 AS ac7,
+				c.AC8 AS ac8,
+				c.AC9 AS ac9,
+				c.AC10 AS ac10,
+				c.AC11 AS ac11,
+				c.AC12 AS ac12,
+				c.AC13 AS ac13,
+				c.AC14 AS ac14,
+				c.AC15 AS ac15,
+				c.AC16 AS ac16,
+				c.AC17 AS ac17,
+				c.AC18 AS ac18,
+				c.AC19 AS ac19,
+				c.AC20 AS ac20
 			FROM
 				COMTNBBS a
 			LEFT OUTER JOIN 
 				COMVNUSERMASTER b
 			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
+			LEFT OUTER JOIN
+				BBSADDEDCOLMNS c
+			ON a.BBS_ID = c.BBS_ID AND a.NTT_ID = c.NTT_ID
 			WHERE 1=1
-			AND BBS_ID != 'BBSMSTR_000000000002'
+			AND a.BBS_ID != 'BBSMSTR_000000000002'
 			<foreach collection="bbsId" item="item" open="AND (" separator="OR" close=")">
 				a.BBS_ID = #{item}
 			</foreach>

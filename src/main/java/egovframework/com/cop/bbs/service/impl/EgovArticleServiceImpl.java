@@ -152,15 +152,15 @@ public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements E
 	}
 	
 	@Override
-	public List<BoardVO> latestArticleListView(HashMap<String, Object> vo) {
-		List<BoardVO> list = egovArticleDao.latestArticleListView(vo);
+	public List<HashMap<String, Object>> latestArticleListView(HashMap<String, Object> vo) {
+		List<HashMap<String, Object>> list = egovArticleDao.latestArticleListView(vo);
 
 		return list;
 	}
 	
 	@Override
-	public List<BoardVO> latestMultiArticleListView(HashMap<String, Object> vo) {
-		List<BoardVO> list = egovArticleDao.latestMultiArticleListView(vo);
+	public List<HashMap<String, Object>> latestMultiArticleListView(HashMap<String, Object> vo) {
+		List<HashMap<String, Object>> list = egovArticleDao.latestMultiArticleListView(vo);
 
 		return list;
 	}

@@ -24,9 +24,9 @@ public interface EgovArticleService {
 	
 	Map<String, Object> selectGuestArticleList(BoardVO vo);
 	
-	List<BoardVO> latestArticleListView(HashMap<String, Object> boardVO);
+	List<HashMap<String, Object>> latestArticleListView(HashMap<String, Object> boardVO);
 	
-	List<BoardVO> latestMultiArticleListView(HashMap<String, Object> boardVO);
+	List<HashMap<String, Object>> latestMultiArticleListView(HashMap<String, Object> boardVO);
 	
 	/*
 	 * 블로그 관련

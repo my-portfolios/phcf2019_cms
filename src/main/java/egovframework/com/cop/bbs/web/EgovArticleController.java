@@ -1,19 +1,13 @@
 package egovframework.com.cop.bbs.web;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +17,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -49,7 +42,6 @@ import egovframework.com.cop.bbs.service.EgovBBSMasterService;
 import egovframework.com.cop.bbs.service.EgovBBSSatisfactionService;
 import egovframework.com.cop.cmt.service.CommentVO;
 import egovframework.com.cop.cmt.service.EgovArticleCommentService;
-import egovframework.com.cop.cmy.service.CommunityVO;
 import egovframework.com.cop.tpl.service.EgovTemplateManageService;
 import egovframework.com.cop.tpl.service.TemplateInfVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -1703,6 +1695,8 @@ public class EgovArticleController {
     		@RequestParam(required=false, defaultValue="10") String pageArticleNum, @RequestParam(required=false, defaultValue="1") String pageNum,
     		@RequestParam(required=false, defaultValue="") String cateName, ModelMap model) throws Exception {
     	
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	
     	HashMap<String, Object> paramMap = new HashMap<String, Object>();
     	int totalArticles = 0;
     	
@@ -1743,16 +1737,23 @@ public class EgovArticleController {
     		paramMap.put("pageTotal", String.valueOf(pageTotal));
     	}
 		
-    	List<BoardVO> resultList = new ArrayList<BoardVO>();
+    	List<HashMap<String, Object>> resultList = new ArrayList<HashMap<String, Object>>();
     	
     	if(bbsId == null || bbsId.length == 0 || bbsId.length == 1) {
 	    	paramMap.put("bbsId", bbsId[0]);
 	    	resultList = egovArticleService.latestArticleListView(paramMap);
+
+	    	BoardMasterVO vo = new BoardMasterVO();
+			vo.setBbsId((String) paramMap.get("bbsId"));
+			vo.setUniqId(user.getUniqId());
+			try {
+				BoardMasterVO master = egovBBSMasterService.selectBBSMasterInf(vo);
+				model.addAttribute("boardMaster", master);
+			} catch(Exception e) { e.printStackTrace(); }
     	} else {
     		paramMap.put("bbsId", bbsId);
 	    	resultList = egovArticleService.latestMultiArticleListView(paramMap);
     	}
-    	
     	model.addAttribute("resultList", resultList);
     	model.addAttribute("paramMap", paramMap);
     	

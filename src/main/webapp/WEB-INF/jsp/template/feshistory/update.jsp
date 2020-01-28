@@ -275,42 +275,58 @@ function fn_egov_inqire_articlelist() {
 				  	<!-- 추가칼럼1  -->
 					<c:set var="title"> ${boardMasterVO.ac1Nm} </c:set>
 					<tr>
-						<th><label for="nttCn">${title } <span class="pilsu">*</span></label></th>
+						<th><label for="ac1">${title } <span class="pilsu">*</span></label></th>
 						<td class="nopd" colspan="3">
-							<form:input path="ac1" title="${title} ${inputTxt}" size="70" maxlength="70" /> 
-							<div><form:errors path="ac1" cssClass="error" /></div>  
+							<input name="ac1" value="${articleACVO[0].ac1 }" size="70" maxlength="70" /> 
 						</td>
 					</tr>
 					<c:set var="title"> ${boardMasterVO.ac2Nm} </c:set>
 					<tr>
-						<th><label for="nttCn">${title } <span class="pilsu">*</span></label></th>
+						<th><label for="ac2">${title } <span class="pilsu">*</span></label></th>
 						<td class="nopd" colspan="3">
-							<form:input path="ac2" title="${title} ${inputTxt}" size="70" maxlength="70" /> 
-							<div><form:errors path="ac2" cssClass="error" /></div>  
+							<input name="ac2" value="${articleACVO[0].ac2 }" size="70" maxlength="70" /> 
 						</td>
 					</tr>
 					<c:set var="title"> ${boardMasterVO.ac3Nm} </c:set>
 					<tr>
-						<th><label for="nttCn">${title } <span class="pilsu">*</span></label></th>
+						<th><label for="ac3">${title } <span class="pilsu">*</span></label></th>
 						<td class="nopd" colspan="3">
-							<form:input path="ac3" title="${title} ${inputTxt}" size="70" maxlength="70" /> 
-							<div><form:errors path="ac3" cssClass="error" /></div>  
+							<input name="ac3" value="${articleACVO[0].ac3 }" size="70" maxlength="70" /> 
 						</td>
 					</tr>
 					<c:set var="title"> ${boardMasterVO.ac4Nm} </c:set>
 					<tr>
-						<th><label for="nttCn">${title } <span class="pilsu">*</span></label></th>
+						<th><label for="ac4">${title } <span class="pilsu">*</span></label></th>
 						<td class="nopd" colspan="3">
-							<form:input path="ac4" title="${title} ${inputTxt}" size="70" maxlength="70" /> 
-							<div><form:errors path="ac4" cssClass="error" /></div>  
+							<input name="ac4" value="${articleACVO[0].ac4 }" size="70" maxlength="70" /> 
 						</td>
 					</tr>
 					<c:set var="title"> ${boardMasterVO.ac5Nm} </c:set>
 					<tr>
-						<th><label for="nttCn">${title } <span class="pilsu">*</span></label></th>
+						<th><label for="ac5">${title } <span class="pilsu">*</span></label></th>
 						<td class="nopd" colspan="3">
-							<form:input path="ac5" title="${title} ${inputTxt}" size="70" maxlength="70" /> 
-							<div><form:errors path="ac5" cssClass="error" /></div>  
+							<input name="ac5" value="${articleACVO[0].ac5 }" size="70" maxlength="70" /> 
+						</td>
+					</tr>
+					<c:set var="title"> ${boardMasterVO.ac6Nm} </c:set>
+					<tr>
+						<th><label for="ac6">${title } <span class="pilsu">*</span></label></th>
+						<td class="nopd" colspan="3">
+							<input name="ac6" value="${articleACVO[0].ac6 }" size="70" maxlength="70" /> 
+						</td>
+					</tr>
+					<c:set var="title"> ${boardMasterVO.ac7Nm} </c:set>
+					<tr>
+						<th><label for="ac7">${title } <span class="pilsu">*</span></label></th>
+						<td class="nopd" colspan="3">
+							<input name="ac7" value="${articleACVO[0].ac7 }" size="70" maxlength="70" /> 
+						</td>
+					</tr>
+					<c:set var="title"> ${boardMasterVO.ac8Nm} </c:set>
+					<tr>
+						<th><label for="ac8">${title } <span class="pilsu">*</span></label></th>
+						<td class="nopd" colspan="3">
+							<input name="ac8" value="${articleACVO[0].ac8 }" size="70" maxlength="70" /> 
 						</td>
 					</tr>
 					

@@ -11,7 +11,7 @@
     
  <select id="selectMberList" resultType="egovMap">
 SELECT 
-    uniqId, userTy, userId , userNm, emailAdres, areaNo, middleTelno, endTelno, moblphonNo, groupId, sttus, sbscrbDe
+    uniqId, userTy, userId , userNm, emailAdres, areaNo, middleTelno, endTelno, moblphonNo, groupId, sttus, sbscrbDe, membershipType,membershipStartDt
 FROM(
     SELECT 
         ESNTL_ID               uniqId,
@@ -25,7 +25,9 @@ FROM(
         MBTLNUM           moblphonNo,
         GROUP_ID              groupId,
         MBER_STTUS            sttus,
-        SBSCRB_DE             sbscrbDe
+        SBSCRB_DE             sbscrbDe,
+        MEMBERSHIP_TYPE		 membershipType,
+        MEMBERSHIP_START_DT	membershipStartDt
     FROM    COMTNGNRLMBER
     ) A
         WHERE 1=1
@@ -108,7 +110,9 @@ FROM(
                     MBER_FXNUM       ,
                     MBER_EMAIL_ADRES ,
                     MIDDLE_TELNO     ,
-                    SBSCRB_DE        )
+                    SBSCRB_DE,
+                    MEMBERSHIP_TYPE,
+        			MEMBERSHIP_START_DT        )
               VALUES(
                     #{uniqId},
                     #{mberId},
@@ -129,7 +133,9 @@ FROM(
                     #{mberFxnum},
                     #{mberEmailAdres},
                     #{middleTelno},
-                    sysdate()  )              
+                    sysdate(), 
+                    #{membershipType},
+                    #{membershipStartDt})              
         
     </insert>
     
@@ -164,7 +170,9 @@ FROM(
                 MBER_EMAIL_ADRES mberEmailAdres,
                 MIDDLE_TELNO     middleTelno,
                 SBSCRB_DE        sbscrbDe,
-                LOCK_AT          lockAt
+                LOCK_AT          lockAt,
+                MEMBERSHIP_TYPE		 membershipType,
+        		MEMBERSHIP_START_DT	membershipStartDt
             FROM COMTNGNRLMBER
             WHERE ESNTL_ID=#{uniqId}
         
@@ -189,7 +197,9 @@ FROM(
                 GROUP_ID         = #{groupId},
                 MBER_FXNUM       = #{mberFxnum},
                 MBER_EMAIL_ADRES = #{mberEmailAdres},
-                MIDDLE_TELNO     = #{middleTelno}
+                MIDDLE_TELNO     = #{middleTelno},
+                MEMBERSHIP_TYPE = #{membershipType},
+        		MEMBERSHIP_START_DT	= #{membershipStartDt}
             WHERE ESNTL_ID=#{uniqId}
         
     </update>

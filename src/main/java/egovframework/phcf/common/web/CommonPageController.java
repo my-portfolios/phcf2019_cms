@@ -21,4 +21,10 @@ public class CommonPageController {
 		
 		return "egovframework/phcf/common/imageCropper";
 	}
+	
+	@RequestMapping(value="/phcf/menuRefresh.do")
+	public String menuRefresh() {
+		return "egovframework/phcf/common/menuRefresh";
+	}
+	
 }

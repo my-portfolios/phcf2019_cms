@@ -112,9 +112,9 @@ public class EgovMberManageController {
 
 		//일반회원 상태코드를 코드정보로부터 조회
 		ComDefaultCodeVO vo = new ComDefaultCodeVO();
-		vo.setCodeId("COM013");
-		List<?> mberSttus_result = cmmUseService.selectCmmCodeDetail(vo);
-		model.addAttribute("entrprsMberSttus_result", mberSttus_result);//기업회원상태코드목록
+		vo.setCodeId("PHC010");
+		List<?> membershipCode = cmmUseService.selectCmmCodeDetail(vo);
+		model.addAttribute("membershipCode", membershipCode);
 
 		return "egovframework/com/uss/umt/EgovMberManage";
 	}

@@ -44,6 +44,7 @@ import egovframework.com.cop.bbs.service.impl.EgovArticleDAO;
 import egovframework.com.uss.umt.service.EgovMberManageService;
 import egovframework.com.uss.umt.service.UserManageVO;
 import egovframework.com.uss.umt.service.impl.MberManageDAO;
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,12 +90,8 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	}
 
 	@RequestMapping("/EgovTop.do")
-	public String top(ModelMap model) {
-		Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        
-        String currentDateTime = df.format(cal.getTime());
+	public String top(ModelMap model) {    
+        String currentDateTime = CommonMethod.dateToString(new Date(), "yyyy/MM/dd HH:mm");
 		
 		model.addAttribute("currentDateTime", currentDateTime);
 		
@@ -179,14 +176,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	@RequestMapping("/EgovLeft.do")
 	public String setLeftMenu(ModelMap model) throws Exception {
 
-		/* 최초 한 번만 실행하여 map에 저장해 놓는다. */
-		if (map == null) {
-			map = egovComIndexService.selectMenuInfoList("cms");
-		}
 
-		model.addAttribute("resultList", map);
-		
-		LOGGER.debug("EgovComIndexController index is called ");
 
 		return "egovframework/com/cmm/EgovUnitLeft";
 	

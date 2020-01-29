@@ -14,7 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 
 /**
  * 인증여부 체크 인터셉터
@@ -64,12 +66,13 @@ public class AuthenticInterceptor extends HandlerInterceptorAdapter {
 		boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();	
 		//미민증사용자 체크
 		if(!isAuthenticated) {
-			ModelAndView modelAndView = new ModelAndView("error/generalErrorPage");
-			
-			modelAndView.addObject("url", "/uat/uia/egovLoginUsr.do");
-			modelAndView.addObject("target", "_parent");
-			modelAndView.addObject("msg", "세션이 만료되었습니다.");
-			throw new ModelAndViewDefiningException(modelAndView);
+			throw new ModelAndViewDefiningException(CommonMethod.generalAlertThrowing("/uat/uia/egovLoginUsr.do", "_parent", "세션이 만료되었습니다."));
+		}
+		else {
+			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+			if(!user.getUserSe().equals("USR")) {
+				throw new ModelAndViewDefiningException(CommonMethod.generalAlertThrowing("", "", "관리자만 이용하실 수 있는 서비스입니다!"));
+			}
 		}
 		//인증된 권한 목록
 		List<String> authList = (List<String>)EgovUserDetailsHelper.getAuthorities();

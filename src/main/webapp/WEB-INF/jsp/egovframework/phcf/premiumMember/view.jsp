@@ -22,7 +22,9 @@
 				 			{Name : "반려", Id: "N"}];
 			var checkCode = [{Name: "승인 대기", Id: "N"},{Name: "승인 완료", Id: "Y"}];
 			var premiumCode = [{Name: "프리미엄회원", Id: "P"},{Name: "일반회원", Id: "B"}];
-	
+			var ynCode = [{Name: "예", Id: "Y"},{Name: "아니오", Id: "N"}];
+			var jsonString;
+			
 			$(function(){
 				$('#jsGrid').jsGrid({
 					width: '100%',
@@ -53,7 +55,7 @@
 								data: searchFilter,
 								success : function(data){
 									try {
-										var jsonString = data.payListJson;
+										jsonString = data.payListJson;
 										console.log(jsonString);
 										jsonString = JSON.parse(jsonString);
 										
@@ -87,14 +89,18 @@
 						}  
 					},
 					rowClick : function(){return;},
+					rowDoubleClick : function(item){
+						about(item.item.SEQ);
+					},
 					noDataContent: '데이터가 없습니다.',
 					loadMessage: '조회 중...',
 					fields: [
 						{name: 	'SEQ', 	title: '번호', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'MEM_ID', 	title: '회원 아이디', 	type: 'text', 	editing: false, align: "center"},
-					 	{name: 	'MEM_NAME', 	title: '입금자 명', 	type: 'text', 	editing: false,  align: "center"},
 					 	{name: 	'PRE_TYPE', 	title: '멤버십 회원 유형', 	type: 'select', editing: false, items: premiumCode, valueType: "string",valueField: "Id", textField: "Name", align: "center"},
 					 	{name: 	'PAY_PRICE', 	title: '금액', 	type: 'text', 	editing: false,  align: "center"},
+					 	{name: 	'SEND_SMS', title: '문자 수신', 	type: 'select', items: ynCode, editing: false,valueType: "string",valueField: "Id", textField: "Name", align: "center"},
+					 	{name: 	'SEND_MAIL', title: '메일 수신', 	type: 'select', items: ynCode, editing: false,valueType: "string",valueField: "Id", textField: "Name", align: "center"},
 					 	{name: 	'CREATE_DT', 	title: '신청 일시', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'UPDATE_DT', 	title: '수정 일시', 	type: 'text', 	editing: false,  align: "center"},
 					 	{name: 	'RESULT', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true, align: "center"},
@@ -117,6 +123,53 @@
 				searchFilter.search_data = search_data;
 				
 				$("#jsGrid").jsGrid("loadData");
+			}
+			
+			function about(seq){
+				var fileId;
+
+				$.each(jsonString, function(index, item){
+					if(item.SEQ == seq){
+						$("#about_table td").each(function(index2, item2){
+							var jsonId = $(item2).attr("id");
+							var jsonText = item[jsonId];
+							
+							if(jsonId == "RESULT"){jsonText = codeToString(resultCode, jsonText);}
+							else if(jsonId == "PRE_TYPE"){jsonText = codeToString(premiumCode, jsonText);}
+							else if(jsonId == "SEND_SMS"){jsonText = codeToString(ynCode, jsonText);}
+							else if(jsonId == "SEND_MAIL"){jsonText = codeToString(ynCode, jsonText);}
+							else if(jsonId == "CHECK_YN"){jsonText = codeToString(checkCode, jsonText);}
+							
+							if(jsonId != "closebtn"){
+								if(jsonText == "" || jsonText == null || typeof jsonText == "undefined" || jsonText == undefined) $(item2).text(""); 
+								else $(item2).text(jsonText);
+							}
+							
+						});
+					}
+				});
+						
+				$(".popup_modal").css("left","10%");
+				$(".popup_modal").css("display","");
+				$(".popup_modal").css("padding","1%");
+				
+				$(".popup_bg").css("width","100%");
+				$(".popup_bg").css("height","100%");
+				$(".popup_bg").css("background","rgb(234,236,238,0.5)");
+				$(".popup_bg").css("position","absolute");
+				$(".popup_bg").css("top","0");
+				$(".popup_bg").css("display","");
+			}
+			
+			function codeToString(codeList, codeid){
+				var result = "null";
+				$.each(codeList, function(index, item){
+					if(item.Id == codeid) {
+						result = item.Name;
+					}
+				});
+				
+				return result;
 			}
 		</script>
 	</head>
@@ -158,7 +211,61 @@
 		
 		<div id="jsGrid"></div>
 		
-		
+		<div style="text-align:center;">
+	<div class="popup_modal" style="display:none;">
+		<table id="about_table" class="wTable" style="margin:auto;width:1300px">
+			
+			<tr>				
+				<th>회원아이디</th>
+				<td id="MEM_ID"></td>
+			
+				<th>생년월일</th>
+				<td id="BIRTH_DATE"></td>
+			</tr>
+			<tr>
+				<th>기본 주소</th>
+				<td id="ADDRESS1"></td>
+				
+				<th>상세 주소</th>
+				<td id="ADDRESS2"></td>
+			</tr>	
+			<tr>
+				<th>회원 유형</th>
+				<td id="PRE_TYPE"></td>
+				
+				<th>결제 금액</th>
+				<td id="PAY_PRICE"></td>
+			</tr>	
+			<tr>
+				<th>문자 수신</th>
+				<td id="SEND_SMS"></td>
+				
+				<th>메일 수신</th>
+				<td id="SEND_MAIL"></td>
+			</tr>	
+			<tr>
+				<th>상태</th>
+				<td id="RESULT"></td>
+				
+				<th>관리자 확인 여부</th>
+				<td id=CHECK_YN></td>
+			</tr>	
+			<tr>
+				<th>신청일시</th>
+				<td id="CREATE_DT"></td>
+				
+				<th>수정일시</th>
+				<td id="UPDATE_DT" colspan="2"></td>
+			</tr>
+			<tr>
+				<td colspan="5" id="closebtn" >
+					<input type="button" style="margin: 1%;"onclick="$('.popup_modal').css('display','none');$('.popup_bg').css('display','none');" value="닫기"/>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="popup_bg" style="display:none;"></div>
+</div>
 		</div>
 	</body>
 </html>

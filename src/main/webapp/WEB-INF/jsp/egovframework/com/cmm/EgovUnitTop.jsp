@@ -25,7 +25,11 @@
 		<div class="top_logo_title"><spring:message code="comCmm.top.title"/></div>
 		</li>
 		<li class="header_quickmenu">
-			<div><span>포항문화재단</span> <span>문화공간</span> <span>축제</span></div>
+			<div>
+				<a href="http://localhost:8080/" target="_blank"><span>포항문화재단</span></a> 
+				<a href="http://localhost:8280/" target="_blank"><span>문화공간</span> </a>
+				<span><a>축제</a></span>
+			</div>
 			<div><span class="quickmenu_down">메뉴얼 다운로드</span></div>
 			<div>${currentDateTime}</div>
 			<div>  

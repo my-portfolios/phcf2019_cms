@@ -32,10 +32,14 @@
 <head>
 <title>${pageTitle} <spring:message code="title.update" /></title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
+<script src="<c:url value='/js/egovframework/com/cmm/jqueryui.js' />"></script>
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
+<link href="<c:url value="/css/egovframework/com/cmm/jqueryui.css"/>" rel="stylesheet" type="text/css">
 <validator:javascript formName="mberManageVO" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javaScript" language="javascript" defer="defer">
+
 function fnListPage(){
     document.mberManageVO.action = "<c:url value='/uss/umt/EgovMberManage.do'/>";
     document.mberManageVO.submit();
@@ -63,6 +67,7 @@ function fnLockIncorrect(){
 function fnUpdate(form){
 	if(confirm("<spring:message code="common.save.msg" />")){
 		if(validateMberManageVO(form)){
+			console.log(form);
 			document.mberManageVO.submit();
 			return true;
 	    }else{
@@ -70,6 +75,26 @@ function fnUpdate(form){
 	    }
 	}
 }
+
+$(function(){
+	
+	
+	$("#membershipStartDt").datepicker( 
+	        {dateFormat:'yy-mm-dd'
+	         , showOn: 'button'
+	         , buttonImage: '<c:url value='/images/egovframework/com/cmm/icon/bu_icon_carlendar.gif'/>'  
+	         , buttonImageOnly: true
+	         
+	         , showMonthAfterYear: true
+	         , showOtherMonths: true
+		     , selectOtherMonths: true
+				
+	         , changeMonth: true // 월선택 select box 표시 (기본은 false)
+	         , changeYear: true  // 년선택 selectbox 표시 (기본은 false)
+	         , showButtonPanel: true // 하단 today, done  버튼기능 추가 표시 (기본은 false)
+	});
+
+        });
 </script>
 </head>
 <body>
@@ -127,44 +152,46 @@ function fnUpdate(form){
 		</tr>
 		<!-- 비밀번호힌트 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.passHit"/></c:set>
-		<tr>
+		<tr style="display:none;">
 			<th><label for="passwordHint">${title}</label> <span class="pilsu">*</span></th>
 			<td class="left">
-				<form:select path="passwordHint" id="passwordHint" title="${title} ${inputSelect}">
+				<%-- <form:select path="passwordHint" id="passwordHint" title="${title} ${inputSelect}">
 					<form:option value="" label="--선택하세요--"/>
 					<form:options items="${passwordHint_result}" itemValue="code" itemLabel="codeNm"/>
-				</form:select>
+				</form:select> --%>
+				<form:input type="text" path="passwordHint" value="P01"/> 
 				<div><form:errors path="passwordHint" cssClass="error"/></div>
 			</td>
 		</tr>
 		<!-- 비밀번호정답 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.passOk"/></c:set>
-		<tr>
+		<tr style="display:none;">
 			<th><label for="passwordCnsr">${title}</label> <span class="pilsu">*</span></th>
 			<td class="left">
-				<form:input path="passwordCnsr" id="passwordCnsr" title="${title} ${inputTxt}" size="50" maxlength="100" />
+				<form:input path="passwordCnsr" id="passwordCnsr" title="${title} ${inputTxt}" size="50" maxlength="100" value="X"/>
 				<div><form:errors path="passwordCnsr" cssClass="error"/></div>
 			</td>
 		</tr>
 		<!-- 성별구분코드 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.saxTypeCode"/></c:set>
-		<tr>
+		<tr style="display:none;">
 			<th><label for="sexdstnCode">${title}</label></th>
 			<td class="left">
-				<form:select path="sexdstnCode" id="sexdstnCode" title="${title} ${inputSelect}">
+				<%-- <form:select path="sexdstnCode" id="sexdstnCode" title="${title} ${inputSelect}">
 					<form:option value="" label="--선택하세요--"/>
 					<form:options items="${sexdstnCode_result}" itemValue="code" itemLabel="codeNm"/>
-				</form:select>
+				</form:select> --%>
+				<form:input path="sexdstnCode" id="sexdstnCode" value="X"/>
 			</td>
 		</tr>
 		<!-- 전화번호 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.tel"/></c:set>
-		<tr>
+		<tr style="display:none;">
 			<th><label for="areaNo">${title}</label> <span class="pilsu">*</span></th>
 			<td class="left">
-                    <form:input path="areaNo" id="areaNo" title="전화번호" cssClass="txaIpUmt" size="5" maxlength="5" style="width:40px;"/>
-                    - <form:input path="middleTelno" id="middleTelno" cssClass="txaIpUmt" size="5" maxlength="5" style="width:40px;"/>
-                    - <form:input path="endTelno" id="endTelno" cssClass="txaIpUmt" size="5" maxlength="5" style="width:40px;"/>
+                    <form:input path="areaNo" id="areaNo" title="전화번호" cssClass="txaIpUmt" size="5" maxlength="5" style="width:40px;" value="000"/>
+                    - <form:input path="middleTelno" id="middleTelno" cssClass="txaIpUmt" size="5" maxlength="5" style="width:40px;" value="000"/>
+                    - <form:input path="endTelno" id="endTelno" cssClass="txaIpUmt" size="5" maxlength="5" style="width:40px;" value="0000"/>
                     <div><form:errors path="areaNo" cssClass="error" /></div>
                     <div><form:errors path="middleTelno" cssClass="error" /></div>
                     <div><form:errors path="endTelno" cssClass="error" /></div>
@@ -172,10 +199,10 @@ function fnUpdate(form){
 		</tr>
 		<!-- 팩스번호 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.fax"/></c:set>
-		<tr>
+		<tr style="display:none;">
 			<th><label for="mberFxnum">${title}</label></th>
 			<td class="left">
-                    <form:input path="mberFxnum" id="mberFxnum" title="${title} ${inputTxt}" size="20"  maxlength="15" />
+                    <form:input path="mberFxnum" id="mberFxnum" title="${title} ${inputTxt}" size="20"  maxlength="15" value="000000000"/>
                     <div><form:errors path="mberFxnum" cssClass="error" /></div>
 			</td>
 		</tr>
@@ -197,12 +224,33 @@ function fnUpdate(form){
                     <div><form:errors path="mberEmailAdres" cssClass="error" /></div>
 			</td>
 		</tr>
+		
+		<tr id="membershipTypeTr">
+			<th>유료멤버십 등급</th>
+			<td class="left">
+				<form:select path="membershipType" id="membershipType">
+					<form:option value="N" label="기본회원(유료멤버십 ×)"/>
+					<form:option value="B" label="일반회원"/>
+					<form:option value="P" label="프리미엄회원"/>
+				</form:select>
+			</td>
+		</tr>
+		<tr id="membershipTypeTr">
+			<th>유료멤버십 가입일</th>
+			<td class="left">
+				<form:input path="membershipStartDt" id="membershipStartDt"/>
+			</td>
+		</tr>
+		
+		
+		
+		<!-- 아래는 사용하지 않음  -->
 		<!-- 우번번호 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.post"/></c:set>
-		<tr>
+		<tr style="display:none;">
 			<th><label for="zip">${title}</label> <span class="pilsu">*</span></th>
 			<td class="left">
-                    <form:input path="zip" id="zip" title="${title} ${inputTxt}" readonly="true" size="70" maxlength="6" style="width:60px;"/>
+                    <form:input path="zip" id="zip" title="${title} ${inputTxt}" readonly="true" size="70" maxlength="6" style="width:60px;" value="00000"/>
                     <!-- form:hidden path="zip" id="zip" --> 
                     <!-- <button class="btn_s2" onClick="fn_egov_ZipSearch(document.mberManageVO, document.mberManageVO.zip, document.mberManageVO.zip_view, document.mberManageVO.adres);return false;" title="<spring:message code="button.delete" /> <spring:message code="input.button" />">우번번호검색</button>  -->
                     <div><form:errors path="zip" cssClass="error" /></div>
@@ -210,26 +258,26 @@ function fnUpdate(form){
 		</tr>
 		<!-- 주소 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.addr"/></c:set>
-		<tr>
+		<tr style="display:none;">
 			<th><label for="adres">${title}</label> <span class="pilsu">*</span></th>
 			<td class="left">
-                    <form:input path="adres" id="adres" title="${title} ${inputTxt}" readonly="true" size="70" maxlength="100" />
+                    <form:input path="adres" id="adres" title="${title} ${inputTxt}" readonly="true" size="70" maxlength="100" value="X"/>
                     <div><form:errors path="adres" cssClass="error" /></div>
 			</td>
 		</tr>
 		<!-- 상세주소 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.addrDetail"/></c:set>
-		<tr>
+		<tr style="display:none;">
 			<th><label for="detailAdres">${title}</label> </th>
 			<td class="left">
-                    <form:input path="detailAdres" id="detailAdres" title="${title} ${inputTxt}"  size="70" maxlength="100" />
+                    <form:input path="detailAdres" id="detailAdres" title="${title} ${inputTxt}"  size="70" maxlength="100" value="X" />
                     <div><form:errors path="detailAdres" cssClass="error" /></div>
 			</td>
 		</tr>
 		<!-- 그룹아이디 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.groupId"/></c:set>
 		<c:set var="inputSelect"><spring:message code="input.select"/></c:set>
-		<tr>
+		<tr style="display:none;">
 			<th><label for="groupId">${title}</label></th>
 			<td class="left">
                     <form:select path="groupId" id="groupId" title="${title} ${inputSelect}">
@@ -241,7 +289,7 @@ function fnUpdate(form){
 		</tr>
 		<!-- 일반회원상태코드 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.status"/></c:set>
-		<tr>
+		<tr style="display:none;">
 			<th><label for="mberSttus">${title}</label> <span class="pilsu">*</span></th>
 			<td class="left">
                     <form:select path="mberSttus" id="mberSttus" title="${title} ${inputSelect}">
@@ -253,7 +301,7 @@ function fnUpdate(form){
 		</tr>
 		<!-- 로그인인증제한여부 -->
 		<c:set var="title"><spring:message code="comUssUmt.common.lockAt"/></c:set>
-		<tr>
+		<tr style="display:none;">
 			<th><label for="lockAt">${title}</label></th>
 			<td class="left">
 			<c:if test="${mberManageVO.lockAt eq 'Y'}">예</c:if>
@@ -269,9 +317,9 @@ function fnUpdate(form){
 		<input type="submit" class="s_submit" value="<spring:message code="button.save" />" title="<spring:message code="button.save" /> <spring:message code="input.button" />" />
 		<button class="btn_s2" onClick="fnDeleteMber('<c:out value='${mberManageVO.userTy}'/>:<c:out value='${mberManageVO.uniqId}'/>'); return false;" title="<spring:message code="button.delete" /> <spring:message code="input.button" />"><spring:message code="button.delete" /></button>
 		<span class="btn_s"><a href="<c:url value='/uss/umt/EgovMberManage.do' />"  title="<spring:message code="button.list" /> <spring:message code="input.button" />"><spring:message code="button.list" /></a></span>
-		<button class="btn_s2" onClick="fnPasswordMove(); return false;" title="<spring:message code="comUssUmt.userManageModifyBtn.passwordChange" /> <spring:message code="input.button" />"><spring:message code="comUssUmt.userManageModifyBtn.passwordChange" /></button>
-		<button class="btn_s2" onClick="fnLockIncorrect(); return false;" title="<spring:message code="comUssUmt.common.lockAtBtn" /> <spring:message code="input.button" />"><spring:message code="comUssUmt.common.lockAtBtn" /></button>
-		<button class="btn_s2" onClick="document.mberManageVO.reset(); return false;" title="<spring:message code="button.reset" /> <spring:message code="input.button" />"><spring:message code="button.reset" /></button>
+		<%-- <button class="btn_s2" onClick="fnPasswordMove(); return false;" title="<spring:message code="comUssUmt.userManageModifyBtn.passwordChange" /> <spring:message code="input.button" />"><spring:message code="comUssUmt.userManageModifyBtn.passwordChange" /></button>
+		<button class="btn_s2" onClick="fnLockIncorrect(); return false;" title="<spring:message code="comUssUmt.common.lockAtBtn" /> <spring:message code="input.button" />"><spring:message code="comUssUmt.common.lockAtBtn" /></button> --%>
+		<button class="btn_s2" onClick="document.mberManageVO.reset(); return false;" title="<spring:message code="button.reset" /> <spring:message code="input.button" />">변경 취소</button>
 	</div><div style="clear:both;"></div>
 </div>
 </form:form>

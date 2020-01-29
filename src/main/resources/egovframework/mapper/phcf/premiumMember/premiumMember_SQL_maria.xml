@@ -8,9 +8,13 @@
 		SELECT
 			SEQ,
 			MEM_ID,
-			MEM_NAME,
+			BIRTH_DATE,
+			ADDRESS1,
+			ADDRESS2,
 			PRE_TYPE,
 			PAY_PRICE,
+			SEND_SMS,
+			SEND_MAIL,
 			RESULT,
 			CHECK_YN,
 			DATE_FORMAT(CREATE_DT,'%Y/%m/%d %H:%i:%s') AS CREATE_DT,
@@ -64,8 +68,14 @@
 			MEMBERSHIPREGLOG
 		SET
 			RESULT = #{RESULT},
-			CHECK_YN = 'Y',
-			UPDATE_DT = NOW()
+			<choose>
+				<when test="RESULT == ''">
+					CHECK_YN = 'N'
+				</when>
+				<otherwise>
+					CHECK_YN = 'Y'
+				</otherwise>
+			</choose>
 		WHERE 
 			SEQ = #{SEQ}
 	</update>

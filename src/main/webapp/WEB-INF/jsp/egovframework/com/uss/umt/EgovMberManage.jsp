@@ -122,14 +122,14 @@ function fnSearch(){
 	<!-- 검색영역 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
-			<li><!-- 상태-->
+			<%-- <li><!-- 상태-->
                 <select name="sbscrbSttus" id="sbscrbSttus" title="<spring:message code="comUssUmt.userManageSsearch.sbscrbSttusTitle" />">
                     <option value="0" <c:if test="${empty mberVO.sbscrbSttus || mberVO.sbscrbSttus == '0'}">selected="selected"</c:if> ><spring:message code="comUssUmt.userManageSsearch.sbscrbSttusAll" /></option><!-- 상태(전체) -->
                     <option value="A" <c:if test="${mberVO.sbscrbSttus == 'A'}">selected="selected"</c:if> ><spring:message code="comUssUmt.userManageSsearch.sbscrbSttusA" /></option><!-- 가입신청 -->
                     <option value="D" <c:if test="${mberVO.sbscrbSttus == 'D'}">selected="selected"</c:if> ><spring:message code="comUssUmt.userManageSsearch.sbscrbSttusD" /></option><!-- 삭제 -->
                     <option value="P" <c:if test="${mberVO.sbscrbSttus == 'P'}">selected="selected"</c:if> ><spring:message code="comUssUmt.userManageSsearch.sbscrbSttusP" /></option><!-- 승인 -->
                 </select>
-			</li>
+			</li> --%>
 			<li><!-- 조건 -->
                 <select name="searchCondition" id="searchCondition" title="<spring:message code="comUssUmt.userManageSsearch.searchConditioTitle" />"><!--  -->
                     <option value="0" <c:if test="${mberVO.searchCondition == '0'}">selected="selected"</c:if> ><spring:message code="comUssUmt.userManageSsearch.searchConditionId" /></option><!-- ID  -->
@@ -170,7 +170,7 @@ function fnSearch(){
 		<th><spring:message code="comUssUmt.userManageList.email" /></th><!-- 사용자이메일 -->
 		<th><spring:message code="comUssUmt.userManageList.phone" /></th><!-- 전화번호 -->
 		<th><spring:message code="table.regdate" /></th><!-- 등록일 -->
-		<th><spring:message code="comUssUmt.userManageList.sbscrbSttus" /></th><!-- 가입상태 -->
+		<th>유료 멤버십 상태</th><!-- 가입상태 -->
 
 	</tr>
 	</thead>
@@ -190,15 +190,17 @@ function fnSearch(){
 	    <td><a href="<c:url value='/uss/umt/EgovMberSelectUpdtView.do'/>?selectedId=<c:out value="${result.uniqId}"/>"  onclick="javascript:fnSelectUser('<c:out value="${result.userTy}"/>:<c:out value="${result.uniqId}"/>'); return false;"><c:out value="${result.userId}"/></a></td>
 	    <td><c:out value="${result.userNm}"/></td>
 	    <td><c:out value="${result.emailAdres}"/></td>
-	    <td><c:out value="${result.areaNo}"/>)<c:out value="${result.middleTelno}"/>-<c:out value="${result.endTelno}"/></td>
+	    <td><c:out value="${result.moblphonNo}"/></td>
 	    <td><c:out value="${fn:substring(result.sbscrbDe,0,10)}"/></td>
 	    <td>
-	    	<span class="btn_comom">
-	        <c:forEach var="entrprsMberSttus_result" items="${entrprsMberSttus_result}" varStatus="status">
-	            <c:if test="${result.sttus == entrprsMberSttus_result.code}"><c:out value="${entrprsMberSttus_result.codeNm}"/></c:if>
+	    	<c:forEach var="membershipCodeItems" items="${membershipCode}" varStatus="status">
+	    		<c:if test="${result.membershipType == membershipCodeItems.code}">
+	    			<span class="btn_comom">
+	            		<c:out value="${membershipCodeItems.codeNm}"/>
+	            	</span>
+	            </c:if>
 	        </c:forEach>
-	        </span>
-	    </td>
+	    </td> 
 	</tr>
 	</c:forEach>
 	</tbody>

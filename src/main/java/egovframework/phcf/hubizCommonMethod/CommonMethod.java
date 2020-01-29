@@ -17,11 +17,15 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 
+import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.service.CmmnDetailCode;
+import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.FileVO;
 import egovframework.phcf.common.service.CommonService;
@@ -39,6 +43,8 @@ public class CommonMethod {
 	
 	@Resource(name="CommonService")
 	private CommonService commonService;
+	
+	private static Logger logger = Logger.getLogger(CommonMethod.class);
 	
 	public static String checkDateCompare(String date1,String date2,String format) throws Exception {
 		Date dt1 = stringToDate(date1,format);
@@ -250,8 +256,27 @@ public class CommonMethod {
 	}
 	
 	public static boolean removeFile(String target, String title) {
-		File file = new File(EgovProperties.getProperty("Globals.fileStorePath") + target + "/" + title);
+		String filePath = EgovProperties.getProperty("Globals.fileStorePath") + target + "/" + title;
+		File file = new File(filePath);
+		logger.info("Deleted File : " + filePath);
 		if(file.delete()) return true;
 		else return false;
+	}
+	
+	public static ModelAndView generalAlertThrowing(String url, String target, String msg) {
+		ModelAndView modelAndView = new ModelAndView("error/generalErrorPage");
+		
+		modelAndView.addObject("url", url);
+		modelAndView.addObject("target", target);
+		modelAndView.addObject("msg", msg);
+		
+		return modelAndView;
+	}
+	
+	public static List<CmmnDetailCode> getCodeDetailVOList(String code, EgovCmmUseService cmmUseService) throws Exception {
+		ComDefaultCodeVO vo = new ComDefaultCodeVO();
+		vo.setCodeId(code);
+		List<CmmnDetailCode> codeList = cmmUseService.selectCmmCodeDetail(vo);
+		return codeList;
 	}
 }

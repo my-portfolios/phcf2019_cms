@@ -110,6 +110,12 @@ public class MberManageVO extends UserDefaultVO{
 	private String mberEmailAdres;
 	
 	private String lockAt;
+	
+	private String membershipType;
+	
+	private String membershipStartDt;
+	
+	
 	public String getLockAt() {return lockAt;}
 	public void setLockAt(String lockAt) {this.lockAt = lockAt;}
 	
@@ -169,6 +175,20 @@ public class MberManageVO extends UserDefaultVO{
 	public void setAdres(String adres) {
 		this.adres = adres;
 	}
+	
+	public String getMembershipType() {
+		return membershipType;
+	}
+	public void setMembershipType(String membershipType) {
+		this.membershipType = membershipType;
+	}
+	public String getMembershipStartDt() {
+		return membershipStartDt;
+	}
+	public void setMembershipStartDt(String membershipStartDt) {
+		this.membershipStartDt = membershipStartDt;
+	}
+	
 	/**
 	 * detailAdres attribute 값을  리턴한다.
 	 * @return String

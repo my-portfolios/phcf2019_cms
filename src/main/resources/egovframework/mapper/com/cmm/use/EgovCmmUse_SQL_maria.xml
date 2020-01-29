@@ -19,6 +19,7 @@
 			WHERE
 			USE_AT = 'Y'
 			AND CODE_ID = #{codeId}
+			ORDER BY REMARKS ASC
 		
 	</select>
 

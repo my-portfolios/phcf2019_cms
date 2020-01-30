@@ -120,8 +120,7 @@ function fncOnChangeImage() {
 					<option value="메인">메인</option>
 					<option value="문화공간">문화공간</option>
 					<option value="축제">축제</option>
-				</select><br />
-	            <img src="/images/egovframework/phcf/admin/cms_banner02.png" alt="">				
+				</select>			
 			</td>
 		</tr>
 		<tr class="mainTitle">
@@ -146,7 +145,8 @@ function fncOnChangeImage() {
 			<th><spring:message code="uss.ion.msi.mainImageRegist.mainImage" /> <span class="pilsu">*</span></th><!-- 이미지 -->
 			<td class="left">
 				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=2.80','mainImage','width=1000,height=640,resizable=no');" value="선택"/>
-	            <input type="hidden" id="popupImage" name="popupImage" readOnly/>
+	            <input type="hidden" id="popupImage" name="popupImage" readOnly/><br /><br />
+	            <img src="/images/egovframework/phcf/admin/cms_banner02.png" alt=""><br />	
 	            (메인 이미지 사이즈 : 1920px * 854px, 문화공간  이미지 사이즈 : 1920px * 685px, 축제  이미지 사이즈 : 1920px * 685px)
 			</td>
 			    <%-- <div class="egov_file_box" style="display:inline-block">

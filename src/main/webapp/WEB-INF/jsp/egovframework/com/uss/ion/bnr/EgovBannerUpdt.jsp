@@ -91,6 +91,16 @@ function fncOnChangeImage() {
 			<col style="width:16%" />
 			<col style="" />
 		</colgroup>
+		<tr>
+			<th>배너 표시 페이지 <span class="pilsu">*</span></th>
+			<td class="left">
+				<select name="displayPage">
+					<option value="메인" <c:if test="${banner.displayPage eq '메인'}">selected</c:if>>메인</option>
+					<option value="문화공간" <c:if test="${banner.displayPage eq '문화공간'}">selected</c:if>>문화공간</option>
+					<option value="축제" <c:if test="${banner.displayPage eq '축제'}">selected</c:if>>축제</option>
+				</select>
+			</td>
+		</tr>
 		<tr style="display:none;">
 			<th><spring:message code="ussIonBnr.bannerUpdt.bannerId"/> <span class="pilsu">*</span></th><!-- 배너ID -->
 			<td class="left">
@@ -113,7 +123,6 @@ function fncOnChangeImage() {
 			<th><spring:message code="ussIonBnr.bannerUpdt.bannerImage"/> <span class="pilsu">*</span></th><!-- 배너이미지 -->
 			<td class="left">
 				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=1.8','bannerImage','width=1000,height=640,resizable=no');" value="선택"/>
-				<br/>
 				페이지 이동을 하지 않으려면 #을 입력하십시오.	
 	            <input type="hidden" id="popupImage" name="popupImage" value="${banner.bannerImage}" readOnly/>
 			</td>
@@ -130,17 +139,7 @@ function fncOnChangeImage() {
 			<td>
 				<img id="popupImageView" src="/upload/BANNER/${banner.bannerId}.png?<%=new java.util.Date()%>">
 			</td>
-		</tr>
-		<tr>
-			<th>배너 표시 페이지 <span class="pilsu">*</span></th>
-			<td class="left">
-				<select name="displayPage">
-					<option value="메인" <c:if test="${banner.displayPage eq '메인'}">selected</c:if>>메인</option>
-					<option value="문화공간" <c:if test="${banner.displayPage eq '문화공간'}">selected</c:if>>문화공간</option>
-					<option value="축제" <c:if test="${banner.displayPage eq '축제'}">selected</c:if>>축제</option>
-				</select>
-			</td>
-		</tr>
+		</tr>		
 		<tr style="display:none;">
 			<th><spring:message code="ussIonBnr.bannerUpdt.bannerDc"/></th><!-- 배너설명 -->
 			<td class="left">

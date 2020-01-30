@@ -178,7 +178,6 @@ function fn_egov_init_date(){
 			<th>연결 URL </th><!-- 팝업창URL -->
 			<td class="left">
 				<input type="text" name="fileUrl" maxlength="255"/>
-				<br/>
       			페이지 이동을 하지 않으려면 #을 입력하십시오.
 			</td>
 		</tr>

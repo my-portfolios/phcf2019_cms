@@ -211,12 +211,12 @@ input[type="button"], input[type="submit"] {
 .board h3 b { color:#2277d7; }
 .search_box {/* float:right;*/ position:relative; margin-bottom:15px; padding:13px 10px; border:1px solid #5397c7; border-top:2px solid #5397c7; background:#eef3fb;     min-height: 20px;}
 .search_box ul {font-size:0; text-align:right; }
-.search_box ul li {/* float:left;*/display:inline-block; margin-left:20px; font-size:14px; vertical-align: middle; }
+.search_box ul li {/* float:left;*/display:inline-block; margin-left:10px; font-size:14px; /* vertical-align: middle; */ }
 .search_box ul li img { margin-left:7px; }
 .search_box ul li > div {color:#194e73; font-weight:bold; vertical-align: middle;    display: inline-block;     margin: 1px 0px;}
 .search_box ul li > label {display:inline-block; height:24px; color:#194e73;  line-height:24px; }
 .search_box ul li > input[type=text] {height:22px; } 
-.search_box select {height:24px; /*padding:3px 3px 3px 4px;*/ border:1px solid #dedede; }
+.search_box select {height:24px; /*padding:3px 3px 3px 4px;*/ border:1px solid #d2d2d2; }
 .search_box input.s_input {width:140px; height:22px; margin-right:3px; padding-left:5px; }
 .search_box input.s_input2 {width:140px; height:22px; margin-right:3px; padding-left:5px; }
 .search_box input.s_btn {font-weight: normal; height:24px; padding:0 8px; border:none; color:#fff; background:#266089; border-radius:2px; cursor:pointer; }

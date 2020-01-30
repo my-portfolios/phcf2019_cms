@@ -99,6 +99,17 @@ function fncBannerDelete() {
 			<col style="width:16%" />
 			<col style="" />
 		</colgroup>
+		
+		<tr>
+			<th>배너 표시 페이지 <span class="pilsu">*</span></th>
+			<td class="left">
+				<select name="displayPage">
+					<option value="메인">메인</option>
+					<option value="문화공간">문화공간</option>
+					<option value="축제">축제</option>
+				</select>
+			</td>
+		</tr>
 		<tr style="display:none;">
 			<th><spring:message code="ussIonBnr.bannerRegist.bannerId"/> <span class="pilsu">*</span></th><!-- 배너ID -->
 			<td class="left">
@@ -116,15 +127,16 @@ function fncBannerDelete() {
 			<th><spring:message code="ussIonBnr.bannerRegist.linkUrl"/> <span class="pilsu">*</span></th><!-- 링크URL -->
 			<td class="left">
 				<input id="linkUrl" type="text" name="linkUrl" value="<c:out value='${banner.linkUrl}'/>" title="<spring:message code="ussIonBnr.bannerRegist.linkUrl"/>" maxLength="255" />
-				<form:errors path="linkUrl" /><br/>
-				페이지 이동을 하지 않으려면 #을 입력하십시오.
+				<form:errors path="linkUrl" />페이지 이동을 하지 않으려면 #을 입력하십시오.
 			</td>
 		</tr>
 		<tr>
 			<th><spring:message code="ussIonBnr.bannerRegist.bannerImage"/> <span class="pilsu">*</span></th><!-- 배너이미지 -->
 			<td class="left">
 				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=1.8','bannerImage','width=1000,height=640,resizable=no');" value="선택"/>
-	            <input type="hidden" id="popupImage" name="popupImage" readOnly/>
+	            <input type="hidden" id="popupImage" name="popupImage" readOnly/><br /><br />
+	            <img src="/images/egovframework/phcf/admin/cms_banner03.png" alt=""><br />
+	            (메인 배너 사이즈 : 420px * 223px or 700 * 347, 문화공간 배너 사이즈 : 준비중, 축제 배너 사이즈 : 준비중)
 			</td>
 			<%-- <div class="egov_file_box" style="display:inline-block">
 			<label for="egovfile_0" id="file_label"><spring:message code="title.attachedFileSelect"/></label> <!-- 파일선택 -->
@@ -133,17 +145,7 @@ function fncBannerDelete() {
 		</tr>
 		<tr>
 			<th>배너 이미지 미리보기</th>
-			<td><img id="popupImageView" /></td>
-		</tr>
-		<tr>
-			<th>배너 표시 페이지 <span class="pilsu">*</span></th>
-			<td class="left">
-				<select name="displayPage">
-					<option value="메인">메인</option>
-					<option value="문화공간">문화공간</option>
-					<option value="축제">축제</option>
-				</select>
-			</td>
+			<td class="left"><img id="popupImageView" style="width:80%;"  class="max-img"/></td>
 		</tr>
 		<tr style="display:none;">
 			<th><spring:message code="ussIonBnr.bannerRegist.bannerDc"/> </th><!-- 배너설명 -->
@@ -156,6 +158,7 @@ function fncBannerDelete() {
 			<td class="left">
 				<input id="sortOrdr" type="text" name="sortOrdr" title="<spring:message code="ussIonBnr.bannerRegist.sortOrdr"/>" value="<c:out value='${banner.sortOrdr}'/>" maxLength="5" style="width:68px" />
 				<form:errors path="sortOrdr" />
+				숫자 1,2,3 입력 (숫자가 낮을수록 앞에 노출)
 			</td>
 		</tr>
 		<tr>

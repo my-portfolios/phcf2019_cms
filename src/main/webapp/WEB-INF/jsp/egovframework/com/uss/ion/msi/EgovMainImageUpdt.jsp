@@ -108,8 +108,7 @@ function fncOnChangeImage() {
 					<option value="메인" <c:if test="${mainImage.displayPage eq '메인'}">selected</c:if>>메인</option>
 					<option value="문화공간" <c:if test="${mainImage.displayPage eq '문화공간'}">selected</c:if>>문화공간</option>
 					<option value="축제" <c:if test="${mainImage.displayPage eq '축제'}">selected</c:if>>축제</option>
-				</select><br />
-	            <img src="/images/egovframework/phcf/admin/cms_banner02.png" alt="">	
+				</select>	
 			</td>
 		</tr>
 		<tr class="mainTitle" <c:if test="${mainImage.displayPage != '메인'}">style="display:none;"</c:if>>
@@ -141,7 +140,8 @@ function fncOnChangeImage() {
 			<td class="left">
 				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=2.80','mainImage','width=1000,height=640,resizable=no');" value="선택"/>
 	            <input type="hidden" id="popupImage" name="popupImage" readOnly/>
-	             * 이미지 변경 
+	             * 이미지 변경 <br /><br />
+	            <img src="/images/egovframework/phcf/admin/cms_banner02.png" alt=""><br />
 	            (메인 이미지 사이즈 : 1920px * 854px, 문화공간  이미지 사이즈 : 1920px * 685px, 축제  이미지 사이즈 : 1920px * 685px)
 			</td>
 			<%-- 

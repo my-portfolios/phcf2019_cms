@@ -147,11 +147,12 @@ $(document).ready(function() {
 </head>
 
 <body>
-
+<div class="board">
+<h1>포항문화재단 권한 관리</h1>
 <form name="frm" id="frm" action="${ctx}/sec/phcf/getEgovPhcfAuthorList.do" method="post" >
 
-<div class="search_box" >
-	<ul style="display:none;">
+<div class="search_box" style="display:none;">
+	<ul >
 		<li class="div-left"></li>
 		<li></li>
 		<li></li>
@@ -165,6 +166,6 @@ $(document).ready(function() {
 	</div>
 
 </form>
-
+</div>
 </body>
 </html>

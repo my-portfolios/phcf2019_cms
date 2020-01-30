@@ -392,8 +392,10 @@
 			ON c.BBS_ID = m.BBS_ID			
 			WHERE
 				c.BBS_ID = #{bbsId}	
+			<if test="nttId != null and nttId != ''">
 			AND
 				c.NTT_ID = #{nttId}	
+			</if>
 			AND 
 				b.USE_AT = 'Y'
 			AND 
@@ -525,6 +527,14 @@
  		
  	</update>
 
+	<delete id="deletePermantlyArticleAddedColmns"  parameterType="egovframework.com.cop.bbs.service.BoardVO">
+ 		DELETE FROM 
+ 			BBSADDEDCOLMNS 
+ 		WHERE 
+ 			BBS_ID = #{bbsId}
+		AND NTT_ID = #{nttId} 
+ 	</delete>
+
  	<select id="selectMaxInqireCo" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultType="java.lang.Integer">
  		
 			SELECT IFNULL(MAX(RDCNT),0)+1 AS RDCNT FROM COMTNBBS
@@ -608,156 +618,225 @@
 	</select>
 	
 	<select id="latestArticleListView" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-			
-			SELECT
-				a.NTT_ID as nttId,
-				a.NTT_SJ as nttSj, 
-				a.NTT_CN as nttCn, 
-				a.CATE_NAME as cateNm, 
-				a.FRST_REGISTER_ID as frstRegisterId, 
-				IFNULL(b.USER_NM, a.NTCR_NM) as frstRegisterNm,
-				DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as frstRegisterPnttm,
-				a.NTCR_ID as ntcrId,
-				a.RDCNT as inqireCo, 
-				a.PARNTSCTT_NO as parnts, 
-				a.ANSWER_AT as replyAt, 
-				a.ANSWER_LC as replyLc, 
-				a.USE_AT as useAt, 
-				a.ATCH_FILE_ID as atchFileId,
-				a.BBS_ID as bbsId, 
-				a.NTCE_BGNDE as ntceBgnde, 
-				a.NTCE_ENDDE as ntceEndde, 
-				a.SJ_BOLD_AT as sjBoldAt, 
-				a.NOTICE_AT as noticeAt, 
-				a.SECRET_AT as secretAt,
-				c.AC1 AS ac1,
-				c.AC2 AS ac2,
-				c.AC3 AS ac3,
-				c.AC4 AS ac4,
-				c.AC5 AS ac5,
-				c.AC6 AS ac6,
-				c.AC7 AS ac7,
-				c.AC8 AS ac8,
-				c.AC9 AS ac9,
-				c.AC10 AS ac10,
-				c.AC11 AS ac11,
-				c.AC12 AS ac12,
-				c.AC13 AS ac13,
-				c.AC14 AS ac14,
-				c.AC15 AS ac15,
-				c.AC16 AS ac16,
-				c.AC17 AS ac17,
-				c.AC18 AS ac18,
-				c.AC19 AS ac19,
-				c.AC20 AS ac20
-			FROM
-				COMTNBBS a
-			LEFT OUTER JOIN 
-				COMVNUSERMASTER b
-			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
-			LEFT OUTER JOIN
-				BBSADDEDCOLMNS c
-			ON a.BBS_ID = c.BBS_ID AND a.NTT_ID = c.NTT_ID
-			WHERE 1=1
-			AND a.BBS_ID != 'BBSMSTR_000000000002'
-			<if test="bbsId != '' and bbsId!=null">
-			AND a.BBS_ID = #{bbsId}
-			</if>
-			<if test="cateName != '' and cateName!=null">
-			AND a.CATE_NAME = #{cateName}	
-			</if>
-			AND a.USE_AT = 'Y'
-			ORDER BY ${ordColmn} ${ordWay}
-			<choose>
-			<when test='pageUse == "Y"'>
-				<if test='pageArticleNum != null and pageArticleNum != "" and startArticle != null and startArticle != "" '>
-					LIMIT ${startArticle}, ${pageArticleNum}
-				</if>
-			</when>
-			<otherwise>
-				<if test="cntOfArticle != '-1'">	
-					LIMIT ${cntOfArticle}
-				</if>
-			</otherwise>
-			</choose>
-						
-	</select>
+         
+         SELECT
+            bbs.NTT_ID as nttId,
+            bbs.NTT_SJ as nttSj, 
+            bbs.NTT_CN as nttCn, 
+            bbs.CATE_NAME as cateNm, 
+            bbs.FRST_REGISTER_ID as frstRegisterId, 
+            IFNULL(b.USER_NM, bbs.NTCR_NM) as frstRegisterNm,
+            DATE_FORMAT(bbs.FRST_REGIST_PNTTM, '%Y-%m-%d') as frstRegisterPnttm,
+            bbs.NTCR_ID as ntcrId,
+            bbs.RDCNT as inqireCo, 
+            bbs.PARNTSCTT_NO as parnts, 
+            bbs.ANSWER_AT as replyAt, 
+            bbs.ANSWER_LC as replyLc, 
+            bbs.USE_AT as useAt, 
+            bbs.ATCH_FILE_ID as atchFileId,
+            bbs.BBS_ID as bbsId, 
+            bbs.NTCE_BGNDE as ntceBgnde, 
+            bbs.NTCE_ENDDE as ntceEndde, 
+            bbs.SJ_BOLD_AT as sjBoldAt, 
+            bbs.NOTICE_AT as noticeAt, 
+            bbs.SECRET_AT as secretAt,
+            c.ORD AS ord,
+            c.AC1 AS ac1,
+            c.AC2 AS ac2,
+            c.AC3 AS ac3,
+            c.AC4 AS ac4,
+            c.AC5 AS ac5,
+            c.AC6 AS ac6,
+            c.AC7 AS ac7,
+            c.AC8 AS ac8,
+            c.AC9 AS ac9,
+            c.AC10 AS ac10,
+            c.AC11 AS ac11,
+            c.AC12 AS ac12,
+            c.AC13 AS ac13,
+            c.AC14 AS ac14,
+            c.AC15 AS ac15,
+            c.AC16 AS ac16,
+            c.AC17 AS ac17,
+            c.AC18 AS ac18,
+            c.AC19 AS ac19,
+            c.AC20 AS ac20
+         FROM
+            (
+               SELECT
+               a.NTT_ID,
+               a.BBS_ID,
+               a.NTT_SJ, 
+               a.NTT_CN, 
+               a.CATE_NAME, 
+               a.FRST_REGISTER_ID, 
+               IFNULL(b.USER_NM, a.NTCR_NM) as FRST_REGISTER_NM,
+               DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as FRST_REGIST_PNTTM,
+               a.NTCR_ID,
+               a.NTCR_NM,
+               a.RDCNT, 
+               a.PARNTSCTT_NO, 
+               a.ANSWER_AT, 
+               a.ANSWER_LC, 
+               a.USE_AT, 
+               a.ATCH_FILE_ID,
+               a.NTCE_BGNDE, 
+               a.NTCE_ENDDE, 
+               a.SJ_BOLD_AT, 
+               a.NOTICE_AT, 
+               a.SECRET_AT
+               FROM COMTNBBS a
+               LEFT OUTER JOIN 
+                  COMVNUSERMASTER b
+               ON a.FRST_REGISTER_ID = b.ESNTL_ID 
+               WHERE 1=1
+               AND a.BBS_ID != 'BBSMSTR_000000000002'
+               <if test="bbsId != '' and bbsId!=null">
+               AND a.BBS_ID = #{bbsId}
+               </if>
+               <if test="cateName != '' and cateName!=null">
+               AND a.CATE_NAME = #{cateName}   
+               </if>
+               AND a.USE_AT = 'Y'
+               <choose>
+               <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID"'>
+                     ORDER BY a.${ordColmn} ${ordWay}
+               </when>
+               <otherwise>
+                     ORDER BY ${ordColmn} ${ordWay}
+               </otherwise>
+               </choose>
+               <choose>
+               <when test='pageUse == "Y"'>
+                  <if test='pageArticleNum != null and pageArticleNum != "" and startArticle != null and startArticle != "" '>
+                     LIMIT ${startArticle}, ${pageArticleNum}
+                  </if>
+               </when>
+               <otherwise>
+                  <if test="cntOfArticle != '-1'">   
+                     LIMIT ${cntOfArticle}
+                  </if>
+               </otherwise>
+               </choose>
+            ) bbs
+         LEFT OUTER JOIN 
+            COMVNUSERMASTER b
+         ON bbs.FRST_REGISTER_ID = b.ESNTL_ID 
+         LEFT OUTER JOIN
+            BBSADDEDCOLMNS c
+         ON bbs.BBS_ID = c.BBS_ID AND bbs.NTT_ID = c.NTT_ID
+                  
+   </select>
 	
 	<select id="latestMultiArticleListView" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-			
-			SELECT
-				a.NTT_ID as nttId,
-				a.NTT_SJ as nttSj, 
-				a.NTT_CN as nttCn, 
-				a.CATE_NAME as cateNm, 
-				a.FRST_REGISTER_ID as frstRegisterId, 
-				IFNULL(b.USER_NM, a.NTCR_NM) as frstRegisterNm,
-				DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as frstRegisterPnttm,
-				a.NTCR_ID as ntcrId,
-				a.RDCNT as inqireCo, 
-				a.PARNTSCTT_NO as parnts, 
-				a.ANSWER_AT as replyAt, 
-				a.ANSWER_LC as replyLc, 
-				a.USE_AT as useAt, 
-				a.ATCH_FILE_ID as atchFileId,
-				a.BBS_ID as bbsId, 
-				a.NTCE_BGNDE as ntceBgnde, 
-				a.NTCE_ENDDE as ntceEndde, 
-				a.SJ_BOLD_AT as sjBoldAt, 
-				a.NOTICE_AT as noticeAt, 
-				a.SECRET_AT as secretAt,
-				c.AC1 AS ac1,
-				c.AC2 AS ac2,
-				c.AC3 AS ac3,
-				c.AC4 AS ac4,
-				c.AC5 AS ac5,
-				c.AC6 AS ac6,
-				c.AC7 AS ac7,
-				c.AC8 AS ac8,
-				c.AC9 AS ac9,
-				c.AC10 AS ac10,
-				c.AC11 AS ac11,
-				c.AC12 AS ac12,
-				c.AC13 AS ac13,
-				c.AC14 AS ac14,
-				c.AC15 AS ac15,
-				c.AC16 AS ac16,
-				c.AC17 AS ac17,
-				c.AC18 AS ac18,
-				c.AC19 AS ac19,
-				c.AC20 AS ac20
-			FROM
-				COMTNBBS a
-			LEFT OUTER JOIN 
-				COMVNUSERMASTER b
-			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
-			LEFT OUTER JOIN
-				BBSADDEDCOLMNS c
-			ON a.BBS_ID = c.BBS_ID AND a.NTT_ID = c.NTT_ID
-			WHERE 1=1
-			AND a.BBS_ID != 'BBSMSTR_000000000002'
-			<foreach collection="bbsId" item="item" open="AND (" separator="OR" close=")">
-				a.BBS_ID = #{item}
-			</foreach>
-			<if test="cateName != '' and cateName!=null">
-			AND a.CATE_NAME = #{cateName}	
-			</if>
-			AND a.USE_AT = 'Y'
-			ORDER BY ${ordColmn} ${ordWay}
-			<choose>
-			<when test='pageUse == "Y"'>
-				<if test='pageArticleNum != null and pageArticleNum != "" and startArticle != null and startArticle != "" '>
-					LIMIT ${startArticle}, ${pageArticleNum}
-				</if>
-			</when>
-			<otherwise>
-				<if test="cntOfArticle != '-1'">	
-					LIMIT ${cntOfArticle}
-				</if>
-			</otherwise>
-			</choose>
-						
-	</select>	
+         
+         SELECT
+            bbs.NTT_ID as nttId,
+            bbs.NTT_SJ as nttSj, 
+            bbs.NTT_CN as nttCn, 
+            bbs.CATE_NAME as cateNm, 
+            bbs.FRST_REGISTER_ID as frstRegisterId, 
+            IFNULL(b.USER_NM, bbs.NTCR_NM) as frstRegisterNm,
+            DATE_FORMAT(bbs.FRST_REGIST_PNTTM, '%Y-%m-%d') as frstRegisterPnttm,
+            bbs.NTCR_ID as ntcrId,
+            bbs.RDCNT as inqireCo, 
+            bbs.PARNTSCTT_NO as parnts, 
+            bbs.ANSWER_AT as replyAt, 
+            bbs.ANSWER_LC as replyLc, 
+            bbs.USE_AT as useAt, 
+            bbs.ATCH_FILE_ID as atchFileId,
+            bbs.BBS_ID as bbsId, 
+            bbs.NTCE_BGNDE as ntceBgnde, 
+            bbs.NTCE_ENDDE as ntceEndde, 
+            bbs.SJ_BOLD_AT as sjBoldAt, 
+            bbs.NOTICE_AT as noticeAt, 
+            bbs.SECRET_AT as secretAt,
+            c.AC1 AS ac1,
+            c.AC2 AS ac2,
+            c.AC3 AS ac3,
+            c.AC4 AS ac4,
+            c.AC5 AS ac5,
+            c.AC6 AS ac6,
+            c.AC7 AS ac7,
+            c.AC8 AS ac8,
+            c.AC9 AS ac9,
+            c.AC10 AS ac10,
+            c.AC11 AS ac11,
+            c.AC12 AS ac12,
+            c.AC13 AS ac13,
+            c.AC14 AS ac14,
+            c.AC15 AS ac15,
+            c.AC16 AS ac16,
+            c.AC17 AS ac17,
+            c.AC18 AS ac18,
+            c.AC19 AS ac19,
+            c.AC20 AS ac20
+         FROM
+            (
+               SELECT
+               a.NTT_ID,
+               a.BBS_ID,
+               a.NTT_SJ, 
+               a.NTT_CN, 
+               a.CATE_NAME, 
+               a.FRST_REGISTER_ID, 
+               IFNULL(b.USER_NM, a.NTCR_NM) as FRST_REGISTER_NM,
+               DATE_FORMAT(a.FRST_REGIST_PNTTM, '%Y-%m-%d') as FRST_REGIST_PNTTM,
+               a.NTCR_ID,
+               a.NTCR_NM,
+               a.RDCNT, 
+               a.PARNTSCTT_NO, 
+               a.ANSWER_AT, 
+               a.ANSWER_LC, 
+               a.USE_AT, 
+               a.ATCH_FILE_ID,
+               a.NTCE_BGNDE, 
+               a.NTCE_ENDDE, 
+               a.SJ_BOLD_AT, 
+               a.NOTICE_AT, 
+               a.SECRET_AT
+               FROM COMTNBBS a
+               LEFT OUTER JOIN 
+                  COMVNUSERMASTER b
+               ON a.FRST_REGISTER_ID = b.ESNTL_ID 
+               WHERE 1=1
+               AND a.BBS_ID != 'BBSMSTR_000000000002'
+               <foreach collection="bbsId" item="item" open="AND (" separator="OR" close=")">
+                  a.BBS_ID = #{item}
+               </foreach>
+               <if test="cateName != '' and cateName!=null">
+               AND a.CATE_NAME = #{cateName}   
+               </if>
+               AND a.USE_AT = 'Y'
+               <choose>
+               <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID"'>
+                     ORDER BY a.${ordColmn} ${ordWay}
+               </when>
+               <otherwise>
+                     ORDER BY ${ordColmn} ${ordWay}
+               </otherwise>
+               </choose>
+               <choose>
+               <when test='pageUse == "Y"'>
+                  <if test='pageArticleNum != null and pageArticleNum != "" and startArticle != null and startArticle != "" '>
+                     LIMIT ${startArticle}, ${pageArticleNum}
+                  </if>
+               </when>
+               <otherwise>
+                  <if test="cntOfArticle != '-1'">   
+                     LIMIT ${cntOfArticle}
+                  </if>
+               </otherwise>
+               </choose>
+            ) bbs
+         LEFT OUTER JOIN 
+            COMVNUSERMASTER b
+         ON bbs.FRST_REGISTER_ID = b.ESNTL_ID 
+         LEFT OUTER JOIN
+            BBSADDEDCOLMNS c
+         ON bbs.BBS_ID = c.BBS_ID AND bbs.NTT_ID = c.NTT_ID
+                  
+   </select>   
 	
 	<select id="latestArticleListViewCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
 			

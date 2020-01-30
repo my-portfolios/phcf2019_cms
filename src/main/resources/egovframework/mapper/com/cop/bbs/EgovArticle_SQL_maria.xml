@@ -699,14 +699,6 @@
                </if>
                AND a.USE_AT = 'Y'
                <choose>
-               <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID"'>
-                     ORDER BY a.${ordColmn} ${ordWay}
-               </when>
-               <otherwise>
-                     ORDER BY ${ordColmn} ${ordWay}
-               </otherwise>
-               </choose>
-               <choose>
                <when test='pageUse == "Y"'>
                   <if test='pageArticleNum != null and pageArticleNum != "" and startArticle != null and startArticle != "" '>
                      LIMIT ${startArticle}, ${pageArticleNum}
@@ -725,6 +717,14 @@
          LEFT OUTER JOIN
             BBSADDEDCOLMNS c
          ON bbs.BBS_ID = c.BBS_ID AND bbs.NTT_ID = c.NTT_ID
+         <choose>
+	         <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID"'>
+	               ORDER BY bbs.{ordColmn} ${ordWay}
+	         </when>
+	         <otherwise>
+	               ORDER BY ${ordColmn} ${ordWay}
+	         </otherwise>
+         </choose>
                   
    </select>
 	
@@ -809,14 +809,6 @@
                </if>
                AND a.USE_AT = 'Y'
                <choose>
-               <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID"'>
-                     ORDER BY a.${ordColmn} ${ordWay}
-               </when>
-               <otherwise>
-                     ORDER BY ${ordColmn} ${ordWay}
-               </otherwise>
-               </choose>
-               <choose>
                <when test='pageUse == "Y"'>
                   <if test='pageArticleNum != null and pageArticleNum != "" and startArticle != null and startArticle != "" '>
                      LIMIT ${startArticle}, ${pageArticleNum}
@@ -835,6 +827,14 @@
          LEFT OUTER JOIN
             BBSADDEDCOLMNS c
          ON bbs.BBS_ID = c.BBS_ID AND bbs.NTT_ID = c.NTT_ID
+         <choose>
+	         <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID"'>
+	               ORDER BY bbs.${ordColmn} ${ordWay}
+	         </when>
+	         <otherwise>
+	               ORDER BY ${ordColmn} ${ordWay}
+	         </otherwise>
+         </choose>
                   
    </select>   
 	

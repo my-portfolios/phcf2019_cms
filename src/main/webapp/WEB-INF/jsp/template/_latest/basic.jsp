@@ -31,22 +31,31 @@
 </tr>
 </c:forEach>
 </table>
+
 <!-- 페이징 -->
-<c:if test="${paramMap.pageUse == 'Y' }">
-	<a href="?pageNum=1">&lt;&lt;</a>
-	<a href="?pageNum=${paramMap.pageGroupStart-1 }">&lt;</a>
-	<c:forEach var="page" begin="${paramMap.pageGroupStart}" end="${paramMap.pageGroupEnd}">
-		<c:choose>
-			<c:when test="${page == paramMap.pageNum}">
-				<a href="?pageNum=${page }"><b>${page }</b></a>
-			</c:when>
-			<c:otherwise>
-				<a href="?pageNum=${page }">${page }</a>
-			</c:otherwise>
-		</c:choose>
-	</c:forEach>
-	<a href="?pageNum=${paramMap.pageGroupEnd+1 }">&gt;</a>
-	<a href="?pageNum=${paramMap.pageTotal}">&gt;&gt;</a>
-</c:if>
+
+<!-- paging navigation -->
+
+<div class="pagination">
+	<ul>
+		<c:if test="${paramMap.pageUse == 'Y' }">
+			<li class="first"><a href="?pageNum=1" ></a></li>
+			<li class="prev"><a href="?pageNum=${paramMap.pageGroupStart-1 } "></a></li>	
+			<c:forEach var="page" begin="${paramMap.pageGroupStart}" end="${paramMap.pageGroupEnd}">
+				<c:choose>
+					<c:when test="${page == paramMap.pageNum}">
+						<li class="current" style="top:-8px; position: relative;"><a href="?pageNum=${page }" ><b>${page }</b></a></li>
+					</c:when>
+					<c:otherwise>
+						<li style="top:-8px; position: relative;"><a href="?pageNum=${page }">${page }</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<li class="next"><a href="?pageNum=${paramMap.pageGroupEnd+1 }"></a></li>
+			<li class="last"><a href="?pageNum=${paramMap.pageTotal}"></a></li>
+		</c:if>
+	</ul>
+</div>
+
 </body>
 </html>

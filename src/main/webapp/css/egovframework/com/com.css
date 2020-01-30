@@ -391,8 +391,8 @@ width:100%;
 /* pagination */
 .pagination {text-align:center; margin-top:15px; }
 .pagination ul { display:inline-block; }
-.pagination ul li {display:inline-block; margin:0 2px;  }
-.pagination ul li a { display:block; color:#999; width:26px; height:26px; line-height:26px; border:1px solid #e0e0e0; }
+.pagination ul li {display:inline-block; margin:0 2px; }
+.pagination ul li a { display:block; color:#999; width:26px; height:26px; line-height:26px; border:1px solid #e0e0e0;     transition: all 0.0s ease-out;}
 .pagination ul li.first a { background:url('../../../images/egovframework/com/cmm/paging/pagination_first.gif') 8px 9px no-repeat; text-indent:-10000em; }
 .pagination ul li.prev a { background:url('../../../images/egovframework/com/cmm/paging/pagination_prev.gif') 14px 9px no-repeat; text-indent:-10000em; }
 .pagination ul li.next a { background:url('../../../images/egovframework/com/cmm/paging/pagination_next.gif') 12px 9px no-repeat; text-indent:-10000em; }
@@ -402,7 +402,7 @@ width:100%;
 .pagination ul li.next a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_next_on.gif') no-repeat; }
 .pagination ul li.last a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_last_on.gif') no-repeat; }
 .pagination ul li.current a,
-.pagination ul li a:hover { border:none; color:#fff; font-size:15px; font-weight:600; width:28px; height:28px; line-height:28px; background:#266089; }
+.pagination ul li a:hover { border:none; color:#fff; font-size:15px; font-weight:600; width:28px; height:28px; line-height:28px; background:#4688d2; }
 
 /* pagination by reply */
 .paging { float:left; display:inline; width:100%; font-size:1em; text-align:center; margin:15px 0 20px; position:relative;  }

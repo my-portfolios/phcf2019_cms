@@ -28,7 +28,7 @@
 			<div>
 				<a href="http://localhost:8080/" target="_blank"><span>포항문화재단</span></a> 
 				<a href="http://localhost:8280/" target="_blank"><span>문화공간</span> </a>
-				<span><a>축제</a></span>
+				<a href="#"><span>축제</span></a>
 			</div>
 			<div><span class="quickmenu_down">메뉴얼 다운로드</span></div>
 			<div>${currentDateTime}</div>

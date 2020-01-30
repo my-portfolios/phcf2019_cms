@@ -215,7 +215,7 @@ function fn_egov_select_commentList(pageNo) {
 			<input name="bbsId" type="hidden" value="<c:out value="${boardMasterVO.bbsId}" />">
 		</form>
 		<form name="formScrap" action="<c:url value='/cop/scp/insertArticleScrapView.do'/>" method="post" style="float:left; margin:0 0 0 3px;">
-			<input type="submit" class="s_submit" value="<spring:message code="button.scrap" />"><!-- 스크랩 -->
+			<%-- <input type="submit" class="s_submit" value="<spring:message code="button.scrap" />"> --%><!-- 스크랩 -->
 			<input name="nttId" type="hidden" value="<c:out value="${result.nttId}" />">
 			<input name="bbsId" type="hidden" value="<c:out value="${boardMasterVO.bbsId}" />">
 		</form>

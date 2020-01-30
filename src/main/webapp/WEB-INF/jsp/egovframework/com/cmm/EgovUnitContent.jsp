@@ -71,6 +71,9 @@
 		<c:param name="cntOfArticle" value="5" /> <%-- 게시물 갯수(기본값 5) --%>
 		<c:param name="ordColmn" value="" /> <%-- 정렬 칼럼(기본값 FRST_REGIST_PNTTM 최초등록시점) --%>
 		<c:param name="ordWay" value="" /> <%-- 정렬방식 (기본값 DESC) --%>
+		<c:param name="pageUse" value="Y" /> <%-- 페이지 사용유무 --%>
+		<c:param name="pageGroupNum" value="5" /> <%-- 페이지 그룹갯수 --%>
+		<c:param name="pageArticleNum" value="5" /> <%-- 한 페이지 게시물갯수 --%>
 	</c:import>
 	</div>
 	
@@ -85,7 +88,7 @@
 	
 	
 </div>
-
+<br /><br />
 <script>
 
 var chartLabels = []; // 받아올 데이터를 저장할 배열 선언

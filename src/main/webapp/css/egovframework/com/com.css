@@ -59,7 +59,7 @@ input[type="file"] { width:100%; }
 input[type="radio"] { vertical-align:text-bottom; }
 
 input[type="button"], input[type="submit"] {
-	padding: 5px 10px;
+	padding: 11px 20px;
     border: 0;
     border-radius: 5px;
     background-color: #266089;
@@ -209,7 +209,7 @@ input[type="button"], input[type="submit"] {
 .board h2 { margin:15px 0 10px 0; }
 .board h3 { color:#333;  font-size:14px; font-weight:600; margin:50px 0 10px 0; }
 .board h3 b { color:#2277d7; }
-.search_box {/* float:right;*/ position:relative; margin-bottom:15px; padding:13px 10px; border:1px solid #5397c7; border-top:2px solid #5397c7; background:#eef3fb; }
+.search_box {/* float:right;*/ position:relative; margin-bottom:15px; padding:13px 10px; border:1px solid #5397c7; border-top:2px solid #5397c7; background:#eef3fb;     min-height: 20px;}
 .search_box ul {font-size:0; text-align:right; }
 .search_box ul li {/* float:left;*/display:inline-block; margin-left:20px; font-size:14px; vertical-align: middle; }
 .search_box ul li img { margin-left:7px; }
@@ -278,7 +278,7 @@ width:100%;
 .board_list tbody td input.tmp { width:160px; }
 .board_list tbody td textarea { width:99%; height:50px; }
 .board_list tbody td textarea.txt { width:96%; height:300px; margin:8px; padding:5px; }
-.board_list tbody td textarea.re_txt { width:470px; float:left; margin-right:8px; height:96px;  }
+.board_list tbody td textarea.re_txt { width:88%; float:left; margin-right:8px; height:107px;  }
 .board_list tbody td a.re_btn { float:right; padding:43px 30px; margin:1px 0 0 0;  font-weight:600; }
 .board_list tbody td a.re_btn:hover { text-decoration:none; }
 .board_list tbody td select { padding:2px 0 3px 2px; border:1px solid #dedede; }
@@ -308,7 +308,7 @@ width:100%;
 .wTable > thead > tr > th { text-align:left; padding-left:14px; }
 .wTable > thead > tr > th.vtop { vertical-align:top; }
 .wTable > thead > tr > th span.pilsu { color:#d0270b; font-weight:500; margin-left:3px; }
-.wTable > tbody > tr > th { padding-left:28px; padding: 10px 10px 10px 28px; border-bottom:1px solid #d9d9d9; text-align:left; background:#f4f4f4;  min-width: 130px;}
+.wTable > tbody > tr > th { padding-left:28px; padding: 10px 10px 10px 28px; border-bottom:1px solid #d9d9d9; text-align:left; background:#f4f4f4;  min-width: 170px;}
 .wTable > tbody > tr > th.vtop { vertical-align:top; }
 .wTable > tbody > tr > th span.pilsu { color:#d0270b; font-weight:500; margin-left:3px; }
 .wTable > tbody > tr > td { text-align:center; padding:14px 5px; border-bottom:1px solid #d9d9d9; }
@@ -330,8 +330,8 @@ width:100%;
 .wTable > tbody > tr > td img {/* margin-left:7px;*/ }
 .wTable input[readonly="readonly"] {height:22px; border:1px solid #d2d2d2; }
 .wTable > tbody > tr > td input[type=checkbox] {vertical-align:-3px; }
-
 .wTable > tbody > tr > th .btn { text-align: center;cursor: pointer; float: none; }
+.textcenter { text-align: center !important;}
 
 /* toolbar */
 .toolbar { height:52px; background-color:#e5e5e5; padding-bottom:4px; border-bottom:1px solid #dedede; }
@@ -420,7 +420,7 @@ width:100%;
 .btn_submit:hover { background:#7dabdf; }
 
 /* button style */
-button { padding:5px 12px 7px 12px; background:#266089; font-weight:600; color:#fff; border-radius:1px; margin-left:4px; cursor:pointer; }
+button {     padding: 12px 20px; background:#266089; font-weight:600; color:#fff; border-radius:5px; margin-left:4px; cursor:pointer; }
 button:hover { background:#7dabdf; }
 
 .btn_s2 { margin:0; padding:12px 20px; border-radius: 5px !important; word-spacing:-2px; border-radius:1px; font-weight:normal; background:#266089; color:#fff; cursor:pointer; text-align:right;}
@@ -522,7 +522,7 @@ span.btn_r a { vertical-align:text-top; color:#fff; display:block; line-height:1
 .search_box2 .btns2 {display:inline-block; height:24px; padding:0 7px; border-radius:2px; color:#fff;  line-height:24px; background:#666; vertical-align:top; }
 
 .tit01 {padding-left:25px; color:#333; font-size:16px; font-weight:bold; background:url(../../../images/egovframework/com/cmm/icon/tit_icon.png) no-repeat; }
-.tit02 {padding-left:17px !important; color:#393939 !important; font-size:12px !important; font-weight:bold !important; background:url(../../../images/egovframework/com/cmm/icon/icon_tit2.png) no-repeat !important; }
+.tit02 {padding-left:17px !important; color:#393939 !important; font-size:13px !important; font-weight:bold !important; background:url(../../../images/egovframework/com/cmm/icon/icon_tit2.png) no-repeat 0px 3px !important; }
 
 .tab01 {height:38px; border:1px solid #b1bbcb; border-radius:3px; background:url(../../../images/egovframework/com/cmm/bg_tab01.gif) repeat-x; }
 .tab01 ul:after {content:""; display:block; height:0; clear:both; visibility:hidden; }
@@ -583,6 +583,8 @@ form#deptSchdulManageVO #content {width: 100% !important;}
 #articleCommentVO {float: none;   clear: both;    width: 100% !important;}
 #articleCommentVO div.wTableFrm {  padding: 0px !important; width: 100% !important;}
 
+.max-img {min-width: 300px !important; max-width: 1000px !important;}
+
 /* jsgrid CSS */
 .jsgrid-header-row>.jsgrid-header-cell {border-top: 2px solid #266089 !important;    background: #f4f4f4;}
 .jsgrid-header-cell {padding: 12px 0 !important;  border-bottom: 1px solid #d9d9d9;}
@@ -594,6 +596,7 @@ form#deptSchdulManageVO #content {width: 100% !important;}
 .jsgrid-pager-page:hover a, .jsgrid-pager-nav-button:hover a {color: #ffffff !important;}
 .jsgrid-pager-current-page {background: #266089; color: #ffffff !important; border: 1px solid #266089;}
 
+.ui-datepicker-trigger {    cursor: pointer; border: 1px solid #d2d2d2;  padding: 4px;  margin-left: 5px;  margin-top: -5px;}
 /* .jsgrid .jsgrid-button {background: url(/images/egovframework/phcf/admin/bnts.png) 100% 35% no-repeat; width: 47px !important; height: 26px !important;}
 .jsgrid-update-button {background: url(/images/egovframework/phcf/admin/bnts.png) 100% 100% no-repeat !important; width: 47px !important; height: 26px !important;}
 .jsgrid-cancel-edit-button {background: url(/images/egovframework/phcf/admin/bnts.png) 88% 0% no-repeat !important; width: 47px !important; height: 26px !important;}

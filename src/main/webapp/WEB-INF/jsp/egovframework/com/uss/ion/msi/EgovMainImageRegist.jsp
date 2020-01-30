@@ -114,6 +114,29 @@ function fncOnChangeImage() {
 			</td>
 		</tr> --%>
 	 	<tr>
+			<th>적용 사이트 <span class="pilsu">*</span></th><!-- 팝업창표시페이지 -->
+			<td class="left">
+				<select name="displayPage" id="displayPage">
+					<option value="메인">메인</option>
+					<option value="문화공간">문화공간</option>
+					<option value="축제">축제</option>
+				</select><br />
+	            <img src="/images/egovframework/phcf/admin/cms_banner02.png" alt="">				
+			</td>
+		</tr>
+		<tr class="mainTitle">
+			<th>주 제목</th>
+			<td class="left">
+			    <input name="mainSubject" title="주 제목" type="text"  maxLength="100" /> 큰 텍스트 (미입력시 노출안함)
+			</td>
+		</tr>
+		<tr class="mainTitle">
+			<th>부 제목</th>
+			<td class="left">
+			    <input name="subSubject" title="부 제목" type="text"  maxLength="100" /> 상단 작은 텍스트 (미입력시 노출안함)
+			</td>
+		</tr>
+	 	<tr>
 			<th><spring:message code="uss.ion.msi.mainImageRegist.mainImageNm" /> <span class="pilsu">*</span></th><!-- 이미지명 -->
 			<td class="left">
 			    <input name="imageNm" id="imageNm" title="<spring:message code="uss.ion.msi.mainImageRegist.mainImageNm" />" type="text" value="<c:out value='${mainImage.imageNm}'/>" maxLength="10" style="width:188px" />&nbsp;<form:errors path="imageNm" />
@@ -124,6 +147,7 @@ function fncOnChangeImage() {
 			<td class="left">
 				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=2.80','mainImage','width=1000,height=640,resizable=no');" value="선택"/>
 	            <input type="hidden" id="popupImage" name="popupImage" readOnly/>
+	            (메인 이미지 사이즈 : 1920px * 854px, 문화공간  이미지 사이즈 : 1920px * 685px, 축제  이미지 사이즈 : 1920px * 685px)
 			</td>
 			    <%-- <div class="egov_file_box" style="display:inline-block">
 				<label for="egovfile_0" id="file_label"><spring:message code="title.attachedFileSelect"/></label> <!-- 파일선택 -->
@@ -131,36 +155,14 @@ function fncOnChangeImage() {
 				</div><input name="mainImage" id="mainImage" type="text" title="<spring:message code="uss.ion.msi.mainImageRegist.mainImage"/>" value="<c:out value="${mainImage.image}"/>" maxLength="30" readonly="readonly" style="width:525px" /> --%>
 		</tr>
 		<tr>
-			<th>메인 이미지 미리보기</th>
-			<td><img id="popupImageView" style="width:80%;"/></td>
+			<th>적용 이미지 미리보기</th>
+			<td class="left"><img id="popupImageView" style="width:80%;" class="max-img"/></td>
 		</tr>
-		<tr>
-			<th>팝업창 표시 페이지 <span class="pilsu">*</span></th><!-- 팝업창표시페이지 -->
-			<td class="left">
-				<select name="displayPage" id="displayPage">
-					<option value="메인">메인</option>
-					<option value="문화공간">문화공간</option>
-					<option value="축제">축제</option>
-				</select>
-			</td>
-		</tr>
-		<tr class="mainTitle">
-			<th>주 제목</th>
-			<td class="left">
-			    <input name="mainSubject" title="주 제목" type="text"  maxLength="100" />
-			</td>
-		</tr>
-		<tr class="mainTitle">
-			<th>부 제목</th>
-			<td class="left">
-			    <input name="subSubject" title="부 제목" type="text"  maxLength="100" />
-			</td>
-		</tr>
+		
 		<tr class="mainTitle">
 			<th>연결될 페이지</th>
 			<td class="left">
 			    <input name="connectPage" title="연결될 페이지" type="text" maxLength="100" />
-			    <br/>
 			    페이지 이동을 하지 않으려면 #을 입력하십시오.
 			</td>
 		</tr>
@@ -184,6 +186,7 @@ function fncOnChangeImage() {
 					<option value="Y" <c:if test="${mainImage.reflctAt == 'Y'}">selected</c:if> >Y</option>
 					<option value="N" <c:if test="${mainImage.reflctAt == 'N'}">selected</c:if> >N</option>
 				</select>
+				Y : 선택시 노출, N : 선택시 미노출
 			</td>
 		</tr>
 		<tr style="display:none;">

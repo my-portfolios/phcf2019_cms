@@ -2,40 +2,33 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
 
-<style>
-a:hover {
-	cursor: pointer;
-}
-</style>
+<div class="wTableFrm">
+		<h2>전송현황</h2>
+		<%-- <h1><spring:message code="ussCmt.cmtManageList.cmtManage"/></h1> --%>
 
 <form name="frm" id="frm" action="/cms/support/status.do" method="POST">
 	<input type="hidden" id="page_no" name="page_no" value="${paramMap.page_no }">
 	<input type="hidden" name="select_cms_id" value="">
 
-	<div class="area">
-		<div class="boxstyle3">
-			<span>전체 : <c:out value="${paramMap.total_article}" /></span>
+	<div class="wTable">
 			<!--검색-->
-			<div class="floatright">
-				<div class="floatleft" style="padding-left:5px;">
-					<select class="floatleft" name="search_tp_s">
-						<option value="">++선택++</option>
-						<option value="user_id" selected="selected">회원ID</option>
-				</select>
-				</div>
-				<div class="floatleft" style="padding-left:5px;">
-					<div class="inputtextarea2 floatleft marginleft3">
-						<input type="text" class="resetinput" name="search_s" value="${paramMap.search_s }" />
-					</div>
-				</div>
-				<img name="searchBtn" class="buttonimg btn_middle marginleft3 floatleft" src="/img/admin/search.png" alt="내용 또는 제목 검색" />
+			<div class="search_box">
+				<ul>
+					<li>전체 : <c:out value="${paramMap.total_article}" /></li>
+					<li><select class="floatleft" name="search_tp_s">
+							<option value="">++선택++</option>
+							<option value="user_id" selected="selected">회원ID</option>
+					</select></li>
+					<li><input type="text" class="resetinput" name="search_s"
+						value="${paramMap.search_s }" /></li>
+					<li><input type="submit" value="검색" class="s_btn" /></li>
 			</div>
 			<div class="clear"></div>
-			<!--검색_끝-->
-		</div>
-			
-			<table class="tablestyle_green" id="table_word_wrap">
+			<!--검색-->
+
+			<table class="wTable" id="table_word_wrap">
 				<caption class="dpnone">CMS전송현황</caption>
 				<thead>
 					<tr>
@@ -102,13 +95,15 @@ a:hover {
 		</div>
 	</div>
 	<!--page-->
-	<div class="listpage">${paging}</div>
+	<div class="pagination">${paging}</div>
 	<!--page-->
 	
-	<div class="buttonarea floatright">
-		<input type="button" id="list_btn" class="button btn_middle btn_white contents_write" value="목록">
+	<div class="btn">
+		<input type="button" id="list_btn" class="" value="목록">
 	</div>
 </form>
+</div>
+
 
 <script type="text/javascript">
 

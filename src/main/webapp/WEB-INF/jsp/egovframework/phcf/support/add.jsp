@@ -1,15 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script> 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-	<!--등록/수정 -->
+
+
+<div class="wTableFrm">
+<!--등록/수정 -->
+<h1>카드및CMS등록</h1>
 <form name="frm" id="frm" action="#none" method="post"  enctype="multipart/form-data">
-	* 표시항목은 필수 입력 사항 입니다.
-	<table class="tablestyle_basic">
+	<div class="search_box" >
+		<ul>
+			<li class="div-left">* 표시항목은 필수 입력 사항 입니다.</li>
+		</ul>
+	</div>
+	
+	<table class="wTable">
 	    <caption class="dpnone">개인,기업,단체구분</caption>
 	    <tbody>
 	    <tr>
-	        <th class="table_id">구분</th>
-	        <td>
+	        <th class="table_id" width="15%">구분</th>
+	        <td class="left">
 	        	<input type="radio" class="radio" name="user_tp" id="user_tp_u" value="U" checked="checked"><label for="user_tp_u">개인</label> &nbsp;&nbsp;
 	        	<input type="radio" class="radio" name="user_tp" id="user_tp_c"  value="C"><label for="user_tp_c">기업</label> &nbsp;&nbsp;
 	        	<input type="radio" class="radio" name="user_tp" id="user_tp_g"  value="G"><label for="user_tp_g">단체</label>
@@ -22,38 +34,38 @@
 	
 	<div id="divUserInfo">
 	<h2>* 본 시스템에 등록된 회원만 입력 가능합니다.</h2>
-	<table id="tb_user" class="tablestyle_basic">
+	<table id="tb_user" class="wTable">
 		<caption class="dpnone">개인 정보 등록</caption>
 	    <tbody>
 	    <tr id="sp_mh_tp">
-	        <th class="table_id">후원종류*</th>
-	        <td colspan="3">
+	        <th class="table_id" width="15%">후원종류<span class="pilsu">*</span></th>
+	        <td colspan="3" class="left">
 	       		* 개인회원 후원정보 등록은 CMS만 가능 합니다.
 	        </td>
 	    </tr>
 	    <tr id="sc_price_tp_m_user">
-	        <th class="table_id">결제방식*</th>
-	        <td colspan="3">
+	        <th class="table_id">결제방식<span class="pilsu">*</span></th>
+	        <td colspan="3" class="left">
 	       		<input type="radio" class="radio" name="sc_price_tp" id="sc_price_tp_user" value="S"><label for="sc_price_tp_user">CMS 계좌이체</label>
 	        </td>
 	    </tr>
 	    <tr>
-	        <th class="table_id">아이디*</th>
-	        <td>
+	        <th class="table_id">아이디<span class="pilsu">*</span></th>
+	        <td class="left">
 		      	<div style="width: 300px" class="inputtextarea">
 	       		 	<input type="text" class="resetinput" name="user_id" value="">
 	       		 </div>  
 	        </td>
-	        <th class="table_id">이름*</th>
-	        <td>
+	        <th class="table_id">이름<span class="pilsu">*</span></th>
+	        <td class="left">
 		      	<div style="width: 300px" class="inputtextarea">
 	       		 	<input type="text" class="resetinput" name="user_nm" value="">
 	       		 </div>  
 	        </td>
 	    </tr>
 	    <tr>
-	        <th class="table_id">전화번호*</th>
-	        <td>
+	        <th class="table_id">전화번호<span class="pilsu">*</span></th>
+	        <td class="left">
 		      	<div>
 	       		 	<input type="text" style="width: 100px; height: 20px;" class="input" name="user_phone1" value="">
 	       		 	- 
@@ -63,7 +75,7 @@
 	       		 </div>  
 	        </td>
 	        <th class="table_id">e-mail</th>
-	        <td>
+	        <td class="left">
 		      	<div>
 	       		 	<input type="text" style="height: 20px;" class="input" name="user_email1" value="">
 	       		 	@ 
@@ -76,42 +88,42 @@
 	</div>
 	
 	<div id="divCompInfo">
-	<h2>* 기업후원의 경우 일시후원은 정보 등록만 진행하며 [무통장입금]만 진행합니다.(별도 결제 없음)</h2>
-	<h2>* 정기후원은 금융결제원에 등록 하나 매월 이체된 금액은 별도 프로그램으로 관리 하여야 합니다.(PG사 제공 프로그램 사용)</h2>
-	<table id="tb_comp" class="tablestyle_basic">
+	<h2 class="tit02">기업후원의 경우 일시후원은 정보 등록만 진행하며 [무통장입금]만 진행합니다.(별도 결제 없음)</h2>
+	<h2 class="tit02">정기후원은 금융결제원에 등록 하나 매월 이체된 금액은 별도 프로그램으로 관리 하여야 합니다.(PG사 제공 프로그램 사용)</h2>
+	<table id="tb_comp" class="wTable">
 		<caption class="dpnone">기업 및 단체정보 등록</caption>
 	    <tbody>
 	    <tr>
-	        <th class="table_id">기업 및 단체명*</th>
-	        <td>
+	        <th class="table_id" width="15%">기업 및 단체명<span class="pilsu">*</span></th>
+	        <td class="left"> 
 	        	<div style="width: 300px" class="inputtextarea">
 	        		<input type="text" class="resetinput" name="user_comp_nm" value="">
 	        	</div>
 	        </td>
-	        <th class="table_id">사업자번호 & 단체번호*</br>('-' 제외)</th>
-	        <td>
+	        <th class="table_id">사업자번호 & 단체번호<span class="pilsu">*</span></br>('-' 제외)</th>
+	        <td class="left">
 	       		 <div style="width: 300px" class="inputtextarea">
 	       		 	<input type="text" class="resetinput" name="user_comp_number" value=""/>
 	       		 </div>
 	        </td>
 	    </tr>
 	    <tr id="sp_mh_tp">
-	        <th class="table_id">후원종류*</th>
-	        <td colspan="3">
+	        <th class="table_id" width="15%">후원종류<span class="pilsu">*</span></th>
+	        <td colspan="3" class="left">
 	       		<input type="radio" class="radio" name="sp_mh_tp" id="sp_mh_tp_o" value="O"><label for="sp_mh_tp_o">일시후원</label>
 	       		&nbsp;&nbsp;
 	       		<input type="radio" class="radio" name="sp_mh_tp" id="sp_mh_tp_m" value="M"><label for="sp_mh_tp_m">정기후원</label>
 	        </td>
 	    </tr>
 	    <tr id="sc_price_tp_o_comp">
-	        <th class="table_id">결제방식*</th>
-	        <td colspan="3">
+	        <th class="table_id">결제방식<span class="pilsu">*</span></th>
+	        <td colspan="3" class="left">
 	       		<input type="radio" class="radio" name="sc_price_tp" id="sc_price_tp_m" value="M"><label for="sc_price_tp_m">무통장입금</label>
 	        </td>
 	    </tr>
 	    <tr id="sc_price_tp_m_comp">
-	        <th class="table_id">결제방식*</th>
-	        <td colspan="3">
+	        <th class="table_id">결제방식<span class="pilsu">*</span></th>
+	        <td colspan="3" class="left">
 	        	<input type="radio" class="radio" name="sc_price_tp" id="sc_price_tp_z" value="Z"><label for="sc_price_tp_z">정보만 등록</label>
 	       		&nbsp;&nbsp;
 	       		<input type="radio" class="radio" name="sc_price_tp" id="sc_price_tp_d" value="D"><label for="sc_price_tp_d">카드결제</label>
@@ -121,21 +133,21 @@
 	    </tr>
 	    <tr>
 	        <th class="table_id">담당자 아이디</br>(비회원은 미입력)</th>
-	        <td>
+	        <td class="left">
 		      	<div style="width: 300px" class="inputtextarea">
 	       		 	<input type="text" class="resetinput" name="manager_id" value="">
 	       		 </div>  
 	        </td>
-	        <th class="table_id">담당자 이름*</th>
-	        <td>
+	        <th class="table_id">담당자 이름<span class="pilsu">*</span></th>
+	        <td class="left">
 		      	<div style="width: 300px" class="inputtextarea">
 	       		 	<input type="text" class="resetinput" name="manager_nm" value="">
 	       		 </div>  
 	        </td>
 	    </tr>
 	    <tr>
-	        <th class="table_id">담당자 전화번호*</th>
-	        <td>
+	        <th class="table_id">담당자 전화번호<span class="pilsu">*</span></th>
+	        <td class="left">
 		      	<div>
 	       		 	<input type="text" style="width: 100px; height: 20px;" class="input" name="comp_manager_phone1" value="">
 	       		 	- 
@@ -145,7 +157,7 @@
 	       		 </div>  
 	        </td>
 	        <th class="table_id">담당자 e-mail</th>
-	        <td>
+	        <td class="left">
 		      	<div>
 	       		 	<input type="text" style="height: 20px;" class="input" name="comp_manager_email1" value="">
 	       		 	@ 
@@ -160,13 +172,13 @@
 	<br>
 	
 	<div id="divLogoInfo">
-	<h2># 기업명 및 단체명, 사업자번호를 입력 하면 자동 검색 됩니다.</h2>
-	<table class="tablestyle_basic">
+	<h2>기업명 및 단체명, 사업자번호를 입력 하면 자동 검색 됩니다.</h2>
+	<table class="wTable">
 	    <caption class="dpnone">기업및단체로고</caption>
 	    <tbody>
 	    <tr>
 	        <th class="table_id">대표사이트</th>
-	        <td>
+	        <td class="left">
 	        	<div style="width: 300px" class="inputtextarea">
 	       		 	<input type="text" class="resetinput" name="scg_url" value="">
 	       		 </div>
@@ -175,7 +187,7 @@
 	    </tr>
 	    <tr>
 			<th>Logo 이미지</th>
-			<td class="fileaddfield">
+			<td class="fileaddfield left" >
 				<div id="divAttachLogo" class="marginbottom5 margintop5 fileclone width100per">
 					<input id="attach_logo" type="file" name="attach_logo" />
 					<div id="img_wrap" style="width: 200px; margin-top: 10px;">
@@ -192,56 +204,56 @@
 	<br>
 	
 	<div id="divCardInsertInfo">
-	<h2># 정기후원 카드 정보 등록을 위한 입력 항목 입니다.(해당 정보는 DB로 저장 하지 않습니다.)</h2>
-	<h2># 결제 처리시 카드 주인은 본 시스템에 회원 가입이 되어 있어야 합니다.(비회원은 카드 및 CMS 등록 불가)</h2>
-	<table class="tablestyle_basic">
+	<h2>정기후원 카드 정보 등록을 위한 입력 항목 입니다.(해당 정보는 DB로 저장 하지 않습니다.)</h2>
+	<h2 class="tit02">결제 처리시 카드 주인은 본 시스템에 회원 가입이 되어 있어야 합니다.(비회원은 카드 및 CMS 등록 불가)</h2>
+	<table class="wTable">
 	    <caption class="dpnone">카드 자동이체 등록 정보</caption>
 	    <tbody>
 	    	<tr>
-	    		<th class="table_id">회원정보 동일여부</th>
-	    		<td colspan = "3">
+	    		<th class="table_id" width="15%">회원정보 동일여부</th>
+	    		<td colspan = "3" class="left">
 	    			<input type="radio" class="radio" name="same_info_card" id="same_info_card_false" value="false"><label for="same_info_card_false">동일하지 않음</label>
 	    			&nbsp;&nbsp;
 	    			<input type="radio" class="radio" name="same_info_card" id="same_info_card_true" value="true"><label for="same_info_card_true">동일함</label>
 	    		</td>
 	    	</tr>
 		    <tr>
-		    	<th class="table_id">카드주 아이디*</th>
-		        <td>
+		    	<th class="table_id">카드주 아이디<span class="pilsu">*</span></th>
+		        <td class="left">
 		        	<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="card_user_id" value="">
 		       		 </div>
 		        </td>
-		        <th class="table_id">카드주 성명*</th>
-		        <td>
+		        <th class="table_id">카드주 성명<span class="pilsu">*</span></th>
+		        <td class="left">
 		        	<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="card_user_nm" value="">
 		       		 </div>
 		        </td>
 		    </tr>
 		    <tr>
-		    	<th class="table_id">카드주 연락처*</br>('-'제외)</th>
-		        <td>
+		    	<th class="table_id">카드주 연락처<span class="pilsu">*</span></br>('-'제외)</th>
+		        <td class="left">
 		        	<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="card_user_phone" value="">
 		       		 </div>
 		        </td>
 		        <th class="table_id">카드주 이메일</th>
-		        <td>
+		        <td class="left">
 		        	<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="card_user_email" value="">
 		       		 </div>
 		        </td>
 		    </tr>
 		    <tr>
-		    	<th class="table_id">입금액(원)*</th>
-		    	<td>
+		    	<th class="table_id">입금액(원)<span class="pilsu">*</span></th>
+		    	<td class="left">
 		    		<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="card_sc_price" value="">
 		       		 </div>
 		       	</td>
-		       	<th>출금요청일*</th>
-				<td colspan="3" class="fileaddfield">
+		       	<th>출금요청일<span class="pilsu">*</span></th>
+				<td colspan="3" class="fileaddfield left">
 					<div class="marginbottom5 margintop5 fileclone width100per">
 						<select id="card_sc_req_dd" name="card_sc_req_dd">
 			       			<option value="5">5</option>
@@ -255,14 +267,14 @@
 				</td>	
 		    </tr>
 		    <tr>
-		    	<th class="table_id">카드번호*</br>('-'제외)</th>
-		    	<td>
+		    	<th class="table_id">카드번호<span class="pilsu">*</span></br>('-'제외)</th>
+		    	<td class="left">
 		    		<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="card_number" value="">
 		       		 </div>
 		       	</td>
-		       	<th class="table_id">카드유효기간*</th>
-		    	<td>
+		       	<th class="table_id">카드유효기간<span class="pilsu">*</span></th>
+		    	<td class="left">
 		    		<div>
 		       		 	<input type="text" class="input" name="card_mm" value="" style="width: 50px; height: 20px" maxlength="2">(MM)
 		       		 	&nbsp;/&nbsp;
@@ -275,13 +287,13 @@
 	</div>
 	
 	<div id="divDefaultInsertInfo">
-	<h2># 결제방식이 [정보만등록]일 경우 입금액만 관리합니다.(실제 입금여부는 별도 PG모듈에서 확인)</h2>
-	<table class="tablestyle_basic">
+	<h2>결제방식이 [정보만등록]일 경우 입금액만 관리합니다.(실제 입금여부는 별도 PG모듈에서 확인)</h2>
+	<table class="wTable">
 		<caption class="dpnone">기본정보 등록 정보</caption>
 		<tbody>
 	    	<tr>
-	    		<th class="table_id">입금액(원)*</th>
-		    	<td>
+	    		<th class="table_id" width="15%">입금액(원)<span class="pilsu">*</span></th>
+		    	<td class="left">
 		    		<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="default_sc_price" value="">
 		       		 </div>
@@ -292,13 +304,13 @@
 	</div>
 	
 	<div id="divCmsInsertInfo">
-	<h2># 결제 처리시 CMS 계좌 주인은 본 시스템에 회원 가입이 되어 있어야 합니다.(비회원은 카드 및 CMS 등록 불가)</h2>
-	<table class="tablestyle_basic">
+	<h2>결제 처리시 CMS 계좌 주인은 본 시스템에 회원 가입이 되어 있어야 합니다.(비회원은 카드 및 CMS 등록 불가)</h2>
+	<table class="wTable">
 	    <caption class="dpnone">CMS 계좌이체 등록 정보</caption>
 	    <tbody>
 	    	<tr>
-	    		<th class="table_id">회원정보 동일여부</th>
-	    		<td colspan = "3">
+	    		<th class="table_id" width="15%">회원정보 동일여부</th>
+	    		<td colspan = "3" class="left">
 	    			<input type="radio" class="radio" name="same_info_cms" id="same_info_cms_false" value="false"><label for="same_info_cms_false">동일하지 않음</label>
 	    			&nbsp;&nbsp;
 	    			<input type="radio" class="radio" name="same_info_cms" id="same_info_cms_true" value="true"><label for="same_info_cms_true">동일함</label>
@@ -306,7 +318,7 @@
 	    	</tr>
 	    	<tr>
 		        <th class="table_id">은행</th>
-		        <td>
+		        <td class="left">
 		        	<select name="bankList" class="select">
 		        		<option value="003">기업은행</option>
 		        		<option value="004">국민은행</option>
@@ -329,66 +341,66 @@
 		        		<option value="088">신한은행</option>
 		        	</select>
 		        </td>
-		        <th class="table_id">계좌번호*('-'제외)</th>
-		        <td>
+		        <th class="table_id">계좌번호<span class="pilsu">*</span>('-'제외)</th>
+		        <td class="left">
 		        	<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="acc_number" value="">
 		       		 </div>
 		        </td>
 		    </tr>
 		    <tr>
-		        <th class="table_id">예금주 아이디*</th>
-		        <td colspan="3">
+		        <th class="table_id">예금주 아이디<span class="pilsu">*</span></th>
+		        <td colspan="3" class="left">
 		        	<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="acc_user_id" value="">
 		       		 </div>
 		        </td>
 		    </tr>
 		    <tr>
-		        <th class="table_id">예금주 성명*</th>
-		        <td>
+		        <th class="table_id">예금주 성명<span class="pilsu">*</span></th>
+		        <td class="left">
 		        	<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="acc_user_nm" value="">
 		       		 </div>
 		        </td>
-		        <th class="table_id">예금주 주민번호*('-'제외, 생년월일(6자리))</th>
-		        <td>
+		        <th class="table_id">예금주 주민번호<span class="pilsu">*</span>('-'제외, 생년월일(6자리))</th>
+		        <td class="left">
 		        	<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="acc_user_number" value="">
 		       		 </div>
 		        </td>
 		    </tr>
 		    <tr>
-		    	<th class="table_id">예금주 연락처*('-'제외)</th>
-		        <td>
+		    	<th class="table_id">예금주 연락처<span class="pilsu">*</span>('-'제외)</th>
+		        <td class="left">
 		        	<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="acc_user_phone" value="">
 		       		 </div>
 		        </td>
 		        <th class="table_id">예금주 이메일</th>
-		        <td>
+		        <td class="left">
 		        	<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="acc_user_email" value="">
 		       		 </div>
 		        </td>
 		    </tr>
 		    <tr>
-		    	<th class="table_id">입금액(원)*</th>
-		    	<td>
+		    	<th class="table_id">입금액(원)<span class="pilsu">*</span></th>
+		    	<td class="left">
 		    		<div style="width: 300px" class="inputtextarea">
 		       		 	<input type="text" class="resetinput" name="cms_sc_price" value="">
 		       		 </div>
 		       	</td>
 		       	<th class="table_id">현금영수증 발행</th>
-		    	<td>
+		    	<td class="left">
 		    		<input type="radio" class="radio" name="tax_yn" id="tax_yn_cms_n" value="N"><label for="tax_yn_cms_n">미발행</label>
 	    			&nbsp;&nbsp;
 	    			<input type="radio" class="radio" name="tax_yn" id="tax_yn_cms_y" value="Y"><label for="tax_yn_cms_y">발행</label>
 		       	</td>
 		    </tr>
 		    <tr>
-				<th>출금요청일*</th>
-				<td colspan="3" class="fileaddfield">
+				<th>출금요청일<span class="pilsu">*</span></th>
+				<td colspan="3" class="fileaddfield left">
 					<div class="marginbottom5 margintop5 fileclone width100per">
 						<select id="sc_req_dd" name="sc_req_dd">
 			       			<option value="5">5</option>
@@ -402,8 +414,8 @@
 				</td>	
 			</tr>
 		    <tr>
-				<th>CMS이체 동의서*</th>
-				<td colspan="3" class="fileaddfield">
+				<th>CMS이체 동의서<span class="pilsu">*</span></th>
+				<td colspan="3" class="fileaddfield" class="left">
 					<div class="marginbottom5 margintop5 fileclone width100per">
 						<input id="attach_agree" type="file" accept=".jpg, .jpeg, .gif, .tif" name="attach_argree" />
 					</div>
@@ -413,12 +425,14 @@
 	</table>
 	</div>	
 	
-	<br>
 	<!--button-->
-	<button id="list_btn" class="button btn_middle btn_gray" type="button">목록</button>
-	<button id="insert_btn" class="button btn_middle btn_green" type="button">등록하기</button>
-	<!--button_end-->
+	<div class="btn">
+	<button id="list_btn" type="button" class="s_submit" >목록</button>
+	<button id="insert_btn" type="button" class="s_submit">등록하기</button>
+	</div>
 </form>		
+</div>
+
 
 <script type="text/javascript">
 

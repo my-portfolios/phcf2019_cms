@@ -83,10 +83,10 @@
 </table> 
 
 <!--button-->
-<div class="boxstyle1 floatright margintop10">
-	<input type="button" name="list_btn" class="button btn_middle btn_white" value="목록" />
-    <input type="button" name="modify_btn" class="button btn_middle btn_blue" value="수정" />
-    <input type="button" name="del_btn" class="button btn_middle btn_gray" value="삭제" />
+<div class="btn">
+	<input type="button" name="list_btn" class="btn_s" value="목록" />
+    <input type="button" name="modify_btn" class="btn_s" value="수정" />
+    <input type="button" name="del_btn" class="" value="삭제" />
 </div>
 <!--button_end-->
 </form>	

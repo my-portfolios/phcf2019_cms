@@ -719,7 +719,7 @@
          ON bbs.BBS_ID = c.BBS_ID AND bbs.NTT_ID = c.NTT_ID
          <choose>
 	         <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID"'>
-	               ORDER BY bbs.{ordColmn} ${ordWay}
+	               ORDER BY bbs.${ordColmn} ${ordWay}
 	         </when>
 	         <otherwise>
 	               ORDER BY ${ordColmn} ${ordWay}

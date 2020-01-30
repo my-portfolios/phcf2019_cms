@@ -5,18 +5,18 @@
      
     <!-- 일반용   
     <bean id="mntrngMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" 
-        p:host="STMP서버주소"  
-        p:username="아이디" 
-        p:password="비밀번호" /> 
+        p:host="smtp.gmail.com"  
+        p:username="hubizictsi@gmail.com" 
+        p:password="hubizict12#" /> 
     --> 
     
     <!-- 메일 연동 인터페이스에서 첨부파일 미사용 -->
     <bean id="EMSMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" 
-        p:host="STMP서버주소" 
-        p:port="465"  
-        p:protocol="smtps" 
-        p:username="아이디" 
-        p:password="비밀번호"> 
+        p:host="smtp.gmail.com" 
+        p:port="587"  
+        p:protocol="smtp" 
+        p:username="hubizictsi@gmail.com" 
+        p:password="hubizict12#"> 
         <property name="javaMailProperties"> 
             <props> 
                 <prop key="mail.smtps.auth">true</prop> 
@@ -28,20 +28,20 @@
      
     <!-- 메일 연동 인터페이스에서 첨부파일 사용 -->
 	<bean id="egovMultiPartEmail" class="egovframework.com.cop.ems.service.EgovMultiPartEmail"
-		p:host="mail.phcf.or.kr"
-		p:port="25"
-		p:id="mailtest@phcf.or.kr"
-		p:password="111111"
+		p:host="smtp.gmail.com"
+		p:port="587"
+		p:id="hubizictsi@gmail.com"
+		p:password="hubizict12#"
 		p:senderName="(재)포항문화재단"
 		p:emailAddress="mailtest@phcf.or.kr" />
 	  
     <!-- 모니터링 서비스에서 사용 gmail, hanmail 용 -->
     <bean id="mntrngMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" 
-        p:host="이메일SMTP주소"
+        p:host="smtp.gmail.com"
         p:port="587"
         p:protocol="smtp"
-        p:username="아이디" 
-        p:password="비밀번호">
+        p:username="hubizictsi@gmail.com" 
+        p:password="hubizict12#">
         <property name="javaMailProperties"> 
             <props>
                 <prop key="mail.smtps.auth">true</prop> 
@@ -50,6 +50,15 @@
             </props> 
         </property> 
     </bean>
+    
+    <!-- 메일발송 설정 -->
+    <bean id='phcfMailer' class="egovframework.phcf.common.PhcfMailer">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="password" value="hubizict12#" />
+		<property name="tail" value='@gmail.com'/>
+		<property name="user" value='hubizictsi'/>
+	</bean> 
     
     <!-- 스케줄러에서 메일발송시 설정 -->
     <bean id="mntrngMessage" class="org.springframework.mail.SimpleMailMessage" 

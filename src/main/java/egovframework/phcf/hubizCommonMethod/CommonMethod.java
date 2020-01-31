@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -18,16 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.service.EgovProperties;
-import egovframework.com.cmm.service.FileVO;
 import egovframework.phcf.common.service.CommonService;
 
 public class CommonMethod {
@@ -195,17 +190,17 @@ public class CommonMethod {
 	public static ModelAndView ContentsIntoTemplate(HttpServletRequest request, String jspPath, String skinNm, CommonService commonService) throws Exception {
 		
 		ModelAndView mav=new ModelAndView();
+		if(skinNm==null || skinNm.equals("")) skinNm="basic";
+		
 		@SuppressWarnings("unchecked")
 		HashMap<String, Object> x = (HashMap<String, Object>) request.getAttribute("CurrentMenuMap");
-		if(x.get("CONTENT_ID").toString() != null && !x.get("CONTENT_ID").toString().equals("0") && !x.get("CONTENT_ID").toString().equals("")) {
+		if(commonService != null && x.get("CONTENT_ID").toString() != null && !x.get("CONTENT_ID").toString().equals("0") && !x.get("CONTENT_ID").toString().equals("")) {
 			HashMap<String, String> paramMap = new HashMap<String, String>();
 			
 			paramMap.put("bbsId", "BBSMSTR_000000000002");
 			paramMap.put("nttId", x.get("CONTENT_ID").toString());
 			
 			HashMap<String, String> contentMap = commonService.selectContent(paramMap);
-			
-			if(skinNm==null || skinNm.equals("")) skinNm="board_contents";
 			String templatePath = "template/_layout/"+skinNm;
 			
 			String tmpltDir = request.getServletContext().getRealPath("/WEB-INF/jsp/"+templatePath+".jsp");
@@ -213,12 +208,12 @@ public class CommonMethod {
 			
 			if(fTmplt.exists()) {
 				mav = new ModelAndView(templatePath);
-				mav.addObject("content", contentMap.get("NTT_CN").toString()); 
+				mav.addObject("content", contentMap.get("NTT_CN").toString());
+				mav.addObject("contentYN", "Y");
 			} else {
 				mav = new ModelAndView("error/noContentErrorPage"); 
 			}
 		} else {
-			if(skinNm==null || skinNm.equals("")) skinNm="basic";
 			String templatePath = "template/_layout/"+skinNm;
 			
 			String tmpltDir = request.getServletContext().getRealPath("/WEB-INF/jsp/"+templatePath+".jsp");
@@ -227,11 +222,15 @@ public class CommonMethod {
 			
 			if(fTmplt.exists()) {
 				String isDir = request.getServletContext().getRealPath(jspPath); 
-				File f = new File(isDir);
-				if(f.exists()) mavUrl = templatePath;
-				else mavUrl = "error/noTmpltErrorPage";
+				
+				mavUrl = "error/noTmpltErrorPage";
+				if(isDir != null) {
+					File f = new File(isDir);
+					if(f.exists()) mavUrl = templatePath;
+				}
 				mav = new ModelAndView(mavUrl);  
 				mav.addObject("jspPath", jspPath); 
+				mav.addObject("contentYN", "N");
 			} else {
 				mavUrl = "error/noContentErrorPage";
 				mav = new ModelAndView(mavUrl); 

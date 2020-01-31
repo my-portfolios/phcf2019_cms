@@ -91,10 +91,6 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 
 	@RequestMapping("/EgovTop.do")
 	public String top(ModelMap model) {    
-        String currentDateTime = CommonMethod.dateToString(new Date(), "yyyy/MM/dd HH:mm");
-		
-		model.addAttribute("currentDateTime", currentDateTime);
-		
 		return "egovframework/com/cmm/EgovUnitTop";
 	}
 

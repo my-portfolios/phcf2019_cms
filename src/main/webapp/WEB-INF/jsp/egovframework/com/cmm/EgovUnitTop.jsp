@@ -12,6 +12,31 @@
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/main.css' />">
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 <title>(재)포항문화재단 웹사이트 관리시스템 (CMS)</title>
+<script> 
+	function dateToString(date){
+		var year = date.getFullYear();
+		var month = date.getMonth()+1;
+		var day = date.getDate();
+		
+		var hour = date.getHours();
+		var min = date.getMinutes();
+		var sec = date.getSeconds();
+		
+		if(month < 10) month = "0" + month;
+		if(day < 10) day = "0" + day;
+		
+		if(hour < 10) hour = "0" + hour;
+		if(min < 10) min = "0" + min;
+		
+		return year + "-" + month + "-" + day + " " + hour + ":" + min;
+	} 
+	
+	$(function(){ 
+		setInterval(function(){
+			$("#currentTime").text(dateToString(new Date()));
+		},1000);
+	});
+</script>
 </head>
 
 <div id="header">
@@ -31,7 +56,7 @@
 				<a href="#"><span>축제</span></a>
 			</div>
 			<div><span class="quickmenu_down">메뉴얼 다운로드</span></div>
-			<div>${currentDateTime}</div>
+			<div id="currentTime">로딩 중...</div>
 			<div>  
 			<img src="<c:url value='/images/egovframework/com/cmm/main/ic_icon01.png' />">(공연전시팀) 
 			<c:if test="${loginVO != null}">

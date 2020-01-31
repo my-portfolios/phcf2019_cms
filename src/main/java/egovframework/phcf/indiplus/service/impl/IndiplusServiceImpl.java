@@ -37,7 +37,10 @@ public class IndiplusServiceImpl extends EgovAbstractServiceImpl implements Indi
 		dao.updateRestDay(seq, date);
 	}
 
-	
+	@Override
+	public void deleteRestDay(String seq) throws Exception {
+		dao.deleteRestDay(seq);
+	}
 }
 
 

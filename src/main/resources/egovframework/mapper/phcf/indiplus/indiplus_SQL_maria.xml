@@ -50,4 +50,13 @@
 		WHERE 
 			SEQ = #{seq} 
 	</update>
+	
+	<delete id="deleteRestDay" parameterType="java.util.HashMap">
+		/* IndiplusDAO.deleteRestDay */
+		
+		DELETE FROM 
+			INDIPLUSRESTSCHEDULE
+		WHERE 
+			SEQ = #{seq} 
+	</delete>
 </mapper>

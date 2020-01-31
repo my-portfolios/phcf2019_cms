@@ -28,6 +28,7 @@
 					pageLoading: true,
 					pageSize: 10,
 					pageIndex: 1,
+					deleteConfirm: "삭제 하시겠습니까?",
 					pageNextText : "다음",
 					pagePrevText : "이전",
 					pageFirstText : "처음",
@@ -85,7 +86,21 @@
 									alert('변경에 실패했습니다!');
 								}
 							});
-						}  
+						},
+						deleteItem: function(item) {
+							return $.ajax({
+								type: 'POST'
+								, url : '/indiplus/deleteRestDay.do'
+								, data: item
+								, success: function(result) {
+									$("#jsGrid").jsGrid("loadData");
+								}
+								, error: function(e) {
+									console.log('== error :', e);
+									alert('삭제 중 오류 발생.');
+								}
+							});
+						}
 					},
 					rowClick : function(){return;},
 					noDataContent: '데이터가 없습니다.',
@@ -95,7 +110,7 @@
 					 	{name: 	'DATE', 	title: '날짜', 	type: 'text', 	editing: true, readOnly: false, align: "center"},
 					 	{name: 	'CREATE_DT', 	title: '생성일시', 	type: 'text', inserting:false,editing: false, align: "center"},
 					 	{name: 	'UPDATE_DT', 	title: '수정일시', 	type: 'text', inserting:false,	editing: false, align: "center"},
-					 	{type: 'control', editButton: true, deleteButton: false, updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
+					 	{type: 'control', editButton: true, deleteButton: true, updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
 					]
 				});
 			});

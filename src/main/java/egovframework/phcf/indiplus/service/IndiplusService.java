@@ -8,4 +8,5 @@ public interface IndiplusService {
 	public int selectRestDayCnt() throws Exception;
 	public void insertRestDay(String date) throws Exception;
 	public void updateRestDay(String seq, String date) throws Exception;
+	public void deleteRestDay(String seq) throws Exception;
 }

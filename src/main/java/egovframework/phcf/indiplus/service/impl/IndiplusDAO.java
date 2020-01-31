@@ -30,4 +30,8 @@ public class IndiplusDAO extends EgovComAbstractDAO{
 		insert("IndiplusDAO.updateRestDay",paramMap);
 	}
 	
+	public void deleteRestDay(String seq) {
+		insert("IndiplusDAO.deleteRestDay",seq);
+	}
+	
 }

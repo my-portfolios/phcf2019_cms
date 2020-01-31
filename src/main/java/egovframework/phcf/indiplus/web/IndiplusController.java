@@ -70,4 +70,14 @@ public class IndiplusController {
 		
 		return mav;
 	}
+	
+	@RequestMapping(value="/indiplus/deleteRestDay.do", method=RequestMethod.POST) 
+	public ModelAndView deleteRestDay(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		String seq = EgovStringUtil.isNullToString(paramMap.get("SEQ"));
+		service.deleteRestDay(seq);
+		
+		return mav;
+	}
 }

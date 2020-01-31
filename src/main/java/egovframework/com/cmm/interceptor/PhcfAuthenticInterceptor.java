@@ -164,7 +164,7 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		//전체 메뉴구조 및 현재 메뉴위치 가져오기
-		if(DBMenuList == null || currentUrl.equals("/phcf/menuRefresh.do")) DBMenuList = egovComIndexService.selectMenuInfoList(Globals.SITE_NAME);
+		if(DBMenuList == null || currentUrl.contains("/phcf/menuRefresh.do")) DBMenuList = egovComIndexService.selectMenuInfoList(Globals.SITE_NAME);
 		
 		List<HashMap<String, Object>> AllMenuList = new ArrayList<>();
 		AllMenuList.addAll(DBMenuList);

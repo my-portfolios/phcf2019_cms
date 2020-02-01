@@ -86,6 +86,17 @@ public class EgovUserManageServiceImpl extends EgovAbstractServiceImpl implement
 		}
 	}
 
+	@Override
+	public String selectNextMberStringId() throws Exception {
+		String uniqId = userManageDAO.selectNextMberStringId();
+		String prefix = uniqId.split("_")[0];
+		String nextId = (Integer.parseInt(uniqId.split("_")[1]) + 1) + "";
+		String appendZero = "";
+		while((nextId.length() + appendZero.length()) < 11) appendZero += "0"; 
+	
+		return prefix + "_" + appendZero + nextId; 
+	}
+	
 	/**
 	 * @param userManageVO 업무사용자 등록정보
 	 * @return result 등록결과
@@ -94,7 +105,7 @@ public class EgovUserManageServiceImpl extends EgovAbstractServiceImpl implement
 	@Override
 	public String insertUser(UserManageVO userManageVO) throws Exception {
 		//고유아이디 셋팅
-		String uniqId = idgenService.getNextStringId();
+		String uniqId = selectNextMberStringId();
 		userManageVO.setUniqId(uniqId);
 		//패스워드 암호화
 		String pass = EgovFileScrty.encryptPassword(userManageVO.getPassword(), EgovStringUtil.isNullToString(userManageVO.getEmplyrId()));//KISA 보안약점 조치 (2018-10-29, 윤창원)

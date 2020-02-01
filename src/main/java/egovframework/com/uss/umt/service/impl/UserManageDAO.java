@@ -28,6 +28,10 @@ import org.springframework.stereotype.Repository;
 @Repository("userManageDAO")
 public class UserManageDAO extends EgovComAbstractDAO{
 
+	public String selectNextMberStringId() {
+		return selectOne("userManageDAO.selectNextMberStringId");
+	}
+	
     /**
      * 입력한 사용자아이디의 중복여부를 체크하여 사용가능여부를 확인
      * @param checkId 중복체크대상 아이디

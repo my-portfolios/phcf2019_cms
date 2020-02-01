@@ -363,7 +363,7 @@ public class EgovArticleController {
         }
 
 	
-		boardVO.setLastUpdusrId(user.getUniqId());
+		//boardVO.setLastUpdusrId(user.getUniqId());
 		BoardVO vo = egovArticleService.selectArticleDetail(boardVO);
 		List<BoardAddedColmnsVO> addedColmnsList = egovArticleService.selectArticleAddedColmnsDetail(boardVO);
 		
@@ -607,12 +607,7 @@ public class EgovArticleController {
 		    
 		}
 
-		//status.setComplete();
-		if(boardVO.getBlogAt().equals("Y")){
-			return "forward:/cop/bbs/selectArticleBlogList.do";
-		}else{
-			return "forward:/cop/bbs/selectArticleList.do";
-		}
+		return "redirect:/cop/bbs/selectArticleList.do?bbsId=" + boardVO.getBbsId();
 		
     }
 

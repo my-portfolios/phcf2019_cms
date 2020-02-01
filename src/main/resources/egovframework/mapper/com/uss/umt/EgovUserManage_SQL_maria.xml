@@ -3,6 +3,22 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="userManageDAO">
 
+	<select id="selectNextMberStringId" resultType="String">
+ 		WITH GET_UNIQID AS (
+			SELECT 
+			 	MAX(A.ESNTL_ID) uniqId1,
+				MAX(B.ESNTL_ID) uniqId2
+			FROM    
+			 	COMTNGNRLMBER A,
+				COMTNEMPLYRINFO B
+			WHERE B.ESNTL_ID != "USRCNFRM_99999999999"
+		)
+		
+		SELECT 
+			IF(uniqId1 > uniqId2,uniqId1,uniqId2) uniqId
+		FROM GET_UNIQID
+ 	</select>
+
     <select id="selectUserList_S" resultType="egovMap">
 SELECT 
     uniqId, userTy, userId , userNm, emailAdres, areaNo, middleTelno, endTelno, moblphonNo, groupId, sttus, sbscrbDe

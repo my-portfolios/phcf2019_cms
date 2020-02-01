@@ -105,5 +105,7 @@ public interface EgovUserManageService  {
 	 */
 	public void updateLockIncorrect(UserManageVO userManageVO) throws Exception;
 
+	public String selectNextMberStringId() throws Exception;
+
 
 }

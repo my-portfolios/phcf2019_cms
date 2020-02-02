@@ -1,5 +1,6 @@
 package egovframework.com.uss.umt.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -97,5 +98,19 @@ public interface EgovMberManageService {
 	 * @throws Exception
 	 */
 	public void updateLockIncorrect(MberManageVO mberManageVO) throws Exception;
+	
+	public List<HashMap<String, Object>> getDormantMber(HashMap<String, Object> paramMap) throws Exception;
+	
+	public List<MberManageVO> getDormantMber() throws Exception;
+	
+	public List<HashMap<String, Object>> getMovedDormantMber(HashMap<String, Object> paramMap) throws Exception;
+	
+	public int getDormantMberCnt(HashMap<String, Object> paramMap) throws Exception;
+	
+	public int getMovedDormantMberCnt(HashMap<String, Object> paramMap) throws Exception;
+
+	void transferDormantMber(MberManageVO mberManageVO) throws Exception;
+
+	void updatetransferedDormantMberCode(MberManageVO mberManageVO) throws Exception;
 
 }

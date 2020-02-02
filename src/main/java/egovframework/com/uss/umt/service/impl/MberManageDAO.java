@@ -1,5 +1,6 @@
 package egovframework.com.uss.umt.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
@@ -116,5 +117,35 @@ public class MberManageDAO extends EgovComAbstractDAO{
     public void updateLockIncorrect(MberManageVO mberManageVO) {
         update("mberManageDAO.updateLockIncorrect", mberManageVO);
     }
+    
+    @SuppressWarnings("unchecked")
+	public List<HashMap<String, Object>> getDormantMber(HashMap<String, Object> paramMap) {
+        return (List<HashMap<String, Object>>) list("mberManageDAO.getDormantMber", paramMap);
+    }
+    
+    @SuppressWarnings("unchecked")
+	public List<HashMap<String, Object>> getMovedDormantMber(HashMap<String, Object> paramMap) {
+        return (List<HashMap<String, Object>>) list("mberManageDAO.getMovedDormantMber", paramMap);
+    }
+    
+	public int getDormantMberCnt(HashMap<String, Object> paramMap) {
+        return (int) selectOne("mberManageDAO.getDormantMberCnt", paramMap);
+    }
+	
+	public int getMovedDormantMberCnt(HashMap<String, Object> paramMap) {
+        return (int) selectOne("mberManageDAO.getMovedDormantMberCnt", paramMap);
+    }
+	
+	public List<MberManageVO> getDormantMber12() {
+        return selectList("mberManageDAO.getDormantMber12");
+    }
+	
+	public void transferDormantMber(MberManageVO mberManageVO) {
+        insert("mberManageDAO.transferDormantMber", mberManageVO);
+    }
+	
+	public void updatetransferedDormantMberCode(MberManageVO mberManageVO) {
+		update("mberManageDAO.updatetransferedDormantMberCode", mberManageVO);
+	}
 
 }

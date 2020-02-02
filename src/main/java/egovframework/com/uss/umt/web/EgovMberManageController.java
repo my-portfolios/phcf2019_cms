@@ -1,5 +1,6 @@
 package egovframework.com.uss.umt.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import egovframework.com.uss.umt.service.MberManageVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
 import egovframework.com.uss.umt.service.UserManageVO;
 import egovframework.com.utl.sim.service.EgovFileScrty;
-
+import egovframework.phcf.scheduler.MberDormantCronQuartz;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -65,6 +66,10 @@ public class EgovMberManageController {
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
+	
+	/** cmmUseService */
+	@Resource(name = "MberDormantCronQuartz")
+	private MberDormantCronQuartz mberDormantCronQuartz;
 
 	/** DefaultBeanValidator beanValidator */
 	@Autowired
@@ -525,5 +530,49 @@ public class EgovMberManageController {
 
 		return "egovframework/com/uss/umt/EgovMberPasswordUpdt";
 	}
+	
+	/**
+	 * 휴먼회원 관리화면
+	 * @param model 화면모델
+	 * @param commandMap 파라메터전달용 commandMap
+	 * @param userSearchVO 검색조건
+	 * @param mberManageVO 일반회원
+	 * @return uss/umt/EgovMberDormantMngView
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/uss/umt/EgovMberDormantMngView.do")
+	public String dormantMng(ModelMap model) throws Exception {
 
+		return "egovframework/com/uss/umt/EgovMberDormantMngView";
+	}
+	
+	@RequestMapping(value = "/uss/umt/getDormantMber.do")
+	public String getDormantMber(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
+		
+		mberDormantCronQuartz.transferToDormant();
+		
+		if(paramMap.get("sPeriod") == null || paramMap.get("sPeriod").equals("")) paramMap.put("sPeriod", "12");
+	
+		model.addAttribute("value", mberManageService.getDormantMber(paramMap));
+		
+		int totCnt = mberManageService.getDormantMberCnt(paramMap);
+        model.addAttribute("totCnt", totCnt);
+
+		return "jsonView";
+	}
+	
+	@RequestMapping(value = "/uss/umt/getMovedDormantMber.do")
+	public String getMovedDormantMber(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
+		
+		mberDormantCronQuartz.transferToDormant();
+		
+		if(paramMap.get("sPeriod") == null || paramMap.get("sPeriod").equals("")) paramMap.put("sPeriod", "12");
+		
+		model.addAttribute("value", mberManageService.getMovedDormantMber(paramMap));
+		
+		int totCnt = mberManageService.getMovedDormantMberCnt(paramMap);
+        model.addAttribute("totCnt", totCnt);
+
+		return "jsonView";
+	}
 }

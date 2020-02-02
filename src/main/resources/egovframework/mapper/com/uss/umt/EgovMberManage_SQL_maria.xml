@@ -240,5 +240,280 @@ FROM(
 			     ,  LOCK_LAST_PNTTM = NULL 
             WHERE  ESNTL_ID  = #{uniqId}
     </update>
+    
+    <select id="getDormantMber" resultType="java.util.HashMap">
+        
+            WITH LOGINLIST AS (
+           	   SELECT DISTINCT CONECT_ID, CREAT_DT from COMTNLOGINLOG WHERE DATE_ADD(DATE_FORMAT(CREAT_DT, "%Y/%m/%d"), INTERVAL ${sPeriod} MONTH) <![CDATA[<]]> now()
+			)
+			SELECT 
+				a.ESNTL_ID         uniqId,
+                'USR01'            userTy,
+                a.MBER_ID          mberId,
+                a.MBER_NM          mberNm,
+                a.PASSWORD         password,
+                a.PASSWORD_HINT    passwordHint,
+                a.PASSWORD_CNSR    passwordCnsr,
+                a.IHIDNUM          ihidnum,
+                a.SEXDSTN_CODE     sexdstnCode,
+                a.ZIP              zip,
+                a.ADRES            adres,
+                a.AREA_NO          areaNo,
+                a.MBER_STTUS       mberSttus,
+                a.DETAIL_ADRES     detailAdres,
+                a.END_TELNO        endTelno,
+                a.MBTLNUM          moblphonNo,
+                a.GROUP_ID         groupId,
+                (SELECT GROUP_NM FROM COMTNAUTHORGROUPINFO WHERE GROUP_ID = a.GROUP_ID) groupNm,
+                a.MBER_FXNUM       mberFxnum,
+                a.MBER_EMAIL_ADRES mberEmailAdres,
+                a.MIDDLE_TELNO     middleTelno,
+                DATE_FORMAT(a.SBSCRB_DE, "%Y/%m/%d") sbscrbDe,
+                a.LOCK_AT          lockAt,
+                a.MEMBERSHIP_TYPE		 membershipType,
+        		a.MEMBERSHIP_START_DT	membershipStartDt,
+				DATE_FORMAT(b.CREAT_DT, "%Y/%m/%d") creatDt,
+				a.user_comp_nm		userCompNm,
+        		a.user_comp_number	userCompNumber,
+        		a.send_mail_yn		sendMailYn
+			FROM COMTNGNRLMBER a, LOGINLIST b
+			WHERE a.ESNTL_ID = b.CONECT_ID
+			AND a.MBER_STTUS = 'P'
+			GROUP BY uniqId
+	        ORDER BY sbscrbDe DESC
+        
+    </select>
+    
+    <select id="getMovedDormantMber" resultType="java.util.HashMap">
+        	
+        	WITH LOGINLIST AS (
+           	   SELECT DISTINCT CONECT_ID, CREAT_DT from COMTNLOGINLOG WHERE DATE_ADD(DATE_FORMAT(CREAT_DT, "%Y/%m/%d"), INTERVAL ${sPeriod} MONTH) <![CDATA[<]]> now()
+			)
+            SELECT 
+				a.ESNTL_ID         uniqId,
+                a.MBER_ID          mberId,
+                a.MBER_NM          mberNm,
+                a.PASSWORD         password,
+                a.PASSWORD_HINT    passwordHint,
+                a.PASSWORD_CNSR    passwordCnsr,
+                a.IHIDNUM          ihidnum,
+                a.SEXDSTN_CODE     sexdstnCode,
+                a.ZIP              zip,
+                a.ADRES            adres,
+                a.AREA_NO          areaNo,
+                a.MBER_STTUS       mberSttus,
+                a.DETAIL_ADRES     detailAdres,
+                a.END_TELNO        endTelno,
+                a.MBTLNUM          moblphonNo,
+                a.GROUP_ID         groupId,
+                (SELECT GROUP_NM FROM COMTNAUTHORGROUPINFO WHERE GROUP_ID = a.GROUP_ID) groupNm,
+                a.MBER_FXNUM       mberFxnum,
+                a.MBER_EMAIL_ADRES mberEmailAdres,
+                a.MIDDLE_TELNO     middleTelno,
+                DATE_FORMAT(a.SBSCRB_DE, "%Y/%m/%d") sbscrbDe,
+                a.LOCK_AT          lockAt,
+                a.MEMBERSHIP_TYPE		 membershipType,
+        		a.MEMBERSHIP_START_DT	membershipStartDt,
+        		DATE_FORMAT(b.CREAT_DT, "%Y/%m/%d") creatDt,
+        		a.user_comp_nm		userCompNm,
+        		a.user_comp_number	userCompNumber,
+        		a.send_mail_yn		sendMailYn
+			FROM SLEEPMEMBERLIST a, LOGINLIST b
+			WHERE a.ESNTL_ID = b.CONECT_ID
+			GROUP BY uniqId
+	        ORDER BY sbscrbDe DESC
+        
+    </select>
+    
+    <select id="getDormantMberCnt" resultType="int">
+        
+            WITH LOGINLIST AS (
+			   SELECT DISTINCT CONECT_ID from COMTNLOGINLOG WHERE DATE_ADD(DATE_FORMAT(creat_dt, "%Y/%m/%d"), INTERVAL ${sPeriod} MONTH) <![CDATA[<]]> now()
+			)
+			SELECT 
+				COUNT(a.MBER_ID)
+			FROM COMTNGNRLMBER a, LOGINLIST b
+			WHERE a.ESNTL_ID = b.CONECT_ID
+        
+    </select>
+    
+    <select id="getMovedDormantMberCnt" resultType="int">
+        	
+        	WITH LOGINLIST AS (
+			   SELECT DISTINCT CONECT_ID from COMTNLOGINLOG WHERE DATE_ADD(DATE_FORMAT(creat_dt, "%Y/%m/%d"), INTERVAL ${sPeriod} MONTH) <![CDATA[<]]> now()
+			)
+            SELECT 
+				COUNT(a.MBER_ID)
+			FROM SLEEPMEMBERLIST a, LOGINLIST b
+			WHERE a.ESNTL_ID = b.CONECT_ID
+			
+        
+    </select>
+    
+    <select id="getDormantMber12" resultType="egovframework.com.uss.umt.service.MberManageVO">
+        
+            WITH LOGINLIST AS (
+           	   SELECT DISTINCT CONECT_ID, CREAT_DT from COMTNLOGINLOG WHERE DATE_ADD(DATE_FORMAT(CREAT_DT, "%Y/%m/%d"), INTERVAL 1 YEAR) <![CDATA[<]]> now()
+			)
+			SELECT 
+				a.ESNTL_ID         uniqId,
+                'USR01'            userTy,
+                a.MBER_ID          mberId,
+                a.MBER_NM          mberNm,
+                a.PASSWORD         password,
+                a.PASSWORD_HINT    passwordHint,
+                a.PASSWORD_CNSR    passwordCnsr,
+                a.IHIDNUM          ihidnum,
+                a.SEXDSTN_CODE     sexdstnCode,
+                a.ZIP              zip,
+                a.ADRES            adres,
+                a.AREA_NO          areaNo,
+                a.MBER_STTUS       mberSttus,
+                a.DETAIL_ADRES     detailAdres,
+                a.END_TELNO        endTelno,
+                a.MBTLNUM          moblphonNo,
+                a.GROUP_ID         groupId,
+                a.MBER_FXNUM       mberFxnum,
+                a.MBER_EMAIL_ADRES mberEmailAdres,
+                a.MIDDLE_TELNO     middleTelno,
+                DATE_FORMAT(a.SBSCRB_DE, "%Y/%m/%d") sbscrbDe,
+                a.LOCK_AT          lockAt,
+                a.MEMBERSHIP_TYPE		 membershipType,
+        		a.MEMBERSHIP_START_DT	membershipStartDt,
+        		DATE_FORMAT(b.CREAT_DT, "%Y/%m/%d") creatDt,
+        		a.user_comp_nm		userCompNm,
+        		a.user_comp_number	userCompNumber,
+        		a.send_mail_yn		sendMailYn
+			FROM COMTNGNRLMBER a, LOGINLIST b
+			WHERE a.ESNTL_ID = b.CONECT_ID
+			AND a.MBER_STTUS = 'P'
+			GROUP BY uniqId
+	        ORDER BY sbscrbDe DESC
+        
+    </select>
+    
+    <insert id="transferDormantMber" parameterType="egovframework.com.uss.umt.service.MberManageVO">
+			
+			INSERT INTO SLEEPMEMBERLIST
+			(   
+                    ESNTL_ID          ,
+                    MBER_ID          ,
+                    MBER_NM          ,
+                    PASSWORD         ,
+                    PASSWORD_HINT    ,
+                    PASSWORD_CNSR    ,
+                    IHIDNUM          ,
+                    SEXDSTN_CODE     ,
+                    ZIP              ,
+                    ADRES            ,
+                    AREA_NO          ,
+                    MBER_STTUS       ,
+                    DETAIL_ADRES     ,
+                    END_TELNO        ,
+                    MBTLNUM      ,
+                    GROUP_ID         ,
+                    MBER_FXNUM       ,
+                    MBER_EMAIL_ADRES ,
+                    MIDDLE_TELNO     ,
+                    SBSCRB_DE,
+                    MEMBERSHIP_TYPE,
+        			MEMBERSHIP_START_DT,
+        			USER_GRADE,
+        			CI,
+        			DI,
+        			user_comp_nm,
+        			user_comp_number,
+        			send_mail_yn
+        			)
+              VALUES(
+                    #{uniqId},
+                    #{mberId},
+                    #{mberNm},
+                    #{password},
+                    #{passwordHint},
+                    #{passwordCnsr},
+                    #{ihidnum},
+                    #{sexdstnCode},
+                    #{zip},
+                    #{adres},
+                    #{areaNo},
+                    'H',
+                    #{detailAdres},
+                    #{endTelno},
+                    #{moblphonNo},
+                    #{groupId},
+                    #{mberFxnum},
+                    #{mberEmailAdres},
+                    #{middleTelno},
+                    sysdate(), 
+                    #{membershipType},
+                    #{membershipStartDt},
+                    #{userGrade},
+                    #{ci},
+                    #{di},
+                    #{userCompNm},
+                    #{userCompNumber},
+                    #{sendMailYn}
+                    )       
+			ON DUPLICATE KEY UPDATE
+				MBER_ID          = #{mberId},
+                MBER_NM          = #{mberNm},
+                PASSWORD_HINT    = #{passwordHint},
+                PASSWORD_CNSR    = #{passwordCnsr},
+                IHIDNUM          = #{ihidnum},
+                SEXDSTN_CODE     = #{sexdstnCode},
+                ZIP              = #{zip},
+                ADRES            = #{adres},
+                AREA_NO          = #{areaNo},
+                MBER_STTUS       = 'H',
+                DETAIL_ADRES     = #{detailAdres},
+                END_TELNO        = #{endTelno},
+                MBTLNUM      = #{moblphonNo},
+                GROUP_ID         = #{groupId},
+                MBER_FXNUM       = #{mberFxnum},
+                MBER_EMAIL_ADRES = #{mberEmailAdres},
+                MIDDLE_TELNO     = #{middleTelno},
+                MEMBERSHIP_TYPE = #{membershipType},
+        		MEMBERSHIP_START_DT	= #{membershipStartDt},
+        		USER_GRADE = #{userGrade},
+        		CI = #{ci},
+        		DI = #{di},
+        		user_comp_nm = #{userCompNm},
+        		user_comp_number = #{userCompNumber},
+        		send_mail_yn = #{sendMailYn}
+			
+    </insert>
+    
+    <update id="updatetransferedDormantMberCode" parameterType="egovframework.com.uss.umt.service.MberManageVO">
+			
+			UPDATE COMTNGNRLMBER SET
+			
+			MBER_ID          = '',
+            MBER_NM          = '',
+            PASSWORD_HINT    = '',
+            PASSWORD_CNSR    = '',
+            IHIDNUM          = '',
+            SEXDSTN_CODE     = '',
+            ZIP              = '',
+            ADRES            = '',
+            AREA_NO          = '',
+            MBER_STTUS       = 'H',
+            DETAIL_ADRES     = '',
+            END_TELNO        = '',
+            MBTLNUM      	 = '',
+            GROUP_ID         = #{groupId},
+            MBER_FXNUM       = '',
+            MBER_EMAIL_ADRES = '',
+            MIDDLE_TELNO     = '',
+            USER_GRADE		= '',
+            CI				= '',
+            DI				= '',
+            user_comp_nm	= '',
+            user_comp_number= '',
+            send_mail_yn	= ''
+    		
+			WHERE ESNTL_ID = #{uniqId}
+			
+    </update>
 
 </mapper>

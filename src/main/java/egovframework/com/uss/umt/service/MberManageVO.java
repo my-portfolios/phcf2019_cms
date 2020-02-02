@@ -115,6 +115,19 @@ public class MberManageVO extends UserDefaultVO{
 	
 	private String membershipStartDt;
 	
+	private String userGrade;
+	
+	private String ci;
+	
+	private String di;
+	
+	private String userCompNm;
+	
+	private String userCompNumber;
+	
+	private String sendMailYn;
+	
+	
 	
 	public String getLockAt() {return lockAt;}
 	public void setLockAt(String lockAt) {this.lockAt = lockAt;}
@@ -441,5 +454,43 @@ public class MberManageVO extends UserDefaultVO{
 	public void setMberEmailAdres(String mberEmailAdres) {
 		this.mberEmailAdres = mberEmailAdres;
 	}
+	public String getUserGrade() {
+		return userGrade;
+	}
+	public void setUserGrade(String userGrade) {
+		this.userGrade = userGrade;
+	}
+	public String getCi() {
+		return ci;
+	}
+	public void setCi(String ci) {
+		this.ci = ci;
+	}
+	public String getDi() {
+		return di;
+	}
+	public void setDi(String di) {
+		this.di = di;
+	}
+	public String getUserCompNm() {
+		return userCompNm;
+	}
+	public void setUserCompNm(String userCompNm) {
+		this.userCompNm = userCompNm;
+	}
+	public String getUserCompNumber() {
+		return userCompNumber;
+	}
+	public void setUserCompNumber(String userCompNumber) {
+		this.userCompNumber = userCompNumber;
+	}
+	public String getSendMailYn() {
+		return sendMailYn;
+	}
+	public void setSendMailYn(String sendMailYn) {
+		this.sendMailYn = sendMailYn;
+	}
+	
+	
 
 }

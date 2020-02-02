@@ -1,5 +1,6 @@
 package egovframework.com.uss.umt.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import egovframework.com.uss.umt.service.EgovMberManageService;
@@ -183,6 +184,42 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 	@Override
 	public void updateLockIncorrect(MberManageVO mberManageVO) throws Exception {
 		mberManageDAO.updateLockIncorrect(mberManageVO);
+	}
+	
+	@Override
+	public List<HashMap<String, Object>> getDormantMber(HashMap<String, Object> paramMap) throws Exception {
+		return mberManageDAO.getDormantMber(paramMap);
+	}
+	
+	@Override
+	public List<HashMap<String, Object>> getMovedDormantMber(HashMap<String, Object> paramMap) throws Exception {
+		return mberManageDAO.getMovedDormantMber(paramMap);
+	}
+	
+	@Override
+	public int getDormantMberCnt(HashMap<String, Object> paramMap) throws Exception {
+		return mberManageDAO.getDormantMberCnt(paramMap);
+	}
+	
+	@Override
+	public int getMovedDormantMberCnt(HashMap<String, Object> paramMap) throws Exception {
+		return mberManageDAO.getMovedDormantMberCnt(paramMap);
+	}
+	
+	
+	@Override
+	public List<MberManageVO> getDormantMber() throws Exception {
+		return mberManageDAO.getDormantMber12();
+	}
+	
+	@Override
+	public void transferDormantMber(MberManageVO mberManageVO) throws Exception {
+		mberManageDAO.transferDormantMber(mberManageVO);
+	}
+	
+	@Override
+	public void updatetransferedDormantMberCode(MberManageVO mberManageVO) throws Exception {
+		mberManageDAO.updatetransferedDormantMberCode(mberManageVO);
 	}
 
 }

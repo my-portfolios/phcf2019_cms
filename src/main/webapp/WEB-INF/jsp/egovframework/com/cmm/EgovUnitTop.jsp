@@ -58,7 +58,7 @@
 			<div><span class="quickmenu_down">메뉴얼 다운로드</span></div>
 			<div id="currentTime">로딩 중...</div>
 			<div>  
-			<img src="<c:url value='/images/egovframework/com/cmm/main/ic_icon01.png' />">(공연전시팀) 
+			<img src="<c:url value='/images/egovframework/com/cmm/main/ic_icon01.png' />">
 			<c:if test="${loginVO != null}">
 				${loginVO.name }<spring:message code="comCmm.unitContent.2"/> <a href="${pageContext.request.contextPath }/uat/uia/actionLogout.do" target="_parent">
 				<img src="<c:url value='/images/egovframework/com/cmm/main/ic_logout.png' />" title="로그아웃">

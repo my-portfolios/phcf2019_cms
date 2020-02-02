@@ -575,6 +575,7 @@ span.btn_r a { vertical-align:text-top; color:#fff; display:block; line-height:1
     background: #f9f9f9;
     font-size: 25px;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .calendar { position: relative; width: 98% !important; padding: 20px 10px  !important;}

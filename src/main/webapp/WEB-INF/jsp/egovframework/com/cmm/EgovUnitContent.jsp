@@ -26,13 +26,13 @@
 <div class="dash_title"><span></span> Dashboard</div>
 <div class="board">
 	<div class="left dashboard_box1 ">
-		<li onclick="location.href='/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000297';" ><p class="circle">${fndNoticeArticleCnt }</p>재단공지</li>	
-		<li onclick="location.href='/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000307';"><p class="circle">${extNoticeArticleCnt }</p>외부공지</li>	
-		<li onclick="location.href='/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000310';"><p class="circle">${rcrtArticleCnt }</p>채용공고</li>	
-		<li onclick="location.href='/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000309';"><p class="circle">${auctArticleCnt }</p>입찰공고</li>			
+		<li onclick="window.open('http://localhost:8280/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000297')"><p class="circle">${fndNoticeArticleCnt }</p>재단공지</li>	
+		<li onclick="window.open('http://localhost:8280/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000307')"><p class="circle">${extNoticeArticleCnt }</p>외부공지</li>	
+		<li onclick="window.open('http://localhost:8280/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000310')"><p class="circle">${rcrtArticleCnt }</p>채용공고</li>	
+		<li onclick="window.open('http://localhost:8280/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000309')"><p class="circle">${auctArticleCnt }</p>입찰공고</li>			
 		<li onclick="location.href='/uss/umt/EgovMberManage.do';" class="circle_bg1"><p class="circle" style="color: #cf7aa4 !important;">${newMemCnt }</p>신규회원</li>
 		<li onclick="location.href='/premiumMember/selectMembershipRegList.do';" class="circle_bg1"><p class="circle" style="color: #cf7aa4 !important;">${newPrmMemCnt }</p>유료회원</li>
-		<li onclick="location.href='/cop/bbs/insertArticleView.do?bbsId=BBSMSTR_000000000297';" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_1.png"><br /><br/>공지 등록</li>
+		<li onclick="window.open('http://localhost:8280/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000297')" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_1.png"><br /><br/>공지 등록</li>
 		<li onclick="location.href='/uss/umt/EgovMberManage.do';" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_2.png"><br /><br/>회원 조회</li>
 		<li onclick="location.href='/cms/support/listView.do';" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_3.png"><br /><br/>휴면회원 조회</li>
 		<li onclick="location.href='#';" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_4.png"><br />버스킹 무대<br/>신청 관리</li>
@@ -67,7 +67,6 @@
 	<c:import url="/cop/bbs/latestArticleListView.do" charEncoding="utf-8">
  		<c:param name="skinNm" value="" /> <%-- 스킨이름 (기본값 basic) --%>
 		<c:param name="bbsId" value="BBSMSTR_000000000331" /> <%-- 필수 BBS_ID --%>
-		<c:param name="bbsId" value="BBSMSTR_000000000171" /> <%-- 필수 BBS_ID --%>
 		<c:param name="cntOfArticle" value="5" /> <%-- 게시물 갯수(기본값 5) --%>
 		<c:param name="ordColmn" value="" /> <%-- 정렬 칼럼(기본값 FRST_REGIST_PNTTM 최초등록시점) --%>
 		<c:param name="ordWay" value="" /> <%-- 정렬방식 (기본값 DESC) --%>
@@ -77,7 +76,7 @@
 	</c:import>
 	</div>
 	
-	<div class="dashboard_box5"><p class="dash_subtitle">업무 요청 게시판</p>
+	<div class="dashboard_box5"><p class="dash_subtitle">월별 접속자 통계</p>
 		<div class="chart-container div_box"  align="center" style="height: auto; width:96.5%;">
 		<p> 월별 접속자 통계 </p>
 		<canvas id="canvas" style="height: auto; width:100%;" ></canvas>
@@ -88,7 +87,7 @@
 	
 	
 </div>
-<br /><br />
+<br /><br /><br /><br />
 <script>
 
 var chartLabels = []; // 받아올 데이터를 저장할 배열 선언

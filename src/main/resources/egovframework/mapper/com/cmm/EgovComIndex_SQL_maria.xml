@@ -115,6 +115,7 @@
 		FROM
 			MENUINFOLIST
 		WHERE 1=1
+			AND USE_YN = 'Y'
 			<if test='value != null and value != ""'>
 			AND PAGE_NM = #{value}
 			</if>

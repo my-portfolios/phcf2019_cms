@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>▒▒▒  eGovFrame Potal 온라인 지원 포탈  ▒▒▒</title>
+<title>포항문화재단</title>
 <link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css" />
 
 <script language="javascript">

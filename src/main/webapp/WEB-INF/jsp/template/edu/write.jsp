@@ -186,7 +186,7 @@ function fn_egov_init(){
 		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.cateName"/> </c:set>
 		<tr>
 			<th><label for=cateName>${title} <span class="pilsu">*</span></label></th>
-			<td class="left">
+			<td class="left" colspan="3">
 				<form:select path="cateName" title="${title} ${inputTxt}" cssClass="txt">
 					<form:option value="" label="--선택하세요--" />
 					<form:options items="${boardMasterVO.cateNames}"/>
@@ -207,7 +207,7 @@ function fn_egov_init(){
 			</td>
 			<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.sjBoldAt"/> </c:set>
 			<th><label for="sjBoldAt">${title}</label></th>
-			<td class="left">
+			<td class="left" >
 			    <form:checkbox path="sjBoldAt" value="Y"/>
    				<div><form:errors path="sjBoldAt" cssClass="error" /></div>     
 			</td>

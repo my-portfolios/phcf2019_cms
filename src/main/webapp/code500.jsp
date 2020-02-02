@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>▒▒▒  eGovFrame Potal 온라인 지원 포탈  ▒▒▒</title>
+<title>포항문화재단</title>
 <link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css" />
 
 <script language="javascript">
@@ -20,7 +20,7 @@ function fncGoAfterErrorPage(){
 	
 	<div style="border: 0px solid #666; padding: 20px;">
 		<!-- 404 -->
-		<p style="color:red; margin-bottom: 8px; ">500 Error</p>
+		<!-- <p style="color:red; margin-bottom: 8px; ">500 Error</p> -->
 
 		<div class="boxType1" style="width: 500px;">
 			<div class="box">

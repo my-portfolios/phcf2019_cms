@@ -164,7 +164,7 @@ function fn_egov_inqire_bbslist() {
 		<tr id="cateList" style="display:none;">
 			<th><label for="cateList">${title} <span class="pilsu">*</span></label></th>
 			<td class="left">
-			    <form:input path="cateList" title="${title} ${inputTxt}" size="70" maxlength="70" />
+			    <form:input path="cateList" title="${title} ${inputTxt}" size="150" maxlength="150" />
    				<div><form:errors path="cateList" cssClass="error" /></div>     
 			</td>
 		</tr>

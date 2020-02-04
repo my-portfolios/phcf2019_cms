@@ -717,6 +717,7 @@
          LEFT OUTER JOIN
             BBSADDEDCOLMNS c
          ON bbs.BBS_ID = c.BBS_ID AND bbs.NTT_ID = c.NTT_ID
+         GROUP BY bbs.NTT_ID
          <choose>
 	         <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID"'>
 	               ORDER BY bbs.${ordColmn} ${ordWay}
@@ -827,6 +828,7 @@
          LEFT OUTER JOIN
             BBSADDEDCOLMNS c
          ON bbs.BBS_ID = c.BBS_ID AND bbs.NTT_ID = c.NTT_ID
+         GROUP BY bbs.NTT_ID
          <choose>
 	         <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID"'>
 	               ORDER BY bbs.${ordColmn} ${ordWay}
@@ -841,7 +843,7 @@
 	<select id="latestArticleListViewCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
 			
 			SELECT
-				COUNT(*)
+				COUNT(a.NTT_ID)
 			FROM
 				COMTNBBS a
 			LEFT OUTER JOIN 
@@ -862,7 +864,7 @@
 	<select id="latestMultiArticleListViewCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
 			
 			SELECT
-				COUNT(*)
+				COUNT(a.NTT_ID)
 			FROM
 				COMTNBBS a
 			LEFT OUTER JOIN 

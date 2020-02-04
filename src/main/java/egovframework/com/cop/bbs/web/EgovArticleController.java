@@ -241,109 +241,6 @@ public class EgovArticleController {
     
     
     /**
-     * 게시물에 대한 목록을 조회한다.
-     * 
-     * @param boardVO
-     * @param sessionVO
-     * @param model
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/cop/bbs/selectMultiArticleList.do")
-    public String selectMultiArticleList(HttpServletRequest request, @ModelAttribute("searchVO") BoardVO boardVO, ModelMap model) throws Exception {
-		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		
-		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();	//KISA 보안취약점 조치 (2018-12-10, 이정은)
-
-        if(!isAuthenticated) {
-            return "egovframework/com/uat/uia/EgovLoginUsr";
-        }
-        
-		BoardMasterVO vo = new BoardMasterVO();
-		
-		vo.setBbsId(boardVO.getBbsId());
-		vo.setUniqId(user.getUniqId());
-		BoardMasterVO master = egovBBSMasterService.selectBBSMasterInf(vo);
-		
-		//방명록은 방명록 게시판으로 이동
-		if(master.getBbsTyCode().equals("BBST03")){
-			return "forward:/cop/bbs/selectGuestArticleList.do";
-		}
-		
-		
-		boardVO.setPageUnit(propertyService.getInt("pageUnit"));
-		boardVO.setPageSize(propertyService.getInt("pageSize"));
-	
-		PaginationInfo paginationInfo = new PaginationInfo();
-		
-		paginationInfo.setCurrentPageNo(boardVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(boardVO.getPageUnit());
-		paginationInfo.setPageSize(boardVO.getPageSize());
-	
-		boardVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		boardVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		boardVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-	
-		Map<String, Object> map = egovArticleService.selectArticleList(boardVO);
-		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
-		
-		List<BoardAddedColmnsVO> addedColmnsList = egovArticleService.selectArticleAddedColmnsDetail(boardVO);
-		model.addAttribute("articleACVO", addedColmnsList);
-		
-		//공지사항 추출
-		List<BoardVO> noticeList = egovArticleService.selectNoticeArticleList(boardVO);
-		
-		paginationInfo.setTotalRecordCount(totCnt);
-	
-		//-------------------------------
-		// 기본 BBS template 지정 
-		//-------------------------------
-		if (master.getTmplatCours() == null || master.getTmplatCours().equals("")) {
-		    master.setTmplatCours("/css/egovframework/com/cop/tpl/egovBaseTemplate.css");
-		}
-		////-----------------------------
-		//----------------------------
-		// 카테고리 리스트 가져오기
-		//----------------------------
-		if(master.getCateUse()!=null) {
-			if(master.getCateUse().equals("Y")) {
-				ArrayList<String> cateNames = new ArrayList<String>();
-				String[] cateNamesTmp = master.getCateList().split("\\|");
-				for(String cmp : cateNamesTmp) {
-					cateNames.add(cmp);
-				}
-				master.setCateNames(cateNames);
-			}
-		}
-		if(user != null) {
-	    	model.addAttribute("sessionUniqId", user.getUniqId());
-	    }
-		
-		//-------------------------------------------
-		// 2019. 10. 31, 윤병훈
-		// 게시판의 템플릿 정보가 없을 때 기본값적용
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		if(master.getTmplatId().equals("") || master.getTmplatId().equals(null)) {
-			master.setTmplatId("basic");
-		}
-		//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		
-		model.addAttribute("resultList", map.get("resultList"));
-		model.addAttribute("resultCnt", map.get("resultCnt"));
-		model.addAttribute("articleVO", boardVO);
-		model.addAttribute("boardMasterVO", master);
-		model.addAttribute("paginationInfo", paginationInfo);
-		model.addAttribute("noticeList", noticeList);
-		
-		//템플릿 파일 유무를 검사한다.
-		String isDir = request.getServletContext().getRealPath("/WEB-INF/jsp/template/"+master.getTmplatId()+"/list.jsp");
-		File f = new File(isDir);
-		if(f.exists()) return "egovframework/com/cop/bbs/EgovArticleList";
-		else return "error/noTmpltErrorPage";
-    }
-    
-    
-    /**
      * 게시물에 대한 상세 정보를 조회한다.
      * 
      * @param boardVO
@@ -1715,7 +1612,7 @@ public class EgovArticleController {
     		paramMap.put("pageUse", pageUse);
     		int pageGN = Integer.parseInt(pageGroupNum);
     		int pageAN = Integer.parseInt(pageArticleNum);
-    		int pageTotal = (int) Math.floor(totalArticles/pageAN+1);
+    		int pageTotal = (totalArticles%pageAN>0) ? (int) Math.floor(totalArticles/pageAN)+1 : (int) Math.floor(totalArticles/pageAN);
     		int pageN = Integer.parseInt(pageNum);
     		if(pageN < 1) pageN = 1;
     		if(pageN > pageTotal) pageN = pageTotal;
@@ -1760,8 +1657,6 @@ public class EgovArticleController {
 		if(f.exists()) return "template/_latest/"+skinNm;
 		else return "error/noTmpltErrorPage";
 	}
-    
-    
     
     
     private int[] getMaxAcList(String[] ac1, String[] ac2, String[] ac3, String[] ac4, String[] ac5, 

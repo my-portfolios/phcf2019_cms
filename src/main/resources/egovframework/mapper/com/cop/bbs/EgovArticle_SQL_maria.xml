@@ -334,8 +334,8 @@
 			<if test="searchCnd == 2">AND
 					b.USER_NM LIKE CONCAT ('%', #{searchWrd},'%') 		
 			</if>		
-			<if test='cateName != null and !cateName.equals("")'>AND
-					a.CATE_NAME = #{cateName}		
+			<if test='searchCate != null and !searchCate.equals("")'>AND
+					a.CATE_NAME = #{searchCate}		
 			</if>	
 			<if test='searchBgnDe != null and !searchBgnDe.equals("") and searchEndDe != null and !searchEndDe.equals("")'>AND
 					FRST_REGIST_PNTTM BETWEEN DATE(#{searchBgnDe}) AND DATE(#{searchEndDe})

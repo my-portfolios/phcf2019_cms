@@ -54,6 +54,8 @@ public class LoginVO implements Serializable{
 	private String ip;
 	/** GPKI인증 DN */
 	private String dn;
+	
+	private String mbtlNum;
 	/**
 	 * id attribute 를 리턴한다.
 	 * @return String
@@ -254,6 +256,12 @@ public class LoginVO implements Serializable{
 	}
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
+	}
+	public String getMbtlNum() {
+		return mbtlNum;
+	}
+	public void setMbtlNum(String mbtlNum) {
+		this.mbtlNum = mbtlNum;
 	}
 	
 }

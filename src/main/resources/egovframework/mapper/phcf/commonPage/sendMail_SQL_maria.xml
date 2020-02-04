@@ -14,12 +14,12 @@
 	
 	<select id="getMailUserList" resultType="egovframework.phcf.common.service.ParamMap">
 		SELECT 
-			user_id
-			, user_email as toMail
-			, user_name as toName
+			mber_id
+			, mber_email_adres as toMail
+			, mber_nm as toName
 			, send_mail_yn
 		FROM 
-			hbz_user_t
+			COMTNGNRLMBER
 		WHERE 
 			send_mail_yn = 'Y'
 	</select>

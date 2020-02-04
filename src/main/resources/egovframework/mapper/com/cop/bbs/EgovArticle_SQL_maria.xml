@@ -689,7 +689,10 @@
                LEFT OUTER JOIN 
                   COMVNUSERMASTER b
                ON a.FRST_REGISTER_ID = b.ESNTL_ID 
-               WHERE 1=1
+               LEFT OUTER JOIN
+		            COMTNBBSMASTER m
+		         ON a.BBS_ID = m.BBS_ID
+		         WHERE m.USE_AT = 'Y'
                AND a.BBS_ID != 'BBSMSTR_000000000002'
                <if test="bbsId != '' and bbsId!=null">
                AND a.BBS_ID = #{bbsId}
@@ -719,7 +722,7 @@
          ON bbs.BBS_ID = c.BBS_ID AND bbs.NTT_ID = c.NTT_ID
          GROUP BY bbs.NTT_ID
          <choose>
-	         <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID"'>
+	         <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID" or ordColmn == "FRST_REGIST_PNTTM"'>
 	               ORDER BY bbs.${ordColmn} ${ordWay}
 	         </when>
 	         <otherwise>
@@ -800,7 +803,10 @@
                LEFT OUTER JOIN 
                   COMVNUSERMASTER b
                ON a.FRST_REGISTER_ID = b.ESNTL_ID 
-               WHERE 1=1
+               LEFT OUTER JOIN
+		            COMTNBBSMASTER m
+		         ON a.BBS_ID = m.BBS_ID
+		         WHERE m.USE_AT = 'Y'
                AND a.BBS_ID != 'BBSMSTR_000000000002'
                <foreach collection="bbsId" item="item" open="AND (" separator="OR" close=")">
                   a.BBS_ID = #{item}
@@ -830,7 +836,7 @@
          ON bbs.BBS_ID = c.BBS_ID AND bbs.NTT_ID = c.NTT_ID
          GROUP BY bbs.NTT_ID
          <choose>
-	         <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID"'>
+	         <when test='ordColmn == "NTT_ID" or ordColmn == "BBS_ID" or ordColmn == "FRST_REGIST_PNTTM"'>
 	               ORDER BY bbs.${ordColmn} ${ordWay}
 	         </when>
 	         <otherwise>
@@ -849,8 +855,11 @@
 			LEFT OUTER JOIN 
 				COMVNUSERMASTER b
 			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
-			WHERE 1=1
-			AND BBS_ID != 'BBSMSTR_000000000002'
+			LEFT OUTER JOIN
+	            COMTNBBSMASTER m
+	         ON a.BBS_ID = m.BBS_ID
+	         WHERE m.USE_AT = 'Y'
+			AND a.BBS_ID != 'BBSMSTR_000000000002'
 			<if test="bbsId != '' and bbsId!=null">
 			AND a.BBS_ID = #{bbsId}
 			</if>
@@ -870,8 +879,11 @@
 			LEFT OUTER JOIN 
 				COMVNUSERMASTER b
 			ON a.FRST_REGISTER_ID = b.ESNTL_ID 
-			WHERE 1=1
-			AND BBS_ID != 'BBSMSTR_000000000002'
+			LEFT OUTER JOIN
+	            COMTNBBSMASTER m
+	         ON a.BBS_ID = m.BBS_ID
+	         WHERE m.USE_AT = 'Y'
+			AND a.BBS_ID != 'BBSMSTR_000000000002'
 			<foreach collection="bbsId" item="item" open="AND (" separator="OR" close=")">
 				a.BBS_ID = #{item}
 			</foreach>

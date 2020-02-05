@@ -84,6 +84,8 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		
 		if(currentQueryString!=null) currentUrl += "?" + currentQueryString;
 		
+		List<AuthManageVO> authManageList = new ArrayList<AuthManageVO>();
+		
 		if(!currentUrl.equals(banGoToUrl)) {
 			//로그인정보 가져오기
 			if(EgovUserDetailsHelper.isAuthenticated()) {
@@ -95,67 +97,13 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 				amvo.setGroupId(vo.getGroupId());
 				amvo.setPage(Globals.SITE_NAME);
 				
-				List<AuthManageVO> authManageList = egovPhcfAuthorService.selectEgovPhcfAuthList(amvo);
+				authManageList = egovPhcfAuthorService.selectEgovPhcfAuthList(amvo);
 				
-				//AUTH_PRIORITY 적용 (우선순위, authpriority > INS_DT > ban_link > SEQ(적은것)
-				// 내림차순 정렬
-				authManageList.sort(new Comparator<AuthManage>() {
-					@SuppressWarnings("unlikely-arg-type")
-					@Override
-					public int compare(AuthManage arg0, AuthManage arg1) {
-						int priority0 = 0;
-						int priority1 = 0;
-						
-						if(arg0!=null && !arg0.equals("")) {
-							priority0 = Integer.parseInt(arg0.getAuthPriority());
-						}
-						if(arg1!=null && !arg1.equals("")) {
-							priority1 = Integer.parseInt(arg1.getAuthPriority());
-						}
-						if (priority0 == priority1) {
-							if (arg0.getInsDt().compareTo(arg1.getInsDt())==0)
-								return 0;
-							else if (arg0.getInsDt().compareTo(arg1.getInsDt())==-1)
-								return 1;
-							else
-								return -1;
-						}
-						else if (priority1 > priority0)
-							return 1;
-						else
-							return -1;
-					}
-				});
+				boolean phcfAuthCheck = phcfAuthCheck(request, authManageList, currentUrl);
 				
-				boolean phcfAuthCheck = true;
-		
-				AntPathRequestMatcher antPathRequestMatcher = null;
+				// 현재메뉴에 대한 권한 정보를 저장 True or False
+				request.setAttribute("phcfAuthCheck",phcfAuthCheck);
 				
-				for(String phcfAuthPattern : phcfAuthPatternList){
-					AntPathRequestMatcher phcfAcceptMatcher = null;
-					AntPathRequestMatcher phcfBanMatcher = null;
-					antPathRequestMatcher = new AntPathRequestMatcher(phcfAuthPattern);
-					//현재주소와 맞는지 확인
-					if(antPathRequestMatcher.matches(request)) {
-						for(AuthManage authManage : authManageList) {
-							//Allow 권한체크
-							if(authManage.getAcceptLink()!=null && !authManage.getAcceptLink().equals("")) {
-								phcfAcceptMatcher = new AntPathRequestMatcher(authManage.getAcceptLink());
-								if(phcfAcceptMatcher.matches(request) || currentUrl.contains(authManage.getAcceptLink())) {
-									phcfAuthCheck = true;
-								}
-							}
-							//Ban 권한체크
-							if(authManage.getBanLink()!=null && !authManage.getBanLink().equals("")) {
-								phcfBanMatcher = new AntPathRequestMatcher(authManage.getBanLink());
-								if(phcfBanMatcher.matches(request) || currentUrl.contains(authManage.getBanLink())) {
-									phcfAuthCheck = false;
-								}
-							}
-							
-						}
-					}
-				}
 				if(!phcfAuthCheck) {
 					ModelAndView modelAndView = new ModelAndView("redirect:"+banGoToUrl);
 					throw new ModelAndViewDefiningException(modelAndView);
@@ -174,9 +122,17 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		HashMap<String, Object> cmMap = new HashMap<String, Object>();
 		
 		if(AllMenuList!=null) {
+			List<HashMap<String, Object>> tempMapList = new ArrayList<HashMap<String,Object>>();
+			for(HashMap<String, Object> entry : AllMenuList) {
+				if(entry!=null && authManageList!=null) {					
+					if(phcfAuthCheck(request, authManageList, entry.get("link").toString())) tempMapList.add(entry);
+				}
+			}
+			AllMenuList.clear();
+			AllMenuList = tempMapList;
 			for(HashMap<String, Object> entry : AllMenuList) {
 				if(entry!=null) {					
-					if(currentUrl.matches(".*"+entry.get("LINK")+".*") || currentUrl.equals(entry.get("LINK"))) {
+					if(currentUrl.matches(".*"+entry.get("link").toString()+".*") || currentUrl.equals(entry.get("link").toString())) {
 						cmMap.putAll(entry);
 					}
 				}
@@ -201,6 +157,72 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		return true;
+	}
+	
+	private Boolean phcfAuthCheck (HttpServletRequest request, List<AuthManageVO> authManageList, String url) {
+		
+		boolean phcfAuthCheck = true;
+		//로그인정보 가져오기
+			
+		//AUTH_PRIORITY 적용 (우선순위, authpriority > INS_DT > ban_link > SEQ(적은것)
+		// 내림차순 정렬
+		authManageList.sort(new Comparator<AuthManage>() {
+			@SuppressWarnings("unlikely-arg-type")
+			@Override
+			public int compare(AuthManage arg0, AuthManage arg1) {
+				int priority0 = 0;
+				int priority1 = 0;
+				
+				if(arg0!=null && !arg0.equals("")) {
+					priority0 = Integer.parseInt(arg0.getAuthPriority());
+				}
+				if(arg1!=null && !arg1.equals("")) {
+					priority1 = Integer.parseInt(arg1.getAuthPriority());
+				}
+				if (priority0 == priority1) {
+					if (arg0.getInsDt().compareTo(arg1.getInsDt())==0)
+						return 0;
+					else if (arg0.getInsDt().compareTo(arg1.getInsDt())==-1)
+						return 1;
+					else
+						return -1;
+				}
+				else if (priority1 > priority0)
+					return 1;
+				else
+					return -1;
+			}
+		});
+
+		AntPathRequestMatcher antPathRequestMatcher = null;
+		
+		for(String phcfAuthPattern : phcfAuthPatternList){
+			AntPathRequestMatcher phcfAcceptMatcher = null;
+			AntPathRequestMatcher phcfBanMatcher = null;
+			antPathRequestMatcher = new AntPathRequestMatcher(phcfAuthPattern);
+			//현재주소와 맞는지 확인
+			if(antPathRequestMatcher.matches(request)) {
+				for(AuthManage authManage : authManageList) {
+					//Allow 권한체크
+					if(authManage.getAcceptLink()!=null && !authManage.getAcceptLink().equals("")) {
+						phcfAcceptMatcher = new AntPathRequestMatcher(authManage.getAcceptLink());
+						if(phcfAcceptMatcher.matches(request) || url.contains(authManage.getAcceptLink())) {
+							phcfAuthCheck = true;
+						}
+					}
+					//Ban 권한체크
+					if(authManage.getBanLink()!=null && !authManage.getBanLink().equals("")) {
+						phcfBanMatcher = new AntPathRequestMatcher(authManage.getBanLink());
+						if(phcfBanMatcher.matches(request) || url.contains(authManage.getBanLink())) {
+							phcfAuthCheck = false;
+						}
+					}
+					
+				}
+			}
+		}
+		
+		return phcfAuthCheck;
 	}
 	
 }

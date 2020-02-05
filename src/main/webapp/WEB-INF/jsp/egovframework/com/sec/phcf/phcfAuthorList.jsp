@@ -64,6 +64,7 @@ $(document).ready(function() {
 		, controller: {
 			loadData: function(filter) {
 				var d = $.Deferred();
+				filter.page = '${page}';
 				
 				$.ajax({
 					type: 'POST'
@@ -78,6 +79,8 @@ $(document).ready(function() {
 				return d.promise();
 			}
 			, insertItem: function(item) {
+				item.page = '${page}';
+				console.log(item);
 				return $.ajax({
 					type: 'POST'
 					, url: '/sec/phcf/insertEgovPhcfAuthorList.do'
@@ -93,6 +96,7 @@ $(document).ready(function() {
 				});
 			} 
 			, updateItem: function(item) {
+				item.page = '${page}';
 				return $.ajax({
 					type: 'POST'
 					, url: '/sec/phcf/updateEgovPhcfAuthorList.do'
@@ -107,6 +111,7 @@ $(document).ready(function() {
 				});
 			} 
 			, deleteItem: function(item) {
+				item.page = '${page}';
 				return $.ajax({
 					type: 'POST'
 					, url : '/sec/phcf/deleteEgovPhcfAuthorList.do'
@@ -128,7 +133,7 @@ $(document).ready(function() {
 		, fields: [
 			{name: 'seq', title:'순번', type: 'text', editing: false, filtering: false, inserting: false, width: 50, align: 'center' }
 			, {name: 'authNm', title: '권한이름', type: 'text', editing: true, width: 80, align: 'center' }
-			, {name: 'page', title: '페이지', type: 'select', items: pageArr, valueField: 'code', textField: 'codeNm', editing: true, width: 70, align: 'center' }
+			/* , {name: 'page', title: '페이지', type: 'select', items: pageArr, valueField: 'code', textField: 'codeNm', editing: true, width: 70, align: 'center' } */
 			, {name: 'orgnztId', title: '조직(부서)', type: 'select', items: deptArr, valueField: 'deptCode', textField: 'deptNm', editing: true, width: 120 }
 			, {name: 'groupId', title: '사용자그룹', type: 'select', items: groupArr, valueField: 'groupId', textField: 'groupNm', editing: true, width: 100 }
 			, {name: 'acceptLink', title: '허용메뉴', type: 'select', items: menuArr, valueField: 'link', textField: 'menuNm', editing: true, filtering: true, width: 200 }
@@ -141,6 +146,10 @@ $(document).ready(function() {
 		]
 	});
 	
+	$("#page").change(function() {
+		location.href='?page='+$("#page").val();
+    });
+	
 });
 </script>
 
@@ -151,11 +160,15 @@ $(document).ready(function() {
 <h1>포항문화재단 권한 관리</h1>
 <form name="frm" id="frm" action="${ctx}/sec/phcf/getEgovPhcfAuthorList.do" method="post" >
 
-<div class="search_box" style="display:none;">
-	<ul >
-		<li class="div-left"></li>
-		<li></li>
-		<li></li>
+<div class="search_box">
+	<ul>
+		<li class="div-right">
+			<select id="page">
+				<option value="cms" <c:if test="${page == 'cms' }">selected</c:if>>관리자페이지</option>
+				<option value="main" <c:if test="${page == 'main' }">selected</c:if>>메인홈페이지</option>
+				<option value="place" <c:if test="${page == 'place' }">selected</c:if>>문화공간페이지</option>
+			</select>
+		</li>
 	</ul>
 </div>
 

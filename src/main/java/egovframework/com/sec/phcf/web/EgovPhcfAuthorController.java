@@ -21,6 +21,7 @@ import egovframework.phcf.util.JsonUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -117,7 +118,9 @@ public class EgovPhcfAuthorController {
 	}
     
     @RequestMapping(value="/sec/phcf/listView.do")
-	public String phcfAuthorList(ModelMap model) throws Exception {
+	public String phcfAuthorList(ModelMap model, @RequestParam(required=false, defaultValue="cms") String page) throws Exception {
+    	
+    	model.addAttribute("page", page);
     	
     	ComDefaultCodeVO voComCode = new ComDefaultCodeVO();
     	// 문화재단 사이트 코드를 가져온다
@@ -140,9 +143,15 @@ public class EgovPhcfAuthorController {
         model.addAttribute("groupList", JsonUtil.getJsonArrayFromVOList(groupManageVO.getGroupManageList()));
         
         //메뉴목록 가져오기
-        List<HashMap<String, Object>> menuMap = egovComIndexService.selectMenuInfoList("cms");
+        List<HashMap<String, Object>> tempMap = egovComIndexService.selectMenuInfoList(page);
+        List<HashMap<String, Object>> menuMap = new ArrayList<HashMap<String, Object>>();
+        for(HashMap<String, Object> mmap : tempMap) {
+        	if(!mmap.get("menuNm").toString().equals("No Menu Mathed") && !mmap.get("link").toString().equals("#")) {
+        		menuMap.add(mmap);
+        	}
+        }
         for(HashMap<String, Object> mmap : menuMap) {
-        	String temp = (String) mmap.get("menuNm");
+        	String temp = mmap.get("menuNm").toString();
         	mmap.remove("menuNm");
         	mmap.put("menuNm", mmap.get("pageNm")+" >> "+temp);
         }

@@ -31,9 +31,12 @@
               FROM AUTHMANAGE auth
             LEFT JOIN (SELECT ORGNZT_ID, ORGNZT_NM FROM COMTNORGNZTINFO) AS org
             ON auth.ORGNZT_ID = org.ORGNZT_ID
-             WHERE USE_YN = 'Y' 
+             WHERE 1=1 
+             <if test='useYn != null and useYn != ""'>AND
+             	auth.USE_YN = #{useYn}
+             </if>
              <if test='page != null and page != "" and page != "all"'>AND
-             	auth.PAGE LIKE CONCAT('%', #{page}, '%')
+             	auth.PAGE = #{page}
              </if>
              <if test='page == "all"'>
              
@@ -68,7 +71,7 @@
             INS_ID, DATE_FORMAT(INS_DT,'%Y-%m-%dT%H:%i:%s') AS INS_DT, 
             UPT_ID, DATE_FORMAT(UPT_DT,'%Y-%m-%dT%H:%i:%s') AS UPT_DT
               FROM AUTHMANAGE 
-             WHERE USE_YN = 'Y' 
+             WHERE 1=1
              <if test='page != null and !page.equals("") and !page.equals("all")'>
              AND PAGE = #{page}
              </if>
@@ -91,7 +94,7 @@
         
             SELECT COUNT(SEQ)
               FROM AUTHMANAGE 
-             WHERE USE_YN = 'Y' 
+             WHERE 1=1
              <if test='page != null and page != "" and page != "all"'>
              AND PAGE = #{page}
              </if>

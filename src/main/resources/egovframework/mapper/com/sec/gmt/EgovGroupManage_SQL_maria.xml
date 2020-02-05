@@ -27,7 +27,9 @@
                 GROUP_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
             </if>
             ORDER BY GROUP_CREAT_DE DESC
-            LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+            <if test="recordCountPerPage != -1 and firstIndex != -1">
+            	LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+            </if>
     </select>
 
 	<insert id="insertGroup">

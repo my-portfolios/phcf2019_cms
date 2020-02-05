@@ -133,6 +133,9 @@ public class EgovPhcfAuthorController {
         //그룹목록 가져오기
         GroupManageVO groupManageVO = new GroupManageVO();
         groupManageVO.setSearchCondition(null);
+        // 그룹전체 가져오기
+        groupManageVO.setFirstIndex(-1);
+        groupManageVO.setRecordCountPerPage(-1);
         groupManageVO.setGroupManageList(egovGroupManageService.selectGroupList(groupManageVO));
         model.addAttribute("groupList", JsonUtil.getJsonArrayFromVOList(groupManageVO.getGroupManageList()));
         

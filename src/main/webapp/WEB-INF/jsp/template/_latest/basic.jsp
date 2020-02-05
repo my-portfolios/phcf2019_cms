@@ -26,7 +26,7 @@
 			<td>${fn:length(resultList) - status.count + 1}</td>
 		</c:otherwise>
 	</c:choose>
-	<td class="left"><c:out value="${resultInfo.nttSj}"/></td>
+	<td class="left"><a href="/cop/bbs/selectArticleDetail.do?bbsId=${resultInfo.bbsId }&nttId=${resultInfo.nttId }"><c:out value="${resultInfo.nttSj}"/></a></td>
 	<td><c:out value="${resultInfo.frstRegisterPnttm}"/></td>
 </tr>
 </c:forEach>

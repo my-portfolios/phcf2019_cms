@@ -32,9 +32,9 @@
 		<li onclick="window.open('http://localhost:8280/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000309')"><p class="circle">${auctArticleCnt }</p>입찰공고</li>			
 		<li onclick="location.href='/uss/umt/EgovMberManage.do';" class="circle_bg1"><p class="circle" style="color: #cf7aa4 !important;">${newMemCnt }</p>신규회원</li>
 		<li onclick="location.href='/premiumMember/selectMembershipRegList.do';" class="circle_bg1"><p class="circle" style="color: #cf7aa4 !important;">${newPrmMemCnt }</p>유료회원</li>
-		<li onclick="window.open('http://localhost:8280/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000297')" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_1.png"><br /><br/>공지 등록</li>
+		<li onclick="window.open('http://localhost:8080/cop/bbs/insertArticleView.do?bbsId=BBSMSTR_000000000297')" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_1.png"><br /><br/>공지 등록</li>
 		<li onclick="location.href='/uss/umt/EgovMberManage.do';" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_2.png"><br /><br/>회원 조회</li>
-		<li onclick="location.href='/cms/support/listView.do';" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_3.png"><br /><br/>휴면회원 조회</li>
+		<li onclick="location.href='/uss/umt/EgovMberDormantMngView.do';" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_3.png"><br /><br/>휴면회원 조회</li>
 		<li onclick="location.href='#';" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_4.png"><br />버스킹 무대<br/>신청 관리</li>
 		<li onclick="window.open('http://localhost:8280/cop/bbs/insertArticleView.do?bbsId=BBSMSTR_000000000281')" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_5.png"><br />시립예술단<br/>공연 일정등록</li>
 		<li onclick="window.open('http://localhost:8280/cop/bbs/insertArticleView.do?bbsId=BBSMSTR_000000000311')" class="circle_bg2" style="letter-spacing: -1px;"><img src="/images/egovframework/com/cmm/main/ic_dashboard_6.png">

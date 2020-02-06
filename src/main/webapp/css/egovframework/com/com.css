@@ -253,7 +253,7 @@ padding-bottom :12px;
 .board_list {width:100%; /* table-layout:fixed; */ border-top:2px solid #266089; }
 .board_list caption { display:none; }
 .board_list thead th,
-.board_list tbody th { color:#222 ; font-size:13px; font-weight:400; background:#f4f4f4; padding:12px 0; border-bottom:1px solid #d9d9d9;     min-width: 100px;}
+.board_list tbody th { color:#222 ; font-weight:400; background:#f4f4f4; padding:12px 0; border-bottom:1px solid #d9d9d9;     min-width: 100px;}
 .board_list tbody tr.odd {  }
 .board_list tbody.ov tr:hover { background:#f9f9f9; }
 .board_list tbody th {  text-align: center; padding-left:14px; }
@@ -598,11 +598,12 @@ form#deptSchdulManageVO #content {width: 100% !important;}
 .jsgrid-pager-current-page {background: #266089; color: #ffffff !important; border: 1px solid #266089;}
 
 .ui-datepicker-trigger {    cursor: pointer; border: 1px solid #d2d2d2;  padding: 4px;  margin-left: 5px;  margin-top: -5px;}
-/* .jsgrid .jsgrid-button {background: url(/images/egovframework/phcf/admin/bnts.png) 100% 35% no-repeat; width: 47px !important; height: 26px !important;}
+.dashboard_box2 .jsgrid-cell {  padding: 0.78em !important;}
+/*  .jsgrid .jsgrid-button {background: url(/images/egovframework/phcf/admin/bnts.png) 100% 35% no-repeat; width: 47px !important; height: 26px !important;}
 .jsgrid-update-button {background: url(/images/egovframework/phcf/admin/bnts.png) 100% 100% no-repeat !important; width: 47px !important; height: 26px !important;}
 .jsgrid-cancel-edit-button {background: url(/images/egovframework/phcf/admin/bnts.png) 88% 0% no-repeat !important; width: 47px !important; height: 26px !important;}
  */
-
+ */
 /* core.min.css */
 .fc td, .fc th {height: 36px; vertical-align: middle !important;}
 .fc-button-primary {    background-color: #266089 !important; border-color: #266089 !important;}

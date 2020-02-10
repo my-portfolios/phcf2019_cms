@@ -197,7 +197,7 @@
 
 <div style="text-align:center;">
 	<div class="popup_modal" style="display:none;">
-		<table id="about_table" class="wTable" style="margin:auto;width:1300px">
+		<table id="about_table" class="wTable" style="margin:auto;width:100%">
 			
 			<tr>
 				<th>번호</th>

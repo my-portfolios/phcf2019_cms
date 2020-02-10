@@ -1,5 +1,5 @@
 @charset "UTF-8";
 
 .popup_action {cursor:pointer;text-align: center;position:absolute;bottom:0px;width:100%;padding-bottom: 10px;padding-top: 10px;}
-.popup_modal {border-radius: 2%;padding: 0.5%;position:absolute; top:150px;border:1px solid #ccc; background-color:#ffffff;z-index:100;}
+.popup_modal {border-radius: 0%;padding: 0.5%;position:absolute; top:150px;border:1px solid #ccc; background-color:#ffffff;z-index:100;}
 .html_code {margin-bottom:10%;}

@@ -353,9 +353,15 @@ FROM(
     <select id="getDormantMber12" resultType="egovframework.com.uss.umt.service.MberManageVO">
         
             WITH LOGINLIST AS (
-           	   SELECT DISTINCT CONECT_ID, CREAT_DT from COMTNLOGINLOG WHERE DATE_ADD(DATE_FORMAT(CREAT_DT, "%Y/%m/%d"), INTERVAL 1 YEAR) <![CDATA[<]]> now()
-			)
-			SELECT 
+				SELECT max.CONECT_ID, max.CREAT_DT 
+					  FROM 
+					  (
+					  	SELECT MAX(CREAT_DT) AS CREAT_DT, CONECT_ID FROM COMTNLOGINLOG GROUP BY CONECT_ID
+					  ) max
+					  WHERE DATE_ADD(DATE_FORMAT(max.CREAT_DT, "%Y/%m/%d"), INTERVAL 1 YEAR) <![CDATA[<]]> now()
+           	   )
+
+				SELECT 
 				a.ESNTL_ID         uniqId,
                 'USR01'            userTy,
                 a.MBER_ID          mberId,
@@ -383,7 +389,9 @@ FROM(
         		DATE_FORMAT(b.CREAT_DT, "%Y/%m/%d") creatDt,
         		a.user_comp_nm		userCompNm,
         		a.user_comp_number	userCompNumber,
-        		a.send_mail_yn		sendMailYn
+        		a.send_mail_yn		sendMailYn,
+        		a.ci				ci,
+        		a.di				di
 			FROM COMTNGNRLMBER a, LOGINLIST b
 			WHERE a.ESNTL_ID = b.CONECT_ID
 			AND a.MBER_STTUS = 'P'
@@ -488,7 +496,7 @@ FROM(
 			
 			UPDATE COMTNGNRLMBER SET
 			
-			MBER_ID          = '',
+			MBER_ID          = #{mberId},
             MBER_NM          = '',
             PASSWORD_HINT    = '',
             PASSWORD_CNSR    = '',

@@ -2,12 +2,16 @@ package egovframework.phcf.scheduler;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import egovframework.com.cop.ems.service.EgovSndngMailRegistService;
+import egovframework.com.cop.ems.service.SndngMailVO;
+import egovframework.com.cop.ems.service.impl.SndngMailRegistDAO;
 import egovframework.com.uss.umt.service.EgovMberManageService;
 import egovframework.com.uss.umt.service.MberManageVO;
 
@@ -18,6 +22,10 @@ public class MberDormantCronQuartz extends TheBillCronQuartz {
 	/** mberManageService */
 	@Resource(name = "mberManageService")
 	private EgovMberManageService mberManageService;
+	
+	/** EgovSndngMailRegistService */
+	@Resource(name = "sndngMailRegistService")
+	private EgovSndngMailRegistService sndngMailRegistService;
 	
 	@Transactional
 	public void transferToDormant() throws Exception {
@@ -38,7 +46,24 @@ public class MberDormantCronQuartz extends TheBillCronQuartz {
 			mberManageService.updatetransferedDormantMberCode(mBervo);
 		}
 		
-		
+		/*
+		 * 안내메일을 발송한다.
+		 * 
+		 * */
+		SndngMailVO sndngMailVO = new SndngMailVO();
+		sndngMailVO.setSj("휴먼회원 전환되었음");
+		sndngMailVO.setEmailCn("휴먼회원 전환되었음:내용");
+		sndngMailVO.setDsptchPerson("phcf01");
+		sndngMailVO.setFileStreCours("");
+		for(MberManageVO mBervo : mberDormantList) {
+			System.out.println("=== mBervo.getMberEmailAdres()"+mBervo.getMberEmailAdres());
+			if(mBervo.getMberEmailAdres() != null && !mBervo.getMberEmailAdres().equals("") && 
+					Pattern.matches("^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$",mBervo.getMberEmailAdres())) {
+				sndngMailVO.setRecptnPerson(mBervo.getMberEmailAdres());
+				sndngMailRegistService.insertSndngMail(sndngMailVO);
+			}
+				
+		}
 	}
 	
 }

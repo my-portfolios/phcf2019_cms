@@ -145,7 +145,11 @@ $(document).ready(function() {
 			, {name: 'mberNm', title: '회원명', type: 'text', editing: false, width: 80, align: 'center' }
 			, {name: 'groupNm', title: '그룹이름', type: 'text', editing: false, width: 80, align: 'center' }
 			, {name: 'moblphonNo', title: '연락처', type: 'text', editing: false, width: 80, align: 'center' }
-			, {name: 'mberEmailAdres', title: '이메일', type: 'text', editing: false, width: 80, align: 'center' }
+			, {name: 'mberEmailAdres', title: '이메일', type: 'text', editing: false, width: 80, align: 'center',
+				itemTemplate: function(value, item) {
+					return $("<div>").attr("class","mailAdrsDiv").text(value);
+				}
+			}
 			, {name: 'sbscrbDe', title: '최초가입일', type: 'text', editing: false, filtering: false, width: 80, align: 'center' }
 			, {name: 'creatDt', title: '마지막로그인', type: 'text', editing: false, filtering: false, width: 80, align: 'center' }
 			, {name: 'sendMailYn', title: '메일수신여부', type: 'select', items: sendMailYnArr, valueField: 'code', textField: 'codeNm', editing: false, filtering: true,
@@ -163,10 +167,26 @@ $(document).ready(function() {
 	
 	$("#sendEmail").click(function(){
 		$(".mberIdCh").each(function (index, item){
-			var $sendMailYn = $("#"+$(item).val()+"Ch").closest('td').nextAll(':has(.sendMailYnDiv):first').text();
-			if($(item).prop("checked") && $sendMailYn == 'Y') {
+			var $mailAdrs = $("#"+$(item).val()+"Ch").closest('td').nextAll(':has(.mailAdrsDiv):first').text();
+			if($(item).prop("checked")) {
+				var mailSubject = "휴면회원이 되었습니다.";
+				var mailContent = "휴면회원이 되었습니다.";
+				
+				var formData = new FormData();
+				
+				formData.append("posblAtchFileNumber","1");
+				formData.append("fileStreCours","");
+				formData.append("recptnPerson",$mailAdrs);
+				formData.append("sj",mailSubject);
+				formData.append("emailCn",mailContent);
+				
+				var xhr = new XMLHttpRequest();
+
+				xhr.open("POST", "/cop/ems/insertSndngMail.do");  
+				xhr.send(formData);
+				
 				console.log($(item).val());
-				console.log($sendMailYn);
+				console.log($mailAdrs);
 			}
 		});
 	});

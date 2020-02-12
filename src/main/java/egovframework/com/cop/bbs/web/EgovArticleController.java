@@ -1614,9 +1614,8 @@ public class EgovArticleController {
     		int pageAN = Integer.parseInt(pageArticleNum);
     		int pageTotal = (totalArticles%pageAN>0) ? (int) Math.floor(totalArticles/pageAN)+1 : (int) Math.floor(totalArticles/pageAN);
     		int pageN = Integer.parseInt(pageNum);
-    		if(pageN > pageTotal) pageN = pageTotal;
     		if(pageN < 1) pageN = 1;
-    		if(pageTotal < 1) pageTotal = 1;
+    		if(pageN > pageTotal) pageN = pageTotal;
     		
     		int pageGS = (int) Math.floor((pageN-1)/pageGN)*pageGN+1;
     		int pageGE = (pageGS+pageGN-1>pageTotal) ? pageTotal : pageGS+pageGN-1;

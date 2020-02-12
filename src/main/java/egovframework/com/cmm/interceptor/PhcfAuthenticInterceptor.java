@@ -1,6 +1,7 @@
 package egovframework.com.cmm.interceptor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.web.util.UrlPathHelper;
 
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.EgovComIndexService;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.Globals;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.sec.phcf.service.AuthManage;
@@ -73,7 +75,13 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		
+		//외부 주소
+		List<String> externalPageUrl = new ArrayList<>(Arrays.asList(
+				EgovProperties.getProperty("Globals.main_url"),
+				EgovProperties.getProperty("Globals.cms_url"),
+				EgovProperties.getProperty("Globals.place_url")));		
+		request.setAttribute("externalPageUrl", externalPageUrl);
+				
 		String banGoToUrl = "/sec/phcf/EgovPhcfAuthorBanGoToUrl.do";
 		
 		//현재주소 가져오기

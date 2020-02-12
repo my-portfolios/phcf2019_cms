@@ -73,9 +73,9 @@
 									var colorCode = "white";
 									if(item["VENUE"]=="포항문화예술회관") colorCode = "#AED6F1";
 									else if(item["VENUE"]=="대잠홀") colorCode = "#76D7C4";
-									else if(item["VENUE"]=="중앙아트홀") colorCode = "#F9E79F";
-									else if(item["VENUE"]=="구룡포생활문화센터(아라예술촌)") colorCode = "#D2B4DE";
-									else if(item["VENUE"]=="아르코공연연습센터@포항") colorCode = "#F5B7B1";
+									else if(item["VENUE"]=="중앙아트홀(인디플러스 포항)") colorCode = "#F9E79F";
+									else if(item["VENUE"]=="구룡포생활문화센터") colorCode = "#D2B4DE";
+									else if(item["VENUE"]=="아르코공연연습센터") colorCode = "#F5B7B1";
 										
 									events.title = item["EVENT_NAME"];
 									events.start = item["USE_DATE" + i].substring(0,10) + "T" + item["USE_START_TIME" + i];

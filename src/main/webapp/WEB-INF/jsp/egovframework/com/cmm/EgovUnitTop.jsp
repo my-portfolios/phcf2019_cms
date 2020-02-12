@@ -51,11 +51,11 @@
 		</li>
 		<li class="header_quickmenu">
 			<div>
-				<a href="http://localhost:8080/" target="_blank"><span>포항문화재단</span></a> 
-				<a href="http://localhost:8280/" target="_blank"><span>문화공간</span> </a>
+				<a href="${externalPageUrl[0]}" target="_blank"><span>포항문화재단</span></a> 
+				<a href="${externalPageUrl[2]}" target="_blank"><span>문화공간</span> </a>
 				<a href="#"><span>축제</span></a>
 			</div>
-			<div><a href="/images/egovframework/phcf/admin/cms_manual.pdf" target="_blank"><span class="quickmenu_down">메뉴얼 다운로드</span></a></div>
+			<div><span class="quickmenu_down">메뉴얼 다운로드</span></div>
 			<div id="currentTime">로딩 중...</div>
 			<div>  
 			<img src="<c:url value='/images/egovframework/com/cmm/main/ic_icon01.png' />">

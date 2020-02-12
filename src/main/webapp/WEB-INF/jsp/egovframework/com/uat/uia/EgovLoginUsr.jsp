@@ -125,11 +125,6 @@ function fnInit() {
 				<li>
 					<input type="button" class="btn_login" value="<spring:message code="comUatUia.loginForm.login"/>" onclick="actionLogin()"> <!-- 로그인  -->
 				</li>
-				<ul class="btn_idpw">
-						<li><a href="/uss/umt/EgovStplatCnfirmMber.do">회원가입</a></li> <!-- 회원가입  -->
-						<li><a href="/uat/uia/egovIdSearch.do">아이디 찾기</a> / <a href="/uat/uia/egovPasswordSearch.do">비밀번호 찾기</a></li>
-					</ul>
-				
 			</ul>
 		</div>
 	</fieldset>

@@ -24,7 +24,6 @@ public class CommonServiceImpl extends EgovAbstractServiceImpl implements Common
 
 	@Override
 	public HashMap<String, String> selectContent(HashMap<String, String> paramMap) throws Exception {
-		// TODO Auto-generated method stub
 		return dao.selectContent(paramMap);
 	}
 	

@@ -16,7 +16,7 @@
 			<!--검색-->
 			<div class="search_box">
 				<ul>
-					<li>전체 건수 : <c:out value="${paramMap.total_article}" /></li>
+					<li>전체 : <c:out value="${paramMap.total_article}" /></li>
 					<li><select class="floatleft" name="search_tp_s">
 							<option value="">++선택++</option>
 							<option value="user_id" selected="selected">회원ID</option>
@@ -93,7 +93,7 @@
 				</tbody>
 			</table>
 		</div>
-	
+	</div>
 	<!--page-->
 	<div class="pagination">${paging}</div>
 	<!--page-->
@@ -101,9 +101,6 @@
 	<div class="btn">
 		<input type="button" id="list_btn" class="" value="목록">
 	</div>
-	
-	</div>
-	
 </form>
 </div>
 

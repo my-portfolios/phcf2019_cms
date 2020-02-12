@@ -230,29 +230,6 @@ public class EgovMenuManageController {
 
       	return "jsonView";
     }
-    
-    /**
-     * 메뉴목록 리스트조회한다.
-     * @param searchVO ComDefaultVO
-     * @return 출력페이지정보 "sym/mnu/mpm/EgovMenuManage"
-     * @exception Exception
-     */
-    @RequestMapping(value="/sym/mnu/mpm/EgovMenuManage.do")
-    public String selectMenuManage(
-    		@ModelAttribute("searchVO") ComDefaultVO searchVO, ModelMap model)
-            throws Exception {
-    	
-        // 0. Spring Security 사용자권한 처리
-    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
-    	if(!isAuthenticated) {
-    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
-        	return "egovframework/com/uat/uia/EgovLoginUsr";
-    	}
-    	
-    	
-        
-      	return "egovframework/com/sym/mnu/mpm/EgovMenuManage";
-    }
     /*public String selectMenuManageList(
     		@ModelAttribute("searchVO") ComDefaultVO searchVO,
     		ModelMap model)

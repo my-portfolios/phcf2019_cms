@@ -90,7 +90,8 @@ public class EgovLoginController {
 	public ModelAndView loginUsrView(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		ModelAndView mav = new ModelAndView("egovframework/com/uat/uia/EgovLoginUsr");
 		
-		request.getSession().setAttribute("loginVO", null); // 로그인 전 세션 만료 시키기
+		if(EgovUserDetailsHelper.isAuthenticated()) 
+			return new ModelAndView("redirect:/");
 		
 		return mav;
 	}

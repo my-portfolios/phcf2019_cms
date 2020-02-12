@@ -6,7 +6,7 @@
     months: ['01 월','02 월','03 월','04 월','05 월','06 월', '07 월','08 월','09 월','10 월','11 월','12 월'],
     today: '오늘',
     clear: '초기화',
-    dateFormat: 'yyyy/mm/dd',
+    dateFormat: 'yyyy-mm-dd',
     timeFormat: 'hh:ii',
     firstDay: 0
 }; })(jQuery);

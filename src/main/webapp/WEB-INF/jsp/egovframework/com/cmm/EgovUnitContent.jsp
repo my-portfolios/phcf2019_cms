@@ -26,18 +26,18 @@
 <div class="dash_title"><span></span> Dashboard</div>
 <div class="board">
 	<div class="left dashboard_box1 ">
-		<li onclick="window.open('http://localhost:8080/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000297')"><p class="circle">${fndNoticeArticleCnt }</p>재단공지</li>	
-		<li onclick="window.open('http://localhost:8080/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000307')"><p class="circle">${extNoticeArticleCnt }</p>외부공지</li>	
-		<li onclick="window.open('http://localhost:8080/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000310')"><p class="circle">${rcrtArticleCnt }</p>채용공고</li>	
-		<li onclick="window.open('http://localhost:8080/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000309')"><p class="circle">${auctArticleCnt }</p>입찰공고</li>			
+		<li onclick="window.open('${externalPageUrl[2]}/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000297')"><p class="circle">${fndNoticeArticleCnt }</p>재단공지</li>	
+		<li onclick="window.open('${externalPageUrl[2]}/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000307')"><p class="circle">${extNoticeArticleCnt }</p>외부공지</li>	
+		<li onclick="window.open('${externalPageUrl[2]}/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000310')"><p class="circle">${rcrtArticleCnt }</p>채용공고</li>	
+		<li onclick="window.open('${externalPageUrl[2]}/cop/bbs/selectArticleList.do?bbsId=BBSMSTR_000000000309')"><p class="circle">${auctArticleCnt }</p>입찰공고</li>			
 		<li onclick="location.href='/uss/umt/EgovMberManage.do';" class="circle_bg1"><p class="circle" style="color: #cf7aa4 !important;">${newMemCnt }</p>신규회원</li>
 		<li onclick="location.href='/premiumMember/selectMembershipRegList.do';" class="circle_bg1"><p class="circle" style="color: #cf7aa4 !important;">${newPrmMemCnt }</p>유료회원</li>
-		<li onclick="window.open('http://localhost:8080/cop/bbs/insertArticleView.do?bbsId=BBSMSTR_000000000297')" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_1.png"><br /><br/>공지 등록</li>
+		<li onclick="window.open('${externalPageUrl[0]}/cop/bbs/insertArticleView.do?bbsId=BBSMSTR_000000000297')" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_1.png"><br /><br/>공지 등록</li>
 		<li onclick="location.href='/uss/umt/EgovMberManage.do';" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_2.png"><br /><br/>회원 조회</li>
 		<li onclick="location.href='/uss/umt/EgovMberDormantMngView.do';" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_3.png"><br /><br/>휴면회원 조회</li>
 		<li onclick="location.href='#';" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_4.png"><br />버스킹 무대<br/>신청 관리</li>
-		<li onclick="window.open('http://localhost:8280/cop/bbs/insertArticleView.do?bbsId=BBSMSTR_000000000281')" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_5.png"><br />시립예술단<br/>공연 일정등록</li>
-		<li onclick="window.open('http://localhost:8280/cop/bbs/insertArticleView.do?bbsId=BBSMSTR_000000000311')" class="circle_bg2" style="letter-spacing: -1px;"><img src="/images/egovframework/com/cmm/main/ic_dashboard_6.png">
+		<li onclick="window.open('${externalPageUrl[2]}/cop/bbs/insertArticleView.do?bbsId=BBSMSTR_000000000281')" class="circle_bg2"><img src="/images/egovframework/com/cmm/main/ic_dashboard_5.png"><br />시립예술단<br/>공연 일정등록</li>
+		<li onclick="window.open('${externalPageUrl[2]}/cop/bbs/insertArticleView.do?bbsId=BBSMSTR_000000000311')" class="circle_bg2" style="letter-spacing: -1px;"><img src="/images/egovframework/com/cmm/main/ic_dashboard_6.png">
 		<br />인디플러스 포항<br/>영화정보 등록</li>
 	</div>
 	

@@ -404,6 +404,28 @@ width:100%;
 .pagination ul li.current a,
 .pagination ul li a:hover { border:none; color:#fff; font-size:15px; font-weight:600; width:28px; height:28px; line-height:28px; background:#4688d2; }
 
+.pagination div.button {width: 47px !important;}
+.pagination div.button, .pagination ul li.button {
+	display: inline-block;
+    color: #999;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.0s ease-out;
+}
+.pagination ul li.button:hover, .pagination ul li.on
+  {
+	border: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    background: #4688d2;
+  }
+
 /* pagination by reply */
 .paging { float:left; display:inline; width:100%; font-size:1em; text-align:center; margin:15px 0 20px; position:relative;  }
 .paging ul { display:inline-block; margin:0; padding:0; }
@@ -595,7 +617,7 @@ form#deptSchdulManageVO #content {width: 100% !important;}
 .jsgrid-pager-page, .jsgrid-pager-nav-button {display: inline-block;  padding:3px 10px !important; margin: 0 2px; border: 1px solid #e0e0e0;}
 .jsgrid-pager-page:hover, .jsgrid-pager-nav-button:hover {background: #4688d2; border: 1px solid #4688d2;}
 .jsgrid-pager-page:hover a, .jsgrid-pager-nav-button:hover a {color: #ffffff !important;}
-.jsgrid-pager-current-page {background: #266089; color: #ffffff !important; border: 1px solid #266089;}
+.jsgrid-pager-current-page {background: #4688d2; color: #ffffff !important; border: 1px solid #4688d2;}
 
 .ui-datepicker-trigger {    cursor: pointer; border: 1px solid #d2d2d2;  padding: 4px;  margin-left: 5px;  margin-top: -5px;}
 .dashboard_box2 .jsgrid-cell {  padding: 0.78em !important;}

@@ -264,9 +264,10 @@ function fn_egov_dn_info_setting(dn) {
 		<!-- 헨드폰번호 -->
 		<c:set var="title"><spring:message code="comUssUmt.deptUserManageRegist.phone"/></c:set>
 		<tr>
-			<th><label for="moblphonNo">${title}</label> <span class="pilsu">*</span></th>
+			<th>대표 전화번호<%-- <label for="moblphonNo">${title}</label> --%> <span class="pilsu">*</span></th>
 			<td class="left">
                     <form:input path="moblphonNo" id="moblphonNo" title="${title} ${inputTxt}" cssClass="txaIpUmt" size="20" maxlength="15" />
+                   	 ※ 공지사항 글 등록시 표시되는 기본 연락처입니다. 
                     <div><form:errors path="moblphonNo" cssClass="error" /></div>
 			</td>
 		</tr>

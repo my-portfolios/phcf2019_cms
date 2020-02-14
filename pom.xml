@@ -18,6 +18,7 @@
     <properties>
         <spring.maven.artifact.version>4.3.16.RELEASE</spring.maven.artifact.version>
         <egovframework.rte.version>3.8.0</egovframework.rte.version>
+        <webapp.lib>${basedir}/src/main/webapp/WEB-INF/lib</webapp.lib>
     </properties>
 
     <repositories>
@@ -567,6 +568,14 @@
             <version>2.8.5</version>
         </dependency>
 		
+		<dependency>
+	        <groupId>http.mine</groupId>        <!-- Doesn't matter -->
+	        <artifactId>http.mine</artifactId>   <!-- Doesn't matter -->
+	        <version>4.3</version>        <!-- Doesn't matter -->
+	        <scope>system</scope>
+	        <systemPath>${webapp.lib}/httpmime-4.3.jar</systemPath>
+	    </dependency>
+    
     </dependencies>
     <build>
         <defaultGoal>install</defaultGoal>

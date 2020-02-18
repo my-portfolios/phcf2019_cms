@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>단체 접수자 리스트</title>
+<title>단체 접수 관리</title>
 <link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/jqueryui.css' />">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/Chart.min.css' />">
@@ -24,14 +24,12 @@
 <script>
 	var searchFilter = new Object();
 	var jsonString;
-	var resultCode = [
-			{Name : "접수 요청", Id: "R"},
- 			{Name : "접수 취소", Id: "C"},
- 			{Name : "접수 완료", Id: "S"},
- 			{Name : "승인 완료", Id: "A"},
- 			{Name : "승인 거절", Id: "D"},
- 			{Name : "승인 취소", Id: "O"}
- 		];
+	var resultCode =  [
+			{Name : "승인완료", Id: "Y"},
+ 			{Name : "반려", Id: "N"},
+ 			{Name : "처리중", Id: "I"},
+ 			{Name : "보류", Id: "D"},
+ 		]; 
 	
 	$(function(){
 		
@@ -58,17 +56,18 @@
 					
 					$.ajax({
 						type: 'POST',
-						url: '/venueReservation/selectReservationListToJson.do',
+						url: '/busking/selectGroupListToJson.do',
 						dataType: 'JSON',
 						data: searchFilter,
 						success : function(data){
 							try {
-								jsonString = data.venueReservationRegJson;
+								console.log(data);
+								jsonString = data.groupListJson;
 								jsonString = JSON.parse(jsonString);
 								
 								var list = {
 									data: jsonString,
-									itemsCount : jsonString == 0 ? 0 : JSON.parse(data.venueReservationRegListCnt)
+									itemsCount : jsonString == 0 ? 0 : JSON.parse(data.groupListCnt)
 								}	
 							}
 							catch(e){
@@ -83,7 +82,7 @@
 				updateItem: function(item) {
 					return $.ajax({
 						type: 'POST'
-						, url: '/venueReservation/updateReservationItem.do'
+						, url: '/busking/updateApprove.do'
 						, data: item
 						, success: function(result) {
 							$("#jsGrid").jsGrid("loadData");
@@ -101,22 +100,18 @@
 			noDataContent: '데이터가 없습니다.',
 			loadMessage: '조회 중...',
 			fields: [
-				{name: 	'SEQ', 	title: '번호', 	type: 'text', 	editing: false, width:80, align: "center"},
-			 	{name: 	'VENUE', 	title: '대관 장소', 	type: 'text', 	editing: false, width: 230, align: "center"},
-			 	{name: 	'USE_ROOM', 	title: '대관 시설', 	type: 'text', 	editing: false, width: 120, align: "center"},
-			 	{name: 	'USE_DATE1', 	title: '1일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE2', 	title: '2일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE3', 	title: '3일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE4', 	title: '4일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE5', 	title: '5일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'EVENT_NAME', 	title: '행사 명', 	type: 'text', 	editing: false, width: 250, align: "center" },
-			 	{name: 	'ORGAN_NAME', 	title: '업체 및 단체명', 	type: 'text', 	editing: false, width: 200, align: "center"},
-			 	{name: 	'RESULT', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true,width: 110, align: "center"},
-			 	{type: 'control', editButton: true, deleteButton: false, width: 70,updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
+				{name: 	'TEAM_NAME', 	title: '팀이름', 	type: 'text', 	editing: false, width:80, align: "center"},
+			 	{name: 	'HEAD_NAME', 	title: '대표자명', 	type: 'text', 	editing: false, width: 230, align: "center"},
+			 	{name: 	'PHONE', 	title: '연락처', 	type: 'text', 	editing: false, width: 120, align: "center"},
+			 	{name: 	'REG_DATE', 	title: '등록일', 	type: 'text', 	editing: false, width: 110, align: "center"},
+			 	{name: 	'AREA', 	title: '지역', 	type: 'text', 	editing: false, width: 110, align: "center"},
+			 	{name: 	'GENRE', 	title: '장르', 	type: 'text', 	editing: false, width: 110, align: "center"},
+			 	{name: 	'APPROVE_YN', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true,width: 110, align: "center"},
+			 	{type: 'control', editButton: true, deleteButton: false, width: 80,updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
 			]
 		});
 	});
-	
+	/* ROW더블클릭시  */
 	function about(seq){
 		var fileId;
 
@@ -172,29 +167,34 @@
 	}
 	
 	function search(){
-		var searchType = $("#searchType").val();
-		var venue = $("#VENUE").val();
-		var result = $("#RESULT").val();
-		var keyword = $("#keyword").val();
+		var genre = $("#genre").val();
+		var area = $("#areas").val();
+		var searchKeyword = $("#searchKeyword").val();
 		
-		searchFilter = new Object();
-		searchFilter.searchCnd = searchType;
-		searchFilter.venueCnd = venue;
-		searchFilter.resultCnd = result;
-		searchFilter.keyword = keyword;
-		
+	 	searchFilter = new Object();
+		searchFilter.genre = genre;
+		searchFilter.area = area;
+		searchFilter.searchKeyword = searchKeyword;
+		console.log("---------------------");
+		console.log(genre);
+		console.log(area);
+		console.log(searchKeyword);
 		$("#jsGrid").jsGrid("loadData");
+		/* $("#jsGrid").jsGrid("search",{ genre:genre, area:area, searchKeyword:searchKeyword }).done(function(){
+			console.log("멀까용?")
+		}); */
 	}
+	
+	
 </script>
 
 </head>
 
 <div class="board">
-	<h1>대관신청 리스트</h1>
-	<c:import url="/venueReservation/searchView.do"/>
+	<h1>단체 접수 관리</h1>
+	<c:import url="/busking/searchView.do"/>
 	<div id="jsGrid"></div>
 </div>	
-
 <div style="text-align:center;">
 	<div class="popup_modal" style="display:none;">
 		<table id="about_table" class="wTable" style="margin:auto;width:100%">
@@ -203,65 +203,64 @@
 				<th>번호</th>
 				<td id="SEQ"></td>
 				
-				<th>행사명</th>
-				<td id="EVENT_NAME" colspan="2"></td>
+				<th>팀명</th>
+				<td id="TEAM_NAME" colspan="2"></td>
 			</tr>
 			<tr>
-				<th>대관장소</th>
-				<td id="VENUE"></td>
+				<th>대표자</th>
+				<td id="HEAD_NAME"></td>
 				
-				<th>대관시설</th>
-				<td id="USE_ROOM" colspan="2"></td>
+				<th>연락처</th>
+				<td id="PHONE" colspan="2"></td>
 			</tr>
 			<tr>
-				<th style="text-align:center;">1일차대관일시</th>
-				<th style="text-align:center;">2일차대관일시</th>
-				<th style="text-align:center;">3일차대관일시</th>
-				<th style="text-align:center;">4일차대관일시</th>
-				<th style="text-align:center;">5일차대관일시</th>
+				<th style="text-align:center;"></th>
+				<th style="text-align:center;"></th>
+				<th style="text-align:center;"></th>
+				<th style="text-align:center;"></th>
+				<th style="text-align:center;"></th>
 			</tr>
 			<tr>
-				<td id="USE_DATE1"></td>
-				<td id="USE_DATE2"></td>
-				<td id="USE_DATE3"></td>
-				<td id="USE_DATE4"></td>
-				<td id="USE_DATE5"></td>
 			</tr>	
 			<tr>
 				<th>신청일시</th>
-				<td id="CREATE_DT"></td>
+				<td id="REG_DATE"></td>
 				
-				<th>수정일시</th>
-				<td id="UPDATE_DT" colspan="2"></td>
+				<th>상태</th>
+				<td id="APPROVE_YN" colspan="2"></td>
 			</tr>
 			<tr>
-				<th>상태</th>
-				<td id="RESULT"></td>
+				<th>장르</th>
+				<td id="GENRE"></td>
 					
-				<th>첨부파일</th>
-				<td id="FILE_ID" colspan="2"></td>
+				<th>지역</th>
+				<td id="AREA" colspan="2"></td>
 			</tr>
 			
 			<tr>
-				<th>업체 및 단체명</th>
-				<td id="ORGAN_NAME"></td>
+				<th>인원</th>
+				<td id="PERSONNEL"></td>
 				
-				<th>연락처</th>
-				<td id="TELNUMBER" colspan="2" ></td>
+				<th>프로필</th>
+				<td id="PROFILE" colspan="2" ></td>
 			</tr>
 			<tr>
-				<th>담당자 이름</th>
-				<td id="MANAGER_NAME"></td>
+				<th>멤버</th>
+				<td id="MBERS"></td>
 				
-				<th>담당자 직위</th>
-				<td id="MANAGER_GRADE" colspan="2" ></td>
+				<th>사용장비</th>
+				<td id="EQUIPMENT" colspan="2" ></td>
 			</tr>
 			<tr>
-				<th>신청아이디</th>
-				<td id="USER_ID"></td>
+				<th>팀 관련 링크</th>
+				<td id="SNS_LINK"></td>
 				
-				<th>이메일</th>
-				<td id="EMAIL" colspan="2" ></td>
+				<th>팀 영상 링크</th>
+				<td id="SNS_VIDEO" colspan="2" ></td>
+			</tr>
+			<tr>
+				<th>대표사진</th>
+				<td id="T_FILE"></td>
 			</tr>
 			<tr>
 				<td colspan="5" id="closebtn" >

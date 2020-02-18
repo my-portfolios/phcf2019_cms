@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BuskingDAO">
+
+	<select id="selectBuskingGroupRegList" parameterType="egovframework.phcf.busking.BuskingGroupVO" resultType="java.util.HashMap">
+			select SEQ, MBER_ID, REG_DATE, APPROVE_YN, TEAM_NAME, HEAD_NAME, PHONE, GENRE, AREA, PERSONNEL, MBERS, PROFILE, EQUIPMENT, SNS_LINK, SNS_VIDEO, T_FILE 
+			from BUSKINGGROUP
+			WHERE 1=1
+			<if test="area !=null and !area.equals('')">
+		      	AND AREA =#{area}
+		    </if>
+			<if test="genre !=null and !genre.equals('')">
+		      	AND GENRE =#{genre}
+		    </if>
+			<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      	 AND TEAM_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+		    </if>
+		   ORDER BY SEQ DESC
+		    LIMIT #{pageSize} OFFSET #{pageOffset}
+	</select>
+	
+	<select id="selectBuskingGroupRegDefaultCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select count(SEQ) from BUSKINGGROUP
+		WHERE 1=1
+		<if test="area !=null and !area.equals('')">
+	      	AND AREA =#{area}
+	    </if>
+		<if test="genre !=null and !genre.equals('')">
+	      	AND GENRE =#{genre}
+	    </if>
+		<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+	      	 AND TEAM_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+	    </if>
+	</select>
+	<update id="updateGroupApprove" parameterType="java.util.HashMap">
+		update BUSKINGGROUP 
+		set APPROVE_YN=#{APPROVE_YN} 
+		where SEQ=#{SEQ}
+	</update>
+	
+</mapper>

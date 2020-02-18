@@ -50,26 +50,6 @@ public class VenueReservationController {
 	@Resource(name="EgovFileMngUtil")
 	private EgovFileMngUtil fileUtil;
 	
-	@RequestMapping(value="/artTor/list.do")
-	public ModelAndView selectReservationList(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, String> paramMap) {
-		ModelAndView mav = new ModelAndView("egovframework/phcf/artTor/list"); 
-		
-		return mav;
-	}
-	
-	@RequestMapping(value="/busking/list_Busking.do")
-	public ModelAndView selectReservationList(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, String> paramMap) {
-		ModelAndView mav = new ModelAndView("egovframework/phcf/busking/list_Busking"); 
-		
-		return mav;
-	}
-	
-	@RequestMapping(value="/busking/list_BuskingGroup.do")
-	public ModelAndView selectReservationList(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, String> paramMap) {
-		ModelAndView mav = new ModelAndView("egovframework/phcf/busking/list_BuskingGroup"); 
-		
-		return mav;
-	}
 	
 	@RequestMapping(value="/venueReservation/selectReservationList.do")
 	public ModelAndView selectReservationList(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, String> paramMap) {

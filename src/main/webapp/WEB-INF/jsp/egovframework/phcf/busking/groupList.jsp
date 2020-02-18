@@ -29,6 +29,7 @@
  			{Name : "반려", Id: "N"},
  			{Name : "처리중", Id: "I"},
  			{Name : "보류", Id: "D"},
+ 			{Name : "접수완료", Id: "C"},
  		]; 
 	
 	$(function(){

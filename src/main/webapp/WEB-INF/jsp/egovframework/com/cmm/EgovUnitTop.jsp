@@ -55,7 +55,7 @@
 				<a href="${externalPageUrl[2]}" target="_blank"><span>문화공간</span> </a>
 				<a href="#"><span>축제</span></a>
 			</div>
-			<div><span class="quickmenu_down">메뉴얼 다운로드</span></div>
+			<div><span class="quickmenu_down" onclick="window.open('/images/egovframework/phcf/admin/cms_manual.pdf')">메뉴얼 다운로드</span></div>
 			<div id="currentTime">로딩 중...</div>
 			<div>  
 			<img src="<c:url value='/images/egovframework/com/cmm/main/ic_icon01.png' />">

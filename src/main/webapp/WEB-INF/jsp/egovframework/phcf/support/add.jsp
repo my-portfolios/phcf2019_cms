@@ -440,7 +440,7 @@ $(document).ready(function() {
 
 	// 목록 보기 버튼 클릭
 	$('#list_btn').click(function() {
-		location.href = '${ctx}/cms/support/list.do';
+		location.href = '${ctx}/cms/support/listView.do';
 	});
 
 	// 담당자 아이디 체크

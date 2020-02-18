@@ -93,7 +93,7 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
+	
 	<!--page-->
 	<div class="pagination">${paging}</div>
 	<!--page-->
@@ -101,6 +101,8 @@
 	<div class="btn">
 		<input type="button" id="list_btn" class="" value="목록">
 	</div>
+	</div>
+	
 </form>
 </div>
 

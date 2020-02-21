@@ -63,7 +63,13 @@
 		<if test="GROUP_SEQ!=null">
 			BUSKINGSTAGE
 		</if>
-		set APPROVE_YN=#{APPROVE_YN} 
+		set APPROVE_YN=#{APPROVE_YN}
+		<if test="PLACE!=null">
+			, PLACE=#{PLACE}
+		</if> 
+		<if test="TIME!=null">
+			, TIME=#{TIME}
+		</if> 
 		where SEQ=#{SEQ}
 	</update>
 	<update id="deleteBusking" parameterType="java.util.HashMap">

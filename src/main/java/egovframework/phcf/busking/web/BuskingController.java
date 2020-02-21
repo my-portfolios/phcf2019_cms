@@ -148,20 +148,54 @@ public class BuskingController {
 	@RequestMapping(value="/busking/buskingStageList.do") 
 	public ModelAndView buskingStageList(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
 		ModelAndView mav = new ModelAndView("egovframework/phcf/busking/stageList");
+		ObjectMapper mapper = new ObjectMapper();
+		ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+		String jsonStr;
 		
-		/*ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+		//승인여부
 		codeVo.setCodeId("PHC019");
 		List<CmmnDetailCode> approveCodeList = cmmUseService.selectCmmCodeDetail(codeVo);
 				
-		List<HashMap<String, Object>> approvecodeList=new ArrayList<HashMap<String,Object>>();
+		List<HashMap<String, Object>> paramArpproveList=new ArrayList<HashMap<String,Object>>();
 		
 		for(CmmnDetailCode approve : approveCodeList) {
+			HashMap<String, Object> hashMap = new HashMap<>();
+			hashMap.put("Name", approve.getCodeNm());
+			hashMap.put("Id", approve.getCode());
+			paramArpproveList.add(hashMap);
 		}
+		jsonStr = mapper.writeValueAsString(paramArpproveList);
+		mav.addObject("approveCodeList", jsonStr);
 		
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonStr = mapper.writeValueAsString(approveCodeList);
+		//장소
+		codeVo.setCodeId("PHC014");
+		List<CmmnDetailCode> palceCodeList = cmmUseService.selectCmmCodeDetail(codeVo);
 		
-		mav.addObject("approveCodeList", jsonStr);*/
+		List<HashMap<String, Object>> paramPlaceList=new ArrayList<HashMap<String,Object>>();
+		
+		for(CmmnDetailCode approve : palceCodeList) {
+			HashMap<String, Object> hashMap = new HashMap<>();
+			hashMap.put("Name", approve.getCodeNm());
+			hashMap.put("Id", approve.getCodeNm());
+			paramPlaceList.add(hashMap);
+		}
+		jsonStr = mapper.writeValueAsString(paramPlaceList);
+		mav.addObject("palceCodeList", jsonStr);
+		
+		//시간
+		codeVo.setCodeId("PHC015");
+		List<CmmnDetailCode> timeCodeList = cmmUseService.selectCmmCodeDetail(codeVo);
+		
+		List<HashMap<String, Object>> paramTimeList=new ArrayList<HashMap<String,Object>>();
+		
+		for(CmmnDetailCode approve : timeCodeList) {
+			HashMap<String, Object> hashMap = new HashMap<>();
+			hashMap.put("Name", approve.getCodeNm());
+			hashMap.put("Id", approve.getCodeNm());
+			paramTimeList.add(hashMap);
+		}
+		jsonStr = mapper.writeValueAsString(paramTimeList);
+		mav.addObject("timeCodeList", jsonStr);
 		
 		return mav;
 	}

@@ -24,13 +24,9 @@
 <script>
 	var searchFilter = new Object();
 	var jsonString;
-	var resultCode =  [
-			{Name : "승인완료", Id: "Y"},
- 			{Name : "반려", Id: "N"},
- 			{Name : "처리중", Id: "I"},
- 			{Name : "보류", Id: "D"},
- 			{Name : "접수완료", Id: "C"},
- 		];
+	var resultCode =  ${approveCodeList};
+	var placeCode = ${palceCodeList};
+	var timeCode = ${timeCodeList};
 	
 	$(function(){
 		
@@ -127,9 +123,10 @@
 				{name: 	'TEAM_NAME', 	title: '단체명', 	type: 'text', 	editing: false, width:80, align: "center"},
 			 	{name: 	'HEAD_NAME', 	title: '대표자명', 	type: 'text', 	editing: false, width: 230, align: "center"},
 			 	{name: 	'PHONE', 	title: '연락처', 	type: 'text', 	editing: false, width: 120, align: "center"},
-			 	{name: 	'PLACE', 	title: '공간명', 	type: 'text', 	editing: true, width: 120, align: "center"},
 			 	{name: 	'REG_DATE', 	title: '등록일', 	type: 'text', 	editing: true, width: 110, align: "center"},
-			 	{name: 	'DATE', 	title: '사용기한', 	type: 'text', 	editing: true, width: 110, align: "center"},
+			 	{name: 	'PLACE', 	title: '공간명', 	type: 'select', items: placeCode, readOnly: false, valueType: "string",valueField: "Id", textField: "Name", editing: true, width: 110, align: "center"},
+			 	{name: 	'DATE', 	title: '날짜', 	type: 'text', 	editing: true, width: 110, align: "center"},
+			 	{name: 	'TIME', 	title: '사용기한', 	type: 'select', items: timeCode, readOnly: false, valueType: "string",valueField: "Id", textField: "Name", editing: true, width: 110, align: "center"},
 			 	{name: 	'APPROVE_YN', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true,width: 110, align: "center"},
 			 	{type: 'control', editButton: true, deleteButton: true, width: 80,updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
 			]

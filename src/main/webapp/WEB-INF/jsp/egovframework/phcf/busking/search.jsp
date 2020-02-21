@@ -33,8 +33,9 @@
 	});
 </script>
 <div class="search_box">
+	
 	<ul>
-		<li><!-- 상태-->
+		<li><!-- 장르-->
 			<c:if test='<%= request.getParameter("fixStatus") == null %>'>
 	            <form:select class="floatleft" id="genre" name="genre" path="genreCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
 					<form:option value="" label="장르" />
@@ -42,16 +43,36 @@
 				</form:select>
 			</c:if>
 		</li>
-		<li><!-- 조건 -->
+		<li><!-- 지역 -->
               <form:select class="floatleft" id="areas" name="areas" path="areaCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
 				<form:option value="" label="지역" />
 				<form:options items="${areaCodeNmList}"/>
 			</form:select>
 		</li>
+		<li><!-- 상태-->
+			<c:if test='<%= request.getParameter("fixStatus") == null %>'>
+	            <form:select class="floatleft" id="approve" name="approve" path="approveCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
+					<form:option value="" label="상태" />
+					<form:options items="${approveCodeNmList}"/>
+				</form:select>
+			</c:if>
+		</li>
+		<li><!-- 검색키워드-->
+			<c:if test='<%= request.getParameter("fixStatus") == null %>'>
+	            <select class="floatleft" id="searchCondition" name="searchCondition" title="${title} ${inputTxt}" cssClass="txt">
+					<option value="" label="선택" />
+					<option value="TEAM_NAME" label="팀이름">
+					<option value="HEAD_NAME" label="대표자">
+				</select>
+			</c:if>
+		</li>
 		<!-- 검색키워드 및 조회버튼 -->
 		<li>
 			<input class="s_input" id="searchKeyword" type="text"/>
 			<input type="button" class="s_btn" value="검색" onclick="search();"/>
+					
 		</li>
+		<li><button onclick="updateSearchCount(this)">30</button></li>
+		<li><button onclick="updateSearchCount(this)">50</button></li>
 	</ul>
 </div>

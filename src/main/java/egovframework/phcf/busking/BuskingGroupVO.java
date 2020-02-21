@@ -26,7 +26,7 @@ public class BuskingGroupVO extends ComDefaultVO {
 	private List<BuskingGroupVO> buskingGroupList;
 	
 	private int pageOffset;
-
+	
 	public String getSeq() {
 		return seq;
 	}

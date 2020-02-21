@@ -7,35 +7,117 @@
 			from BUSKINGGROUP
 			WHERE 1=1
 			<if test="area !=null and !area.equals('')">
-		      	AND AREA =#{area}
+		      	and AREA =#{area}
 		    </if>
 			<if test="genre !=null and !genre.equals('')">
-		      	AND GENRE =#{genre}
+		      	and GENRE =#{genre}
 		    </if>
-			<if test="searchKeyword !=null and !searchKeyword.equals('') ">
-		      	 AND TEAM_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+			<if test="approveYN !=null and !approveYN.equals('')">
+		      	and APPROVE_YN =#{approveYN}
 		    </if>
+			<if test="searchCondition.equals('TEAM_NAME') ">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and TEAM_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      	</if>
+		    </if>
+			<if test="searchCondition.equals('HEAD_NAME') ">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and HEAD_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      	</if>
+		    </if>
+		     	and DELETE_YN=0
 		   ORDER BY SEQ DESC
 		    LIMIT #{pageSize} OFFSET #{pageOffset}
 	</select>
 	
 	<select id="selectBuskingGroupRegDefaultCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
-		select count(SEQ) from BUSKINGGROUP
+		select count(SEQ) 
+		from BUSKINGGROUP
 		WHERE 1=1
 		<if test="area !=null and !area.equals('')">
-	      	AND AREA =#{area}
-	    </if>
-		<if test="genre !=null and !genre.equals('')">
-	      	AND GENRE =#{genre}
-	    </if>
-		<if test="searchKeyword !=null and !searchKeyword.equals('') ">
-	      	 AND TEAM_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
-	    </if>
+		      	and AREA =#{area}
+		    </if>
+			<if test="genre !=null and !genre.equals('')">
+		      	and GENRE =#{genre}
+		    </if>
+			<if test="approveYN !=null and !approveYN.equals('')">
+		      	and APPROVE_YN =#{approveYN}
+		    </if>
+			<if test="searchCondition.equals('TEAM_NAME') ">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and TEAM_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      	</if>
+		    </if>
+			<if test="searchCondition.equals('HEAD_NAME') ">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and HEAD_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      	</if>
+		    </if>
+	     	and DELETE_YN=0
 	</select>
 	<update id="updateGroupApprove" parameterType="java.util.HashMap">
-		update BUSKINGGROUP 
+		update 
+		<if test="GROUP_SEQ==null">
+			BUSKINGGROUP
+		</if>
+		<if test="GROUP_SEQ!=null">
+			BUSKINGSTAGE
+		</if>
 		set APPROVE_YN=#{APPROVE_YN} 
 		where SEQ=#{SEQ}
 	</update>
+	<update id="deleteBusking" parameterType="java.util.HashMap">
+		update 
+		<if test="GROUP_SEQ==null">
+			BUSKINGGROUP
+		</if>
+		<if test="GROUP_SEQ!=null">
+			BUSKINGSTAGE
+		</if> 
+		set DELETE_YN=#{DELETE_YN} 
+		where SEQ=#{SEQ}
+	</update>
+	<select id="selectBuskingStageRegDefaultCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select count(SEQ) from BUSKINGSTAGE
+		WHERE 1=1
+			<if test="approveYN !=null and !approveYN.equals('')">
+		      	and APPROVE_YN =#{approveYN}
+		    </if>
+	     	and DELETE_YN=0
+	</select>
 	
+	<select id="selectBuskingStageRegList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select S.SEQ
+			, S.GROUP_SEQ
+			, S.MBER_ID
+			, S.REG_DATE
+			, S.PROG_NM
+			, S.PLACE
+			, S.DATE
+			, S.TIME
+			, S.INTRO
+			, S.EQUIPMENT
+			, S.FILE
+			, S.APPROVE_YN
+			, S.DELETE_YN
+			, G.TEAM_NAME
+			, G.HEAD_NAME
+			, G.PHONE 
+		from BUSKINGSTAGE S
+		join BUSKINGGROUP G
+			on S.MBER_ID = G.MBER_ID
+			WHERE 1=1
+		     	and S.DELETE_YN=0
+		order by S.SEQ DESC
+		LIMIT ${pageSize} OFFSET #{pageOffset}
+	</select>
+	<select id="updateApproveMulti" parameterType="java.util.HashMap">
+		update 
+			BUSKINGSTAGE
+		set APPROVE_YN=#{approveYN} 
+		where SEQ in 
+		<foreach collection="arrayParam" item="item" index="index" separator="," open="(" close=")">
+                    #{item}
+        </foreach>
+	</select>
 </mapper>

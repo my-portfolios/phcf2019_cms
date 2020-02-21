@@ -32,8 +32,25 @@ public class BuskingServiceImpl implements BuskingService {
 		dao.updateGroupApprove(paramMap);
 	}
 
-	
+	@Override
+	public void deleteBusking(HashMap<String, String> paramMap) {
+		dao.deleteBusking(paramMap);
+	}
 
-	
+	@Override
+	public int selectBuskingStageRegDefaultCnt(HashMap<String, Object> paramMap) {
+		return dao.selectBuskingStageRegDefaultCnt(paramMap);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> selectBuskingStageRegList(HashMap<String, Object> paramMap) {
+		return dao.selectBuskingStageRegList(paramMap);
+	}
+
+	@Override
+	public void updateApproveMulti(HashMap<String, Object> paramMap) {
+		dao.updateApproveMulti(paramMap);
+	}
+
 	
 }

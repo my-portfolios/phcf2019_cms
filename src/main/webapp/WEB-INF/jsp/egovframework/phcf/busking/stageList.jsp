@@ -30,7 +30,7 @@
  			{Name : "처리중", Id: "I"},
  			{Name : "보류", Id: "D"},
  			{Name : "접수완료", Id: "C"},
- 		]; 
+ 		];
 	
 	$(function(){
 		
@@ -40,6 +40,7 @@
 			autoload: true,
 			editing: true,
 			paging: true,
+			selecting: true,
 			pageLoading: true,
 			pageSize: 10,
 			pageIndex: 1,
@@ -57,18 +58,18 @@
 					
 					$.ajax({
 						type: 'POST',
-						url: '/busking/selectGroupListToJson.do',
+						url: '/busking/selectStageListToJson.do',
 						dataType: 'JSON',
 						data: searchFilter,
 						success : function(data){
 							try {
 								console.log(data);
-								jsonString = data.groupListJson;
+								jsonString = data.stageListJson;
 								jsonString = JSON.parse(jsonString);
 								
 								var list = {
 									data: jsonString,
-									itemsCount : jsonString == 0 ? 0 : JSON.parse(data.groupListCnt)
+									itemsCount : jsonString == 0 ? 0 : JSON.parse(data.stageListCnt)
 								}	
 							}
 							catch(e){
@@ -96,7 +97,7 @@
 				deleteItem: function(item) {
 					return $.ajax({
 						type: 'POST'
-						, url: '/busking/deleteGroup.do'
+						, url: '/busking/deleteBusking.do'
 						, data: item
 						, success: function(result) {
 							$("#jsGrid").jsGrid("loadData");
@@ -107,23 +108,40 @@
 					});
 				} 
 			},
-			rowClick : function(){return;},
+			rowClick : function(item){
+				var index = item.itemIndex;
+				var checkBoxObj=$("table.jsgrid-table:eq(1) tbody input:checkbox").eq(index);
+				if($(checkBoxObj).prop("checked")==true){
+					$(checkBoxObj).prop("checked",false);
+				}else{
+					$(checkBoxObj).prop("checked",true);
+				};
+			},
 			rowDoubleClick : function(item){
 				about(item.item.SEQ);
 			},
 			noDataContent: '데이터가 없습니다.',
 			loadMessage: '조회 중...',
 			fields: [
-				{name: 	'TEAM_NAME', 	title: '팀이름', 	type: 'text', 	editing: false, width:80, align: "center"},
+				{name:   'CHECK', type: 'checkbox', editing: false, readOnly: false, headerTemplate: function() { return $("<input></input>").attr("type","checkbox").attr("id","allCheck") } },
+				{name: 	'TEAM_NAME', 	title: '단체명', 	type: 'text', 	editing: false, width:80, align: "center"},
 			 	{name: 	'HEAD_NAME', 	title: '대표자명', 	type: 'text', 	editing: false, width: 230, align: "center"},
 			 	{name: 	'PHONE', 	title: '연락처', 	type: 'text', 	editing: false, width: 120, align: "center"},
-			 	{name: 	'REG_DATE', 	title: '등록일', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'AREA', 	title: '지역', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'GENRE', 	title: '장르', 	type: 'text', 	editing: false, width: 110, align: "center"},
+			 	{name: 	'PLACE', 	title: '공간명', 	type: 'text', 	editing: true, width: 120, align: "center"},
+			 	{name: 	'REG_DATE', 	title: '등록일', 	type: 'text', 	editing: true, width: 110, align: "center"},
+			 	{name: 	'DATE', 	title: '사용기한', 	type: 'text', 	editing: true, width: 110, align: "center"},
 			 	{name: 	'APPROVE_YN', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true,width: 110, align: "center"},
 			 	{type: 'control', editButton: true, deleteButton: true, width: 80,updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
 			]
 		});
+		
+		$("#allCheck").change(function(){
+			if($("#allCheck").is(":checked")){
+	            $(".jsgrid-cell input:checkbox").prop("checked",true);
+	        }else{
+	        	$(".jsgrid-cell input:checkbox").prop("checked",false);
+	        }
+		})
 		
 	});
 	/* ROW더블클릭시  */
@@ -135,7 +153,6 @@
 				$("#about_table td").each(function(index2, item2){
 					var jsonId = $(item2).attr("id");
 					var jsonText = item[jsonId];
-					
 					if(jsonId != "FILE_ID"){
 						if(!Number.isInteger(jsonText) && jsonText != null && jsonText != '' && jsonText.includes("<br/>")) {
 							jsonText = jsonText.replace("<br/>", " ");
@@ -153,7 +170,6 @@
 							else $(item2).text(jsonText);
 						}
 					}
-					
 					else fileId = jsonText;
 				});
 			}
@@ -196,12 +212,6 @@
 		searchFilter.approveYN = approveYN;
 		searchFilter.searchCondition = searchCondition;
 		searchFilter.searchKeyword = searchKeyword;
-		console.log("---------------------");
-		console.log(genre);
-		console.log(area);
-		console.log(approveYN);
-		console.log(searchCondition);
-		console.log(searchKeyword);
 		$("#jsGrid").jsGrid("loadData");
 		/* $("#jsGrid").jsGrid("search",{ genre:genre, area:area, searchKeyword:searchKeyword }).done(function(){
 			console.log("?")
@@ -214,7 +224,63 @@
 		}else{
 			$("#jsGrid").jsGrid("option","pageSize", editPageSize);
 		}
+	}
+	function fn_create(item){
 		
+	}
+	function fn_updateMulti(item){
+		
+		var arrayParam = new Array();
+		var items = $("#jsGrid").jsGrid("option", "data");
+		var checkedObj = $("table.jsgrid-table:eq(1) tbody input:checkbox:checked");
+		
+		if(checkedObj!=null && checkedObj.length!=0){
+			$(checkedObj).each(function(){
+				var index = $("table.jsgrid-table:eq(1) tbody input:checkbox").index(this);
+				arrayParam.push(items[index].SEQ);
+			});
+		}else{
+			return;
+		}
+		
+		$.ajax({
+			type: 'POST'
+			, url: '/busking/updateApproveMulti.do'
+			, dataType:'json'
+			, data: {
+				 "arrayParam" : arrayParam ,
+				 "approveYN":item
+			}
+			, success: function(result) {
+				alert('변경에 성공하였습니다.!');
+				$("#jsGrid").jsGrid("loadData");
+			}
+			, error: function(e) {
+				alert('변경에 실패했습니다!');
+			}
+		});
+	}
+	function fn_update(item){
+		var arrayParam = new Array();
+		arrayParam.push($("#SEQ").text());
+		$.ajax({
+			type: 'POST'
+			, url: '/busking/updateApproveMulti.do'
+			, dataType:'json'
+			, data: {
+				"arrayParam":arrayParam,
+				 "approveYN":item
+			}
+			, success: function(result) {
+				alert('변경에 성공하였습니다.!');
+				$("#jsGrid").jsGrid("loadData");
+			}
+			, error: function(e) {
+				alert('변경에 실패했습니다!');
+			}
+		});
+		
+		$('.popup_modal').css('display','none');$('.popup_bg').css('display','none');
 	}
 	
 </script>
@@ -225,6 +291,14 @@
 	<h1>단체 접수 관리</h1>
 	<c:import url="/busking/searchView.do"/>
 	<div id="jsGrid"></div>
+	<div class="buttonarea floatright" style="text-align: right; margin-top:20px;">
+		<input type="button" id="insert_btn" class="" onclick="fn_create('등록')" value="등록">
+		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('승인완료')" value="승인">
+		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('보류')" value="보류">
+		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('반려')" value="반려">
+		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('처리중')" value="처리중">
+		<input type="button" id="excel_btn" class="" onclick="fn_excelDownload()" value="Excel Download">
+	</div>
 </div>	
 <div style="text-align:center;">
 	<div class="popup_modal" style="display:none;">
@@ -257,45 +331,42 @@
 				<th>신청일시</th>
 				<td id="REG_DATE"></td>
 				
-				<th>상태</th>
-				<td id="APPROVE_YN" colspan="2"></td>
+				<th>날짜</th>
+				<td id="DATE" colspan="2"></td>
 			</tr>
 			<tr>
-				<th>장르</th>
-				<td id="GENRE"></td>
+				<th>프로그램명</th>
+				<td id="PROG_NM"></td>
 					
-				<th>지역</th>
-				<td id="AREA" colspan="2"></td>
+				<th>장소</th>
+				<td id="PLACE" colspan="2"></td>
 			</tr>
 			
 			<tr>
-				<th>인원</th>
-				<td id="PERSONNEL"></td>
+				<th>상태</th>
+				<td id="APPROVE_YN" ></td>
 				
-				<th>프로필</th>
-				<td id="PROFILE" colspan="2" ></td>
+				<th>시간</th>
+				<td id="TIME" colspan="2" ></td>
 			</tr>
 			<tr>
-				<th>멤버</th>
-				<td id="MBERS"></td>
+				<th>소개</th>
+				<td id="INTRO"></td>
 				
 				<th>사용장비</th>
 				<td id="EQUIPMENT" colspan="2" ></td>
 			</tr>
 			<tr>
-				<th>팀 관련 링크</th>
-				<td id="SNS_LINK"></td>
-				
-				<th>팀 영상 링크</th>
-				<td id="SNS_VIDEO" colspan="2" ></td>
-			</tr>
-			<tr>
 				<th>대표사진</th>
-				<td id="T_FILE"></td>
+				<td id="FILE"></td>
 			</tr>
 			<tr>
 				<td colspan="5" id="closebtn" >
 					<input type="button" style="margin: 1%;"onclick="$('.popup_modal').css('display','none');$('.popup_bg').css('display','none');" value="닫기"/>
+					<input type="button" id="insert_btn" class="" onclick="fn_update('승인완료')" value="승인">
+					<input type="button" id="insert_btn" class="" onclick="fn_update('보류')" value="보류">
+					<input type="button" id="insert_btn" class="" onclick="fn_update('반려')" value="반려">
+					<input type="button" id="insert_btn" class="" onclick="fn_update('처리중')" value="처리중">
 				</td>
 			</tr>
 		</table>

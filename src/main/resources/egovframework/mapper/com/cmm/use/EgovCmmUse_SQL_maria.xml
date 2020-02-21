@@ -12,13 +12,21 @@
 
 	<select id="selectCmmCodeDetail" parameterType="ComDefaultCodeVO" resultMap="CmmCodeDetail">
 		 
-			SELECT 
+				SELECT 
 			CODE_ID, CODE, CODE_NM, CODE_DC
 			FROM 
 			COMTCCMMNDETAILCODE
 			WHERE
 			USE_AT = 'Y'
-			AND CODE_ID = #{codeId}
+			<if test="codeId != null and !codeId.equals('')">
+				AND CODE_ID = #{codeId}
+			</if>
+			<if test="code != null and !code.equals('')">
+				AND CODE = #{code}
+			</if>
+			<if test="codeNm != null and !codeNm.equals('')">
+				AND CODE_NM = #{codeNm}
+			</if>
 			ORDER BY REMARKS ASC
 		
 	</select>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PerformanceDAO">
+
+	<select id="selectPerformanceApplierList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		/* PerformanceDAO.selectPerformanceApplierList */
+		SELECT DISTINCT
+			AA.SEQ,
+			AA.BBS_ID,
+			AA.NTT_ID,
+			AA.APL_ID,
+			AA.EPISODE,
+			AA.ORD,
+			AA.MBER_ID,
+			AA.APL_NAME,
+			AA.APL_PHONE,
+			AA.APL_EMAIL,
+			AA.APL_POSTCODE,
+			AA.APL_ADDRESS,
+			AA.PERSON_NAME,
+			AA.PERSON_PHONE,
+			AA.MEMO,
+			AA.FILE_ID,
+			AA.RESULT,
+			DATE_FORMAT(AA.CREATE_DT,'%Y-%m-%d %H:%i:%s') AS CREATE_DT,			
+			DATE_FORMAT(AA.UPDATE_DT,'%Y-%m-%d %H:%i:%s') AS UPDATE_DT
+		FROM
+			APPLIERINFO AA,
+			COMTNBBS BB,
+			BBSADDEDCOLMNS CC
+		WHERE 
+			AA.BBS_ID = BB.BBS_ID
+			AND AA.NTT_ID = BB.NTT_ID
+			AND BB.BBS_ID = CC.BBS_ID
+			AND BB.NTT_ID = CC.NTT_ID
+			<if test='APL_ID != null and APL_ID != ""'>
+				AND AA.APL_ID = #{APL_ID}
+			</if>
+			<if test='category != null and category != ""'>
+				AND BB.CATE_NAME LIKE "%" #{category} "%"
+			</if>
+			<if test='subject != null and subject != ""'>
+				AND BB.NTT_SJ LIKE "%" #{subject} "%"
+			</if>
+			<if test='APL_NAME != null and APL_NAME != ""'>
+				AND AA.APL_NAME LIKE "%" #{APL_NAME} "%"
+			</if>
+			<if test='APL_PHONE != null and APL_PHONE != ""'>
+				AND AA.APL_PHONE LIKE "%" #{APL_PHONE} "%"
+			</if>
+			<if test='APL_EMAIL != null and APL_EMAIL != ""'>
+				AND AA.APL_EMAIL LIKE "%" #{APL_EMAIL} "%"
+			</if>
+			<if test='RESULT != null and RESULT != ""'>
+				AND AA.RESULT = #{RESULT}
+			</if>
+		ORDER BY AA.APL_ID DESC
+		<if test='pageSize != null and pageOffset != null'>
+			LIMIT ${pageSize} OFFSET ${pageOffset}
+		</if>
+	</select>
+	
+	<select id="selectPerformanceApplierListCnt" parameterType="java.util.HashMap" resultType="int">
+		/* PerformanceDAO.selectPerformanceApplierListCnt */
+		WITH APPLIED_LIST AS (
+			SELECT DISTINCT
+				AA.SEQ AS SEQ
+			FROM
+				APPLIERINFO AA,
+				COMTNBBS BB,
+				BBSADDEDCOLMNS CC
+			WHERE 
+				AA.BBS_ID = BB.BBS_ID
+				AND AA.NTT_ID = BB.NTT_ID
+				AND BB.BBS_ID = CC.BBS_ID
+				AND BB.NTT_ID = CC.NTT_ID
+				<if test='APL_ID != null and APL_ID != ""'>
+					AND AA.APL_ID = #{APL_ID}
+				</if>
+				<if test='category != null and category != ""'>
+					AND BB.CATE_NAME LIKE "%" #{category} "%"
+				</if>
+				<if test='subject != null and subject != ""'>
+					AND BB.NTT_SJ LIKE "%" #{subject} "%"
+				</if>
+				<if test='APL_NAME != null and APL_NAME != ""'>
+					AND AA.APL_NAME LIKE "%" #{APL_NAME} "%"
+				</if>
+				<if test='APL_PHONE != null and APL_PHONE != ""'>
+					AND AA.APL_PHONE LIKE "%" #{APL_PHONE} "%"
+				</if>
+				<if test='APL_EMAIL != null and APL_EMAIL != ""'>
+					AND AA.APL_EMAIL LIKE "%" #{APL_EMAIL} "%"
+				</if>
+				<if test='RESULT != null and RESULT != ""'>
+					AND AA.RESULT = #{RESULT}
+				</if>
+		)
+		SELECT COUNT(*) AS CNT FROM APPLIED_LIST
+		<if test='pageSize != null and pageOffset != null'>
+			LIMIT ${pageSize} OFFSET ${pageOffset}
+		</if>
+	</select>
+	
+	<update id="updatePerformanceApplierItem" parameterType="java.util.HashMap">
+		/* PerformanceDAO.updatePerformanceAppliedData */
+		UPDATE
+			APPLIERINFO
+		SET
+			RESULT = #{RESULT}
+		WHERE 
+			SEQ = #{SEQ}  
+	</update>
+
+</mapper>

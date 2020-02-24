@@ -125,8 +125,6 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		List<HashMap<String, Object>> AllMenuList = new ArrayList<>();
 		AllMenuList.addAll(DBMenuList);
 		
-		List<HashMap<String, Object>> HeaderMenuList = new ArrayList<HashMap<String,Object>>();
-		
 		HashMap<String, Object> cmMap = new HashMap<String, Object>();
 		
 		if(AllMenuList!=null) {
@@ -154,8 +152,18 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		
 		try {
 			if(!AllMenuListJson.equals("")) request.setAttribute("AllMenuListJson", AllMenuListJson);
-			if(AllMenuList!=null) request.setAttribute("AllMenuList",AllMenuList);
-			if(HeaderMenuList!=null) request.setAttribute("HeaderMenuList",HeaderMenuList);
+			if(AllMenuList!=null) {
+				request.setAttribute("AllMenuList",AllMenuList);
+				List<HashMap<String, Object>> HeaderMenuList = new ArrayList<HashMap<String,Object>>();
+				for(HashMap<String, Object> entry : AllMenuList) {
+					if(entry!=null) {			
+						if(entry.get("headerYn").toString().equals("Y")) {
+							HeaderMenuList.add(entry);
+						}
+					}
+				}
+				request.setAttribute("HeaderMenuList",HeaderMenuList);
+			}
 			if(cmMap!=null) request.setAttribute("CurrentMenuMap",cmMap);
 			logger.debug("=== currentURL : " + currentUrl);
 			logger.debug("=== menuMAP : " + cmMap);

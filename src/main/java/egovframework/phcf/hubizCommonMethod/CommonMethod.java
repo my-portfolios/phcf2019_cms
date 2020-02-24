@@ -151,6 +151,25 @@ public class CommonMethod {
 		return list;
 	}
 
+	/**
+	 * 날짜를 입력하면 이번주의 첫번째 날을 가져온다.
+	 * @param date
+	 * @return
+	 */
+	public static Date getFirstDateOfWeek(Date date) {  
+        Calendar cal = Calendar.getInstance();  
+        cal.setTime(date);  
+          
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);  
+        cal.add(Calendar.DATE, (dayOfWeek-1)*-1);  
+          
+        return cal.getTime();  
+    }  
+	
+	public static String getTodayDate(String format) {  
+        return dateToString(new Date(),format);
+    }  
+	
 	
 	/**
 	 * 권혜진
@@ -277,5 +296,14 @@ public class CommonMethod {
 		vo.setCodeId(code);
 		List<CmmnDetailCode> codeList = cmmUseService.selectCmmCodeDetail(vo);
 		return codeList;
+	}
+	
+	public static int zeroConvert(Object src) {
+
+		if (src == null || src.equals("null") || src.equals("")) {
+			return 0;
+		} else {
+			return Integer.parseInt(src.toString());
+		}
 	}
 }

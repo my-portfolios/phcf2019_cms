@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>단체 접수 관리</title>
+<title>무대 신청자 리스트</title>
 <link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/jqueryui.css' />">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/Chart.min.css' />">
@@ -29,6 +29,8 @@
 	var timeCode = ${timeCodeList};
 	
 	$(function(){
+		$("#areas").parent().css("display","none");
+		$("#genre").parent().css("display","none");
 		
 		$('#jsGrid').jsGrid({
 			width: '100%',
@@ -123,7 +125,7 @@
 				{name: 	'TEAM_NAME', 	title: '단체명', 	type: 'text', 	editing: false, width:80, align: "center"},
 			 	{name: 	'HEAD_NAME', 	title: '대표자명', 	type: 'text', 	editing: false, width: 230, align: "center"},
 			 	{name: 	'PHONE', 	title: '연락처', 	type: 'text', 	editing: false, width: 120, align: "center"},
-			 	{name: 	'REG_DATE', 	title: '등록일', 	type: 'text', 	editing: true, width: 110, align: "center"},
+			 	{name: 	'REG_DATE', 	title: '등록일', 	type: 'text', 	editing: false, width: 110, align: "center"},
 			 	{name: 	'PLACE', 	title: '공간명', 	type: 'select', items: placeCode, readOnly: false, valueType: "string",valueField: "Id", textField: "Name", editing: true, width: 110, align: "center"},
 			 	{name: 	'DATE', 	title: '날짜', 	type: 'text', 	editing: true, width: 110, align: "center"},
 			 	{name: 	'TIME', 	title: '사용기한', 	type: 'select', items: timeCode, readOnly: false, valueType: "string",valueField: "Id", textField: "Name", editing: true, width: 110, align: "center"},
@@ -222,9 +224,6 @@
 			$("#jsGrid").jsGrid("option","pageSize", editPageSize);
 		}
 	}
-	function fn_create(item){
-		
-	}
 	function fn_updateMulti(item){
 		
 		var arrayParam = new Array();
@@ -285,11 +284,11 @@
 </head>
 
 <div class="board">
-	<h1>단체 접수 관리</h1>
+	<h1>무대 신청자 리스트</h1>
 	<c:import url="/busking/searchView.do"/>
 	<div id="jsGrid"></div>
 	<div class="buttonarea floatright" style="text-align: right; margin-top:20px;">
-		<input type="button" id="insert_btn" class="" onclick="fn_create('등록')" value="등록">
+		<input type="button" id="insert_btn" class="" onclick="location.href='/busking/insertStage.do'" value="등록">
 		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('승인완료')" value="승인">
 		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('보류')" value="보류">
 		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('반려')" value="반려">

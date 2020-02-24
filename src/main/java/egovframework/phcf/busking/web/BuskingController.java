@@ -62,7 +62,7 @@ public class BuskingController {
 			buskingGroupVO.setPageOffset(pageOffset);
 		}
 		//승인여부 코드 변형
-		if(buskingGroupVO.getApproveYN()!=null){
+		if(buskingGroupVO.getApproveYN()!=null && !buskingGroupVO.getApproveYN().equals("")){
 			ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
 			codeVo.setCodeNm(buskingGroupVO.getApproveYN());
 			codeVo.setCodeId("PHC019");
@@ -203,11 +203,19 @@ public class BuskingController {
 	@RequestMapping(value="/busking/selectStageListToJson.do", method=RequestMethod.POST)
 	public ModelAndView selectStageListToJson(HttpServletRequest request, ModelMap model
 			, @RequestParam HashMap<String, Object> paramMap
-			) {
+			) throws Exception {
 		ModelAndView mav = new ModelAndView("jsonView");
 		Object pageIndex = paramMap.get("pageIndex");
 		Object pageSize = paramMap.get("pageSize");
 		
+		//승인여부 코드 변형
+		if(paramMap.get("approveYN")!=null && !paramMap.get("approveYN").equals("")){
+			ComDefaultCodeVO codeVo = new ComDefaultCodeVO();
+			codeVo.setCodeNm(paramMap.get("approveYN").toString());
+			codeVo.setCodeId("PHC019");
+			List<CmmnDetailCode> codeList = cmmUseService.selectCmmCodeDetail(codeVo);
+			paramMap.put("approveYN",codeList.get(0).getCode());
+		}
 		
 		int pageOffset  = 0;
 		if(pageIndex != null && pageSize != null) {
@@ -246,9 +254,14 @@ public class BuskingController {
 		}
 		service.updateApproveMulti(paramMap);
 		
-		/*List<HashMap<String, Object>> resultCode =ArrayList<HashMap<String,Object>>; 
-		String stageListJson = JsonUtil.getJsonArrayFromList(stageList).toString();*/
+		return mav;
+	}
+	
+	@RequestMapping(value="/busking/insertStage.do")
+	public ModelAndView insertStage(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
+		ModelAndView mav = new ModelAndView("egovframework/phcf/busking/insertStage");
 		
 		return mav;
 	}
+	
 }

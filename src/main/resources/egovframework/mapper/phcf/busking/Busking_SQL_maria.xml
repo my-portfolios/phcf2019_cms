@@ -15,12 +15,12 @@
 			<if test="approveYN !=null and !approveYN.equals('')">
 		      	and APPROVE_YN =#{approveYN}
 		    </if>
-			<if test="searchCondition.equals('TEAM_NAME') ">
+			<if test="searchCondition!=null and searchCondition.equals('TEAM_NAME') ">
 				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
 		      		and TEAM_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
 		      	</if>
 		    </if>
-			<if test="searchCondition.equals('HEAD_NAME') ">
+			<if test="searchCondition!=null and searchCondition.equals('HEAD_NAME') ">
 				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
 		      		and HEAD_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
 		      	</if>
@@ -112,10 +112,23 @@
 		from BUSKINGSTAGE S
 		join BUSKINGGROUP G
 			on S.MBER_ID = G.MBER_ID
-			WHERE 1=1
-		     	and S.DELETE_YN=0
+		and 1=1
+			<if test="approveYN !=null and !approveYN.equals('')">
+				and S.APPROVE_YN = #{approveYN}
+			</if>
+			<if test="searchCondition!=null and searchCondition.equals('TEAM_NAME') ">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and TEAM_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      	</if>
+		    </if>
+			<if test="searchCondition!=null and searchCondition.equals('HEAD_NAME') ">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and HEAD_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      	</if>
+		    </if>
+	     	and S.DELETE_YN=0
 		order by S.SEQ DESC
-		LIMIT ${pageSize} OFFSET #{pageOffset}
+		limit ${pageSize} offset #{pageOffset}
 	</select>
 	<select id="updateApproveMulti" parameterType="java.util.HashMap">
 		update 

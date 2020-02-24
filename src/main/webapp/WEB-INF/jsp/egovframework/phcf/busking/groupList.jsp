@@ -196,12 +196,6 @@
 		searchFilter.approveYN = approveYN;
 		searchFilter.searchCondition = searchCondition;
 		searchFilter.searchKeyword = searchKeyword;
-		console.log("---------------------");
-		console.log(genre);
-		console.log(area);
-		console.log(approveYN);
-		console.log(searchCondition);
-		console.log(searchKeyword);
 		$("#jsGrid").jsGrid("loadData");
 		/* $("#jsGrid").jsGrid("search",{ genre:genre, area:area, searchKeyword:searchKeyword }).done(function(){
 			console.log("?")

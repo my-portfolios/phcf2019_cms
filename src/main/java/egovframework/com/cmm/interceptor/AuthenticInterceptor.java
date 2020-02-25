@@ -105,7 +105,7 @@ public class AuthenticInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		//쿠키 로그인
-		LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
+		/*LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
 
 		// 우리가 만들어 논 쿠키를 꺼내온다.
         Cookie phcfCmsLoginCookie = WebUtils.getCookie(request,"phcfCmsLoginCookie");
@@ -142,7 +142,7 @@ public class AuthenticInterceptor extends HandlerInterceptorAdapter {
             		if(vo.getSessionId().equals(cmsSessionId)) request.getSession().setAttribute("loginVO", null);
             	}
             }
-        }
+        }*/
         
 		return true;
 	}

@@ -237,8 +237,8 @@
 				<th>대표자</th>
 				<td id="HEAD_NAME"></td>
 				
-				<th>연락처</th>
-				<td id="PHONE" colspan="2"></td>
+				<th>아이디</th>
+				<td id="MBER_ID" colspan="2"></td>
 			</tr>
 			<tr>
 				<th style="text-align:center;"></th>
@@ -253,12 +253,13 @@
 				<th>신청일시</th>
 				<td id="REG_DATE"></td>
 				
-				<th>상태</th>
-				<td id="APPROVE_YN" colspan="2"></td>
+				<th>연락처</th>
+				<td id="PHONE" colspan="2"></td>
+				
 			</tr>
 			<tr>
-				<th>장르</th>
-				<td id="GENRE"></td>
+				<th>상태</th>
+				<td id="APPROVE_YN" ></td>
 					
 				<th>지역</th>
 				<td id="AREA" colspan="2"></td>
@@ -279,8 +280,8 @@
 				<td id="EQUIPMENT" colspan="2" ></td>
 			</tr>
 			<tr>
-				<th>팀 관련 링크</th>
-				<td id="SNS_LINK"></td>
+				<th>장르</th>
+				<td id="GENRE"></td>
 				
 				<th>팀 영상 링크</th>
 				<td id="SNS_VIDEO" colspan="2" ></td>
@@ -288,11 +289,15 @@
 			<tr>
 				<th>대표사진</th>
 				<td id="T_FILE"></td>
+				
+				<th>팀 관련 링크</th>
+				<td id="SNS_LINK" colspan="2"></td>
 			</tr>
 			<tr>
 				<td colspan="5" id="closebtn" >
 					<input type="button" style="margin: 1%;"onclick="$('.popup_modal').css('display','none');$('.popup_bg').css('display','none');" value="닫기"/>
 				</td>
+				
 			</tr>
 		</table>
 	</div>

@@ -308,7 +308,7 @@
 				<td id="SEQ"></td>
 				
 				<th>팀명</th>
-				<td id="TEAM_NAME" colspan="2"></td>
+				<td id="TEAM_NM" colspan="2"></td>
 			</tr>
 			<tr>
 				<th>대표자</th>

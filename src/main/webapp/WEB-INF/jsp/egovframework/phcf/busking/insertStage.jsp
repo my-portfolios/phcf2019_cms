@@ -10,6 +10,7 @@
 <script src="<c:url value='/js/egovframework/com/cmm/jqueryui.js' />"></script>
 <link rel="stylesheet" type="text/css" href="/css/egovframework/phcf/popup.css"/>
 
+
 <script src="/js/egovframework/phcf/CommonMethod.js"></script>
 <style>
 	label.error{
@@ -18,15 +19,18 @@
 	}
 </style>
 </head>
-<div class="con_box1 businessAnncView_box">
-	<span>※ 알림사항</span> 
-	· 장소 : 포항운하(송림교옆), 영일대해수욕장(버스킹무대 1 ~5)<br />
-	· 이용가능 시 간 : 13:00 ~ 15:00 / 16:00 ~ 18:00 / 19:00 ~ 21:00 / 13:00 ~ 18:00 / 16:00 ~ 21:00<br />
-	· <u>공간사용신청 마감은 매달 10일이며, 15일(주말인 경우 다음 월요일)에 승인됩니다. 15일 이후 일정표를 확인해 주시기 바랍니다.</u><br />
-	· <u>사용신청은 월별로 신청해 주시기 바랍니다.</u><br />
-	· 일정 및 장소 신청이 중복될 경우 단체간의 협의하에 운영되며, 적극 협조 바랍니다.</u><br /><br />
-	
-	(재)포항문화재단 생활문화팀 054)289-7873
+<div class="board">
+	<h1>무대 신청자 리스트</h1>
+	<div class="con_box1 businessAnncView_box">
+		<span>※ 알림사항</span> 
+		· 장소 : 포항운하(송림교옆), 영일대해수욕장(버스킹무대 1 ~5)<br />
+		· 이용가능 시 간 : 13:00 ~ 15:00 / 16:00 ~ 18:00 / 19:00 ~ 21:00 / 13:00 ~ 18:00 / 16:00 ~ 21:00<br />
+		· <u>공간사용신청 마감은 매달 10일이며, 15일(주말인 경우 다음 월요일)에 승인됩니다. 15일 이후 일정표를 확인해 주시기 바랍니다.</u><br />
+		· <u>사용신청은 월별로 신청해 주시기 바랍니다.</u><br />
+		· 일정 및 장소 신청이 중복될 경우 단체간의 협의하에 운영되며, 적극 협조 바랍니다.</u><br /><br />
+		
+		(재)포항문화재단 생활문화팀 054)289-7873
+	</div>
 </div>
 <form name="frm" id="frm" action="#" method="post"  enctype="multipart/form-data" onsubmit="return fn_qna()" >
 	

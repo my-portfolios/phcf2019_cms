@@ -112,7 +112,7 @@
 		from BUSKINGSTAGE S
 		left join BUSKINGGROUP G
 			on S.MBER_ID = G.MBER_ID
-		and 1=1
+		WHERE 1=1
 			<if test="approveYN !=null and !approveYN.equals('')">
 				and S.APPROVE_YN = #{approveYN}
 			</if>

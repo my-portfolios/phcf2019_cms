@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.phcf.busking.BuskingGroupVO;
 import egovframework.phcf.busking.service.BuskingService;
 import egovframework.phcf.hubizCommonMethod.CommonMethod;
@@ -36,6 +37,9 @@ public class BuskingController {
 	
 	@Resource(name = "EgovCmmUseService")
 	private EgovCmmUseService cmmUseService;
+	
+	@Resource(name="EgovFileMngService")
+	private EgovFileMngService fileMngService;	
 	
 	@RequestMapping(value="/busking/buskingGroupList.do") 
 	public ModelAndView buskingGroupList(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {

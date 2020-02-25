@@ -152,7 +152,7 @@
 				$("#about_table td").each(function(index2, item2){
 					var jsonId = $(item2).attr("id");
 					var jsonText = item[jsonId];
-					if(jsonId != "FILE_ID"){
+					if(jsonId != "FILE"){
 						if(!Number.isInteger(jsonText) && jsonText != null && jsonText != '' && jsonText.includes("<br/>")) {
 							jsonText = jsonText.replace("<br/>", " ");
 						}
@@ -169,7 +169,10 @@
 							else $(item2).text(jsonText);
 						}
 					}
-					else fileId = jsonText;
+					else {
+						fileId = jsonText;
+						console.log("bb  " + fileId);
+					}
 				});
 			}
 		});
@@ -182,7 +185,7 @@
 			},
 			dataType: 'html',
 			success : function(data){
-				$("#FILE_ID").html(data);
+				$("#FILE").html(data);
 			}
 		});
 				

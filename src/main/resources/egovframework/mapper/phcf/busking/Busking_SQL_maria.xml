@@ -99,7 +99,7 @@
 			, S.REG_DATE
 			, S.PROG_NM
 			, S.PLACE
-			, S.DATE
+			, CONCAT(S.DATE_BGN,' ~ ', S.DATE_END) AS DATE
 			, S.TIME
 			, S.INTRO
 			, S.EQUIPMENT

@@ -14,13 +14,13 @@
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/Chart.min.css' />">
 <link type="text/css" rel="stylesheet" href="/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet" href="/js/egovframework/phcf/jsgrid-1.5.3/jsgrid-theme.min.css" />
+
 <script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/jqueryui.js' />"></script>
 <link rel="stylesheet" type="text/css" href="/css/egovframework/phcf/popup.css"/>
 <script src="<c:url value='/js/egovframework/com/cmm/Chart.min.js' />"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/Chart.bundle.min.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.js'/>"></script>
-
 <script>
 	var jsonString;
 	var articleUrl;
@@ -206,11 +206,11 @@
 				<td id="date"></td>
 			</tr>
 			<tr>
+				<th>장소</th>
+				<td id="place"></td>
+				
 				<th>상태</th>
 				<td id="RESULT"></td>
-					
-				<th>첨부파일</th>
-				<td id="FILE_ID"></td>
 			</tr>
 			<tr>
 				<th>신청아이디</th>
@@ -227,8 +227,11 @@
 				<td id="APL_EMAIL"></td>
 			</tr>
 			<tr>
-				<th colspan="2">참석자</th>
-				<td id="visitorInfo" colspan="2"></td>
+				<th>첨부파일</th>
+				<td id="FILE_ID"></td>
+				
+				<th>참석자</th>
+				<td id="visitorInfo"></td>
 			</tr>
 			<tr>
 				<th>신청일시</th>

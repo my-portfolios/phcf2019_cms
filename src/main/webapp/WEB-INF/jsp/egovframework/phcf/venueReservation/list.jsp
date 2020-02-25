@@ -30,7 +30,8 @@
  			{Name : "접수 완료", Id: "S"},
  			{Name : "승인 완료", Id: "A"},
  			{Name : "승인 거절", Id: "D"},
- 			{Name : "승인 취소", Id: "O"}
+ 			{Name : "승인 취소", Id: "O"},
+ 			{Name : "취소 요청", Id: "B"}
  		];
 	
 	$(function(){

@@ -21,4 +21,8 @@ public class PerformanceDAO extends EgovComAbstractDAO {
 	public void updatePerformanceApplierItem(HashMap<String, Object> paramMap) {
 		update("PerformanceDAO.updatePerformanceApplierItem", paramMap);
 	}
+
+	public List<HashMap<String, Object>> selectAppliedVisitorPerformanceList(HashMap<String, Object> paramMap) {
+		return selectList("PerformanceDAO.selectAppliedVisitorPerformanceList", paramMap);
+	}
 }

@@ -11,15 +11,12 @@
 			AA.NTT_ID,
 			AA.APL_ID,
 			AA.EPISODE,
-			AA.ORD,
 			AA.MBER_ID,
 			AA.APL_NAME,
 			AA.APL_PHONE,
 			AA.APL_EMAIL,
 			AA.APL_POSTCODE,
 			AA.APL_ADDRESS,
-			AA.PERSON_NAME,
-			AA.PERSON_PHONE,
 			AA.MEMO,
 			AA.FILE_ID,
 			AA.RESULT,
@@ -98,9 +95,16 @@
 				</if>
 		)
 		SELECT COUNT(*) AS CNT FROM APPLIED_LIST
-		<if test='pageSize != null and pageOffset != null'>
-			LIMIT ${pageSize} OFFSET ${pageOffset}
-		</if>
+	</select>
+	
+	<select id="selectAppliedVisitorPerformanceList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		/* PerformanceDAO.selectAppliedVisitorPerformanceList */
+		SELECT 
+			*
+		FROM
+			APPLYVISITORINFO	
+		WHERE 1=1
+        AND APL_ID = #{APL_ID}
 	</select>
 	
 	<update id="updatePerformanceApplierItem" parameterType="java.util.HashMap">

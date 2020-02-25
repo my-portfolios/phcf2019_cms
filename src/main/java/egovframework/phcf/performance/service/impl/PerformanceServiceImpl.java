@@ -33,4 +33,9 @@ public class PerformanceServiceImpl extends EgovAbstractServiceImpl implements P
 		dao.updatePerformanceApplierItem(paramMap); 	
 	}
 
+	@Override
+	public List<HashMap<String, Object>> selectAppliedVisitorPerformanceList(HashMap<String, Object> paramMap) throws Exception {
+		return dao.selectAppliedVisitorPerformanceList(paramMap);
+	}
+
 }

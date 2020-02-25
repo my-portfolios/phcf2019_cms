@@ -43,6 +43,7 @@
 					<option value="A">승인완료</option>	
 					<option value="D">승인거절</option>	
 					<option value="O">승인취소</option>
+					<option value="B">취소요청</option>
 				</select>
 			</c:if>
 		</li>

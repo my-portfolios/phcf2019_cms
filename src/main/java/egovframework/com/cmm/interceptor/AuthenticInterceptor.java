@@ -82,7 +82,7 @@ public class AuthenticInterceptor extends HandlerInterceptorAdapter {
 			LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 			if(!user.getUserSe().equals("USR")) {
 				request.getSession().setAttribute("loginVO", null);
-				throw new ModelAndViewDefiningException(CommonMethod.generalAlertThrowing("/uat/uia/egovLoginUsr.do", "_self", "관리자만 이용하실 수 있는 서비스입니다!"));
+				throw new ModelAndViewDefiningException(CommonMethod.generalAlertThrowing("/uat/uia/egovLoginUsr.do", "_parent", "관리자만 이용하실 수 있는 서비스입니다!"));
 			}
 		}
 		//인증된 권한 목록

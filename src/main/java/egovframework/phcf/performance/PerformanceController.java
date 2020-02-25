@@ -27,8 +27,6 @@ public class PerformanceController {
 	@Resource(name="EgovArticleService")
 	EgovArticleService egovArticleService;
 	
-	
-	
 	@RequestMapping(value = "/performance/list.do")
 	public ModelAndView performanceList(@RequestParam HashMap<String, Object> paramMap) throws Exception {
 		ModelAndView mav = new ModelAndView("egovframework/phcf/performance/list");
@@ -40,12 +38,19 @@ public class PerformanceController {
 	public ModelAndView selectPerformanceApplierListJson(@RequestParam HashMap<String, Object> paramMap) throws Exception {
 		ModelAndView mav = new ModelAndView("jsonView");
 		
+		Object pageIndex = paramMap.get("pageIndex");
+		Object pageSize = paramMap.get("pageSize");
+		int pageOffset  = 0;
+		if(pageIndex != null && pageSize != null) {
+			pageOffset = (Integer.parseInt(pageIndex.toString())-1) * Integer.parseInt(pageSize.toString());
+			paramMap.put("pageOffset", pageOffset);
+		}
+		
 		List<HashMap<String, Object>> performanceAndApllierList = new ArrayList<>();
 		List<HashMap<String, Object>> performanceApplierList = service.selectPerformanceApplierList(paramMap);
 		int performanceAndApllierListCnt = service.selectPerformanceApplierListCnt(paramMap);
 		
 		for(HashMap<String, Object> applier : performanceApplierList) {
-			if(Integer.parseInt(applier.get("ORD").toString()) != 0) continue;
 			BoardVO boardVO = new BoardVO();
 			boardVO.setBbsId(applier.get("BBS_ID").toString());
 			boardVO.setNttId(Long.parseLong(applier.get("NTT_ID").toString()));
@@ -55,12 +60,11 @@ public class PerformanceController {
 			
 			HashMap<String, Object> applyInfo = new HashMap<>();
 			applyInfo.putAll(applier);
-			
+			List<HashMap<String, Object>> applyVisitorList = service.selectAppliedVisitorPerformanceList(applyInfo);
+			System.out.println("applyVisitorList " + applyVisitorList);
 			String visitorInfo = "";
-			for(HashMap<String, Object> visitor : performanceApplierList) {
-				if(visitor.get("APL_ID").equals(applier.get("APL_ID"))) {
-					visitorInfo += visitor.get("PERSON_NAME").toString() + " " + visitor.get("PERSON_PHONE").toString() + "<br/>";
-				}
+			for(HashMap<String, Object> visitor : applyVisitorList) {
+				visitorInfo += visitor.get("PERSON_NAME").toString() + " " + visitor.get("PERSON_PHONE").toString() + "<br/>";
 			}
 			
 			applyInfo.put("visitorInfo", visitorInfo);
@@ -71,6 +75,7 @@ public class PerformanceController {
 			for(BoardAddedColmnsVO addedColmn : addedColmnList) {
 				if(addedColmn.getOrd() == 0) {
 					applyInfo.put("cost", addedColmn.getAc5());
+					applyInfo.put("place", addedColmn.getAc7());
 				}
 				if(addedColmn.getOrd() == Integer.parseInt(applier.get("EPISODE").toString())-1) applyInfo.put("date", addedColmn.getAc3());
 			}

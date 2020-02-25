@@ -56,6 +56,10 @@ public class LoginVO implements Serializable{
 	private String dn;
 	
 	private String mbtlNum;
+
+	private String sessionId;
+	
+	private String sessionLimit;
 	/**
 	 * id attribute 를 리턴한다.
 	 * @return String
@@ -262,6 +266,18 @@ public class LoginVO implements Serializable{
 	}
 	public void setMbtlNum(String mbtlNum) {
 		this.mbtlNum = mbtlNum;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+	public String getSessionLimit() {
+		return sessionLimit;
+	}
+	public void setSessionLimit(String sessionLimit) {
+		this.sessionLimit = sessionLimit;
 	}
 	
 }

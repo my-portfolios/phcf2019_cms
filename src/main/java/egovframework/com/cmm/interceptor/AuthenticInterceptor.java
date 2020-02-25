@@ -1,7 +1,10 @@
 package egovframework.com.cmm.interceptor;
 
+import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,9 +16,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.util.WebUtils;
 
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.com.uat.uia.service.EgovLoginService;
+import egovframework.com.utl.cas.service.EgovSessionCookieUtil;
 import egovframework.phcf.hubizCommonMethod.CommonMethod;
 
 /**
@@ -41,6 +47,10 @@ public class AuthenticInterceptor extends HandlerInterceptorAdapter {
 
 	@Autowired
 	private Environment environment;
+	
+	/** EgovLoginService */
+	@Resource(name = "loginService")
+	private EgovLoginService loginService;
 	
 	/** log */
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticInterceptor.class);
@@ -93,6 +103,47 @@ public class AuthenticInterceptor extends HandlerInterceptorAdapter {
 			ModelAndView modelAndView = new ModelAndView("redirect:/uat/uia/egovLoginUsr.do?auth_error=1");
 			throw new ModelAndViewDefiningException(modelAndView);
 		}
+		
+		//쿠키 로그인
+		LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
+
+		// 우리가 만들어 논 쿠키를 꺼내온다.
+        Cookie phcfCmsLoginCookie = WebUtils.getCookie(request,"phcfCmsLoginCookie");
+        Cookie phcfUserId = WebUtils.getCookie(request,"phcfUserId");
+		
+		Cookie[] cookies = request.getCookies();
+		for(Cookie cookie : cookies) {
+			System.out.println("=== 쿠키명 : " + cookie.getName());
+			System.out.println("=== 쿠키값 : " + cookie.getValue());
+		}
+        
+        System.out.println("=== phcfCmsLoginCookie : "+phcfCmsLoginCookie.getValue());
+        System.out.println("=== phcfUserId : "+phcfUserId.getValue());
+        if (phcfCmsLoginCookie != null && phcfUserId != null){// 쿠키가 존재하는 경우(이전에 로그인때 생성된 쿠키가 존재한다는 것)
+            // loginCookie의 값을 꺼내오고 -> 즉, 저장해논 세션Id를 꺼내오고
+            String cmsSessionId = phcfCmsLoginCookie.getValue();
+            String userId = phcfUserId.getValue();
+            // 세션Id를 checkUserWithSessionKey에 전달해 이전에 로그인한적이 있는지 체크하는 메서드를 거쳐서
+            // 유효시간이 > now() 인 즉 아직 유효시간이 지나지 않으면서 해당 sessionId 정보를 가지고 있는 사용자 정보를 반환한다.
+            HashMap<String, Object> paramMap = new HashMap<String, Object>();
+            paramMap.put("sessionId", cmsSessionId);
+            paramMap.put("userId", userId);
+            
+            LoginVO resultVO = loginService.cookieLogin(paramMap);
+            System.out.println("=== resultVO : "+ resultVO);
+            if ( resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")){// 그런 사용자가 있다면
+            	System.out.println("=== resultVO.getOrgnztId : "+ resultVO.getOrgnztId());
+                // 세션을 생성시켜 준다.
+            	request.getSession().setAttribute("loginVO", null);
+            	request.getSession().setAttribute("loginVO", resultVO);
+            } else if(resultVO == null) {
+            	if(vo != null) {
+            		//System.out.println("=== vo "+ vo.getSessionId());
+            		if(vo.getSessionId().equals(cmsSessionId)) request.getSession().setAttribute("loginVO", null);
+            	}
+            }
+        }
+        
 		return true;
 	}
 

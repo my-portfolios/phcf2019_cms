@@ -1,9 +1,15 @@
 package egovframework.com.uat.uia.web;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.EgovComponentChecker;
@@ -26,6 +33,7 @@ import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.service.Globals;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.uat.uia.service.EgovLoginService;
+import egovframework.com.utl.cas.service.EgovSessionCookieUtil;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.com.utl.sim.service.EgovClntInfo;
 import egovframework.phcf.hubizCommonMethod.CommonMethod;
@@ -132,7 +140,43 @@ public class EgovLoginController {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/uat/uia/actionMain.do")
-	public String actionMain(ModelMap model) throws Exception {
+	public String actionMain(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		// 쿠키저장 로그인 유지를 위해		
+		LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
+		Cookie phcfCmsLoginCookie = WebUtils.getCookie(request,"phcfCmsLoginCookie");
+		
+		System.out.println("=== LoginVo.getSessionId() : "+vo);
+		int amount =60 *60 *24 *7;
+		
+		if(vo != null && vo.getSessionId() != null && !vo.getSessionId().equals(phcfCmsLoginCookie.getValue())) request.getSession().setAttribute("loginVO", null);
+		if(vo != null && phcfCmsLoginCookie != null) {
+			HashMap<String, String> cookieValue = new HashMap<String, String>();
+			cookieValue.put("phcfUserId", vo.getUniqId());
+			cookieValue.put("phcfUserAgent", request.getHeader("user-agent"));
+			
+			cookieValue.forEach((key, value) -> {
+				try {
+					EgovSessionCookieUtil.setCookie(response, key, value, amount);
+					//CookieUtil.createCookie(response, key, value, ckSite, ckPath, amount);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+			
+			// currentTimeMills()가 1/1000초 단위임으로 1000곱해서 더해야함
+	        Date sessionLimit =new Date(System.currentTimeMillis() + (1000*amount));
+	        // 현재 세션 id와 유효시간을 사용자 테이블에 저장한다.
+	        loginService.keepLogin(vo.getUniqId(), request.getSession().getId(), sessionLimit);
+		}
+		
+		//쿠키 로그인
+		Cookie[] cookies = request.getCookies();
+		for(Cookie cookie : cookies) {
+			System.out.println("=== 쿠키명 : " + cookie.getName());
+			System.out.println("=== 쿠키값 : " + cookie.getValue());
+		}
+		
 		// 3. 메인 페이지 이동
 		String main_page = Globals.MAIN_PAGE;
 
@@ -152,9 +196,17 @@ public class EgovLoginController {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/uat/uia/actionLogout.do")
-	public String actionLogout(HttpServletRequest request, ModelMap model) throws Exception {
+	public String actionLogout(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
+		Date sessionLimit =new Date(System.currentTimeMillis());
+		loginService.keepLogin(vo.getUniqId(), "none", sessionLimit);
+		
 		request.getSession().setAttribute("loginVO", null);
-
+		
+		//모든 쿠키 삭제
+		EgovSessionCookieUtil.setCookie(response, "phcfCmsLoginCookie","none", 0);
+		EgovSessionCookieUtil.removeSessionAttribute(request, "phcfCmsLoginCookie");
+		
 		return "redirect:" + Globals.MAIN_PAGE;
 	}
 	

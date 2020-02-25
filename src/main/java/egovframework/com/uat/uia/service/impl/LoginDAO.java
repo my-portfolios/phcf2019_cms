@@ -1,5 +1,7 @@
 package egovframework.com.uat.uia.service.impl;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -46,6 +48,25 @@ public class LoginDAO extends EgovComAbstractDAO {
 	 */
     public LoginVO actionLogin(LoginVO vo) throws Exception {
     	return (LoginVO)selectOne("LoginUsr.actionLogin", vo);
+    }
+    
+    public LoginVO cookieLogin(HashMap<String, Object> paramMap) throws Exception {
+    	return (LoginVO)selectOne("LoginUsr.cookieLogin", paramMap);
+    }
+    
+    // 자동로그인 체크한 경우에 사용자 테이블에 세션과 유효시간을 저장하기 위한 메서드
+    public void keepLogin(String uid, String sessionId, Date next){
+         
+        Map<String, Object> map =new HashMap<String, Object>();
+        map.put("uid", uid);
+        map.put("sessionId", sessionId);
+        map.put("next", next);
+         
+        // Mapper.xml로 데이터를 전달할 때 한 객체밖에 전달 못함으로 map으로 묶어서 보내줌 단... 주의할 점은
+        // Mapper.xml 안에서 #{} 이 안에 지정한 이름이랑 같아야함.. 자동으로 매핑될 수 있도록
+        // 아래가 수행되면서, 사용자 테이블에 세션id와 유효시간이 저장됨
+        update("LoginUsr.keepLogin",map);
+         
     }
 
     /**

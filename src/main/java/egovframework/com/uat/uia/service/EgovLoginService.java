@@ -1,5 +1,7 @@
 package egovframework.com.uat.uia.service;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import egovframework.com.cmm.LoginVO;
@@ -39,6 +41,10 @@ public interface EgovLoginService {
 	 * @exception Exception
 	 */
     LoginVO actionLogin(LoginVO vo) throws Exception;
+    
+    LoginVO cookieLogin(HashMap<String, Object> paramMap) throws Exception;
+    
+    public void keepLogin(String uid, String sessionId, Date next);
     
     /**
 	 * 인증서 로그인을 처리한다

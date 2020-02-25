@@ -166,6 +166,33 @@
 		</if>
 	</select>
 	
+	<!-- 쿠키 로그인 -->
+	<select id="cookieLogin" parameterType="java.util.HashMap" resultMap="login">
+	<![CDATA[
+		SELECT emplyr_id AS id
+			     , user_nm AS name
+			     , password AS password
+			     , ihidnum AS ihidNum
+			     , email_adres AS email
+			     , 'USR' AS userSe
+			     , orgnzt_id AS orgnztId
+			     , esntl_id AS uniqId
+			     , group_id AS groupId
+			     , mbtlnum AS mbtlNum
+			     , SESSION_ID AS sessionId
+			     , SESSION_LIMIT AS sessionLimit
+			  FROM COMTNEMPLYRINFO
+			 WHERE ESNTL_ID = #{userId} 
+			 AND SESSION_ID = #{sessionId} 
+			 AND SESSION_LIMIT > now() 
+			 AND emplyr_sttus_code = 'P'
+	]]>
+	</select>
+	
+	<update id="keepLogin">
+        update COMTNEMPLYRINFO set SESSION_ID = #{sessionId}, SESSION_LIMIT = #{next} where ESNTL_ID=#{uid}
+    </update>
+	
 	<!-- 인증서 로그인 -->
 	<select id="actionCrtfctLogin" resultMap="login">
 		

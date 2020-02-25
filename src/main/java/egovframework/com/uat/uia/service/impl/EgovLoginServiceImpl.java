@@ -1,5 +1,6 @@
 package egovframework.com.uat.uia.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,6 +97,20 @@ public class EgovLoginServiceImpl extends EgovAbstractServiceImpl implements Ego
     	}
 
     	return loginVO;
+    }
+    
+    @Override
+	public LoginVO cookieLogin(HashMap<String, Object> paramMap) throws Exception {
+
+    	LoginVO loginVO = loginDAO.cookieLogin(paramMap);
+
+    	return loginVO;
+    }
+    
+    @Override
+    public void keepLogin(String uid, String sessionId, Date next) {
+ 
+    	loginDAO.keepLogin(uid, sessionId, next);
     }
 
     /**

@@ -165,8 +165,8 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 				request.setAttribute("HeaderMenuList",HeaderMenuList);
 			}
 			if(cmMap!=null) request.setAttribute("CurrentMenuMap",cmMap);
-			logger.debug("=== currentURL : " + currentUrl);
-			logger.debug("=== menuMAP : " + cmMap);
+			//logger.debug("=== currentURL : " + currentUrl);
+			//logger.debug("=== menuMAP : " + cmMap);
 			
 		} catch(Exception e) {
 			e.printStackTrace();

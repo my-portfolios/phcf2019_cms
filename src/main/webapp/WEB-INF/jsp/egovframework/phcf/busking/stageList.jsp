@@ -122,7 +122,7 @@
 			loadMessage: '조회 중...',
 			fields: [
 				{name:   'CHECK', type: 'checkbox', editing: false, readOnly: false, headerTemplate: function() { return $("<input></input>").attr("type","checkbox").attr("id","allCheck") } },
-				{name: 	'TEAM_NAME', 	title: '단체명', 	type: 'text', 	editing: false, width:80, align: "center"},
+				{name: 	'TEAM_NM', 	title: '단체명', 	type: 'text', 	editing: false, width:80, align: "center"},
 			 	{name: 	'HEAD_NAME', 	title: '대표자명', 	type: 'text', 	editing: false, width: 230, align: "center"},
 			 	{name: 	'PHONE', 	title: '연락처', 	type: 'text', 	editing: false, width: 120, align: "center"},
 			 	{name: 	'REG_DATE', 	title: '등록일', 	type: 'text', 	editing: false, width: 110, align: "center"},

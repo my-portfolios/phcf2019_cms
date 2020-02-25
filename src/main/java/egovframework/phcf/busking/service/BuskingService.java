@@ -13,4 +13,5 @@ public interface BuskingService {
 	public int selectBuskingStageRegDefaultCnt(HashMap<String, Object> paramMap);
 	public List<HashMap<String, Object>> selectBuskingStageRegList(HashMap<String, Object> paramMap);
 	public void updateApproveMulti(HashMap<String, Object> paramMap);
+	public void insertBuskingStageReg(HashMap<String, Object> paramMap);
 }

@@ -1,12 +1,294 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<title>무대 신청자 등록</title>
+<link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/jqueryui.css' />">
+<script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
+<script src="<c:url value='/js/egovframework/com/cmm/jqueryui.js' />"></script>
+<link rel="stylesheet" type="text/css" href="/css/egovframework/phcf/popup.css"/>
 
-</body>
-</html>
+<script src="/js/egovframework/phcf/CommonMethod.js"></script>
+<style>
+	label.error{
+	  margin-left:10px;
+	  color:red;
+	}
+</style>
+</head>
+<div class="con_box1 businessAnncView_box">
+	<span>※ 알림사항</span> 
+	· 장소 : 포항운하(송림교옆), 영일대해수욕장(버스킹무대 1 ~5)<br />
+	· 이용가능 시 간 : 13:00 ~ 15:00 / 16:00 ~ 18:00 / 19:00 ~ 21:00 / 13:00 ~ 18:00 / 16:00 ~ 21:00<br />
+	· <u>공간사용신청 마감은 매달 10일이며, 15일(주말인 경우 다음 월요일)에 승인됩니다. 15일 이후 일정표를 확인해 주시기 바랍니다.</u><br />
+	· <u>사용신청은 월별로 신청해 주시기 바랍니다.</u><br />
+	· 일정 및 장소 신청이 중복될 경우 단체간의 협의하에 운영되며, 적극 협조 바랍니다.</u><br /><br />
+	
+	(재)포항문화재단 생활문화팀 054)289-7873
+</div>
+<form name="frm" id="frm" action="#" method="post"  enctype="multipart/form-data" onsubmit="return fn_qna()" >
+	
+	<input type="hidden" name="GROUP_SEQ" value="${applyGroupHistory.SEQ }">
+
+	<div class="wTableFrm">
+	<!-- 등록폼 -->
+	<table class="wTable" summary="버스킹 공간 신청" />
+	<tbody>
+		<tr>
+			<th><label for="TEAM_NAME">단체명</label> <span class="pilsu">*</span></th>
+			<td class="left">
+				<input id="TEAM_NAME"  name="TEAM_NAME" style="ime-mode:active;" type="text" class="text padding5 width20per" value="${applyGroupHistory.TEAM_NAME }" title="단체명을 입력하세요" />
+                <font color="#FF0000">※ 버스킹 단체등록을 먼저 해주시기 바랍니다.</font>   
+			</td>
+		</tr>
+		<tr>
+			<th><label for="PROG_NM">프로그램명</label> <span class="pilsu">*</span></th>
+			<td class="left">
+			   <input id="PROG_NM"  name="PROG_NM" style="ime-mode:active;" type="text" class="text padding5 width20per" value="${contentInfo.MH_PROGRAM }" title="프로그램명을 입력하세요" />
+			</td>
+		</tr>
+			<tr>
+				<th><label for="PLACE">장소</label> <span class="pilsu">*</span></th>
+				<td class="left" >
+					<!-- onchange="javascript:changeDisabledDatesSet();" -->
+					<select class="select" id="PLACE" name="PLACE" >
+					<option value="">선택</option>
+					<c:forEach var="placeCodeNm" items="${placeCodeNmList}" varStatus="i">
+						<option value="${placeCodeNm}" <c:if test="${contentInfo.CD_VALUE eq placeCodeNm }">selected</c:if> >${placeCodeNm}</option>	
+					</c:forEach>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="DATE">날짜</label> <span class="pilsu">*</span></th>
+				<td class="left">				
+				<input type="text" id="datepickerBgn" class="datepicker2"  name="DATE_BGN" value="" readonly="readonly" />
+							~
+				<input type="text" id="datepickerEnd" class="datepicker2"  name="DATE_END" value="" onchange="javascript:chkdate();" readonly="readonly" />
+				 <br>
+                <span style=" margin-top:100px;color="#4da314"">
+			                ※ 전체 기간이 아닌 사용하고자 하는 건별일정으로 신청해주세요.</font><br />
+			                예시, 3월 매주 수요일 희망 :  3. 8 / 3. 15 / 3. 22 / 3. 29 (총 4번 신청) (O) &nbsp; / &nbsp; 3. 8 ~ 3. 29 (X) 
+                </span>
+                
+				</td>
+			</tr>
+			<tr>
+				<th><label for="TIME">시간</label> <span class="pilsu">*</span></th>
+				<td class="left" >
+					<select class="select" id="TIME" name="TIME">
+					<option value="">선택</option>
+				<c:forEach var="timeCodeNm" items="${timeCodeNmList}" varStatus="i">
+					<option value="${timeCodeNm}">${timeCodeNm}</option>	
+				</c:forEach>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="HEAD_NAME">대표자</label> <span class="pilsu">*</span></th>
+				<td class="left">
+					<input id="HEAD_NAME"  name="HEAD_NAME" style="ime-mode:active;" type="text" class="text padding5 width20per" value="${applyGroupHistory.HEAD_NAME }" title="대표자을 입력하세요"/>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="PHONE">연락처</label> <span class="pilsu">*</span></th>
+				<td class="left">
+					<input id="PHONE" name="PHONE" type="text" class="text padding5 width20per" value="${applyGroupHistory.PHONE }" title="연락처를 입력하세요" />
+			<span class="colorgray paddingleft5">연락이 가능하신 전화번호를 적어주세요</span>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="INTRO">공연 프로그램 소개</label> <span class="pilsu">*</span></th>
+				<td class="left">
+					<textarea id="INTRO" name="INTRO">${contentInfo.BSK_PROFILE }</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="EQUIPMENT">사용장비 리스트</label> <span class="pilsu">*</span></th>
+				<td class="left">
+					<textarea id="EQUIPMENT" name="EQUIPMENT">${contentInfo.BSK_PROFILE }</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="FILE">자료 업로드</label></th>
+				<td class="left">
+					<input id="FILE" type="file" name="FILE" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+
+	<br /><br />
+	<div class="con_box1">
+	- 신청 후 승인된 단체는 "야외무대 사용 승인 신청서"를 작성해 사용일 3일전까지 방문, 메일, 팩스로 제출하시길 바랍니다.(미제출 시 승인 취소) <br />
+	- 문의 054) 289-7873
+	</div>
+
+	<!-- 하단 버튼 -->
+	<div class="btn">
+		<c:if test="${contentInfo.RESULT == '4'}">
+			<input type="submit" class="s_submit" onclick="fn_qna()" value="신청내역수정">
+			<input type="submit" class="s_submit" onclick="fn_cancel()" value="신청내역취소">
+		</c:if>		
+		<input type="submit" class="s_submit"  value="신청">
+		<span class="btn_s" ><a href="#" onclick="javascript:history.go(-1);" />목록</a></span>
+	</div>
+	</form>
+<script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/jquery.validate.min.js' />"></script>
+<script>
+//validation 체크
+$("#frm").validate({
+    onsubmit: true,
+    onfocusout: false,
+       rules: {
+    	   TEAM_NM: "required",
+    	   PROG_NM: "required",
+    	   PLACE: "required",
+    	   DATE: "required",
+    	   TIME: "required",
+    	   HEAD_NAME: "required",
+    	   PHONE: "required",
+    	   INTRO: "required",
+    	   EQUIPMENT: "required",
+       },
+       messages: {
+    	   TEAM_NM: "단체명을 입력해주세요",
+    	   PROG_NM	: "프로그램명을 입력해 주세요.",
+    	   PLACE: "장소를 선택해 주세요",
+    	   DATE: "날짜를 선택해 주세요",
+    	   TIME: "시간을 입력해 주세요.",
+    	   HEAD_NAME: "대표자를 입력해 주세요.",
+    	   PHONE:"휴대폰을 입력해 주세요",
+    	   INTRO: "공연 소개를 입력해 주세요.",
+    	   EQUIPMENT: "사용장비를 입력해 주세요.",
+       }
+});
+function fn_qna(){
+	var bgn = $("#datepickerBgn").val();
+	var end = $("#datepickerEnd").val();
+	if(bgn==null || end==null || bgn>end?1:0){
+		alert("날짜를 확인해 주세요");
+		return false;
+	}
+	if($( "#frm" ).valid()){
+		if (confirm("신청 하시겠습니까??") == true){    //확인
+ 			return true;
+		}else{
+			return false;
+		}
+	}
+}
+
+var disabledDates = [/* "2020-02-25","2020-02-26","2020-02-28" */];
+
+$(function(){
+    var dateBgn;
+    var dateEnd;
+    
+    var minimumDate = new Date(new Date().setMonth(new Date().getMonth()));
+    var maximumDate = new Date(new Date().setMonth(new Date().getMonth()+3));
+    
+    var datepickerBgn = $("#datepickerBgn").datepicker({
+        changeMonth:true,
+        changeYear:true,
+        language: 'ko',
+        yearRange:"2019:2021",
+        minDate:minimumDate,
+        maxDate:maximumDate,
+        showOn:"both",
+        buttonImage:"../img/ico/calendar.gif",
+        buttonImageOnly:true,
+        dateFormat: 'yy-mm-dd',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        showMonthAfterYear: true,
+        dayNamesMin: ['일','월', '화', '수', '목', '금', '토'],
+        monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+        monthNames: ['년 1월','년 2월','년 3월','년 4월','년 5월','년 6월','년 7월','년 8월','년 9월','년 10월','년 11월','년 12월'],
+        nextText: '다음 달',
+        prevText: '이전 달',
+        //cell 그리기 (15일이 주말이면 월요일날/예약날 막기)
+        onRenderCell: function(date, cellType) {
+        	//
+			for(var i=0;i<disabledDates.length;i++){
+    	        if (dateToString(date)==disabledDates[i]) {
+    	            return {disabled: true}
+    	        }
+    		}
+        	var disabledDays = [0, 6];
+        	 if (cellType == 'day') {
+                 var day = date.getDay(),
+                     isDisabled = disabledDays.indexOf(day) != -1;
+
+                 return {
+                     disabled: isDisabled
+                 }
+             }
+        },
+        onSelect:function(formattedDate,date,inst){
+        	dateBgn=date;
+        	if(dateBgn==null || dateEnd==null ||dateBgn == '' || dateEnd == '') {
+        		return; 
+        	}
+    		if( dateBgn > dateEnd ) {
+    			alert('시작날짜가 끝날짜 보다 큽니다. 다시 선택해주세요');
+    			inst.el.value='';
+    			return;
+    		}
+        }
+    });
+    
+    
+    var datepickerEnd = $("#datepickerEnd").datepicker({
+        changeMonth:true,
+        changeYear:true,
+        language: 'ko',
+        yearRange:"2019:2021",
+        minDate:minimumDate,
+        maxDate:maximumDate,
+        showOn:"both",
+        buttonImage:"../img/ico/calendar.gif",
+        buttonImageOnly:true,
+        dateFormat: 'yy-mm-dd',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        showMonthAfterYear: true,
+        dayNamesMin: ['일','월', '화', '수', '목', '금', '토'],
+        monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+        monthNames: ['년 1월','년 2월','년 3월','년 4월','년 5월','년 6월','년 7월','년 8월','년 9월','년 10월','년 11월','년 12월'],
+        nextText: '다음 달',
+        prevText: '이전 달',
+        onRenderCell: function(date, cellType) {
+			for(var i=0;i<disabledDates.length;i++){
+    			
+    	        if (dateToString(date)==disabledDates[i]) {
+    	            return {disabled: true}
+    	        }
+    		}
+        	
+        	var disabledDays = [0, 6];
+        	 if (cellType == 'day') {
+                 var day = date.getDay(),
+                     isDisabled = disabledDays.indexOf(day) != -1;
+
+                 return {
+                     disabled: isDisabled
+                 }
+             }
+        },
+        onSelect:function(formattedDate,date,inst){
+        	dateEnd=date;
+        	if(dateBgn==null || dateEnd==null ||dateBgn == '' || dateEnd == '') {
+        		return; 
+        	}
+    		if( dateBgn > dateEnd ) {
+    			alert('시작날짜가 끝날짜 보다 큽니다. 다시 선택해주세요');
+    			return;
+    		}
+        }
+    });
+});
+</script>

@@ -32,5 +32,8 @@ public class BuskingDAO extends EgovComAbstractDAO{
 	public void updateApproveMulti(HashMap<String, Object> paramMap) {
 		update("BuskingDAO.updateApproveMulti",paramMap);
 	}
+	public void insertBuskingStageReg(HashMap<String, Object> paramMap) {
+		insert("BuskingDAO.insertBuskingStageReg",paramMap);
+	}
 	
 }

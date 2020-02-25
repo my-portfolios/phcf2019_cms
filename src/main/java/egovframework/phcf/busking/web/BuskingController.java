@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,14 +17,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.service.EgovFileMngService;
+import egovframework.com.cmm.service.EgovFileMngUtil;
+import egovframework.com.cmm.service.FileVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.phcf.busking.BuskingGroupVO;
 import egovframework.phcf.busking.service.BuskingService;
 import egovframework.phcf.hubizCommonMethod.CommonMethod;
@@ -40,6 +47,9 @@ public class BuskingController {
 	
 	@Resource(name="EgovFileMngService")
 	private EgovFileMngService fileMngService;	
+	
+	@Resource(name="EgovFileMngUtil")
+	private EgovFileMngUtil fileUtil;
 	
 	@RequestMapping(value="/busking/buskingGroupList.do") 
 	public ModelAndView buskingGroupList(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
@@ -262,10 +272,39 @@ public class BuskingController {
 	}
 	
 	@RequestMapping(value="/busking/insertStage.do")
-	public ModelAndView insertStage(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
+	public ModelAndView insertStageGET(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
 		ModelAndView mav = new ModelAndView("egovframework/phcf/busking/insertStage");
+		List<String> placeCodeNmList = new ArrayList<>();
+		List<String> timeCodeNmList = new ArrayList<>();
 		
+		for(CmmnDetailCode code : CommonMethod.getCodeDetailVOList("PHC014", cmmUseService)) {
+			placeCodeNmList.add(code.getCodeNm());
+		}
+		for(CmmnDetailCode code : CommonMethod.getCodeDetailVOList("PHC015", cmmUseService)) {
+			timeCodeNmList.add(code.getCodeNm());
+		}
+		mav.addObject("placeCodeNmList", placeCodeNmList);
+		mav.addObject("timeCodeNmList", timeCodeNmList);
 		return mav;
+	}
+	@RequestMapping(value="/busking/insertStage.do", method=RequestMethod.POST)
+	public String insertStagePOST(MultipartHttpServletRequest request, ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
+		List<FileVO> _result = null;
+		String _atchFileId = "";
+		final Map<String, MultipartFile> files = request.getFileMap();
+		if(!files.isEmpty()){
+			_result = fileUtil.parseFileInf(files, "APL_", 0, "", ""); 
+			_atchFileId = fileMngService.insertFileInfs(_result);  //파일이 생성되고나면 생성된 첨부파일 ID를 리턴한다.
+		}
+		paramMap.put("FILE", _atchFileId);
+		
+		EgovUserDetailsHelper.isAuthenticated();
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		if(loginVO!=null) {
+			paramMap.put("MBER_ID", loginVO.getId());
+		}
+		service.insertBuskingStageReg(paramMap);
+		return "redirect:/busking/buskingStageList.do";
 	}
 	
 }

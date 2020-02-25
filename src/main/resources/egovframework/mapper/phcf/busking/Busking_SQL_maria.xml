@@ -106,11 +106,11 @@
 			, S.FILE
 			, S.APPROVE_YN
 			, S.DELETE_YN
-			, G.TEAM_NAME
+			, S.TEAM_NM
 			, G.HEAD_NAME
 			, G.PHONE 
 		from BUSKINGSTAGE S
-		join BUSKINGGROUP G
+		left join BUSKINGGROUP G
 			on S.MBER_ID = G.MBER_ID
 		and 1=1
 			<if test="approveYN !=null and !approveYN.equals('')">
@@ -139,4 +139,31 @@
                     #{item}
         </foreach>
 	</select>
+	<insert id="insertBuskingStageReg" parameterType="java.util.HashMap">
+		insert into BUSKINGSTAGE(
+			GROUP_SEQ
+			, MBER_ID
+			, TEAM_NM
+			, PROG_NM
+			, PLACE
+			, DATE_BGN
+			, DATE_END
+			, TIME
+			, INTRO
+			, EQUIPMENT
+			, `FILE`
+		) values (
+			#{GROUP_SEQ}
+			, #{MBER_ID}
+			, #{TEAM_NM}
+			, #{PROG_NM}
+			, #{PLACE}
+			, #{DATE_BGN}
+			, #{DATE_END}
+			, #{TIME}
+			, #{INTRO}
+			, #{EQUIPMENT}
+			, #{FILE}
+		)
+	</insert>
 </mapper>

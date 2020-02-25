@@ -52,5 +52,10 @@ public class BuskingServiceImpl implements BuskingService {
 		dao.updateApproveMulti(paramMap);
 	}
 
+	@Override
+	public void insertBuskingStageReg(HashMap<String, Object> paramMap) {
+		dao.insertBuskingStageReg(paramMap);
+	}
+
 	
 }

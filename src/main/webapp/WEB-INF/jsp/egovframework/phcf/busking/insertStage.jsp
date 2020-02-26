@@ -34,16 +34,16 @@
 </div>
 <form name="frm" id="frm" action="#" method="post"  enctype="multipart/form-data" onsubmit="return fn_qna()" >
 	
-	<input type="hidden" name="GROUP_SEQ" value="${applyGroupHistory.SEQ }">
+	<input type="hidden" name="GROUP_SEQ" value="">
 
 	<div class="wTableFrm">
 	<!-- 등록폼 -->
 	<table class="wTable" summary="버스킹 공간 신청" />
 	<tbody>
 		<tr>
-			<th><label for="TEAM_NAME">단체명</label> <span class="pilsu">*</span></th>
+			<th><label for="TEAM_NM">단체명</label> <span class="pilsu">*</span></th>
 			<td class="left">
-				<input id="TEAM_NAME"  name="TEAM_NAME" style="ime-mode:active;" type="text" class="text padding5 width20per" value="${applyGroupHistory.TEAM_NAME }" title="단체명을 입력하세요" />
+				<input id="TEAM_NM"  name="TEAM_NM" style="ime-mode:active;" type="text" class="text padding5 width20per" value="${applyGroupHistory.TEAM_NAME }" title="단체명을 입력하세요" />
                 <font color="#FF0000">※ 버스킹 단체등록을 먼저 해주시기 바랍니다.</font>   
 			</td>
 		</tr>
@@ -91,28 +91,28 @@
 				</td>
 			</tr>
 			<tr>
-				<th><label for="HEAD_NAME">대표자</label> <span class="pilsu">*</span></th>
+				<th><label for="HEAD_NM">대표자</label> <span class="pilsu">*</span></th>
 				<td class="left">
-					<input id="HEAD_NAME"  name="HEAD_NAME" style="ime-mode:active;" type="text" class="text padding5 width20per" value="${applyGroupHistory.HEAD_NAME }" title="대표자을 입력하세요"/>
+					<input id="HEAD_NM"  name="HEAD_NM" style="ime-mode:active;" type="text" class="text padding5 width20per" value="" title="대표자을 입력하세요"/>
 				</td>
 			</tr>
 			<tr>
 				<th><label for="PHONE">연락처</label> <span class="pilsu">*</span></th>
 				<td class="left">
-					<input id="PHONE" name="PHONE" type="text" class="text padding5 width20per" value="${applyGroupHistory.PHONE }" title="연락처를 입력하세요" />
+					<input id="PHONE" name="PHONE" type="text" class="text padding5 width20per" value="" title="연락처를 입력하세요" />
 			<span class="colorgray paddingleft5">연락이 가능하신 전화번호를 적어주세요</span>
 				</td>
 			</tr>
 			<tr>
 				<th><label for="INTRO">공연 프로그램 소개</label> <span class="pilsu">*</span></th>
 				<td class="left">
-					<textarea id="INTRO" name="INTRO">${contentInfo.BSK_PROFILE }</textarea>
+					<textarea id="INTRO" name="INTRO"></textarea>
 				</td>
 			</tr>
 			<tr>
 				<th><label for="EQUIPMENT">사용장비 리스트</label> <span class="pilsu">*</span></th>
 				<td class="left">
-					<textarea id="EQUIPMENT" name="EQUIPMENT">${contentInfo.BSK_PROFILE }</textarea>
+					<textarea id="EQUIPMENT" name="EQUIPMENT"></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -153,7 +153,7 @@ $("#frm").validate({
     	   PLACE: "required",
     	   DATE: "required",
     	   TIME: "required",
-    	   HEAD_NAME: "required",
+    	   HEAD_NM: "required",
     	   PHONE: "required",
     	   INTRO: "required",
     	   EQUIPMENT: "required",
@@ -164,7 +164,7 @@ $("#frm").validate({
     	   PLACE: "장소를 선택해 주세요",
     	   DATE: "날짜를 선택해 주세요",
     	   TIME: "시간을 입력해 주세요.",
-    	   HEAD_NAME: "대표자를 입력해 주세요.",
+    	   HEAD_NM: "대표자를 입력해 주세요.",
     	   PHONE:"휴대폰을 입력해 주세요",
     	   INTRO: "공연 소개를 입력해 주세요.",
     	   EQUIPMENT: "사용장비를 입력해 주세요.",

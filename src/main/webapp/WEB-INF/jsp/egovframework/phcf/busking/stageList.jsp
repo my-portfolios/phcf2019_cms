@@ -29,8 +29,6 @@
 	var timeCode = ${timeCodeList};
 	
 	$(function(){
-		$("#areas").parent().css("display","none");
-		$("#genre").parent().css("display","none");
 		
 		$('#jsGrid').jsGrid({
 			width: '100%',
@@ -123,7 +121,7 @@
 			fields: [
 				{name:   'CHECK', type: 'checkbox', editing: false, readOnly: false, headerTemplate: function() { return $("<input></input>").attr("type","checkbox").attr("id","allCheck") } },
 				{name: 	'TEAM_NM', 	title: '단체명', 	type: 'text', 	editing: false, width:80, align: "center"},
-			 	{name: 	'HEAD_NAME', 	title: '대표자명', 	type: 'text', 	editing: false, width: 230, align: "center"},
+			 	{name: 	'HEAD_NM', 	title: '대표자명', 	type: 'text', 	editing: false, width: 230, align: "center"},
 			 	{name: 	'PHONE', 	title: '연락처', 	type: 'text', 	editing: false, width: 120, align: "center"},
 			 	{name: 	'REG_DATE', 	title: '등록일', 	type: 'text', 	editing: false, width: 110, align: "center"},
 			 	{name: 	'PLACE', 	title: '공간명', 	type: 'select', items: placeCode, readOnly: false, valueType: "string",valueField: "Id", textField: "Name", editing: true, width: 110, align: "center"},
@@ -202,16 +200,17 @@
 	}
 	
 	function search(){
-		var genre = $("#genre").val();
-		var area = $("#areas").val();
-		var approveYN = $("#approve").val();
+		var place = $("#searchPlace").val();
+		var approveYN = $("#serachApprove").val();
 		var searchCondition = $("#searchCondition").val();
 		var searchKeyword = $("#searchKeyword").val();
-		
+		var searchDate=$("#searchDate").val();
+		var searchTime=$("#searchTime").val();
 	 	searchFilter = new Object();
-		searchFilter.genre = genre;
-		searchFilter.area = area;
+		searchFilter.place = place;
 		searchFilter.approveYN = approveYN;
+		searchFilter.searchDate = searchDate;
+		searchFilter.searchTime = searchTime;
 		searchFilter.searchCondition = searchCondition;
 		searchFilter.searchKeyword = searchKeyword;
 		$("#jsGrid").jsGrid("loadData");
@@ -288,7 +287,7 @@
 
 <div class="board">
 	<h1>무대 신청자 리스트</h1>
-	<c:import url="/busking/searchView.do"/>
+	<c:import url="/busking/searchStageView.do"/>
 	<div id="jsGrid"></div>
 	<div class="buttonarea floatright" style="text-align: right; margin-top:20px;">
 		<input type="button" id="insert_btn" class="" onclick="location.href='/busking/insertStage.do'" value="등록">

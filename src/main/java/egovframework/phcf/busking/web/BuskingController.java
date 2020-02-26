@@ -98,10 +98,10 @@ public class BuskingController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/busking/searchView.do")
-	public ModelAndView searchView(HttpServletRequest request, ModelMap model
+	@RequestMapping(value="/busking/searchGroupView.do")
+	public ModelAndView searchGroupView(HttpServletRequest request, ModelMap model
 			, @RequestParam HashMap<String, String> paramMap) throws Exception {
-		ModelAndView mav = new ModelAndView("egovframework/phcf/busking/search"); 
+		ModelAndView mav = new ModelAndView("egovframework/phcf/busking/searchGroup"); 
 		
 		List<String> genreCodeNmList = new ArrayList<>();
 		List<String> areaCodeNmList = new ArrayList<>();
@@ -125,11 +125,43 @@ public class BuskingController {
 		
 		return mav;
 	}
+	@RequestMapping(value="/busking/searchStageView.do")
+	public ModelAndView searchStageView(HttpServletRequest request, ModelMap model
+			, @RequestParam HashMap<String, String> paramMap) throws Exception {
+		ModelAndView mav = new ModelAndView("egovframework/phcf/busking/searchStage"); 
+		
+		List<String> placeCodeNmList = new ArrayList<>();
+		List<String> approveCodeNmList = new ArrayList<>();
+		List<String> timeCodeNmList = new ArrayList<>();
+		
+		for(CmmnDetailCode code : CommonMethod.getCodeDetailVOList("PHC014", cmmUseService)) {
+			placeCodeNmList.add(code.getCodeNm());
+		}
+		for(CmmnDetailCode code : CommonMethod.getCodeDetailVOList("PHC019", cmmUseService)) {
+			approveCodeNmList.add(code.getCodeNm());
+		}
+		for(CmmnDetailCode code : CommonMethod.getCodeDetailVOList("PHC015", cmmUseService)) {
+			timeCodeNmList.add(code.getCodeNm());
+		}
+		
+		mav.addObject("placeCodeNmList",placeCodeNmList);
+		mav.addObject("approveCodeNmList",approveCodeNmList);
+		mav.addObject("timeCodeNmList",timeCodeNmList);
+		
+		return mav;
+	}
 	@RequestMapping(value="/busking/updateApprove.do")
 	public ModelAndView updateApprove(HttpServletRequest request, ModelMap model
 			, @RequestParam HashMap<String, String> paramMap) throws Exception {
 		ModelAndView mav = new ModelAndView("jsonView");
 		String result = "success";
+		
+		String dateStr = paramMap.get("DATE");
+		dateStr=dateStr.replace(" ", "");
+		dateStr=dateStr.trim();
+		String date[] = dateStr.split("~");
+		paramMap.put("DATE_BGN", date[0]);
+		paramMap.put("DATE_END", date[1]);
 		try {
 			service.updateGroupApprove(paramMap);
 		}
@@ -181,7 +213,7 @@ public class BuskingController {
 		jsonStr = mapper.writeValueAsString(paramArpproveList);
 		mav.addObject("approveCodeList", jsonStr);
 		
-		//장소
+		//장소 
 		codeVo.setCodeId("PHC014");
 		List<CmmnDetailCode> palceCodeList = cmmUseService.selectCmmCodeDetail(codeVo);
 		

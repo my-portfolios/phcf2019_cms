@@ -70,6 +70,12 @@
 		<if test="TIME!=null">
 			, TIME=#{TIME}
 		</if> 
+		<if test="DATE_BGN!=null">
+			, DATE_BGN=#{DATE_BGN}
+		</if> 
+		<if test="DATE_END!=null">
+			, DATE_END=#{DATE_END}
+		</if> 
 		where SEQ=#{SEQ}
 	</update>
 	<update id="deleteBusking" parameterType="java.util.HashMap">
@@ -86,8 +92,27 @@
 	<select id="selectBuskingStageRegDefaultCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
 		select count(SEQ) from BUSKINGSTAGE
 		WHERE 1=1
+			<if test="place !=null and !place.equals('')">
+				and PLACE = #{place}
+			</if>
 			<if test="approveYN !=null and !approveYN.equals('')">
-		      	and APPROVE_YN =#{approveYN}
+				and APPROVE_YN = #{approveYN}
+			</if>
+			<if test="searchDate !=null and !searchDate.equals('')">
+				and #{searchDate} between DATE_BGN and DATE_END
+			</if>
+			<if test="searchTime !=null and !searchTime.equals('')">
+				and TIME = #{searchTime}
+			</if>
+			<if test="searchCondition!=null and searchCondition.equals('TEAM_NM') ">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and TEAM_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      	</if>
+		    </if>
+			<if test="searchCondition!=null and searchCondition.equals('HEAD_NM') ">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and HEAD_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      	</if>
 		    </if>
 	     	and DELETE_YN=0
 	</select>
@@ -107,23 +132,30 @@
 			, S.APPROVE_YN
 			, S.DELETE_YN
 			, S.TEAM_NM
-			, G.HEAD_NAME
-			, G.PHONE 
+			, S.HEAD_NM
+			, S.PHONE 
 		from BUSKINGSTAGE S
-		left join BUSKINGGROUP G
-			on S.MBER_ID = G.MBER_ID
 		WHERE 1=1
+			<if test="place !=null and !place.equals('')">
+				and S.PLACE = #{place}
+			</if>
 			<if test="approveYN !=null and !approveYN.equals('')">
 				and S.APPROVE_YN = #{approveYN}
 			</if>
-			<if test="searchCondition!=null and searchCondition.equals('TEAM_NAME') ">
+			<if test="searchDate !=null and !searchDate.equals('')">
+				and #{searchDate} between DATE_BGN and DATE_END
+			</if>
+			<if test="searchTime !=null and !searchTime.equals('')">
+				and TIME = #{searchTime}
+			</if>
+			<if test="searchCondition!=null and searchCondition.equals('TEAM_NM') ">
 				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
-		      		and TEAM_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      		and TEAM_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
 		      	</if>
 		    </if>
-			<if test="searchCondition!=null and searchCondition.equals('HEAD_NAME') ">
+			<if test="searchCondition!=null and searchCondition.equals('HEAD_NM') ">
 				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
-		      		and HEAD_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      		and HEAD_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
 		      	</if>
 		    </if>
 	     	and S.DELETE_YN=0
@@ -144,6 +176,8 @@
 			GROUP_SEQ
 			, MBER_ID
 			, TEAM_NM
+			, HEAD_NM
+			, PHONE
 			, PROG_NM
 			, PLACE
 			, DATE_BGN
@@ -156,6 +190,8 @@
 			#{GROUP_SEQ}
 			, #{MBER_ID}
 			, #{TEAM_NM}
+			, #{HEAD_NM}
+			, #{PHONE}
 			, #{PROG_NM}
 			, #{PLACE}
 			, #{DATE_BGN}

@@ -219,7 +219,7 @@
 
 <div class="board">
 	<h1>단체 접수 관리</h1>
-	<c:import url="/busking/searchView.do"/>
+	<c:import url="/busking/searchGroupView.do"/>
 	<div id="jsGrid"></div>
 </div>	
 <div style="text-align:center;">

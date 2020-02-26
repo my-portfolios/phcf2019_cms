@@ -114,6 +114,12 @@
 		      		and HEAD_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
 		      	</if>
 		    </if>
+			<if test="searchCondition.equals('')">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and (HEAD_NM LIKE CONCAT('%' , #{searchKeyword}, '%') 
+		      		or TEAM_NM LIKE CONCAT('%' , #{searchKeyword}, '%'))
+		      	</if>
+		    </if>
 	     	and DELETE_YN=0
 	</select>
 	
@@ -156,6 +162,12 @@
 			<if test="searchCondition!=null and searchCondition.equals('HEAD_NM') ">
 				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
 		      		and HEAD_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      	</if>
+		    </if>
+		    <if test="searchCondition.equals('')">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and (HEAD_NM LIKE CONCAT('%' , #{searchKeyword}, '%') 
+		      		or TEAM_NM LIKE CONCAT('%' , #{searchKeyword}, '%'))
 		      	</if>
 		    </if>
 	     	and S.DELETE_YN=0

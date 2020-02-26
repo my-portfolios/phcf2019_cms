@@ -143,20 +143,21 @@ public class EgovLoginController {
 	public String actionMain(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		// 쿠키저장 로그인 유지를 위해		
 		LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
-		Cookie phcfCmsLoginCookie = WebUtils.getCookie(request,"phcfCmsLoginCookie");
+		Cookie phcfLoginCookie = WebUtils.getCookie(request,"phcfLoginCookie");
 		
-		System.out.println("=== LoginVo.getSessionId() : "+vo);
+		//System.out.println("=== LoginVo.getSessionId() : "+vo);
 		int amount =60 *60 *24 *7;
+		//String cookieDomain = ".phcf.or.kr";
 		
-		if(vo != null && vo.getSessionId() != null && !vo.getSessionId().equals(phcfCmsLoginCookie.getValue())) request.getSession().setAttribute("loginVO", null);
-		if(vo != null && phcfCmsLoginCookie != null) {
+		if(vo != null && vo.getSessionId() != null && !vo.getSessionId().equals(phcfLoginCookie.getValue())) request.getSession().setAttribute("loginVO", null);
+		/*if(vo != null && phcfCmsLoginCookie != null) {
 			HashMap<String, String> cookieValue = new HashMap<String, String>();
 			cookieValue.put("phcfUserId", vo.getUniqId());
 			cookieValue.put("phcfUserAgent", request.getHeader("user-agent"));
 			
 			cookieValue.forEach((key, value) -> {
 				try {
-					EgovSessionCookieUtil.setCookie(response, key, value, amount);
+					EgovSessionCookieUtil.setCookie(response, key, value, amount, cookieDomain);
 					//CookieUtil.createCookie(response, key, value, ckSite, ckPath, amount);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -164,11 +165,12 @@ public class EgovLoginController {
 				}
 			});
 			
-			// currentTimeMills()가 1/1000초 단위임으로 1000곱해서 더해야함
-	        Date sessionLimit =new Date(System.currentTimeMillis() + (1000*amount));
-	        // 현재 세션 id와 유효시간을 사용자 테이블에 저장한다.
-	        loginService.keepLogin(vo.getUniqId(), request.getSession().getId(), sessionLimit);
-		}
+			
+		}*/
+		// currentTimeMills()가 1/1000초 단위임으로 1000곱해서 더해야함
+        Date sessionLimit =new Date(System.currentTimeMillis() + (1000*amount));
+        // 현재 세션 id와 유효시간을 사용자 테이블에 저장한다.
+        if(vo != null) loginService.keepLogin(vo.getUniqId(), request.getSession().getId(), sessionLimit);
 		
 		//쿠키 로그인
 		Cookie[] cookies = request.getCookies();
@@ -199,13 +201,13 @@ public class EgovLoginController {
 	public String actionLogout(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
 		Date sessionLimit =new Date(System.currentTimeMillis());
-		loginService.keepLogin(vo.getUniqId(), "none", sessionLimit);
+		if(vo != null) loginService.keepLogin(vo.getUniqId(), "none", sessionLimit);
 		
 		request.getSession().setAttribute("loginVO", null);
 		
 		//모든 쿠키 삭제
-		EgovSessionCookieUtil.setCookie(response, "phcfCmsLoginCookie","none", 0);
-		EgovSessionCookieUtil.removeSessionAttribute(request, "phcfCmsLoginCookie");
+		EgovSessionCookieUtil.setCookie(response, "phcfLoginCookie","none", 0);
+		EgovSessionCookieUtil.removeSessionAttribute(request, "phcfLoginCookie");
 		
 		return "redirect:" + Globals.MAIN_PAGE;
 	}

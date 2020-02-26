@@ -140,6 +140,31 @@ public class EgovSessionCookieUtil {
 		// response 내장 객체를 이용해 쿠키를 전송
 		response.addCookie(cookie);
 	}
+	
+	public static void setCookie(HttpServletResponse response, String cookieNm, String cookieVal, int minute, String cookieDomain) throws UnsupportedEncodingException {
+
+		// 특정의 encode 방식을 사용해 캐릭터 라인을 application/x-www-form-urlencoded 형식으로 변환
+		// 일반 문자열을 웹에서 통용되는 'x-www-form-urlencoded' 형식으로 변환하는 역할
+		String cookieValue = URLEncoder.encode(cookieVal, "utf-8");
+
+		// 쿠키생성 - 쿠키의 이름, 쿠키의 값
+		Cookie cookie = new Cookie(cookieNm, cookieValue);
+
+		cookie.setSecure(true);
+		
+		cookie.setDomain(cookieDomain);
+
+		// 쿠키의 유효시간 설정
+		int maxAge = 60 * minute;
+		// KISA 보안약점 조치 (2018-10-29, 윤창원)
+		if(maxAge > 60 * 60 * 24) {
+			maxAge = 60 * 60 * 24;
+		}
+		cookie.setMaxAge(maxAge);
+
+		// response 내장 객체를 이용해 쿠키를 전송
+		response.addCookie(cookie);
+	}
 
 	/**
 	 * 쿠키생성 - 쿠키의 유효시간을 설정하지 않을 경우 쿠키의 생명주기는 브라우저가 종료될 때까지

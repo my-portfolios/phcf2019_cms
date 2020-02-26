@@ -182,8 +182,7 @@
 			     , SESSION_ID AS sessionId
 			     , SESSION_LIMIT AS sessionLimit
 			  FROM COMTNEMPLYRINFO
-			 WHERE ESNTL_ID = #{userId} 
-			 AND SESSION_ID = #{sessionId} 
+			 WHERE SESSION_ID = #{sessionId} 
 			 AND SESSION_LIMIT > now() 
 			 AND emplyr_sttus_code = 'P'
 	]]>

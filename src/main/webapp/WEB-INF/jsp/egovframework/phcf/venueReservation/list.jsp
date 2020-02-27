@@ -68,7 +68,7 @@
 								
 								var list = {
 									data: jsonString,
-									itemsCount : jsonString == 0 ? 0 : JSON.parse(data.venueReservationRegListCnt)
+									itemsCount : JSON.parse(data.venueReservationRegListCnt)
 								}	
 							}
 							catch(e){

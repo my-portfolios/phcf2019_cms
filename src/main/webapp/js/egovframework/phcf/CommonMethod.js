@@ -27,6 +27,16 @@ function dateToString(date){
 	return year + "-" + month + "-" + day;
 }
 
+function calcDate(target, year, month, day) {
+	var date = stringToDate(target);
+	
+	date.setFullYear(date.getFullYear() + year);
+	date.setMonth(date.getMonth() + month);
+	date.setDate(date.getDate() + day);
+	
+	return dateToString(date);
+}
+
 function dateFormatChange(date,delims){
 	var year = date.substr(0,4);
 	var month = date.substr(5,2);

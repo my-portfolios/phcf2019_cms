@@ -13,7 +13,7 @@
 <link type="text/css" rel="stylesheet" href="/css/egovframework/phcf/fullcalendar/daygrid.main.min.css" />
 <script src="/js/egovframework/phcf/fullcalendar/core.main.min.js"></script>
 <script src="/js/egovframework/phcf/fullcalendar/daygrid.main.min.js"></script>
-
+<script src="/js/egovframework/phcf/CommonMethod.js"></script>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -50,7 +50,9 @@
 			};
 			
 			function loadEvent(filter){
-				console.log(calendarObj);		
+				console.log(calendarObj);
+				filter['currentDate']=dateToString(calendarObj.getDate()).substring(0,7);
+				
 				var getEventsList = calendarObj.getEvents();
 				$.each(getEventsList, function(index, item){
 					item.remove();
@@ -71,11 +73,11 @@
 							for(var i=1;i<=5;i++){
 								if(item["USE_DATE" + i] != null) {
 									var colorCode = "white";
-									if(item["VENUE"]=="포항문화예술회관") colorCode = "#AED6F1";
-									else if(item["VENUE"]=="대잠홀") colorCode = "#76D7C4";
-									else if(item["VENUE"]=="중앙아트홀(인디플러스 포항)") colorCode = "#F9E79F";
-									else if(item["VENUE"]=="구룡포생활문화센터") colorCode = "#D2B4DE";
-									else if(item["VENUE"]=="아르코공연연습센터") colorCode = "#F5B7B1";
+									if(item["VENUE"]=="포항문화예술회관") colorCode = "#AED6F1"; //하늘
+									else if(item["VENUE"]=="대잠홀") colorCode = "#76D7C4"; //민트
+									else if(item["VENUE"]=="중앙아트홀(인디플러스 포항)") colorCode = "#F9E79F"; //노랑
+									else if(item["VENUE"]=="구룡포생활문화센터") colorCode = "#D2B4DE"; //보라
+									else if(item["VENUE"]=="아르코공연연습센터") colorCode = "#F5B7B1"; //분홍
 										
 									events.title = item["EVENT_NAME"];
 									events.start = item["USE_DATE" + i].substring(0,10) + "T" + item["USE_START_TIME" + i];

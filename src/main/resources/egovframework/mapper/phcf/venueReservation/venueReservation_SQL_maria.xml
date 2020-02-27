@@ -61,6 +61,13 @@
 		WHERE 1=1
 			<if test='fixStatus != null and fixStatus == "Y"'>
 				AND RESULT NOT IN ('C','D','O')
+				AND (
+					USE_DATE1 LIKE #{currentDate} "%"
+					OR USE_DATE2 LIKE #{currentDate} "%"
+					OR USE_DATE3 LIKE #{currentDate} "%"
+					OR USE_DATE4 LIKE #{currentDate} "%"
+					OR USE_DATE5 LIKE #{currentDate} "%"
+				)
 			</if>
 			<if test='venueCnd != null and venueCnd != ""'>
 				AND VENUE = #{venueCnd}

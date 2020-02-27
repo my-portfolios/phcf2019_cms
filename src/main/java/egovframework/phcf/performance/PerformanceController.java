@@ -77,7 +77,6 @@ public class PerformanceController {
 					applyInfo.put("cost", addedColmn.getAc5());
 					applyInfo.put("place", addedColmn.getAc7());
 				}
-				if(addedColmn.getOrd() == Integer.parseInt(applier.get("EPISODE").toString())-1) applyInfo.put("date", addedColmn.getAc3());
 			}
 			
 			performanceAndApllierList.add(applyInfo);

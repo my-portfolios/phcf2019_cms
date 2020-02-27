@@ -102,7 +102,7 @@
 				{name: 	'APL_ID', 	title: '번호', 	type: 'text', 	editing: false, width:80, align: "center"},
 			 	{name: 	'category', 	title: '신청 종류', 	type: 'text', 	editing: false, width: 80, align: "center"},
 			 	{name: 	'subject', 	title: '제목', 	type: 'text', 	editing: false, width: 300, align: "center"},
-			 	{name: 	'date', 	title: '일시', 	type: 'text', 	editing: false, width: 110, align: "center", filtering: false},
+			 	{name: 	'APL_DATE', 	title: '일시', 	type: 'text', 	editing: false, width: 110, align: "center", filtering: false},
 			 	{name: 	'APL_NAME', 	title: '신청자명', 	type: 'text', 	editing: false, width: 110, align: "center"},
 			 	{name: 	'APL_PHONE', 	title: '연락처', 	type: 'text', 	editing: false, width: 110, align: "center"},
 			 	{name: 	'APL_EMAIL', 	title: '이메일', 	type: 'text', 	editing: false, width: 220, align: "center"},
@@ -111,7 +111,7 @@
 			 	{type: 'control', editButton: true, deleteButton: false, width: 70,updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
 			]
 		});
-	});
+	}); 
 	
 	function about(seq){
 		var fileId;
@@ -203,7 +203,7 @@
 				<td id="subject"></td>
 				
 				<th>일시</th>
-				<td id="date"></td>
+				<td id="APL_DATE"></td>
 			</tr>
 			<tr>
 				<th>장소</th>

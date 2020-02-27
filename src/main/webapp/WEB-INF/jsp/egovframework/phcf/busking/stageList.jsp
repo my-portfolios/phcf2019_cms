@@ -140,6 +140,20 @@
 	        }
 		})
 		
+		var datepicker2 = $(".datepicker2").datepicker({
+	        language: 'ko',
+	        dateFormat: 'yy-mm-dd',
+	        showOtherMonths: true,
+	        selectOtherMonths: true,
+	        showMonthAfterYear: true,
+	        dayNamesMin: ['일','월', '화', '수', '목', '금', '토'],
+	        monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	        monthNames: ['년 1월','년 2월','년 3월','년 4월','년 5월','년 6월','년 7월','년 8월','년 9월','년 10월','년 11월','년 12월'],
+	        nextText: '다음 달',
+	        prevText: '이전 달'
+	    });
+		
+		
 	});
 	/* ROW더블클릭시  */
 	function about(seq){
@@ -169,12 +183,10 @@
 					}
 					else {
 						fileId = jsonText;
-						console.log("bb  " + fileId);
 					}
 				});
 			}
 		});
-		
 		$.ajax({
 			type: 'POST',
 			url: '/cmm/fms/selectFileInfs.do',
@@ -280,7 +292,7 @@
 		
 		$('.popup_modal').css('display','none');$('.popup_bg').css('display','none');
 	}
-	
+
 </script>
 
 </head>
@@ -290,7 +302,7 @@
 	<c:import url="/busking/searchStageView.do"/>
 	<div id="jsGrid"></div>
 	<div class="buttonarea floatright" style="text-align: right; margin-top:20px;">
-		<input type="button" id="insert_btn" class="" onclick="location.href='/busking/insertStage.do'" value="관리자 무대 등록">
+		<input type="button" id="insert_btn" class="" onclick="location.href='/busking/insertStage.do'" value="등록">
 		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('승인완료')" value="승인">
 		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('보류')" value="보류">
 		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('반려')" value="반려">

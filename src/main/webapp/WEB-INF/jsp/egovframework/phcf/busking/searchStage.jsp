@@ -27,27 +27,38 @@
 		});
 		
 	});
+	
+	
 </script>
 <div class="search_box">
 	
 	<ul>
 		<li><!-- 지역 -->
-              <input type="text" id="date" class="datepicker2"  name="date" value="" readonly="readonly" />
+              <input type="text" id="searchDate" class="datepicker2"  name="searchDate" value="" readonly="readonly" />
 		</li>
 		<li><!-- 지역 -->
-              <form:select class="floatleft" id="place" name="place" path="placeCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
+              <form:select class="floatleft" id="searchPlace" name="searchPlace" path="placeCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
 				<form:option value="" label="장소" />
 				<form:options items="${placeCodeNmList}"/>
 			</form:select>
 		</li>
+		<li><!-- 시간-->
+			<c:if test='<%= request.getParameter("fixStatus") == null %>'>
+	            <form:select class="floatleft" id="searchTime" name="searchTime" path="timeCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
+					<form:option value="" label="시간" />
+					<form:options items="${timeCodeNmList}"/>
+				</form:select>
+			</c:if>
+		</li>
 		<li><!-- 상태-->
 			<c:if test='<%= request.getParameter("fixStatus") == null %>'>
-	            <form:select class="floatleft" id="approve" name="approve" path="approveCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
+	            <form:select class="floatleft" id="serachApprove" name="serachApprove" path="approveCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
 					<form:option value="" label="상태" />
 					<form:options items="${approveCodeNmList}"/>
 				</form:select>
 			</c:if>
 		</li>
+	
 		<li><!-- 검색키워드-->
 			<c:if test='<%= request.getParameter("fixStatus") == null %>'>
 	            <select class="floatleft" id="searchCondition" name="searchCondition" title="${title} ${inputTxt}" cssClass="txt">
@@ -63,7 +74,7 @@
 			<input type="button" class="s_btn" value="검색" onclick="search();"/>
 					
 		</li>
-		<li><button onclick="updateSearchCount(this)" class="s_btn" >30줄</button></li>
-		<li><button onclick="updateSearchCount(this)" class="s_btn" >50줄</button></li>
+		<li><button onclick="updateSearchCount(this)">30</button></li>
+		<li><button onclick="updateSearchCount(this)">50</button></li>
 	</ul>
 </div>

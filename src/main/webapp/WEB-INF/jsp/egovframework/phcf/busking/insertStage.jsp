@@ -113,11 +113,7 @@
 			</tr>
 		</tbody>
 	</table>
-	</div>
-
-	<br /><br />
 	
-
 	<!-- 하단 버튼 -->
 	<div class="btn">
 		<c:if test="${contentInfo.RESULT == '4'}">
@@ -127,6 +123,10 @@
 		<input type="submit" class="s_submit"  value="신청">
 		<span class="btn_s" ><a href="#" onclick="javascript:history.go(-1);" />목록</a></span>
 	</div>
+	
+	</div>
+
+	<br /><br />	
 	</form>
 <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/jquery.validate.min.js' />"></script>
 <script>

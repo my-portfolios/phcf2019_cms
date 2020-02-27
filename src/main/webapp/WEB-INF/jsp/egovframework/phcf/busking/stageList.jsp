@@ -290,7 +290,7 @@
 	<c:import url="/busking/searchStageView.do"/>
 	<div id="jsGrid"></div>
 	<div class="buttonarea floatright" style="text-align: right; margin-top:20px;">
-		<input type="button" id="insert_btn" class="" onclick="location.href='/busking/insertStage.do'" value="등록">
+		<input type="button" id="insert_btn" class="" onclick="location.href='/busking/insertStage.do'" value="관리자 무대 등록">
 		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('승인완료')" value="승인">
 		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('보류')" value="보류">
 		<input type="button" id="insert_btn" class="" onclick="fn_updateMulti('반려')" value="반려">

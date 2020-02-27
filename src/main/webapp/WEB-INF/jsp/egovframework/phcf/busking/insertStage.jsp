@@ -20,16 +20,9 @@
 </style>
 </head>
 <div class="board">
-	<h1>무대 신청자 리스트</h1>
-	<div class="con_box1 businessAnncView_box">
-		<span>※ 알림사항</span> 
-		· 장소 : 포항운하(송림교옆), 영일대해수욕장(버스킹무대 1 ~5)<br />
-		· 이용가능 시 간 : 13:00 ~ 15:00 / 16:00 ~ 18:00 / 19:00 ~ 21:00 / 13:00 ~ 18:00 / 16:00 ~ 21:00<br />
-		· <u>공간사용신청 마감은 매달 10일이며, 15일(주말인 경우 다음 월요일)에 승인됩니다. 15일 이후 일정표를 확인해 주시기 바랍니다.</u><br />
-		· <u>사용신청은 월별로 신청해 주시기 바랍니다.</u><br />
-		· 일정 및 장소 신청이 중복될 경우 단체간의 협의하에 운영되며, 적극 협조 바랍니다.</u><br /><br />
-		
-		(재)포항문화재단 생활문화팀 054)289-7873
+	<h1>관리자 무대 신청</h1>
+	<div class="search_box">
+		<li>포항문화재단 자체 행사 등 관리자 권한으로  해당 날짜 사용신청을 막을시 등록 바랍니다. </li>
 	</div>
 </div>
 <form name="frm" id="frm" action="#" method="post"  enctype="multipart/form-data" onsubmit="return fn_qna()" >
@@ -43,8 +36,7 @@
 		<tr>
 			<th><label for="TEAM_NM">단체명</label> <span class="pilsu">*</span></th>
 			<td class="left">
-				<input id="TEAM_NM"  name="TEAM_NM" style="ime-mode:active;" type="text" class="text padding5 width20per" value="${applyGroupHistory.TEAM_NAME }" title="단체명을 입력하세요" />
-                <font color="#FF0000">※ 버스킹 단체등록을 먼저 해주시기 바랍니다.</font>   
+				<input id="TEAM_NM"  name="TEAM_NM" style="ime-mode:active;" type="text" class="text padding5 width20per" value="${applyGroupHistory.TEAM_NAME }" title="단체명을 입력하세요" />               
 			</td>
 		</tr>
 		<tr>
@@ -71,12 +63,10 @@
 				<input type="text" id="datepickerBgn" class="datepicker2"  name="DATE_BGN" value="" readonly="readonly" />
 							~
 				<input type="text" id="datepickerEnd" class="datepicker2"  name="DATE_END" value="" onchange="javascript:chkdate();" readonly="readonly" />
-				 <br>
+				<br>
                 <span style=" margin-top:100px;color="#4da314"">
-			                ※ 전체 기간이 아닌 사용하고자 하는 건별일정으로 신청해주세요.</font><br />
-			                예시, 3월 매주 수요일 희망 :  3. 8 / 3. 15 / 3. 22 / 3. 29 (총 4번 신청) (O) &nbsp; / &nbsp; 3. 8 ~ 3. 29 (X) 
-                </span>
-                
+			              ※ 예시) 3월 매주 수요일 희망 :  3. 8 / 3. 15 / 3. 22 / 3. 29 (총 4번 신청) (O) &nbsp; / &nbsp; 3. 8 ~ 3. 29 (X) 
+                </span>              
 				</td>
 			</tr>
 			<tr>
@@ -126,10 +116,7 @@
 	</div>
 
 	<br /><br />
-	<div class="con_box1">
-	- 신청 후 승인된 단체는 "야외무대 사용 승인 신청서"를 작성해 사용일 3일전까지 방문, 메일, 팩스로 제출하시길 바랍니다.(미제출 시 승인 취소) <br />
-	- 문의 054) 289-7873
-	</div>
+	
 
 	<!-- 하단 버튼 -->
 	<div class="btn">
@@ -155,8 +142,8 @@ $("#frm").validate({
     	   TIME: "required",
     	   HEAD_NM: "required",
     	   PHONE: "required",
-    	   INTRO: "required",
-    	   EQUIPMENT: "required",
+    	   //INTRO: "required",
+    	   //EQUIPMENT: "required",
        },
        messages: {
     	   TEAM_NM: "단체명을 입력해주세요",
@@ -166,8 +153,8 @@ $("#frm").validate({
     	   TIME: "시간을 입력해 주세요.",
     	   HEAD_NM: "대표자를 입력해 주세요.",
     	   PHONE:"휴대폰을 입력해 주세요",
-    	   INTRO: "공연 소개를 입력해 주세요.",
-    	   EQUIPMENT: "사용장비를 입력해 주세요.",
+    	   //INTRO: "공연 소개를 입력해 주세요.",
+    	   //EQUIPMENT: "사용장비를 입력해 주세요.",
        }
 });
 function fn_qna(){
@@ -203,7 +190,7 @@ $(function(){
         minDate:minimumDate,
         maxDate:maximumDate,
         showOn:"both",
-        buttonImage:"../img/ico/calendar.gif",
+        buttonImage:"/images/egovframework/com/cmm/icon/bu_icon_carlendar.gif",
         buttonImageOnly:true,
         dateFormat: 'yy-mm-dd',
         showOtherMonths: true,
@@ -254,7 +241,7 @@ $(function(){
         minDate:minimumDate,
         maxDate:maximumDate,
         showOn:"both",
-        buttonImage:"../img/ico/calendar.gif",
+        buttonImage:"/images/egovframework/com/cmm/icon/bu_icon_carlendar.gif",
         buttonImageOnly:true,
         dateFormat: 'yy-mm-dd',
         showOtherMonths: true,

@@ -2,9 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<link rel="stylesheet" href="/css/egovframework/phcf/datepicker.css" />
-<script src="/js/egovframework/phcf/datepicker.js"></script>
-<script src="/js/egovframework/phcf/datepicker.ko.js"></script>
 <script>
 	var datePicker;
 	var datePicker_use = false;
@@ -35,23 +32,17 @@
 	
 	<ul>
 		<li><!-- 지역 -->
-              <input type="text" id="searchDate" class="datepicker2"  name="searchDate" value="" readonly="readonly" />
-		</li>
-		<li><!-- 시간 -->
-              <form:select class="floatleft" id="searchTime" name="searchTime" path="timeCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
-				<form:option value="" label="시간" />
-				<form:options items="${timeCodeNmList}"/>
-			</form:select>
+              <input type="text" id="date" class="datepicker2"  name="date" value="" readonly="readonly" />
 		</li>
 		<li><!-- 지역 -->
-              <form:select class="floatleft" id="searchPlace" name="searchPlace" path="placeCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
+              <form:select class="floatleft" id="place" name="place" path="placeCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
 				<form:option value="" label="장소" />
 				<form:options items="${placeCodeNmList}"/>
 			</form:select>
 		</li>
 		<li><!-- 상태-->
 			<c:if test='<%= request.getParameter("fixStatus") == null %>'>
-	            <form:select class="floatleft" id="serachApprove" name="serachApprove" path="approveCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
+	            <form:select class="floatleft" id="approve" name="approve" path="approveCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
 					<form:option value="" label="상태" />
 					<form:options items="${approveCodeNmList}"/>
 				</form:select>
@@ -76,15 +67,3 @@
 		<li><button onclick="updateSearchCount(this)">50</button></li>
 	</ul>
 </div>
-<script>
-	$(".datepicker2").datepicker({
-		language: 'ko',
-		position: 'bottom left',
-		showOtherMonths: false,
-		moveToOtherMonthsOnSelect: false,
-		selectOtherMonths: false,
-		navTitles: {
-			days: 'yyyy 년 MM'
-		}
-	});
-</script>

@@ -143,13 +143,12 @@ public class EgovLoginController {
 	public String actionMain(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		// 쿠키저장 로그인 유지를 위해		
 		LoginVO vo = (LoginVO) EgovSessionCookieUtil.getSessionAttribute(request, "loginVO");
-		Cookie phcfLoginCookie = WebUtils.getCookie(request,"phcfLoginCookie");
+		//Cookie phcfLoginCookie = WebUtils.getCookie(request,"phcfLoginCookie");
 		
 		//System.out.println("=== LoginVo.getSessionId() : "+vo);
 		int amount =60 *60 *24 *7;
 		//String cookieDomain = ".phcf.or.kr";
 		
-		if(vo != null && vo.getSessionId() != null && !vo.getSessionId().equals(phcfLoginCookie.getValue())) request.getSession().setAttribute("loginVO", null);
 		/*if(vo != null && phcfCmsLoginCookie != null) {
 			HashMap<String, String> cookieValue = new HashMap<String, String>();
 			cookieValue.put("phcfUserId", vo.getUniqId());
@@ -204,10 +203,6 @@ public class EgovLoginController {
 		if(vo != null) loginService.keepLogin(vo.getUniqId(), "none", sessionLimit);
 		
 		request.getSession().setAttribute("loginVO", null);
-		
-		//모든 쿠키 삭제
-		EgovSessionCookieUtil.setCookie(response, "phcfLoginCookie","none", 0);
-		EgovSessionCookieUtil.removeSessionAttribute(request, "phcfLoginCookie");
 		
 		return "redirect:" + Globals.MAIN_PAGE;
 	}

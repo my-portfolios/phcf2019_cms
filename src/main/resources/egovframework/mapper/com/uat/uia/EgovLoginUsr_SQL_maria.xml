@@ -168,28 +168,54 @@
 	
 	<!-- 쿠키 로그인 -->
 	<select id="cookieLogin" parameterType="java.util.HashMap" resultMap="login">
-	<![CDATA[
-		SELECT emplyr_id AS id
-			     , user_nm AS name
+		<if test="userSe != null and userSe == 'USR'">
+			<![CDATA[
+				SELECT emplyr_id AS id
+				     , user_nm AS name
+				     , password AS password
+				     , ihidnum AS ihidNum
+				     , email_adres AS email
+				     , 'USR' AS userSe
+				     , orgnzt_id AS orgnztId
+				     , esntl_id AS uniqId
+				     , group_id AS groupId
+				     , mbtlnum AS mbtlNum
+				     , SESSION_ID AS sessionId
+				     , SESSION_LIMIT AS sessionLimit
+				  FROM COMTNEMPLYRINFO
+				 WHERE SESSION_ID = #{sessionId} 
+				 AND SESSION_LIMIT > now() 
+				 AND emplyr_sttus_code = 'P'
+			]]>
+		</if>
+		<if test="userSe != null and userSe == 'GNR'">
+			<![CDATA[
+				SELECT mber_id AS id
+			     , mber_nm AS name
+			     , ihidNum AS ihidNum
 			     , password AS password
-			     , ihidnum AS ihidNum
-			     , email_adres AS email
-			     , 'USR' AS userSe
-			     , orgnzt_id AS orgnztId
+			     , mber_email_adres AS email
+			     , 'GNR' AS userSe
+			     , '-' AS orgnztId
 			     , esntl_id AS uniqId
 			     , group_id AS groupId
 			     , mbtlnum AS mbtlNum
-			     , SESSION_ID AS sessionId
-			     , SESSION_LIMIT AS sessionLimit
-			  FROM COMTNEMPLYRINFO
+			  FROM COMTNGNRLMBER
 			 WHERE SESSION_ID = #{sessionId} 
-			 AND SESSION_LIMIT > now() 
-			 AND emplyr_sttus_code = 'P'
-	]]>
+				 AND SESSION_LIMIT > now() 
+				 AND mber_sttus = 'P'
+			]]>
+		</if>
+	
 	</select>
 	
 	<update id="keepLogin">
+		<if test="userSe != null and userSe == 'USR'">
         update COMTNEMPLYRINFO set SESSION_ID = #{sessionId}, SESSION_LIMIT = #{next} where ESNTL_ID=#{uid}
+       	</if>
+       	<if test="userSe != null and userSe == 'GNR'">
+       	update COMTNGNRLMBER set SESSION_ID = #{sessionId}, SESSION_LIMIT = #{next} where ESNTL_ID=#{uid}
+       	</if>
     </update>
 	
 	<!-- 인증서 로그인 -->

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.Globals;
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 
 /**
@@ -51,7 +52,22 @@ public class LoginDAO extends EgovComAbstractDAO {
     }
     
     public LoginVO cookieLogin(HashMap<String, Object> paramMap) throws Exception {
-    	return (LoginVO)selectOne("LoginUsr.cookieLogin", paramMap);
+    	LoginVO resultVO = new LoginVO();
+    	
+    	if(Globals.SITE_NAME.equals("cms")) {
+    		paramMap.put("userSe", "USR");
+    		resultVO = (LoginVO)selectOne("LoginUsr.cookieLogin", paramMap);
+    	}
+    	else {
+    		paramMap.put("userSe", "GNR");
+    		resultVO = (LoginVO)selectOne("LoginUsr.cookieLogin", paramMap);
+    		if(resultVO == null) {
+    			paramMap.put("userSe", "USR");
+    			resultVO = (LoginVO)selectOne("LoginUsr.cookieLogin", paramMap);
+    		}
+    	}
+    	
+    	return resultVO;
     }
     
     // 자동로그인 체크한 경우에 사용자 테이블에 세션과 유효시간을 저장하기 위한 메서드
@@ -61,6 +77,9 @@ public class LoginDAO extends EgovComAbstractDAO {
         map.put("uid", uid);
         map.put("sessionId", sessionId);
         map.put("next", next);
+        
+        if(Globals.SITE_NAME.equals("cms")) map.put("userSe", "USR");
+    	else map.put("userSe", "GNR");
          
         // Mapper.xml로 데이터를 전달할 때 한 객체밖에 전달 못함으로 map으로 묶어서 보내줌 단... 주의할 점은
         // Mapper.xml 안에서 #{} 이 안에 지정한 이름이랑 같아야함.. 자동으로 매핑될 수 있도록

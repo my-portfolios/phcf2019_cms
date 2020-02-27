@@ -1652,6 +1652,8 @@ public class EgovArticleController {
     	model.addAttribute("paramMap", paramMap);
     	
     	//템플릿 파일 유무를 검사한다.
+    	System.out.println("여기보세요");
+    	System.out.println(skinNm);
 		String isDir = request.getServletContext().getRealPath("/WEB-INF/jsp/template/_latest/"+skinNm+".jsp");
 		File f = new File(isDir);
 		if(f.exists()) return "template/_latest/"+skinNm;

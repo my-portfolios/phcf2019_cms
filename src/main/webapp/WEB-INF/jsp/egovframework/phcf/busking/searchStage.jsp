@@ -33,8 +33,8 @@
 <div class="search_box">
 	
 	<ul>
-		<li><!-- 지역 -->
-              <input type="text" id="searchDate" class="datepicker2"  name="searchDate" value="" readonly="readonly" />
+		<li><!-- 날짜 -->
+              <input type="text" id="searchDate" class="datepicker2"  name="searchDate" value="년-월-일" readonly="readonly" />
 		</li>
 		<li><!-- 지역 -->
               <form:select class="floatleft" id="searchPlace" name="searchPlace" path="placeCodeNmList" title="${title} ${inputTxt}" cssClass="txt">
@@ -74,7 +74,7 @@
 			<input type="button" class="s_btn" value="검색" onclick="search();"/>
 					
 		</li>
-		<li><button onclick="updateSearchCount(this)">30</button></li>
-		<li><button onclick="updateSearchCount(this)">50</button></li>
+		<li><button onclick="updateSearchCount(this)" class="s_btn">30줄</button></li>
+		<li><button onclick="updateSearchCount(this)" class="s_btn">50줄</button></li>
 	</ul>
 </div>

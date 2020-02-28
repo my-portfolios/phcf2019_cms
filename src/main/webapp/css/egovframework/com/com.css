@@ -402,9 +402,9 @@ width:100%;
 .pagination ul li.next a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_next_on.gif') no-repeat; }
 .pagination ul li.last a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_last_on.gif') no-repeat; }
 .pagination ul li.current a,
-.pagination ul li a:hover, .pagination ul li.on { border:none; color:#fff; font-size:15px; font-weight:600; width:28px; height:28px; line-height:28px; background:#4688d2; }
+.pagination ul li a:hover, .pagination ul li.on { border:none; color:#fff; font-size:15px; font-weight:600; width:28px; height:28px; line-height:28px; background:#4688d2;     border: 1px solid #4688d2 !important;}
 
-.pagination ul li.button { display:inline-block; color:#fff; width:26px; height:26px; line-height:26px; border:1px solid #4688d2;     transition: all 0.0s ease-out;}
+.pagination ul li.button { display:inline-block; width:26px; height:26px; line-height:26px; border:1px solid #d9d9d9;     transition: all 0.0s ease-out;}
 .pagination div.button {display: inline-block;  margin: 0 2px; background:url('../../../images/egovframework/com/cmm/paging/pagination_last.gif') 10px 9px no-repeat; text-indent:-10000em; 
 color: #999;  width: 26px;  height: 26px;  line-height: 26px;  border: 1px solid #e0e0e0;  transition: all 0.0s ease-out;}
 

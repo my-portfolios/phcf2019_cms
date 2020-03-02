@@ -34,7 +34,8 @@
 	
 	<ul>
 		<li><!-- 날짜 -->
-              <input type="text" id="searchDate" class="datepicker2"  name="searchDate" value="년-월-일" readonly="readonly" />
+              <input type="text" id="searchDateBgn" class="datepicker2"  name="searchDate" value="년-월-일" readonly="readonly" />~
+              <input type="text" id="searchDateEnd" class="datepicker2"  name="searchDate" value="년-월-일" readonly="readonly" />
 		</li>
 		<li><!-- 지역 -->
               <form:select class="floatleft" id="searchPlace" name="searchPlace" path="placeCodeNmList" title="${title} ${inputTxt}" cssClass="txt">

@@ -139,8 +139,10 @@
 	        	$(".jsgrid-cell input:checkbox").prop("checked",false);
 	        }
 		})
-		
-		var datepicker2 = $(".datepicker2").datepicker({
+		var dateBgn;
+	    var dateEnd;
+	    
+		var searchDateBgn = $("#searchDateBgn").datepicker({
 	        language: 'ko',
 	        dateFormat: 'yy-mm-dd',
 	        showOtherMonths: true,
@@ -150,7 +152,45 @@
 	        monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
 	        monthNames: ['년 1월','년 2월','년 3월','년 4월','년 5월','년 6월','년 7월','년 8월','년 9월','년 10월','년 11월','년 12월'],
 	        nextText: '다음 달',
-	        prevText: '이전 달'
+	        prevText: '이전 달',
+       	   onSelect:function(formattedDate,date,inst){
+       			dateBgn=date;
+            	if(dateBgn==null || dateEnd==null ||dateBgn == '' || dateEnd == '') {
+            		return; 
+            	}
+            	console.log(dateBgn)
+            	console.log(dateEnd)
+        		if( dateBgn > dateEnd ) {
+        			alert('시작날짜가 끝날짜 보다 큽니다. 다시 선택해주세요');
+        			inst.el.value='';
+        			return;
+        		}
+            }
+	    });
+		var searchDateEnd = $("#searchDateEnd").datepicker({
+	        language: 'ko',
+	        dateFormat: 'yy-mm-dd',
+	        showOtherMonths: true,
+	        selectOtherMonths: true,
+	        showMonthAfterYear: true,
+	        dayNamesMin: ['일','월', '화', '수', '목', '금', '토'],
+	        monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	        monthNames: ['년 1월','년 2월','년 3월','년 4월','년 5월','년 6월','년 7월','년 8월','년 9월','년 10월','년 11월','년 12월'],
+	        nextText: '다음 달',
+	        prevText: '이전 달',
+       	   onSelect:function(formattedDate,date,inst){
+            	dateEnd=date;
+            	if(dateBgn==null || dateEnd==null ||dateBgn == '' || dateEnd == '') {
+            		return; 
+            	}
+            	console.log(dateBgn)
+            	console.log(dateEnd)
+        		if( dateBgn > dateEnd ) {
+        			alert('시작날짜가 끝날짜 보다 큽니다. 다시 선택해주세요');
+        			inst.el.value='';
+        			return;
+        		}
+            }
 	    });
 		
 		
@@ -216,12 +256,14 @@
 		var approveYN = $("#serachApprove").val();
 		var searchCondition = $("#searchCondition").val();
 		var searchKeyword = $("#searchKeyword").val();
-		var searchDate=$("#searchDate").val();
+		var searchDateBgn=$("#searchDateBgn").val();
+		var searchDateEnd=$("#searchDateEnd").val();
 		var searchTime=$("#searchTime").val();
 	 	searchFilter = new Object();
 		searchFilter.place = place;
 		searchFilter.approveYN = approveYN;
-		searchFilter.searchDate = searchDate;
+		searchFilter.searchDateBgn = searchDateBgn;
+		searchFilter.searchDateEnd = searchDateEnd;
 		searchFilter.searchTime = searchTime;
 		searchFilter.searchCondition = searchCondition;
 		searchFilter.searchKeyword = searchKeyword;

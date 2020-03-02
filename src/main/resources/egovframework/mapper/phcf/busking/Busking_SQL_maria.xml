@@ -98,8 +98,15 @@
 			<if test="approveYN !=null and !approveYN.equals('')">
 				and APPROVE_YN = #{approveYN}
 			</if>
-			<if test="searchDate !=null and !searchDate.equals('')">
-				and #{searchDate} between DATE_BGN and DATE_END
+			<if test="searchDateBgn !=null and !searchDateBgn.equals('')">
+				<if test="searchDateEnd !=null and !searchDateEnd.equals('')">
+					and (
+						(#{searchDateBgn} between DATE_BGN and DATE_END)
+						or (#{searchDateEnd} between DATE_BGN and DATE_END)
+						or (DATE_BGN between #{searchDateBgn} and #{searchDateEnd})
+						or (DATE_END between #{searchDateBgn} and #{searchDateEnd})
+					)
+				</if>
 			</if>
 			<if test="searchTime !=null and !searchTime.equals('')">
 				and TIME = #{searchTime}
@@ -148,8 +155,15 @@
 			<if test="approveYN !=null and !approveYN.equals('')">
 				and S.APPROVE_YN = #{approveYN}
 			</if>
-			<if test="searchDate !=null and !searchDate.equals('')">
-				and #{searchDate} between DATE_BGN and DATE_END
+			<if test="searchDateBgn !=null and !searchDateBgn.equals('')">
+				<if test="searchDateEnd !=null and !searchDateEnd.equals('')">
+					and (
+						(#{searchDateBgn} between DATE_BGN and DATE_END)
+						or (#{searchDateEnd} between DATE_BGN and DATE_END)
+						or (DATE_BGN between #{searchDateBgn} and #{searchDateEnd})
+						or (DATE_END between #{searchDateBgn} and #{searchDateEnd})
+					)
+				</if>
 			</if>
 			<if test="searchTime !=null and !searchTime.equals('')">
 				and TIME = #{searchTime}

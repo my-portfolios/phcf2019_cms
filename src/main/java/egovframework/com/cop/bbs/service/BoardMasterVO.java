@@ -87,8 +87,6 @@ public class BoardMasterVO extends BoardMaster implements Serializable {
     /** 템플릿경로 */
     private String tmplatCours = "";
 
-    /** 메모리DB 삽입 여부 */
-    private String inputMmdbYn = "";
     /**
      * searchBgnDe attribute를 리턴한다.
      * 
@@ -476,13 +474,6 @@ public class BoardMasterVO extends BoardMaster implements Serializable {
 	return ToStringBuilder.reflectionToString(this);
     }
 
-	public String getInputMmdbYn() {
-		return inputMmdbYn;
-	}
-
-	public void setInputMmdbYn(String inputMmdbYn) {
-		this.inputMmdbYn = inputMmdbYn;
-	}
     
     
 }

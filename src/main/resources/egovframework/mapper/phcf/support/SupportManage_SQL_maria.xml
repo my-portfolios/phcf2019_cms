@@ -448,7 +448,7 @@
 		/* 관리자화면 userId를 이용해 회원 정보를 돌려준다. */
 		SELECT 
 			mber_id			/* 유저ID */
-			, SUBSTR(mber_email_adres, 0, INSTR(mber_email_adres, '@') - 1) AS mber_email_adres1		/* 유저email1 */
+			, SUBSTR(mber_email_adres, 1, INSTR(mber_email_adres, '@') - 1) AS mber_email_adres1		/* 유저email1 */
 			, SUBSTR(mber_email_adres, INSTR(mber_email_adres, '@') + 1) AS mber_email_adres2			/* 유저email2 */
 			, SUBSTR(mbtlnum, 1, 3) AS mbtlnum1	/* 폰번호1 */
 			, CASE

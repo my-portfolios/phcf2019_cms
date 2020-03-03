@@ -175,6 +175,8 @@ public class BoardVO extends Board implements Serializable {
     /** 게시글 댓글갯수 */
     private String commentCo = "";
     
+    private String redirectUrl = "";
+    
     /**
      * searchBgnDe attribute를 리턴한다.
      * 
@@ -878,5 +880,15 @@ public class BoardVO extends Board implements Serializable {
     public void setCommentCo(String commentCo) {
         this.commentCo = commentCo;
     }
+
+	public String getRedirectUrl() {
+		return redirectUrl;
+	}
+
+	public void setRedirectUrl(String redirectUrl) {
+		this.redirectUrl = redirectUrl;
+	}
+    
+    
     
 }

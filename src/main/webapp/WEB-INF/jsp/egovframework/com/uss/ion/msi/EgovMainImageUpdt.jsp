@@ -138,7 +138,7 @@ function fncOnChangeImage() {
 		<tr>
 			<th><spring:message code="uss.ion.msi.mainImageUpdt.mainImage" /> <span class="pilsu">*</span></th><!-- 이미지 -->
 			<td class="left">
-				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=2.80','mainImage','width=1000,height=640,resizable=no');" value="선택"/>
+				<input type="button" onclick="window.open('/common/imageCropper.do','mainImage','width=1000,height=640,resizable=no');" value="선택"/>
 	            <input type="hidden" id="popupImage" name="popupImage" readOnly/>
 	             * 이미지 변경 <br /><br />
 	            <img src="/images/egovframework/phcf/admin/cms_banner02.png" alt=""><br />

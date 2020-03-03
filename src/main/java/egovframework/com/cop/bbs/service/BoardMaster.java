@@ -172,6 +172,9 @@ public class BoardMaster implements Serializable {
     /** 추가칼럼정의20 */
     private String ac20Nm="";
     
+    /** 메모리DB 삽입 여부 */
+    private String inputMmdbYn = "";
+    
 
     /**
      * bbsId attribute를 리턴한다.
@@ -806,4 +809,14 @@ public class BoardMaster implements Serializable {
     public String toString() {
 	return ToStringBuilder.reflectionToString(this);
     }
+
+	public String getInputMmdbYn() {
+		return inputMmdbYn;
+	}
+
+	public void setInputMmdbYn(String inputMmdbYn) {
+		this.inputMmdbYn = inputMmdbYn;
+	}
+    
+    
 }

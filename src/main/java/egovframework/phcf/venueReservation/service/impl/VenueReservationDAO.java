@@ -18,6 +18,10 @@ public class VenueReservationDAO extends EgovComAbstractDAO {
 		return selectList("VenueReservationDAO.selectVenueReservationRegList", paramMap);
 	}
 	
+	public List<HashMap<String, Object>> selectVenueReservationDatesList(int regId) {
+		return selectList("VenueReservationDAO.selectVenueReservationDatesList", regId);
+	}
+	
 	public int selectVenueReservationRegListCnt(HashMap<String, Object> paramMap) {
 		return (int) selectOne("VenueReservationDAO.selectVenueReservationRegListCnt", paramMap);
 	}

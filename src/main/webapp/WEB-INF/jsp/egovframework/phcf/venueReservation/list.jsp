@@ -30,7 +30,8 @@
  			{Name : "접수 완료", Id: "S"},
  			{Name : "승인 완료", Id: "A"},
  			{Name : "승인 거절", Id: "D"},
- 			{Name : "승인 취소", Id: "O"}
+ 			{Name : "승인 취소", Id: "O"},
+ 			{Name : "취소 요청", Id: "B"}
  		];
 	
 	$(function(){
@@ -104,11 +105,6 @@
 				{name: 	'SEQ', 	title: '번호', 	type: 'text', 	editing: false, width:80, align: "center"},
 			 	{name: 	'VENUE', 	title: '대관 장소', 	type: 'text', 	editing: false, width: 230, align: "center"},
 			 	{name: 	'USE_ROOM', 	title: '대관 시설', 	type: 'text', 	editing: false, width: 120, align: "center"},
-			 	{name: 	'USE_DATE1', 	title: '1일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE2', 	title: '2일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE3', 	title: '3일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE4', 	title: '4일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE5', 	title: '5일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
 			 	{name: 	'EVENT_NAME', 	title: '행사 명', 	type: 'text', 	editing: false, width: 250, align: "center" },
 			 	{name: 	'ORGAN_NAME', 	title: '업체 및 단체명', 	type: 'text', 	editing: false, width: 200, align: "center"},
 			 	{name: 	'RESULT', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true,width: 110, align: "center"},
@@ -126,10 +122,7 @@
 					var jsonId = $(item2).attr("id");
 					var jsonText = item[jsonId];
 					if(jsonId != "FILE_ID"){
-						if(!Number.isInteger(jsonText) && jsonText != null && jsonText != '' && jsonText.includes("<br/>")) {
-							jsonText = jsonText.replace("<br/>", " ");
-						}
-						else if(jsonId == "RESULT"){
+						if(jsonId == "RESULT"){
 							$.each(resultCode, function(index3, item3){
 								if(item3.Id == jsonText) {
 									jsonText = item3.Name;
@@ -139,7 +132,7 @@
 						
 						if(jsonId != "closebtn"){
 							if(jsonText == "" || jsonText == null || typeof jsonText == "undefined" || jsonText == undefined) $(item2).text(""); 
-							else $(item2).text(jsonText);
+							else $(item2).html(jsonText);
 						}
 					}
 					else fileId = jsonText;
@@ -195,9 +188,9 @@
 	<div id="jsGrid"></div>
 </div>	
 
-<div style="text-align:center;">
-	<div class="popup_modal" style="display:none;">
-		<table id="about_table" class="wTable" style="margin:auto;width:100%">
+<div style="text-align:center;"> 
+	<div class="popup_modal" style="display:none;width:80%;">
+		<table id="about_table" class="wTable" style="margin:auto;">
 			
 			<tr>
 				<th>번호</th>
@@ -214,19 +207,9 @@
 				<td id="USE_ROOM" colspan="2"></td>
 			</tr>
 			<tr>
-				<th style="text-align:center;">1일차대관일시</th>
-				<th style="text-align:center;">2일차대관일시</th>
-				<th style="text-align:center;">3일차대관일시</th>
-				<th style="text-align:center;">4일차대관일시</th>
-				<th style="text-align:center;">5일차대관일시</th>
+				<th colspan="2">대관일시</th>
+				<td id="useDateTime" colspan="2"></td>				
 			</tr>
-			<tr>
-				<td id="USE_DATE1"></td>
-				<td id="USE_DATE2"></td>
-				<td id="USE_DATE3"></td>
-				<td id="USE_DATE4"></td>
-				<td id="USE_DATE5"></td>
-			</tr>	
 			<tr>
 				<th>신청일시</th>
 				<td id="CREATE_DT"></td>

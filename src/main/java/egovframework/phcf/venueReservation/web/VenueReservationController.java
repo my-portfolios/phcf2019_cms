@@ -1,7 +1,5 @@
 package egovframework.phcf.venueReservation.web;
 
-import java.util.ArrayList;
-
 /**
  * @Class Name  : VenueReservationController.java
  * @Description : 대관 신청 관리 Controller
@@ -20,6 +18,7 @@ import java.util.ArrayList;
 
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -34,7 +33,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.EgovFileMngUtil;
-import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.phcf.util.JsonUtil;
 import egovframework.phcf.venueReservation.service.VenueReservationService;
 
@@ -83,9 +81,8 @@ public class VenueReservationController {
 	}
 	
 	@RequestMapping(value="/venueReservation/selectReservationListToJson.do", method=RequestMethod.POST)
-	public ModelAndView selectReservationListToJson(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, Object> paramMap) {
+	public ModelAndView selectReservationListToJson(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
 		ModelAndView mav = new ModelAndView("jsonView");
-		try {
 		
 		Object pageIndex = paramMap.get("pageIndex");
 		Object pageSize = paramMap.get("pageSize");
@@ -97,37 +94,31 @@ public class VenueReservationController {
 
 		int venueReservationRegListCnt = service.selectVenueReservationRegListCnt(paramMap);
 		List<HashMap<String, Object>> venueReservationRegList = service.selectVenueReservationRegList(paramMap);
-		List<HashMap<String, Object>> mergedVenueReservationRegList = new ArrayList<>();
 		
-		String day[] = new String[5];
-		String date, stTime, edTime;
-		
-		System.out.println("venueReservationRegList" + venueReservationRegList);
-		for(HashMap<String, Object> obj : venueReservationRegList) {
-			HashMap<String, Object> newObj = new HashMap<>();
-			newObj.putAll(obj);
+		for(int i=0;i<venueReservationRegList.size();i++) {
+			HashMap<String, Object> reservation = new HashMap<>();
+			reservation.putAll(venueReservationRegList.get(i));
+			int regId = Integer.parseInt(reservation.get("SEQ").toString());
 			
-			for(int i=1;i<=5;i++) {
-				date = "";stTime = "";edTime = "";
-				if(obj.get("USE_DATE" + i) != null) {
-					date = obj.get("USE_DATE" + i).toString();
-					stTime = obj.get("USE_START_TIME" + i).toString().substring(0,5);
-					edTime = obj.get("USE_END_TIME" + i).toString().substring(0,5);
-					day[i-1] = date + "<br/>"  + stTime + " ~ " + edTime;
-					newObj.put("USE_DATE" + i, day[i-1]);
-				}
-			}			
-			mergedVenueReservationRegList.add(newObj);
+			List<HashMap<String, Object>> venueReservationDatesList = service.selectVenueReservationDatesList(regId);
+			
+			String useDateTime = "";
+			for(HashMap<String, Object> dates : venueReservationDatesList) {
+				String useDate = dates.get("USE_DATE").toString();
+				String useStartTime = dates.get("USE_START_TIME").toString().substring(0,5);
+				String useEndTime = dates.get("USE_END_TIME").toString().substring(0,5);
+				
+				useDateTime += String.format("%s %s ~ %s<br/>", useDate, useStartTime, useEndTime);
+			}
+			
+			reservation.put("venueReservationDatesList", venueReservationDatesList);
+			reservation.put("useDateTime", useDateTime);
+			venueReservationRegList.set(i, reservation);
 		}
-		
-		String venueReservationRegJson = JsonUtil.getJsonArrayFromList(mergedVenueReservationRegList).toString();
 		
 		mav.addObject("venueReservationRegListCnt", venueReservationRegListCnt);
-		mav.addObject("venueReservationRegJson",venueReservationRegJson);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		mav.addObject("venueReservationRegJson",JsonUtil.getJsonArrayFromList(venueReservationRegList).toString());
+		
 		return mav;
 	}
 	

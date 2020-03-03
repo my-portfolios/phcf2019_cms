@@ -159,7 +159,6 @@ public class EgovLoginController {
 					EgovSessionCookieUtil.setCookie(response, key, value, amount, cookieDomain);
 					//CookieUtil.createCookie(response, key, value, ckSite, ckPath, amount);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			});

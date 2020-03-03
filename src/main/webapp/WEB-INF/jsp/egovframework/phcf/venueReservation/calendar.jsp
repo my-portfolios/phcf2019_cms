@@ -68,28 +68,26 @@
 						jsonString = JSON.parse(jsonString);
 						
 						$.each(jsonString, function(index, item){
-							events = new Object();
-							
-							for(var i=1;i<=5;i++){
-								if(item["USE_DATE" + i] != null) {
-									var colorCode = "white";
-									if(item["VENUE"]=="포항문화예술회관") colorCode = "#AED6F1"; //하늘
-									else if(item["VENUE"]=="대잠홀") colorCode = "#76D7C4"; //민트
-									else if(item["VENUE"]=="중앙아트홀(인디플러스 포항)") colorCode = "#F9E79F"; //노랑
-									else if(item["VENUE"]=="구룡포생활문화센터") colorCode = "#D2B4DE"; //보라
-									else if(item["VENUE"]=="아르코공연연습센터") colorCode = "#F5B7B1"; //분홍
-										
-									events.title = item["EVENT_NAME"];
-									events.start = item["USE_DATE" + i].substring(0,10) + "T" + item["USE_START_TIME" + i];
-									events.end = item["USE_DATE" + i].substring(0,10) + "T" + item["USE_END_TIME" + i];
-									events.backgroundColor = colorCode;
-									events.textColor = "white";
+							if(item.RESULT == "A") {
+								var colorCode = "white";
+								if(item["VENUE"]=="포항문화예술회관") colorCode = "#AED6F1"; //하늘
+								else if(item["VENUE"]=="대잠홀") colorCode = "#76D7C4"; //민트
+								else if(item["VENUE"]=="중앙아트홀(인디플러스 포항)") colorCode = "#F9E79F"; //노랑
+								else if(item["VENUE"]=="구룡포생활문화센터") colorCode = "#D2B4DE"; //보라
+								else if(item["VENUE"]=="아르코공연연습센터") colorCode = "#F5B7B1"; //분홍
+									  
+								$.each(item.venueReservationDatesList, function(datesIndex,datesItem){
+									events = new Object();
 									
+									events.title = item.EVENT_NAME;
+									events.start = datesItem.USE_DATE + "T" + datesItem.USE_START_TIME;
+									events.end = datesItem.USE_DATE + "T" + datesItem.USE_END_TIME;
+									events.backgroundColor = colorCode;
 									calendarObj.addEvent(events);
-								}
+								});
 							}
 						});
-					}
+					} 
 				});
 			}
 			

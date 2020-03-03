@@ -217,7 +217,6 @@
 				LAST_UPDUSR_ID = #{lastUpdusrId},
 				LAST_UPDT_PNTTM = SYSDATE(),
 				USE_AT = #{useAt},
-				INPUT_MMDB_YN = #{inputMmdbYn},
 				AC1NM = #{ac1Nm},
 				AC2NM = #{ac2Nm},
 				AC3NM = #{ac3Nm},

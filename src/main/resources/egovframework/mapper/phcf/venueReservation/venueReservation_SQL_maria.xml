@@ -21,34 +21,14 @@
 	<select id="selectVenueReservationRegList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		/* VenueReservationDAO.selectVenueReservationRegList */
 		SELECT
-			(SELECT COUNT(*) FROM VENUERESERVATIONREG) AS LENGTH,
 			SEQ,
 			VENUE,
 			USE_ROOM,
-			USE_DATE1,
-			USE_DATE2,
-			USE_DATE3,
-			USE_DATE4,
-			USE_DATE5,
-			DATE_FORMAT(USE_START_TIME1,'%H:%i') AS USE_START_TIME1,
-			DATE_FORMAT(USE_END_TIME1,'%H:%i') AS USE_END_TIME1,
-			
-			DATE_FORMAT(USE_START_TIME2,'%H:%i') AS USE_START_TIME2,
-			DATE_FORMAT(USE_END_TIME2,'%H:%i') AS USE_END_TIME2,
-			
-			DATE_FORMAT(USE_START_TIME3,'%H:%i') AS USE_START_TIME3,
-			DATE_FORMAT(USE_END_TIME3,'%H:%i') AS USE_END_TIME3,
-			
-			DATE_FORMAT(USE_START_TIME4,'%H:%i') AS USE_START_TIME4,
-			DATE_FORMAT(USE_END_TIME4,'%H:%i') AS USE_END_TIME4,
-			
-			DATE_FORMAT(USE_START_TIME5,'%H:%i') AS USE_START_TIME5,
-			DATE_FORMAT(USE_END_TIME5,'%H:%i') AS USE_END_TIME5,
 			MANAGER_NAME,
-			MANAGER_GRADE,
 			EVENT_NAME,
 			ORGAN_NAME,
 			TELNUMBER,
+			TELNUMBER2,
 			EMAIL,
 			FILE_ID,
 			USER_ID,
@@ -61,13 +41,6 @@
 		WHERE 1=1
 			<if test='fixStatus != null and fixStatus == "Y"'>
 				AND RESULT NOT IN ('C','D','O')
-				AND (
-					USE_DATE1 LIKE #{currentDate} "%"
-					OR USE_DATE2 LIKE #{currentDate} "%"
-					OR USE_DATE3 LIKE #{currentDate} "%"
-					OR USE_DATE4 LIKE #{currentDate} "%"
-					OR USE_DATE5 LIKE #{currentDate} "%"
-				)
 			</if>
 			<if test='venueCnd != null and venueCnd != ""'>
 				AND VENUE = #{venueCnd}
@@ -89,6 +62,23 @@
 			<if test='pageSize != null and pageOffset != null'>
 				LIMIT ${pageSize} OFFSET ${pageOffset}
 			</if>
+	</select>
+	
+	<select id="selectVenueReservationDatesList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		/* VenueReservationDAO.selectVenueReservationDatesList */
+		SELECT
+			SEQ,
+			REG_ID,
+			DAYS,
+			DATE_FORMAT(USE_DATE,'%Y-%m-%d') AS USE_DATE,
+			DATE_FORMAT(USE_START_TIME,'%H:%i:%s') AS USE_START_TIME,
+			DATE_FORMAT(USE_END_TIME,'%H:%i:%s') AS USE_END_TIME,
+			CREATE_DT,
+			UPDATE_DT
+		FROM
+			VENUERESERVATIONDATES
+		WHERE 1=1
+			AND REG_ID = #{regId}
 	</select>
 	
 	<select id="selectVenueReservationRegListCnt" parameterType="java.util.HashMap" resultType="int">

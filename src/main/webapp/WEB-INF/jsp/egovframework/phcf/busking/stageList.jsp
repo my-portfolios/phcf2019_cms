@@ -280,7 +280,7 @@
 		}); */
 	}
 	function updateSearchCount(obj){
-		var editPageSize = $(obj).text();
+		var editPageSize = $(obj).val();
 		if($("#jsGrid").jsGrid("option","pageSize")==editPageSize){
 			$("#jsGrid").jsGrid("option","pageSize",10 );	
 		}else{
@@ -392,16 +392,24 @@
 		console.log(jsonString);
 		$.each(jsonString, function(index, item){
 			excelJson = new Object();
-			excelJson.번호=item.SEQ;
+			excelJson.번호=index+1;
+			excelJson.프로그램명=item.PROG_NM;
 			excelJson.팀명=item.TEAM_NM;
-			excelJson.휴대폰=item.PHONE;
-			excelJson.등록일=item.REG_DATE;
-			excelJson.시간=item.TIME;
-			excelJson.장소=item.PLACE;
 			excelJson.대표명=item.HEAD_NM;
+			excelJson.휴대폰=item.PHONE;
+			switch(item.APPROVE_YN){
+				case 'Y': excelJson.승인여부='승인완료'; break;
+				case 'D': excelJson.승인여부='보류'; break;
+				case 'N': excelJson.승인여부='반려'; break;
+				case 'I': excelJson.승인여부='처리중'; break;
+				case 'C': excelJson.승인여부='접수완료'; break;
+			}
+			excelJson.장소=item.PLACE;
 			excelJson.날짜=item.DATE;
+			excelJson.시간=item.TIME;
+			excelJson.등록일=item.REG_DATE;
 			excelJson.장비=item.EQUIPMENT;
-			excelJson.승인여부=item.APPROVE_YN;
+		
 			excelJson.프로그램명=item.PROG_NM;
 			excelJsonArray.push(excelJson);
 		})

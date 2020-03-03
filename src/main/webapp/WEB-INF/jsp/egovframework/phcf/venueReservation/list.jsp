@@ -20,7 +20,11 @@
 <script src="<c:url value='/js/egovframework/com/cmm/Chart.min.js' />"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/Chart.bundle.min.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.js'/>"></script>
-
+<!-- excel download -->
+<!-- 필수, SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+<!--필수, FileSaver savaAs 이용 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 <script>
 	var searchFilter = new Object();
 	var jsonString;
@@ -178,6 +182,84 @@
 		
 		$("#jsGrid").jsGrid("loadData");
 	}
+	
+	/* excel download source  */
+	/* excel match */
+	var excelHandler = {
+			/* file name */
+	        getExcelFileName : function(){
+	            return '대관 신청 리스트.xlsx';
+	        },
+	        /* sheet name */
+	        getSheetName : function(){
+	            return 'sheet1';
+	        },
+	        /* excel data */
+	        getExcelData : function(){
+	            return excelJsonArray; 
+	        },
+	        getWorksheet : function(){
+	            return XLSX.utils.json_to_sheet(this.getExcelData());
+	        }
+	}
+	/* excel setting */
+	function s2ab(s) { 
+	    var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+	    var view = new Uint8Array(buf);  //create uint8array as viewer
+	    for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
+	    return buf;    
+	}
+	/* excel implement */
+	function exportExcel(){ 
+	    // step 1. workbook 생성
+	    var wb = XLSX.utils.book_new();
+
+	    // step 2. 시트 만들기 
+	    var newWorksheet = excelHandler.getWorksheet();
+	    
+	    // step 3. workbook에 새로만든 워크시트에 이름을 주고 붙인다.  
+	    XLSX.utils.book_append_sheet(wb, newWorksheet, excelHandler.getSheetName());
+
+	    // step 4. 엑셀 파일 만들기 
+	    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+
+	    // step 5. 엑셀 파일 내보내기 
+	    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), excelHandler.getExcelFileName());
+	}
+	var excelJsonArray = new Array();
+	var excelJson = new Object();
+
+	function fn_excelDownload(){
+		console.log(jsonString);
+		$.each(jsonString, function(index, item){
+		 	excelJson = new Object();
+			excelJson.번호=index+1;
+			excelJson.행사명=item.EVENT_NAME;
+			excelJson.담당자이름=item.MANAGER_NAME;
+			excelJson.연락처=item.TELNUMBER;
+			excelJson.이메일=item.EMAIL;
+			//상태 / 접수 요청: R / 접수 취소: C / 접수 완료: S / 승인 완료: A / 승인 거절: D / 승인 취소: O / 취소 요청 : B
+			switch(item.RESULT){
+				case "R" : excelJson.상태="접수 요청"; break;
+				case "C" : excelJson.상태="접수 취소"; break;
+				case "S" : excelJson.상태="접수 완료"; break;
+				case "A" : excelJson.상태="승인 완료"; break;
+				case "D" : excelJson.상태="승인 거절"; break;
+				case "O" : excelJson.상태="승인 취소"; break;
+				case "B" : excelJson.상태="취소 요청"; break;
+			}
+			
+			excelJson.대관장소=item.VENUE;
+			excelJson.대관시설=item.USE_ROOM;
+			excelJson.대관일시=item.useDateTimeLine;
+			excelJson.신청일시=item.CREATE_DT;
+			excelJson.수정일=item.UPDATE_DT;
+			excelJsonArray.push(excelJson);
+		})
+		exportExcel();
+	}
+	
+	
 </script>
 
 </head>
@@ -255,5 +337,9 @@
 	</div>
 	<div class="popup_bg" style="display:none;"></div>
 </div>
+
+	<div class="buttonarea floatright" style="text-align: right; margin-top:20px; margin-right:20px;">
+		<input type="button" id="excel_btn" class="" onclick="fn_excelDownload()" value="Excel Download">
+	</div>
 </body>
 </html>

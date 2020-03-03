@@ -75,7 +75,7 @@
 			<input type="button" class="s_btn" value="검색" onclick="search();"/>
 					
 		</li>
-		<li><button onclick="updateSearchCount(this)" class="s_btn">30줄</button></li>
-		<li><button onclick="updateSearchCount(this)" class="s_btn">50줄</button></li>
+		<li><button onclick="updateSearchCount(this)" value="30" class="s_btn">30줄</button></li>
+		<li><button onclick="updateSearchCount(this)" value="50" class="s_btn">50줄</button></li>
 	</ul>
 </div>

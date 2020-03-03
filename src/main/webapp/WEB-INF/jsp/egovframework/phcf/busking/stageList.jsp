@@ -21,6 +21,12 @@
 <script src="<c:url value='/js/egovframework/com/cmm/Chart.bundle.min.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.js'/>"></script>
 
+<!-- excel download -->
+<!-- 필수, SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+<!--필수, FileSaver savaAs 이용 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+
 <script>
 	var searchFilter = new Object();
 	var jsonString;
@@ -62,6 +68,7 @@
 								console.log(data);
 								jsonString = data.stageListJson;
 								jsonString = JSON.parse(jsonString);
+								
 								
 								var list = {
 									data: jsonString,
@@ -158,8 +165,6 @@
             	if(dateBgn==null || dateEnd==null ||dateBgn == '' || dateEnd == '') {
             		return; 
             	}
-            	console.log(dateBgn)
-            	console.log(dateEnd)
         		if( dateBgn > dateEnd ) {
         			alert('시작날짜가 끝날짜 보다 큽니다. 다시 선택해주세요');
         			inst.el.value='';
@@ -193,8 +198,10 @@
             }
 	    });
 		
-		
 	});
+	
+	
+	
 	/* ROW더블클릭시  */
 	function about(seq){
 		var fileId;
@@ -335,6 +342,73 @@
 		$('.popup_modal').css('display','none');$('.popup_bg').css('display','none');
 	}
 
+	/* excel download source  */
+	/* excel match */
+	var excelHandler = {
+			/* file name */
+	        getExcelFileName : function(){
+	            return '무대 신청자 리스트.xlsx';
+	        },
+	        /* sheet name */
+	        getSheetName : function(){
+	            return 'sheet1';
+	        },
+	        /* excel data */
+	        getExcelData : function(){
+	            return excelJsonArray; 
+	        },
+	        getWorksheet : function(){
+	            return XLSX.utils.json_to_sheet(this.getExcelData());
+	        }
+	}
+	/* excel setting */
+	function s2ab(s) { 
+	    var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+	    var view = new Uint8Array(buf);  //create uint8array as viewer
+	    for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
+	    return buf;    
+	}
+	/* excel implement */
+	function exportExcel(){ 
+	    // step 1. workbook 생성
+	    var wb = XLSX.utils.book_new();
+
+	    // step 2. 시트 만들기 
+	    var newWorksheet = excelHandler.getWorksheet();
+	    
+	    // step 3. workbook에 새로만든 워크시트에 이름을 주고 붙인다.  
+	    XLSX.utils.book_append_sheet(wb, newWorksheet, excelHandler.getSheetName());
+
+	    // step 4. 엑셀 파일 만들기 
+	    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+
+	    // step 5. 엑셀 파일 내보내기 
+	    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), excelHandler.getExcelFileName());
+	}
+	var excelJsonArray = new Array();
+	var excelJson = new Object();
+
+	function fn_excelDownload(){
+		console.log(jsonString);
+		$.each(jsonString, function(index, item){
+			excelJson = new Object();
+			excelJson.번호=item.SEQ;
+			excelJson.팀명=item.TEAM_NM;
+			excelJson.휴대폰=item.PHONE;
+			excelJson.등록일=item.REG_DATE;
+			excelJson.시간=item.TIME;
+			excelJson.장소=item.PLACE;
+			excelJson.대표명=item.HEAD_NM;
+			excelJson.날짜=item.DATE;
+			excelJson.장비=item.EQUIPMENT;
+			excelJson.승인여부=item.APPROVE_YN;
+			excelJson.프로그램명=item.PROG_NM;
+			excelJsonArray.push(excelJson);
+		})
+		exportExcel();
+	}
+	
+	
 </script>
 
 </head>

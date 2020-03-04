@@ -27,7 +27,9 @@
 		    </if>
 		     	and DELETE_YN=0
 		   ORDER BY SEQ DESC
-		    LIMIT #{pageSize} OFFSET #{pageOffset}
+		   <if test="pageNm==1">
+		    	LIMIT #{pageSize} OFFSET #{pageOffset}
+		    </if>
 	</select>
 	
 	<select id="selectBuskingGroupRegDefaultCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
@@ -55,6 +57,8 @@
 		    </if>
 	     	and DELETE_YN=0
 	</select>
+	
+	
 	<update id="updateGroupApprove" parameterType="java.util.HashMap">
 		update 
 		<if test="GROUP_SEQ==null">
@@ -78,6 +82,8 @@
 		</if> 
 		where SEQ=#{SEQ}
 	</update>
+	
+	
 	<update id="deleteBusking" parameterType="java.util.HashMap">
 		update 
 		<if test="GROUP_SEQ==null">
@@ -98,8 +104,28 @@
 			<if test="approveYN !=null and !approveYN.equals('')">
 				and APPROVE_YN = #{approveYN}
 			</if>
-			<if test="searchDateBgn !=null and !searchDateBgn.equals('')">
-				<if test="searchDateEnd !=null and !searchDateEnd.equals('')">
+			<if test="searchDateBgn !=null and !searchDateBgn.equals('년-월-일')">
+				<if test="searchDateEnd ==null or searchDateEnd.equals('년-월-일')">
+				 <![CDATA[
+					and #{searchDateBgn} > DATE_BGN 
+				]]>
+				</if>
+				<if test="searchDateEnd !=null and !searchDateEnd.equals('년-월-일')">
+					and (
+						(#{searchDateBgn} between DATE_BGN and DATE_END)
+						or (#{searchDateEnd} between DATE_BGN and DATE_END)
+						or (DATE_BGN between #{searchDateBgn} and #{searchDateEnd})
+						or (DATE_END between #{searchDateBgn} and #{searchDateEnd})
+					)
+				</if>
+			</if>
+			<if test="searchDateEnd !=null and !searchDateEnd.equals('년-월-일')">
+				<if test="searchDateBgn ==null or searchDateBgn.equals('년-월-일')">
+				<![CDATA[
+						and #{searchDateEnd} < DATE_END
+				]]>		 
+				</if>
+				<if test="searchDateEnd !=null and !searchDateEnd.equals('년-월-일')">
 					and (
 						(#{searchDateBgn} between DATE_BGN and DATE_END)
 						or (#{searchDateEnd} between DATE_BGN and DATE_END)
@@ -155,8 +181,28 @@
 			<if test="approveYN !=null and !approveYN.equals('')">
 				and S.APPROVE_YN = #{approveYN}
 			</if>
-			<if test="searchDateBgn !=null and !searchDateBgn.equals('')">
-				<if test="searchDateEnd !=null and !searchDateEnd.equals('')">
+			<if test="searchDateBgn !=null and !searchDateBgn.equals('년-월-일')">
+				<if test="searchDateEnd ==null or searchDateEnd.equals('년-월-일')">
+				 <![CDATA[
+					and #{searchDateBgn} > DATE_BGN 
+				]]>
+				</if>
+				<if test="searchDateEnd !=null and !searchDateEnd.equals('년-월-일')">
+					and (
+						(#{searchDateBgn} between DATE_BGN and DATE_END)
+						or (#{searchDateEnd} between DATE_BGN and DATE_END)
+						or (DATE_BGN between #{searchDateBgn} and #{searchDateEnd})
+						or (DATE_END between #{searchDateBgn} and #{searchDateEnd})
+					)
+				</if>
+			</if>
+			<if test="searchDateEnd !=null and !searchDateEnd.equals('년-월-일')">
+				<if test="searchDateBgn ==null or searchDateBgn.equals('년-월-일')">
+				<![CDATA[
+						and #{searchDateEnd} < DATE_END
+				]]>		 
+				</if>
+				<if test="searchDateEnd !=null and !searchDateEnd.equals('년-월-일')">
 					and (
 						(#{searchDateBgn} between DATE_BGN and DATE_END)
 						or (#{searchDateEnd} between DATE_BGN and DATE_END)
@@ -186,7 +232,9 @@
 		    </if> -->
 	     	and S.DELETE_YN=0
 		order by S.SEQ DESC
-		limit ${pageSize} offset #{pageOffset}
+		<if test="pageCheck==1">
+			limit ${pageSize} offset #{pageOffset}
+		</if>
 	</select>
 	<select id="updateApproveMulti" parameterType="java.util.HashMap">
 		update 

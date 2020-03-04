@@ -57,7 +57,7 @@
 					
 					searchFilter.pageIndex = filter.pageIndex;
 					searchFilter.pageSize = filter.pageSize;
-					
+					searchFilter.pageCheck = 1;
 					$.ajax({
 						type: 'POST',
 						url: '/busking/selectStageListToJson.do',
@@ -210,7 +210,9 @@
 			if(item.SEQ == seq){
 				$("#about_table td").each(function(index2, item2){
 					var jsonId = $(item2).attr("id");
+					console.log("jsonId:"+jsonId)
 					var jsonText = item[jsonId];
+					console.log("jsonText"+jsonText)
 					if(jsonId != "FILE"){
 						if(!Number.isInteger(jsonText) && jsonText != null && jsonText != '' && jsonText.includes("<br/>")) {
 							jsonText = jsonText.replace("<br/>", " ");
@@ -222,12 +224,21 @@
 								}
 							});
 						}
-						
+						else if(jsonId=="APPROVE_YN"){
+							switch(jsonText){
+								case 'Y': jsonText='승인완료'; break;
+								case 'D': jsonText='보류'; break;
+								case 'N': jsonText='반려'; break;
+								case 'I': jsonText='처리중'; break;
+								case 'C': jsonText='접수완료'; break;
+							}
+						}
 						if(jsonId != "closebtn"){
 							if(jsonText == "" || jsonText == null || typeof jsonText == "undefined" || jsonText == undefined) $(item2).text(""); 
 							else $(item2).text(jsonText);
 						}
 					}
+				
 					else {
 						fileId = jsonText;
 					}
@@ -258,7 +269,7 @@
 		$(".popup_bg").css("display","");
 	}
 	
-	function search(){
+	function searchFilterSet(){
 		var place = $("#searchPlace").val();
 		var approveYN = $("#serachApprove").val();
 		var searchCondition = $("#searchCondition").val();
@@ -274,6 +285,10 @@
 		searchFilter.searchTime = searchTime;
 		searchFilter.searchCondition = searchCondition;
 		searchFilter.searchKeyword = searchKeyword;
+	}
+	
+	function search(){
+		searchFilterSet();
 		$("#jsGrid").jsGrid("loadData");
 		/* $("#jsGrid").jsGrid("search",{ genre:genre, area:area, searchKeyword:searchKeyword }).done(function(){
 			console.log("?")
@@ -389,31 +404,56 @@
 	var excelJson = new Object();
 
 	function fn_excelDownload(){
-		console.log(jsonString);
-		$.each(jsonString, function(index, item){
-			excelJson = new Object();
-			excelJson.번호=index+1;
-			excelJson.프로그램명=item.PROG_NM;
-			excelJson.팀명=item.TEAM_NM;
-			excelJson.대표명=item.HEAD_NM;
-			excelJson.휴대폰=item.PHONE;
-			switch(item.APPROVE_YN){
-				case 'Y': excelJson.승인여부='승인완료'; break;
-				case 'D': excelJson.승인여부='보류'; break;
-				case 'N': excelJson.승인여부='반려'; break;
-				case 'I': excelJson.승인여부='처리중'; break;
-				case 'C': excelJson.승인여부='접수완료'; break;
-			}
-			excelJson.장소=item.PLACE;
-			excelJson.날짜=item.DATE;
-			excelJson.시간=item.TIME;
-			excelJson.등록일=item.REG_DATE;
-			excelJson.장비=item.EQUIPMENT;
+		searchFilterSet();
 		
-			excelJson.프로그램명=item.PROG_NM;
-			excelJsonArray.push(excelJson);
-		})
-		exportExcel();
+		searchFilter.pageCheck = 0;
+		
+		$.ajax({
+			type: 'POST',
+			url: '/busking/selectStageListToJson.do',
+			dataType: 'JSON',
+			data: searchFilter,
+			success : function(data){
+				try {
+					jsonString = data.stageListJson;
+					jsonString = JSON.parse(jsonString);
+					
+					var list = {
+						data: jsonString,
+						itemsCount : jsonString == 0 ? 0 : JSON.parse(data.stageListCnt)
+					}	
+					excelJsonArray = new Array();
+					$.each(jsonString, function(index, item){
+						excelJson = new Object();
+						excelJson.번호=index+1;
+						excelJson.프로그램명=item.PROG_NM;
+						excelJson.팀명=item.TEAM_NM;
+						excelJson.대표명=item.HEAD_NM;
+						excelJson.휴대폰=item.PHONE;
+						switch(item.APPROVE_YN){
+							case 'Y': excelJson.승인여부='승인완료'; break;
+							case 'D': excelJson.승인여부='보류'; break;
+							case 'N': excelJson.승인여부='반려'; break;
+							case 'I': excelJson.승인여부='처리중'; break;
+							case 'C': excelJson.승인여부='접수완료'; break;
+						}
+						excelJson.장소=item.PLACE;
+						excelJson.날짜=item.DATE;
+						excelJson.시간=item.TIME;
+						excelJson.등록일=item.REG_DATE;
+						excelJson.장비=item.EQUIPMENT;
+						
+						excelJsonArray.push(excelJson);
+					})
+					exportExcel();
+				}
+				catch(e){
+					alert("오류 발생! \n"+e);
+				}
+			}
+		});
+		
+		
 	}
 	
 	

@@ -66,14 +66,17 @@ public class BuskingController {
 			) {
 		ModelAndView mav = new ModelAndView("jsonView");
 		try {
-		
-		Integer pageIndex = buskingGroupVO.getPageIndex();
-		Integer pageSize = buskingGroupVO.getPageSize();
-		
-		int pageOffset  = 0;
-		if(pageIndex != null && pageSize != null) {
-			pageOffset = (Integer.parseInt(pageIndex.toString())-1) * Integer.parseInt(pageSize.toString());
-			buskingGroupVO.setPageOffset(pageOffset);
+		int pageCheck=Integer.parseInt(paramMap.get("pageCheck").toString());
+		buskingGroupVO.setPageNm(pageCheck+"");
+		if(pageCheck==1) {
+			Integer pageIndex = buskingGroupVO.getPageIndex();
+			Integer pageSize = buskingGroupVO.getPageSize();
+			
+			int pageOffset  = 0;
+			if(pageIndex != null && pageSize != null) {
+				pageOffset = (Integer.parseInt(pageIndex.toString())-1) * Integer.parseInt(pageSize.toString());
+				buskingGroupVO.setPageOffset(pageOffset);
+			}
 		}
 		//승인여부 코드 변형
 		if(buskingGroupVO.getApproveYN()!=null && !buskingGroupVO.getApproveYN().equals("")){
@@ -155,13 +158,14 @@ public class BuskingController {
 			, @RequestParam HashMap<String, String> paramMap) throws Exception {
 		ModelAndView mav = new ModelAndView("jsonView");
 		String result = "success";
-		
-		String dateStr = paramMap.get("DATE");
-		dateStr=dateStr.replace(" ", "");
-		dateStr=dateStr.trim();
-		String date[] = dateStr.split("~");
-		paramMap.put("DATE_BGN", date[0]);
-		paramMap.put("DATE_END", date[1]);
+		if(paramMap.get("DATE")!=null) {
+			String dateStr = paramMap.get("DATE");
+			dateStr=dateStr.replace(" ", "");
+			dateStr=dateStr.trim();
+			String date[] = dateStr.split("~");
+			paramMap.put("DATE_BGN", date[0]);
+			paramMap.put("DATE_END", date[1]);
+		}
 		try {
 			service.updateGroupApprove(paramMap);
 		}
@@ -253,6 +257,7 @@ public class BuskingController {
 		ModelAndView mav = new ModelAndView("jsonView");
 		Object pageIndex = paramMap.get("pageIndex");
 		Object pageSize = paramMap.get("pageSize");
+		int pageCheck=Integer.parseInt(paramMap.get("pageCheck").toString());
 		
 		//승인여부 코드 변형
 		if(paramMap.get("approveYN")!=null && !paramMap.get("approveYN").equals("")){
@@ -264,9 +269,12 @@ public class BuskingController {
 		}
 		
 		int pageOffset  = 0;
-		if(pageIndex != null && pageSize != null) {
-			pageOffset = (Integer.parseInt(pageIndex.toString())-1) * Integer.parseInt(pageSize.toString());
-			paramMap.put("pageOffset", pageOffset);
+		
+		if(pageCheck==1) {
+			if(pageIndex != null && pageSize != null) {
+				pageOffset = (Integer.parseInt(pageIndex.toString())-1) * Integer.parseInt(pageSize.toString());
+				paramMap.put("pageOffset", pageOffset);
+			}
 		}
 		try {
 			int stageListCnt = service.selectBuskingStageRegDefaultCnt(paramMap);
@@ -334,6 +342,21 @@ public class BuskingController {
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 		if(loginVO!=null) {
 			paramMap.put("MBER_ID", loginVO.getId());
+		}
+		String phone = paramMap.get("PHONE").toString();
+		if(!phone.contains("-")) {
+			String phoneChg="";
+			if(phone.length()==11) {
+				phoneChg=phone.substring(0, 3)+"-";
+				phoneChg+=phone.substring(3, 7)+"-";
+				phoneChg+=phone.substring(7, 11);
+			}
+			if(phone.length()==10) {
+				phoneChg=phone.substring(0, 3)+"-";
+				phoneChg+=phone.substring(3, 6)+"-";
+				phoneChg+=phone.substring(6, 10);
+			}
+			paramMap.put("PHONE", phoneChg);
 		}
 		service.insertBuskingStageReg(paramMap);
 		return "redirect:/busking/buskingStageList.do";

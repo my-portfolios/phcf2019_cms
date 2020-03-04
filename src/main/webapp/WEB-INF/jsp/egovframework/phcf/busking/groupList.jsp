@@ -21,6 +21,12 @@
 <script src="<c:url value='/js/egovframework/com/cmm/Chart.bundle.min.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.js'/>"></script>
 
+<!-- excel download -->
+<!-- 필수, SheetJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+<!--필수, FileSaver savaAs 이용 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+
 <script>
 	var searchFilter = new Object();
 	var jsonString;
@@ -54,7 +60,7 @@
 					
 					searchFilter.pageIndex = filter.pageIndex;
 					searchFilter.pageSize = filter.pageSize;
-					
+					searchFilter.pageCheck = 1;
 					$.ajax({
 						type: 'POST',
 						url: '/busking/selectGroupListToJson.do',
@@ -184,8 +190,7 @@
 		$(".popup_bg").css("top","0");
 		$(".popup_bg").css("display","");
 	}
-	
-	function search(){
+	function searchFilterSet(){
 		var genre = $("#genre").val();
 		var area = $("#areas").val();
 		var approveYN = $("#approve").val();
@@ -198,6 +203,9 @@
 		searchFilter.approveYN = approveYN;
 		searchFilter.searchCondition = searchCondition;
 		searchFilter.searchKeyword = searchKeyword;
+	}
+	function search(){
+		
 		$("#jsGrid").jsGrid("loadData");
 		/* $("#jsGrid").jsGrid("search",{ genre:genre, area:area, searchKeyword:searchKeyword }).done(function(){
 			console.log("?")
@@ -213,6 +221,108 @@
 		
 	}
 	
+	/* excel download source  */
+	/* excel match */
+	var excelHandler = {
+			/* file name */
+	        getExcelFileName : function(){
+	            return '단체 접수 관리.xlsx';
+	        },
+	        /* sheet name */
+	        getSheetName : function(){
+	            return 'sheet1';
+	        },
+	        /* excel data */
+	        getExcelData : function(){
+	            return excelJsonArray; 
+	        },
+	        getWorksheet : function(){
+	            return XLSX.utils.json_to_sheet(this.getExcelData());
+	        }
+	}
+	/* excel setting */
+	function s2ab(s) { 
+	    var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+	    var view = new Uint8Array(buf);  //create uint8array as viewer
+	    for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
+	    return buf;    
+	}
+	/* excel implement */
+	function exportExcel(){ 
+	    // step 1. workbook 생성
+	    var wb = XLSX.utils.book_new();
+
+	    // step 2. 시트 만들기 
+	    var newWorksheet = excelHandler.getWorksheet();
+	    
+	    // step 3. workbook에 새로만든 워크시트에 이름을 주고 붙인다.  
+	    XLSX.utils.book_append_sheet(wb, newWorksheet, excelHandler.getSheetName());
+
+	    // step 4. 엑셀 파일 만들기 
+	    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+
+	    // step 5. 엑셀 파일 내보내기 
+	    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), excelHandler.getExcelFileName());
+	}
+	var excelJsonArray = new Array();
+	var excelJson = new Object();
+
+	
+	function fn_excelDownload(){
+		searchFilterSet();
+		
+		searchFilter.pageCheck = 0;
+		
+		$.ajax({
+			type: 'POST',
+			url: '/busking/selectGroupListToJson.do',
+			dataType: 'JSON',
+			data: searchFilter,
+			success : function(data){
+				try {
+					jsonString = data.groupListJson;
+					jsonString = JSON.parse(jsonString);
+					console.log(jsonString);
+					var list = {
+						data: jsonString,
+						itemsCount : jsonString == 0 ? 0 : JSON.parse(data.groupListCnt)
+					}	
+					excelJsonArray = new Array();
+					$.each(jsonString, function(index, item){
+						excelJson = new Object();
+						excelJson.번호=index+1;
+						excelJson.팀명=item.TEAM_NAME;
+						excelJson.대표명=item.HEAD_NAME;
+						excelJson.휴대폰=item.PHONE;
+						excelJson.장르=item.GENRE;
+						switch(item.APPROVE_YN){
+							case 'Y': excelJson.승인여부='승인완료'; break;
+							case 'D': excelJson.승인여부='보류'; break;
+							case 'N': excelJson.승인여부='반려'; break;
+							case 'I': excelJson.승인여부='처리중'; break;
+							case 'C': excelJson.승인여부='접수완료'; break;
+						}
+						excelJson.팀인원=item.PERSONNEL;
+						excelJson.팀멤버=item.MBERS;
+						excelJson.지역=item.AREA;
+						excelJson.등록일=item.REG_DATE;
+						excelJson.장비=item.EQUIPMENT;
+						excelJson.팀관련링크=item.PROFILE;
+						excelJson.팀영상링크=item.SNS_VIDEO;
+						
+						excelJsonArray.push(excelJson);
+					})
+					exportExcel();
+				}
+				catch(e){
+					alert("오류 발생! \n"+e);
+				}
+			}
+		});
+		
+		
+	}
+	
 </script>
 
 </head>
@@ -221,6 +331,9 @@
 	<h1>단체 접수 관리</h1>
 	<c:import url="/busking/searchGroupView.do"/>
 	<div id="jsGrid"></div>
+	<div class="buttonarea floatright" style="text-align: right; margin-top:20px;">
+		<input type="button" id="excel_btn" class="" onclick="fn_excelDownload()" value="Excel Download">
+	</div>
 </div>	
 <div style="text-align:center;">
 	<div class="popup_modal" style="display:none;">

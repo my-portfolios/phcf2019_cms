@@ -199,7 +199,6 @@ public class SupportController {
 	@RequestMapping(value="/cms/support/status_modify.do")
 	public ModelAndView statusModify(@RequestParam(value="cms_id") String cms_id
 														, @RequestParam(value="use_yn") String use_yn) throws Exception {
-		System.out.println("여기보세요");
 		supportService.updateStatusModify(cms_id, use_yn);
 		
 		ModelAndView mav = new ModelAndView("jsonView");

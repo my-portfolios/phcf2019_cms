@@ -168,7 +168,7 @@
 		$(".popup_bg").css("display","");
 	}
 	
-	function search(){
+	function searchFilterSet(){
 		var searchType = $("#searchType").val();
 		var venue = $("#VENUE").val();
 		var result = $("#RESULT").val();
@@ -179,7 +179,9 @@
 		searchFilter.venueCnd = venue;
 		searchFilter.resultCnd = result;
 		searchFilter.keyword = keyword;
-		
+	}
+	function search(){
+		searchFilterSet();
 		$("#jsGrid").jsGrid("loadData");
 	}
 	
@@ -200,7 +202,9 @@
 	        },
 	        getWorksheet : function(){
 	            return XLSX.utils.json_to_sheet(this.getExcelData());
-	        }
+	        },
+	     
+		    
 	}
 	/* excel setting */
 	function s2ab(s) { 
@@ -213,7 +217,7 @@
 	function exportExcel(){ 
 	    // step 1. workbook 생성
 	    var wb = XLSX.utils.book_new();
-
+		
 	    // step 2. 시트 만들기 
 	    var newWorksheet = excelHandler.getWorksheet();
 	    
@@ -230,33 +234,56 @@
 	var excelJson = new Object();
 
 	function fn_excelDownload(){
-		console.log(jsonString);
-		$.each(jsonString, function(index, item){
-		 	excelJson = new Object();
-			excelJson.번호=index+1;
-			excelJson.행사명=item.EVENT_NAME;
-			excelJson.담당자이름=item.MANAGER_NAME;
-			excelJson.연락처=item.TELNUMBER;
-			excelJson.이메일=item.EMAIL;
-			//상태 / 접수 요청: R / 접수 취소: C / 접수 완료: S / 승인 완료: A / 승인 거절: D / 승인 취소: O / 취소 요청 : B
-			switch(item.RESULT){
-				case "R" : excelJson.상태="접수 요청"; break;
-				case "C" : excelJson.상태="접수 취소"; break;
-				case "S" : excelJson.상태="접수 완료"; break;
-				case "A" : excelJson.상태="승인 완료"; break;
-				case "D" : excelJson.상태="승인 거절"; break;
-				case "O" : excelJson.상태="승인 취소"; break;
-				case "B" : excelJson.상태="취소 요청"; break;
+		searchFilterSet();
+		
+		$.ajax({
+			type: 'POST',
+			url: '/venueReservation/selectReservationListToJson.do',
+			dataType: 'JSON',
+			data: searchFilter,
+			success : function(data){
+				try {
+					jsonString = data.venueReservationRegJson;
+					jsonString = JSON.parse(jsonString);
+					
+					var list = {
+						data: jsonString,
+						itemsCount : JSON.parse(data.venueReservationRegListCnt)
+					}	
+					excelJsonArray = new Array();
+					$.each(jsonString, function(index, item){
+					 	excelJson = new Object();
+						excelJson.번호=index+1;
+						excelJson.행사명=item.EVENT_NAME;
+						excelJson.담당자이름=item.MANAGER_NAME;
+						excelJson.연락처=item.TELNUMBER;
+						excelJson.이메일=item.EMAIL;
+						//상태 / 접수 요청: R / 접수 취소: C / 접수 완료: S / 승인 완료: A / 승인 거절: D / 승인 취소: O / 취소 요청 : B
+						switch(item.RESULT){
+							case "R" : excelJson.상태="접수 요청"; break;
+							case "C" : excelJson.상태="접수 취소"; break;
+							case "S" : excelJson.상태="접수 완료"; break;
+							case "A" : excelJson.상태="승인 완료"; break;
+							case "D" : excelJson.상태="승인 거절"; break;
+							case "O" : excelJson.상태="승인 취소"; break;
+							case "B" : excelJson.상태="취소 요청"; break;
+						}
+						
+						excelJson.대관장소=item.VENUE;
+						excelJson.대관시설=item.USE_ROOM;
+						excelJson.대관일시=item.useDateTimeLine;
+						excelJson.신청일시=item.CREATE_DT;
+						excelJson.수정일=item.UPDATE_DT;
+						excelJsonArray.push(excelJson);
+					})
+					exportExcel();
+				}
+				catch(e){
+					alert("오류 발생! \n"+e);
+				}
+				d.resolve(list);
 			}
-			
-			excelJson.대관장소=item.VENUE;
-			excelJson.대관시설=item.USE_ROOM;
-			excelJson.대관일시=item.useDateTimeLine;
-			excelJson.신청일시=item.CREATE_DT;
-			excelJson.수정일=item.UPDATE_DT;
-			excelJsonArray.push(excelJson);
-		})
-		exportExcel();
+		});
 	}
 	
 	

@@ -153,7 +153,15 @@
 								}
 							});
 						}
-						
+						else if(jsonId=="APPROVE_YN"){
+							switch(jsonText){
+								case 'Y': jsonText='승인완료'; break;
+								case 'D': jsonText='보류'; break;
+								case 'N': jsonText='반려'; break;
+								case 'I': jsonText='처리중'; break;
+								case 'C': jsonText='접수완료'; break;
+							}
+						}
 						if(jsonId != "closebtn"){
 							if(jsonText == "" || jsonText == null || typeof jsonText == "undefined" || jsonText == undefined) $(item2).text(""); 
 							else $(item2).text(jsonText);
@@ -190,6 +198,7 @@
 		$(".popup_bg").css("top","0");
 		$(".popup_bg").css("display","");
 	}
+	
 	function searchFilterSet(){
 		var genre = $("#genre").val();
 		var area = $("#areas").val();

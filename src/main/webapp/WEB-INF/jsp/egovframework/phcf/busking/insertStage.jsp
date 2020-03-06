@@ -58,15 +58,15 @@
 				</td>
 			</tr>
 			<tr>
-				<th><label for="DATE">날짜</label> <span class="pilsu">*</span></th>
+				<th><label for="DATE_BGN">날짜</label> <span class="pilsu">*</span></th>
 				<td class="left">				
 				<input type="text" id="datepickerBgn" class="datepicker2"  name="DATE_BGN" value="" readonly="readonly" />
-							~
-				<input type="text" id="datepickerEnd" class="datepicker2"  name="DATE_END" value="" onchange="javascript:chkdate();" readonly="readonly" />
+							<!-- ~
+				<input type="text" id="datepickerEnd" class="datepicker2"  name="DATE_END" value="" onchange="javascript:chkdate();" readonly="readonly" /> -->
 				<br>
-                <span style=" margin-top:100px;color="#4da314"">
+                <!-- <span style=" margin-top:100px;color="#4da314"">
 			              ※ 예시) 3월 매주 수요일 희망 :  3. 8 / 3. 15 / 3. 22 / 3. 29 (총 4번 신청) (O) &nbsp; / &nbsp; 3. 8 ~ 3. 29 (X) 
-                </span>              
+                </span>-->
 				</td>
 			</tr>
 			<tr>
@@ -158,12 +158,12 @@ $("#frm").validate({
        }
 });
 function fn_qna(){
-	var bgn = $("#datepickerBgn").val();
-	var end = $("#datepickerEnd").val();
-	if(bgn==null || end==null || bgn>end?1:0){
+	/*var bgn = $("#datepickerBgn").val();
+	 var end = $("#datepickerEnd").val();
+	 if(bgn==null || end==null || bgn>end?1:0){
 		alert("날짜를 확인해 주세요");
 		return false;
-	}
+	}*/ 
 	if($( "#frm" ).valid()){
 		if (confirm("신청 하시겠습니까??") == true){    //확인
  			return true;
@@ -177,7 +177,7 @@ var disabledDates = [/* "2020-02-25","2020-02-26","2020-02-28" */];
 
 $(function(){
     var dateBgn;
-    var dateEnd;
+    /* var dateEnd; */
     
     var minimumDate = new Date(new Date().setMonth(new Date().getMonth()));
     var maximumDate = new Date(new Date().setMonth(new Date().getMonth()+3));
@@ -209,7 +209,7 @@ $(function(){
     	            return {disabled: true}
     	        }
     		}
-        	var disabledDays = [0, 6];
+        	/* var disabledDays = [0, 6];
         	 if (cellType == 'day') {
                  var day = date.getDay(),
                      isDisabled = disabledDays.indexOf(day) != -1;
@@ -217,23 +217,23 @@ $(function(){
                  return {
                      disabled: isDisabled
                  }
-             }
+             } */
         },
         onSelect:function(formattedDate,date,inst){
         	dateBgn=date;
-        	if(dateBgn==null || dateEnd==null ||dateBgn == '' || dateEnd == '') {
+        	if(dateBgn==null ||dateBgn == ''/*  || dateEnd==null  || dateEnd == '' */) {
         		return; 
         	}
-    		if( dateBgn > dateEnd ) {
+    		/* if( dateBgn > dateEnd ) {
     			alert('시작날짜가 끝날짜 보다 큽니다. 다시 선택해주세요');
     			inst.el.value='';
     			return;
-    		}
+    		} */
         }
     });
     
     
-    var datepickerEnd = $("#datepickerEnd").datepicker({
+    /* var datepickerEnd = $("#datepickerEnd").datepicker({
         changeMonth:true,
         changeYear:true,
         language: 'ko',
@@ -280,6 +280,6 @@ $(function(){
     			return;
     		}
         }
-    });
+    }); */
 });
 </script>

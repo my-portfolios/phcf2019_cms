@@ -132,7 +132,7 @@
 			 	{name: 	'PHONE', 	title: '연락처', 	type: 'text', 	editing: false, width: 120, align: "center"},
 			 	{name: 	'REG_DATE', 	title: '등록일', 	type: 'text', 	editing: false, width: 110, align: "center"},
 			 	{name: 	'PLACE', 	title: '공간명', 	type: 'select', items: placeCode, readOnly: false, valueType: "string",valueField: "Id", textField: "Name", editing: true, width: 110, align: "center"},
-			 	{name: 	'DATE', 	title: '날짜', 	type: 'text', 	editing: true, width: 110, align: "center"},
+			 	{name: 	'DATE_BGN', 	title: '날짜', 	type: 'text', 	editing: true, width: 110, align: "center"},
 			 	{name: 	'TIME', 	title: '사용기한', 	type: 'select', items: timeCode, readOnly: false, valueType: "string",valueField: "Id", textField: "Name", editing: true, width: 110, align: "center"},
 			 	{name: 	'APPROVE_YN', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true,width: 110, align: "center"},
 			 	{type: 'control', editButton: true, deleteButton: true, width: 80,updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
@@ -147,7 +147,7 @@
 	        }
 		})
 		var dateBgn;
-	    var dateEnd;
+	    /* var dateEnd; */
 	    
 		var searchDateBgn = $("#searchDateBgn").datepicker({
 	        language: 'ko',
@@ -162,14 +162,14 @@
 	        prevText: '이전 달',
        	   onSelect:function(formattedDate,date,inst){
        			dateBgn=date;
-            	if(dateBgn==null || dateEnd==null ||dateBgn == '' || dateEnd == '') {
+            	if(dateBgn==null ||dateBgn == '' /* || dateEnd==null  || dateEnd == ''  */) {
             		return; 
             	}
-        		if( dateBgn > dateEnd ) {
+        		/* if( dateBgn > dateEnd ) {
         			alert('시작날짜가 끝날짜 보다 큽니다. 다시 선택해주세요');
         			inst.el.value='';
         			return;
-        		}
+        		} */
             }
 	    });
 		var searchDateEnd = $("#searchDateEnd").datepicker({
@@ -438,7 +438,7 @@
 							case 'C': excelJson.승인여부='접수완료'; break;
 						}
 						excelJson.장소=item.PLACE;
-						excelJson.날짜=item.DATE;
+						excelJson.날짜=item.DATE_BGN;
 						excelJson.시간=item.TIME;
 						excelJson.등록일=item.REG_DATE;
 						excelJson.장비=item.EQUIPMENT;
@@ -506,7 +506,7 @@
 				<td id="REG_DATE"></td>
 				
 				<th>날짜</th>
-				<td id="DATE" colspan="2"></td>
+				<td id="DATE_BGN" colspan="2"></td>
 			</tr>
 			<tr>
 				<th>프로그램명</th>

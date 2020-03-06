@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.phcf.common.service.ParamMap;
 import egovframework.phcf.nicepay.service.NicepayService;
-import egovframework.phcf.util.PropertiesUtil;
 
 @Controller
 public class NicepayController {
@@ -109,12 +109,12 @@ public class NicepayController {
 			paramMap.put("browser", browser);
 			// 모바일 결과 화면
 			mav = new ModelAndView("common/nicepay_mobile/payResult_utf");
-			mav.addObject("nicePayHomeLog", PropertiesUtil.getValue("nicePayHomeLog"));	// 모바일일 경우 nicePayHomeLog 폴더가 필요하다.
+			mav.addObject("nicePayHomeLog", EgovProperties.getProperty("nicePayHomeLog"));	// 모바일일 경우 nicePayHomeLog 폴더가 필요하다.
 		}
 		
 		mav.addObject("paramMap", paramMap);
-		mav.addObject("nicePayHome", PropertiesUtil.getValue("nicePayHome"));	// nicepay Home Dir
-		mav.addObject("merchantID", PropertiesUtil.getValue("merchantID"));			// nicepay 상점ID
+		mav.addObject("nicePayHome", EgovProperties.getProperty("nicePayHome"));	// nicepay Home Dir
+		mav.addObject("merchantID", EgovProperties.getProperty("merchantID"));			// nicepay 상점ID
 		
 		// 결과 메세지 받기
 		mav.addObject("AuthResultCode", String.valueOf( paramMap.get("AuthResultCode") ));
@@ -149,8 +149,8 @@ public class NicepayController {
 			mav = new ModelAndView("common/nicepay_mobile/payRequest_utf");
 		}
 		
-		mav.addObject("merchantKey", PropertiesUtil.getValue("merchantKey"));	// nicepay 상점키
-		mav.addObject("merchantID", PropertiesUtil.getValue("merchantID"));			// nicepay 상점ID
+		mav.addObject("merchantKey", EgovProperties.getProperty("merchantKey"));	// nicepay 상점키
+		mav.addObject("merchantID", EgovProperties.getProperty("merchantID"));			// nicepay 상점ID
 		
 		String userId = (String) WebUtils.getSessionAttribute(request, "USER_ID");
 		// 회원 결제일 경우 USER_ID를 추가해 넘겨준다.

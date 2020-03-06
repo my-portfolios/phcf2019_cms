@@ -31,13 +31,13 @@ import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.utl.cas.service.EgovSessionCookieUtil;
 import egovframework.phcf.common.service.ParamMap;
 import egovframework.phcf.nicepay.service.NicepayService;
 import egovframework.phcf.support.service.SupportService;
 import egovframework.phcf.util.JsonUtil;
 import egovframework.phcf.util.PagingUtil;
-import egovframework.phcf.util.PropertiesUtil;
 
 @SuppressWarnings("deprecation")
 @Controller
@@ -168,7 +168,7 @@ public class SupportController {
 		return mav;
 	}
 	
-	/**
+	/** 삭제
 	 * 후원관리 상세화면 보기
 	 * @param request
 	 * @return
@@ -199,6 +199,7 @@ public class SupportController {
 	@RequestMapping(value="/cms/support/status_modify.do")
 	public ModelAndView statusModify(@RequestParam(value="cms_id") String cms_id
 														, @RequestParam(value="use_yn") String use_yn) throws Exception {
+		System.out.println("여기보세요");
 		supportService.updateStatusModify(cms_id, use_yn);
 		
 		ModelAndView mav = new ModelAndView("jsonView");
@@ -320,13 +321,13 @@ public class SupportController {
 		
 		// CMS 이체 동의서 이미지 파일이 필요 하다..
 		// 이미지 파일 저장 디렉토리
-		File baseUploadDir = new File(PropertiesUtil.getValue("upload_root"));
+		File baseUploadDir = new File(EgovProperties.getProperty("Globals.fileStorePath"));
 		if(!baseUploadDir.exists()) {
 			throw new NullPointerException("이미지 저장 Root 경로가 존재 하지 않습니다.");
 		}
 		
 		// 복사 대상 디렉토리
-		File theBillBaseDir = new File(PropertiesUtil.getValue("theBillHome"));
+		File theBillBaseDir = new File(EgovProperties.getProperty("theBillHome"));
 		if(!theBillBaseDir.exists()) {
 			throw new NullPointerException("TheBill 모듈 저장 Root 경로가 존재 하지 않습니다.");
 		}
@@ -368,7 +369,7 @@ public class SupportController {
 		}
 		
 		// 변경 대상 파일명 이용기관코드.회원ID.1(이미지).jpg
-		String dealID = String.valueOf( PropertiesUtil.getValue("dealID") );
+		String dealID = String.valueOf( EgovProperties.getProperty("dealID") );
 		
 		// demon형 모듈에 send 할 수 있도록 파일명을 변환 하고
 		// demon형 모듈 send 디렉토리에 저장 한다.
@@ -379,7 +380,7 @@ public class SupportController {
 		// tb_support_cms 테이블에 저장 해야 된다..
 		supportService.compCmsInsertProc(paramMap);
 		
-		return "redirect:/cms/support/list.do";
+		return "redirect:/cms/support/listView.do";
 	}
 	
 	/**
@@ -410,7 +411,7 @@ public class SupportController {
 		// tb_support_cms 테이블에 저장 해야 된다..
 		supportService.compCardInsertProc(paramMap);
 		
-		return "redirect:/cms/support/list.do";
+		return "redirect:/cms/support/listView.do";
 	}
 	
 	/**
@@ -437,7 +438,7 @@ public class SupportController {
 		upsertSupportCgInfo((List)paramMap.get("fileList"), paramMap);
 		
 		
-		return "redirect:/cms/support/list.do";
+		return "redirect:/cms/support/listView.do";
 	}
 	
 	/**
@@ -466,13 +467,13 @@ public class SupportController {
 	public String cmsSupportUserProc(MultipartHttpServletRequest request) throws Exception {
 		
 		// 이미지 파일 저장 디렉토리
-		File baseUploadDir = new File(PropertiesUtil.getValue("upload_root"));
+		File baseUploadDir = new File(EgovProperties.getProperty("Globals.fileStorePath"));
 		if(!baseUploadDir.exists()) {
 			throw new NullPointerException("이미지 저장 Root 경로가 존재 하지 않습니다.");
 		}
 		
 		// 복사 대상 디렉토리
-		File theBillBaseDir = new File(PropertiesUtil.getValue("theBillHome"));
+		File theBillBaseDir = new File(EgovProperties.getProperty("theBillHome"));
 		if(!theBillBaseDir.exists()) {
 			throw new NullPointerException("TheBill 모듈 저장 Root 경로가 존재 하지 않습니다.");
 		}
@@ -487,6 +488,7 @@ public class SupportController {
 		String order_num = nicepayService.getOrderNumber(); 	// 주문번호를 생성한다.
 		paramMap.put("order_num", order_num);
 		
+		System.out.println("paramMap    " + paramMap);
 		supportService.insertUserSupportLog(paramMap);
 		
 		// CMS동의 인증서는 화면에서 web api를 통해 미리 전송한다.(이거 안된다고~~~~!!!!!!!)
@@ -495,6 +497,7 @@ public class SupportController {
 		// 해당 이미지 파일을 가져와 복사해서 
 		// 서버에 저장된 물리 경로를 이용해 해당 파일을 가져와야 된다.
 		List<ParamMap> fileList = (List<ParamMap>)paramMap.get("fileList");
+		System.out.println("fileList " + fileList);
 		int fileAgreeindex = getFileIndex( fileList, "attach_argree" );
 		ParamMap fileMap = fileList.get(fileAgreeindex);	// 등록된 파일은 무조건 1개이어야 한다.
 		
@@ -514,7 +517,7 @@ public class SupportController {
 		}
 		
 		// 변경 대상 파일명 이용기관코드.회원ID.1(이미지).jpg
-		String dealID = String.valueOf( PropertiesUtil.getValue("dealID") );
+		String dealID = String.valueOf( EgovProperties.getProperty("dealID") );
 		
 		// demon형 모듈에 send 할 수 있도록 파일명을 변환 하고
 		// demon형 모듈 send 디렉토리에 저장 한다.
@@ -530,7 +533,7 @@ public class SupportController {
 		// 회원 등록 및 출금신청 등록인 스케줄러에 의해 자동으로 등록 된다.
 		// CmsUserCreateCronQuartz & CmsPayCreateCronQuartz
 		
-		return "redirect:/cms/support/list.do";
+		return "redirect:/cms/support/listView.do";
 	}
 	
 	/**
@@ -665,7 +668,7 @@ public class SupportController {
 	public ModelAndView InsertinsertAgreeImg(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		// 이미지 파일 저장 디렉토리
-		File baseUploadDir = new File(PropertiesUtil.getValue("upload_root"));
+		File baseUploadDir = new File(EgovProperties.getProperty("Globals.fileStorePath"));
 		if(!baseUploadDir.exists()) {
 			throw new NullPointerException("이미지 저장 Root 경로가 존재 하지 않습니다.");
 		}
@@ -694,8 +697,8 @@ public class SupportController {
 			throw new NullPointerException("전송할 CMS이체 동의서 파일이 존재 하지 않습니다.");
 		}
 		
-		String dealID = String.valueOf( PropertiesUtil.getValue("dealID") );
-		String apiKey = String.valueOf( PropertiesUtil.getValue("apiKey") );
+		String dealID = String.valueOf( EgovProperties.getProperty("dealID") );
+		String apiKey = String.valueOf( EgovProperties.getProperty("apiKey") );
 		
 		response.setContentType("application/json; charset=utf-8");
 		

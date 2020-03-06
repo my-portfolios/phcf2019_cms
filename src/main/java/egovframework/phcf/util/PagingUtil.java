@@ -2,32 +2,13 @@ package egovframework.phcf.util;
 
 import java.util.HashMap;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.sun.star.lang.NullPointerException;
 
 import egovframework.phcf.common.service.ParamMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import org.apache.commons.lang3.StringUtils;
 
 public class PagingUtil {
-	
-	// paramMap에 pageIndex 와 pageSize가 있다면 쿼리 LIMIT 구문의 OFFSET 값을 계산해 돌려준다.
-	public static HashMap<String, Object> addFirstRecordIndex(HashMap<String, Object> paramMap) throws Exception {
-		if( paramMap.get("pageIndex") == null || paramMap.get("pageSize") == null) {
-			throw new NullPointerException("pageIndex 또는 pageSize 값이 존재 하지 않습니다.");
-		}
-		
-		PaginationInfo paginationInfo = new PaginationInfo();
-		
-        paginationInfo.setCurrentPageNo(Integer.valueOf( String.valueOf( paramMap.get("pageIndex") ) ));
-        paginationInfo.setRecordCountPerPage(Integer.valueOf( String.valueOf( paramMap.get("pageSize") ) ));
-        paginationInfo.setPageSize(Integer.valueOf( String.valueOf( paramMap.get("pageSize") ) ));
-        
-        paramMap.put("firstIndex", paginationInfo.getFirstRecordIndex());
-        
-        return paramMap;
-	}
-	
 	/**
 	 * <b>Page Navigation</b></p>
 	 * @param paramMap
@@ -73,121 +54,13 @@ public class PagingUtil {
 	 * @return
 	 */
 	private static String pageNavi(int pageNo, int totCnt, int pageSize, int blockSize, String siteGubun, String pageType) {
-		if("F".equalsIgnoreCase(siteGubun)) { // 프론트 일 경우
-			if("D".equalsIgnoreCase(pageType)) {
-				return pageFrontDefNavi(pageNo, totCnt, pageSize, blockSize);
-			} else {
-				return pageFrontSubNavi(pageNo, totCnt, pageSize, blockSize);
-			}
-		} else { // 관리자 일 경우
-			if("D".equalsIgnoreCase(pageType)) {
-				return pageAdminDefNavi(pageNo, totCnt, pageSize, blockSize);
-			} else {
-				return pageAdminSubNavi(pageNo, totCnt, pageSize, blockSize);
-			}
+		if("D".equalsIgnoreCase(pageType)) {
+			return pageAdminDefNavi(pageNo, totCnt, pageSize, blockSize);
+		} else {
+			return pageAdminSubNavi(pageNo, totCnt, pageSize, blockSize);
 		}
 	}
-	
-	/**
-	 * 프론트 기본 페이징
-	 * @param pageNo
-	 * @param totCnt
-	 * @param pageSize
-	 * @param blockSize
-	 * @return
-	 */
-	private static String pageFrontDefNavi(int pageNo, int totCnt, int pageSize, int blockSize) {
-		/*
-			<a href="#" class="btn"><img src="${img_src}/btn/btn_prev02.gif" alt="이전" /></a>
-			<a href="#" class="btn"><img src="${img_src}/btn/btn_prev01.gif" alt="이전" /></a>
-			<span>
-				<a href="" class="fir"><strong>1</strong></a>
-				<a href="">2</a>
-				<a href="">3</a>
-				<a href="">4</a>
-				<a href="">5</a>
-				<a href="">6</a>
-				<a href="">7</a>
-				<a href="">8</a>
-				<a href="">9</a>
-				<a href="">10</a>
-			</span>
-			<a href="#" class="btn"><img src="${img_src}/btn/btn_next01.gif" alt="다음" /></a>
-			<a href="#" class="btn"><img src="${img_src}/btn/btn_next02.gif" alt="다음" /></a>
-		 */
-	
-		String imgSrc = PropertiesUtil.getValue("front_kr_img_src");
-		String nextImg = imgSrc + "/btn/btn_next01.gif";
-		String next10Img = imgSrc + "/btn/btn_next02.gif";
-		String prevImg = imgSrc + "/btn/btn_prev01.gif";
-		String prev10Img = imgSrc + "/btn/btn_prev02.gif";
 		
-		int totPageCnt = (totCnt / pageSize) + (totCnt % pageSize > 0 ? 1 : 0);
-		int totBlockCnt = (totPageCnt / blockSize) + (totPageCnt % blockSize > 0 ? 1 : 0);
-		int blockNo = (pageNo / blockSize) + (pageNo % blockSize > 0 ? 1 : 0);
-		int startPageNo = (blockNo - 1) * blockSize + 1;
-		int endPageNo = blockNo * blockSize;
-	
-		if (endPageNo > totPageCnt) {
-			endPageNo = totPageCnt;
-		}
-	
-		int prevBlockPageNo = (blockNo - 1) * blockSize;
-		int nextBlockPageNo = blockNo * blockSize + 1;
-	
-		StringBuilder strHTML = new StringBuilder();
-	
-		if (totPageCnt > 1) {
-			strHTML.append("<a href='#' onclick='fn_page(1); return false;' class='pagep' title='첫 페이지'>&lt;&lt;</a>\n ");
-		}
-	
-		if (blockNo > 1) {
-			strHTML.append("<a href='#' onclick='fn_page(" + prevBlockPageNo + "); return false;' class='pagep' title='이전 10페이지'>&lt;</a>\n");
-		}
-	
-		strHTML.append("<span>\n");
-		for (int i = startPageNo; i <= endPageNo; i++) {
-			String style = "";
-			if(i == startPageNo){
-				style = "fir";
-			}
-			
-			if (i == pageNo) {
-				strHTML.append("<a href='#' title='" + i + " 페이지' class='onpage " + style + "' onclick='fn_page(" + i + "); return false;' ><strong>" + i + "</strong></a>\n");
-			}else{
-				strHTML.append("<a href='#' title='" + i + " 페이지' class='" + style + "' onclick='fn_page(" + i + "); return false;'>" + i + "</a>\n");
-			}
-		}
-	
-		if (totCnt == 0) {
-			strHTML.append("1\n");
-		}
-	
-		strHTML.append("</span>");
-	
-		if (blockNo < totBlockCnt) {
-			strHTML.append("<a href='#' onclick='fn_page(" + nextBlockPageNo + "); return false;' class='pagen' title='다음 10 페이지'>&gt;</a>\n");
-		}
-	
-		if (totPageCnt > 1) {
-			strHTML.append("<a href='#' onclick='fn_page(" + totPageCnt + "); return false;' class='pagen' title='마지막 페이지'>&gt;&gt;</a>\n");
-		}
-	
-		return strHTML.toString();
-	}
-	
-	/**
-	 * 프론트 서브 페이징
-	 * @param pageNo
-	 * @param totCnt
-	 * @param pageSize
-	 * @param blockSize
-	 * @return
-	 */
-	private static String pageFrontSubNavi(int pageNo, int totCnt, int pageSize, int blockSize) {
-		return null;
-	}
-	
 	/**
 	 * 관리자 기본 페이징
 	 * @param pageNo
@@ -278,6 +151,23 @@ public class PagingUtil {
 	 */
 	private static String pageAdminSubNavi(int pageNo, int totCnt, int pageSize, int blockSize) {
 		return null;
+	}
+	
+	// paramMap에 pageIndex 와 pageSize가 있다면 쿼리 LIMIT 구문의 OFFSET 값을 계산해 돌려준다.
+	public static HashMap<String, Object> addFirstRecordIndex(HashMap<String, Object> paramMap) throws Exception {
+		if( paramMap.get("pageIndex") == null || paramMap.get("pageSize") == null) {
+			throw new NullPointerException("pageIndex 또는 pageSize 값이 존재 하지 않습니다.");
+		}
+		
+		PaginationInfo paginationInfo = new PaginationInfo();
+		
+        paginationInfo.setCurrentPageNo(Integer.valueOf( String.valueOf( paramMap.get("pageIndex") ) ));
+        paginationInfo.setRecordCountPerPage(Integer.valueOf( String.valueOf( paramMap.get("pageSize") ) ));
+        paginationInfo.setPageSize(Integer.valueOf( String.valueOf( paramMap.get("pageSize") ) ));
+        
+        paramMap.put("firstIndex", paginationInfo.getFirstRecordIndex());
+        
+        return paramMap;
 	}
 	
 }

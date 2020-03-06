@@ -11,16 +11,17 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import egovframework.com.cmm.EgovWebUtil;
-import egovframework.phcf.util.FileUtil;
-import egovframework.phcf.util.PropertiesUtil;
-import egovframework.phcf.util.ThumnailUtil;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.logging.log4j.util.PropertiesUtil;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import egovframework.com.cmm.EgovWebUtil;
+import egovframework.com.cmm.service.EgovProperties;
+import egovframework.phcf.util.FileUtil;
+import egovframework.phcf.util.ThumnailUtil;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class ParamMap extends LinkedHashMap {
@@ -230,22 +231,22 @@ System.out.println("구희준 : clean xss");
 					extKeyName = inputName + "_etc_ext";
 				}
 				
-				if(StringUtils.isEmpty(PropertiesUtil.getValue(limitKeyName))) {
+				if(StringUtils.isEmpty(EgovProperties.getProperty(limitKeyName))) {
 					limitKeyName = limitKeyName.replaceAll(inputName, "default");
 				}
-				if(StringUtils.isEmpty(PropertiesUtil.getValue(extKeyName))) {
+				if(StringUtils.isEmpty(EgovProperties.getProperty(extKeyName))) {
 					extKeyName = extKeyName.replaceAll(inputName, "default");
 				}
-				if(StringUtils.isEmpty(PropertiesUtil.getValue(listThumnailKeyName))) {
+				if(StringUtils.isEmpty(EgovProperties.getProperty(listThumnailKeyName))) {
 					listThumnailKeyName = listThumnailKeyName.replaceAll(inputName, "default");
 				}
-				if(StringUtils.isEmpty(PropertiesUtil.getValue(viewThumnailKeyName))) {
+				if(StringUtils.isEmpty(EgovProperties.getProperty(viewThumnailKeyName))) {
 					viewThumnailKeyName = viewThumnailKeyName.replaceAll(inputName, "default");
 				}
 				
 				// step 1 - 파일 허용 확장자 확인
-				if(!"ENC".equals(PropertiesUtil.getValue(extKeyName))) {
-					String fileAccessExt = PropertiesUtil.getValue(extKeyName);
+				if(!"ENC".equals(EgovProperties.getProperty(extKeyName))) {
+					String fileAccessExt = EgovProperties.getProperty(extKeyName);
 					if(fileAccessExt.toUpperCase().indexOf(fileExt.toUpperCase()) == -1) {
 						put("fileErrorMsg", "[" + fileExt + "] 확장자는 등록하실 수 없습니다.");
 						put("fileErrorNum", "0");
@@ -254,8 +255,8 @@ System.out.println("구희준 : clean xss");
 				}
 				
 				// step 2 - 파일 용량 제한 확인
-				if(PropertiesUtil.getLongValue(limitKeyName) != -1) {
-					long fileAccessSize = PropertiesUtil.getLongValue(limitKeyName);
+				if(Long.parseLong(EgovProperties.getProperty(limitKeyName)) != -1) {
+					long fileAccessSize =  Long.parseLong(EgovProperties.getProperty(limitKeyName));
 					if(formFile.getSize() > fileAccessSize) {
 						put("fileErrorMsg", "파일 제한 용량을 초과하여 등록하실 수 없습니다.");
 						put("fileErrorNum", "1");
@@ -264,7 +265,7 @@ System.out.println("구희준 : clean xss");
 				}
 				
 				// step 3 - file upload
-				ParamMap fileMap = FileUtil.upload(formFile, PropertiesUtil.getValue("upload_root"));
+				ParamMap fileMap = FileUtil.upload(formFile, EgovProperties.getProperty("Globals.fileStorePath"));
 				
 				if(fileMap != null) {
 					fileMap.put("display_order", fileNum);
@@ -276,8 +277,8 @@ System.out.println("구희준 : clean xss");
 						String uploadFileName = fileMap.getString("upload_file_name"); // 업로드 파일 명
 						
 						// 목록용 썸네일
-						if(!"-1".equals(PropertiesUtil.getValue(listThumnailKeyName))) {
-							sizeArr = PropertiesUtil.getValue(listThumnailKeyName).split(",");
+						if(!"-1".equals(EgovProperties.getProperty(listThumnailKeyName))) {
+							sizeArr = EgovProperties.getProperty(listThumnailKeyName).split(",");
 							if("-1".equals(sizeArr[0]) || "-1".equals(sizeArr[1])) {
 								new ThumnailUtil(fileMap, filePath, uploadFileName, Integer.parseInt(sizeArr[0].trim()), Integer.parseInt(sizeArr[1].trim()), "L", false);
 							} else {
@@ -286,8 +287,8 @@ System.out.println("구희준 : clean xss");
 						}
 						
 						// 상세용 썸네일
-						if(!"-1".equals(PropertiesUtil.getValue(viewThumnailKeyName))) {
-							sizeArr = PropertiesUtil.getValue(viewThumnailKeyName).split(",");
+						if(!"-1".equals(EgovProperties.getProperty(viewThumnailKeyName))) {
+							sizeArr = EgovProperties.getProperty(viewThumnailKeyName).split(",");
 							if("-1".equals(sizeArr[0]) || "-1".equals(sizeArr[1])) {
 								new ThumnailUtil(fileMap, filePath, uploadFileName, Integer.parseInt(sizeArr[0].trim()), Integer.parseInt(sizeArr[1].trim()), "V", false);
 							} else {

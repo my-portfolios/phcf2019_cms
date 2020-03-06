@@ -296,7 +296,7 @@
 			, sc_tp, sc_price, sc_price_tp, order_num
 			, ins_id )
 		VALUES
-		( SEQ_TB_SUPPORT_LOG.NEXT_VALUE
+		( 	(select * from (select max(sp_id)+1 from tb_support_log) seq)
 			, #{sp_mh_tp}, #{manager_id}, #{user_tp}, #{user_comp_nm}, #{user_comp_number}, #{manager_nm}
 			, #{comp_manager_phone1}, #{comp_manager_phone2}, #{comp_manager_phone3}
 			, #{comp_manager_email1}, #{comp_manager_email2}, #{tax_yn}
@@ -314,7 +314,7 @@
 			, sc_tp, sc_price, sc_price_tp, order_num
 			, ins_id )
 		VALUES
-		( SEQ_TB_SUPPORT_LOG.NEXT_VALUE
+		( (select * from (select max(sp_id)+1 from tb_support_log) seq)
 			, #{sp_mh_tp}, #{manager_id}, #{user_tp}, #{user_comp_nm}, #{user_comp_number}, #{manager_nm}
 			, #{comp_manager_phone1}, #{comp_manager_phone2}, #{comp_manager_phone3}
 			, #{comp_manager_email1}, #{comp_manager_email2}
@@ -400,7 +400,7 @@
 			, sc_price_tp	/* 결제방식 */
 			, ins_id			/* 컬럼생성자ID */
 		) VALUES (
-			SEQ_TB_SUPPORT_LOG.NEXT_VALUE
+			(select * from (select max(sp_id)+1 from tb_support_log) seq)
 			, #{sp_mh_tp}
 			, #{manager_id}
 			, #{user_tp}
@@ -447,20 +447,20 @@
 	<select id="cmsGetUserInfo" parameterType="java.lang.String" resultType="egovframework.phcf.common.service.ParamMap">
 		/* 관리자화면 userId를 이용해 회원 정보를 돌려준다. */
 		SELECT 
-			mber_id			/* 유저ID */
-			, SUBSTR(mber_email_adres, 1, INSTR(mber_email_adres, '@') - 1) AS mber_email_adres1		/* 유저email1 */
-			, SUBSTR(mber_email_adres, INSTR(mber_email_adres, '@') + 1) AS mber_email_adres2			/* 유저email2 */
-			, SUBSTR(mbtlnum, 1, 3) AS mbtlnum1	/* 폰번호1 */
+			mber_id	AS user_id		/* 유저ID */
+			, SUBSTR(mber_email_adres, 1, INSTR(mber_email_adres, '@') - 1) AS user_email1		/* 유저email1 */
+			, SUBSTR(mber_email_adres, INSTR(mber_email_adres, '@') + 1) AS user_email2			/* 유저email2 */
+			, SUBSTR(mbtlnum, 1, 3) AS user_phone1	/* 폰번호1 */
 			, CASE
-			WHEN LENGTH(mbtlnum) = 11 THEN SUBSTR(mbtlnum, 4, 4)
+			WHEN LENGTH(mbtlnum) = 11 THEN SUBSTR(mbtlnum, 4, 4) 
 			ELSE SUBSTR(mbtlnum, 4, 3)
-			END AS mbtlnum
-			, RIGHT(mbtlnum, 4) AS mbtlnum3			/* 폰번호3 */
-			, mber_nm	/* 사용자 이름 */
+			END AS user_phone2
+			, RIGHT(mbtlnum, 4) AS user_phone3			/* 폰번호3 */
+			, mber_nm as user_name	/* 사용자 이름 */
 		FROM 
 			COMTNGNRLMBER
 		WHERE 
-			mber_id = #{mber_id}
+			mber_id = #{userId}
 	</select>
 	
 	<select id="cmsUserChkCnt" parameterType="java.lang.String" resultType="java.lang.Integer">
@@ -470,7 +470,7 @@
 		FROM 
 			COMTNGNRLMBER
 		WHERE 
-			mber_id = #{mber_id}
+			mber_id = #{userId}
 	</select>
 	
 	<insert id="insertUserSupportLog" parameterType="egovframework.phcf.common.service.ParamMap">
@@ -492,7 +492,7 @@
 				, sc_price_tp	/* 결제방식 */
 				, ins_id			/* 컬럼생성자ID */ )
 		VALUES (
-				SEQ_TB_SUPPORT_LOG.NEXT_VALUE
+				(select * from (select max(sp_id)+1 from tb_support_log) seq)
 				, 'M'
 				, #{user_id}
 				, #{user_tp} 
@@ -528,7 +528,7 @@
 		SET 
 			user_grade = #{user_grade} 
 		WHERE 
-			mber_id = #{mber_id}
+			mber_id = #{userId}
 	</update>
 	
 	<select id="getGradeCodeList" parameterType="java.lang.String" resultType="egovframework.phcf.common.service.ParamMap">

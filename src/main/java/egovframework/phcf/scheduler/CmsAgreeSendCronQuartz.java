@@ -42,7 +42,8 @@ public class CmsAgreeSendCronQuartz extends TheBillCronQuartz {
 		
 		long time = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-		System.out.println("== CMS이체 동의서 전송 내역 체크를 시작 합니다. : current time = " + sdf.format(time));
+		System.out.println("===== CmsAgreeSendCronQuartz ===== \n");
+		System.out.println("=============== CMS이체 동의서 전송 내역 체크를 시작 합니다. : current time = " + sdf.format(time));
 		
 		try {
 			

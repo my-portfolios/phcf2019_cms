@@ -49,12 +49,12 @@
 		<li class="menu noicon" >
             <a href="${pageContext.request.contextPath}/EgovContent.do" target="_content" class="noicon" >Dashboard</a>
         </li>
-		<c:forEach var="menu1" items="${AllMenuList}" varStatus="status">
+		<c:forEach var="menu1" items="${HeaderMenuList}" varStatus="status">
 			<c:if test="${menu1.depth2 == 0 && menu1.depth3 == 0}">
 				<li class="menu">
 				<a>${menu1.menuNm}</a>
 					<ul class="hide">
-					<c:forEach var="menu2" items="${AllMenuList}" varStatus="status">
+					<c:forEach var="menu2" items="${HeaderMenuList}" varStatus="status">
 					<c:if test="${menu1.depth1 == menu2.depth1 && menu2.depth2 > 0}">
 						<li>
 							<a href="${menu2.link }" target="${menu2.target }">${menu2.menuNm }</a>							

@@ -451,7 +451,7 @@ $(document).ready(function() {
 		if(managerId == '' || managerId.length < 1) { return; }
 		
 		$.post('${ctx}/cms/support/userChkProc.do', {userId: managerId}, function(result) {
-
+			result = JSON.parse(result);
 			if(result.state) { return; } // 정상회원일 경우 넘어간다.
 
 			alert('사이트에 가입된 회원이 아닙니다.');
@@ -560,7 +560,7 @@ $(document).ready(function() {
 				 // 1회원당 한개의 연결 정보만 보유 하여야 한다.
 				 var accUserIdVal = $('[name="acc_user_id"]').val();
 				 $.post('/cms/support/checkAgreeUser.do', {accUserId: accUserIdVal}, function(result) {
-
+					 result = JSON.parse(result);
 					if(result.state) {
 						// 등록된 정기 후원 정보가 있으면 관련 내용을 알려 주어야 한다.
 						alert('[' + accUserIdVal + '] 회원은 이미 등록된 정기 후원 정보가 있습니다.');
@@ -611,7 +611,7 @@ $(document).ready(function() {
 
 					var accUserIdVal = $('[name="card_user_id"]').val();
 					 $.post('/cms/support/checkAgreeUser.do', {accUserId: accUserIdVal}, function(result) {
-
+						 result = JSON.parse(result);
 						if(result.state) {
 							// 등록된 정기 후원 정보가 있으면 관련 내용을 알려 주어야 한다.
 							alert('[' + accUserIdVal + '] 회원은 이미 등록된 정기 후원 정보가 있습니다.');
@@ -640,7 +640,7 @@ $(document).ready(function() {
 
 					var accUserIdVal = $('[name="acc_user_id"]').val();
 					 $.post('/cms/support/checkAgreeUser.do', {accUserId: accUserIdVal}, function(result) {
-
+						 result = JSON.parse(result);
 						if(result.state) {
 							// 등록된 정기 후원 정보가 있으면 관련 내용을 알려 주어야 한다.
 							alert('[' + accUserIdVal + '] 회원은 이미 등록된 정기 후원 정보가 있습니다.');
@@ -805,7 +805,7 @@ $(document).ready(function() {
 		if(compNm == '' || compNm.length < 1 || compNumber == '' || compNumber.length < 1) { return; }
 
 		$.post('${ctx}/cms/support/compChkProc.do', {userTp: userTp, compNm: compNm, compNumber: compNumber}, function(result) {
-
+			result = JSON.parse(result);
 			if(!result.state) {
 				alert('등록된 기업이 없습니다.');
 				return;
@@ -838,7 +838,7 @@ $(document).ready(function() {
 		if(this.value.length < 1) { return; }
 		
 		$.post('${ctx}/cms/support/userChkProc.do', {userId: this.value}, function(result) {
-
+			result = JSON.parse(result);
 			if(!result.state) {
 
 				alert('[' + result.userId + ']은(는) 등록되지 않은 회원 입니다.');

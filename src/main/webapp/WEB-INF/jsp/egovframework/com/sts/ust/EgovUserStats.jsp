@@ -237,7 +237,7 @@ function getNextWeek(v,t){
                   <input type="text" name="tDate" size="10" tabindex="2" title="<spring:message code="comStsUst.userStats.toDate" />" id="tDate" value="${statsInfo.toDate}"/> <!-- 종료일자 -->
 				
 				<label for="" style="margin-left:5px"><spring:message code="comStsUst.userStats.periodKind" /> : </label> <!-- 기간구분 -->
-				<select id="PD" name="PD" class="select" onchange="fnChangePdKind();" disabled="disabled" title="<spring:message code="comStsUst.userStats.periodKind" />">
+				<select id="PD" name="PD" class="select" onchange="fnChangePdKind();" title="<spring:message code="comStsUst.userStats.periodKind" />">
 				    <option selected value=''><spring:message code="comStsUst.userStats.select" /></option> <!-- 선택 -->
 				    <option value='Y'><spring:message code="comStsUst.userStats.byYear" /></option> <!-- 연도별 -->
 				    <option value='M'><spring:message code="comStsUst.userStats.byMonth" /></option> <!-- 월별 -->

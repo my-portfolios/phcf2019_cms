@@ -7,9 +7,19 @@
 	<select id="selectUserStats" parameterType="egovframework.com.sts.com.StatsVO" resultType="egovframework.com.sts.com.StatsVO">
 		SELECT SUM(USER_CO) AS statsCo
 		     <!-- 기간검색(일) -->
-		     <if test='pdKind == "D"'>
-		     , CONCAT(CONCAT(CONCAT(CONCAT(SUBSTR(OCCRRNC_DE, 1, 4), '-'), SUBSTR(OCCRRNC_DE, 5, 2)), '-'), SUBSTR(OCCRRNC_DE, 7, 2)) AS statsDate
-		     </if>
+		     <choose>
+			     <when test='pdKind == "D"'>
+			     , CONCAT(CONCAT(CONCAT(CONCAT(SUBSTR(OCCRRNC_DE, 1, 4), '-'), SUBSTR(OCCRRNC_DE, 5, 2)), '-'), SUBSTR(OCCRRNC_DE, 7, 2)) AS statsDate
+			     </when>
+			     <!-- 기간검색(월) -->
+			     <when test='pdKind == "M"'>
+			     , CONCAT(CONCAT(SUBSTR(OCCRRNC_DE, 1, 4), '-'), SUBSTR(OCCRRNC_DE, 5, 2)) AS statsDate
+			     </when>
+			     <!-- 기간검색(년) -->
+			     <when test='pdKind == "Y"'>
+			     , SUBSTR(OCCRRNC_DE, 1, 4) AS statsDate
+			     </when>
+		     </choose>
 		  FROM COMTSUSERSUMMARY
 	 	 WHERE 1 = 1
 		   <!-- 시작일자~종료일자 기간제한 -->

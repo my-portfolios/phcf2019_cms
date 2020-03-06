@@ -218,14 +218,14 @@
 	/* 결제관련 주문번호 생성 쿼리 */
 	SELECT 
 		CONCAT('PHCF'
-			, TO_CHAR(SYSDATE, 'YYYYMM')
+			, DATE_FORMAT(NOW(), '%Y%m')
 			, LPAD((
 				SELECT
 					COUNT(1) + 1
 				FROM 
 					tb_support_log
 				WHERE 
-					create_dt >= CONCAT(TO_CHAR(SYSDATE, 'YYYYMM'), '01 00:00:00')
+					create_dt >= CONCAT(DATE_FORMAT(NOW(), '%Y%m'), '01 00:00:00')
 			), 5, '0')
 		) AS orderNum
 </select>

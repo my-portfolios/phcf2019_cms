@@ -17,6 +17,8 @@
 		<!-- 5분마다 수행 하여야 함. -->
 		<property name="cronExpression" value="0 0/5 * * * ?" />
 	</bean>
+	
+	
 	<!-- ///////////////////////////////////////////////////////////////////////////// -->
 	<!-- CMS 자동이체 유저 생성 및 전송 -->
 	<bean id="cmsUserCreateSenderJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -86,11 +88,11 @@
 	<bean id="cmsSupportScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-<!-- 				<ref bean="cmsAgreeSenderTrigger" /> -->
-<!-- 				<ref bean="cmsUserCreateSenderTrigger" /> -->
-<!-- 				<ref bean="cmsUserRecvTrigger" /> -->
-<!-- 				<ref bean="cmsPayCreateSenderTrigger" /> -->
-<!-- 				<ref bean="cmsPayRecvTrigger" /> -->
+ 				<ref bean="cmsAgreeSenderTrigger" /> 
+ 				<ref bean="cmsUserCreateSenderTrigger" /> 
+ 				<ref bean="cmsUserRecvTrigger" /> 
+ 				<ref bean="cmsPayCreateSenderTrigger" />
+ 				<ref bean="cmsPayRecvTrigger" />
 			</list>
 		</property>
 	</bean>

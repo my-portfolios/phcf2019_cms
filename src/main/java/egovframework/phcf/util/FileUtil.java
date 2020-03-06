@@ -13,18 +13,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import egovframework.phcf.common.service.ParamMap;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import egovframework.com.cmm.service.EgovProperties;
+import egovframework.phcf.common.service.ParamMap;
 
 @SuppressWarnings("unchecked")
 public class FileUtil {
@@ -153,11 +152,11 @@ public class FileUtil {
 	public void download(HttpServletRequest request,
 			HttpServletResponse response, String realFileName,
 			String uploadFileName, String type, String thum) throws Exception {
-		String uploadRoot = PropertiesUtil.getValue("upload_root"); // upload
+		String uploadRoot = EgovProperties.getProperty("Globals.fileStorePath"); // upload
 																	// root
 																	// directory
 		if ("E".equals(type)) {
-			uploadRoot = PropertiesUtil.getValue("upload_root_editor"); // upload
+			uploadRoot = EgovProperties.getProperty("Globals.fileStorePath"); // upload
 																		// root
 																		// directory
 		}
@@ -274,7 +273,7 @@ public class FileUtil {
 			long fileSize, String mimetype, String type) throws Exception {
 
 		String mime = mimetype;
-		String charSet = PropertiesUtil.getValue("character_set");
+		String charSet = EgovProperties.getProperty("character_set");
 
 		if (mimetype == null || mimetype.length() == 0) {
 			mime = "application/octet-stream;";
@@ -539,7 +538,7 @@ public class FileUtil {
 		String content = "";
 		InputStreamReader reader = null;
 		BufferedReader br = null;
-		String rootPath = PropertiesUtil.getValue("mail_form_root");
+		String rootPath = EgovProperties.getProperty("Globals.fileStorePath");
 
 		try {
 			reader = new InputStreamReader(new FileInputStream(request

@@ -182,7 +182,8 @@
 	        	<div style="width: 300px" class="inputtextarea">
 	       		 	<input type="text" class="resetinput" name="scg_url" value="">
 	       		 </div>
-	       		 ex) http://www.hubizict.com
+	       		 ex) http://www.hubizict.com (반드시 http://를 기재하시기 바랍니다.)<br>
+	       		 없을 경우 #을 넣어주세요.
 	        </td>
 	    </tr>
 	    <tr>

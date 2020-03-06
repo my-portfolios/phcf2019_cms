@@ -131,13 +131,13 @@ System.out.println("구희준 : clean xss");
 			values = request.getParameterValues(param);
 			if (values.length == 1) {
 //System.out.println("구희준 : values[0] 전 " + values[0]);	
-				values[0] = EgovWebUtil.clearXSSMinimum(values[0]);				
+				/*values[0] = EgovWebUtil.clearXSSMinimum(values[0]);				
 				values[0] = values[0].replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 				values[0] = values[0].replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;");
 				values[0] = values[0].replaceAll("'", "&#39;");
 				values[0] = values[0].replaceAll("eval\\((.*)\\)", "");
 				values[0] = values[0].replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
-				values[0] = values[0].replaceAll("script", "");
+				values[0] = values[0].replaceAll("script", "");*/
 				
 				put(param, values[0]);
 //System.out.println("구희준 : param" + param);					
@@ -147,13 +147,13 @@ System.out.println("구희준 : clean xss");
 				for(int i = 0; i < values.length; i++) {
 					valueArray[i] = values[i];
 
-					values[i] = EgovWebUtil.clearXSSMinimum(values[i]);					
+					/*values[i] = EgovWebUtil.clearXSSMinimum(values[i]);					
 					values[i] = values[i].replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 					values[i] = values[i].replaceAll("\\(", "&#40;").replaceAll("\\)", "&#41;");
 					values[i] = values[i].replaceAll("'", "&#39;");
 					values[i] = values[i].replaceAll("eval\\((.*)\\)", "");
 					values[i] = values[i].replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
-					values[i] = values[i].replaceAll("script", "");
+					values[i] = values[i].replaceAll("script", "");*/
 					
 //System.out.println("구희준 : values["+Integer.toString(i)+"]" + values[i]);							
 				}

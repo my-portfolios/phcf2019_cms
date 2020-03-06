@@ -233,6 +233,7 @@ public class EgovArticleController {
 		model.addAttribute("noticeList", noticeList);
 		
 		//템플릿 파일 유무를 검사한다.
+		if(!master.getTmplatId().equals("_contents")) master.setTmplatId("basic"); // 컨텐츠 관리 아니면 나머지 basic으로 보여주기 
 		String isDir = request.getServletContext().getRealPath("/WEB-INF/jsp/template/"+master.getTmplatId()+"/list.jsp");
 		File f = new File(isDir);
 		if(f.exists()) return "egovframework/com/cop/bbs/EgovArticleList";
@@ -312,6 +313,7 @@ public class EgovArticleController {
 		model.addAttribute("boardMasterVO", masterVo);
 		
 		//템플릿에 따른 View를 보여준다.
+		if(!masterVo.getTmplatId().equals("_contents")) masterVo.setTmplatId("basic"); // 컨텐츠 관리 아니면 나머지 basic으로 보여주기 
 		String isDir = request.getServletContext().getRealPath("/WEB-INF/jsp/template/"+masterVo.getTmplatId()+"/view.jsp");
 		File f = new File(isDir);
 		if(f.exists()) return "egovframework/com/cop/bbs/EgovArticleDetail";
@@ -371,6 +373,7 @@ public class EgovArticleController {
 		}
 		//템플릿에 따른 View를 보여준다.
 		//return "egovframework/com/cop/bbs/EgovArticleRegist";
+		if(!bdMstr.getTmplatId().equals("_contents")) bdMstr.setTmplatId("basic"); // 컨텐츠 관리 아니면 나머지 basic으로 보여주기 
 		String isDir = request.getServletContext().getRealPath("/WEB-INF/jsp/template/"+bdMstr.getTmplatId()+"/write.jsp");
 		File f = new File(isDir);
 		if(f.exists()) return "egovframework/com/cop/bbs/EgovArticleRegist";
@@ -709,6 +712,7 @@ public class EgovArticleController {
 		if(boardVO.getBlogAt().equals("chkBlog")){
 			return "egovframework/com/cop/bbs/EgovArticleBlogUpdt";
 		}else{
+			if(!bmvo.getTmplatId().equals("_contents")) bmvo.setTmplatId("basic"); // 컨텐츠 관리 아니면 나머지 basic으로 보여주기 
 			String isDir = request.getServletContext().getRealPath("/WEB-INF/jsp/template/"+bmvo.getTmplatId()+"/update.jsp");
 			File f = new File(isDir);
 			if(f.exists())return "egovframework/com/cop/bbs/EgovArticleUpdt";

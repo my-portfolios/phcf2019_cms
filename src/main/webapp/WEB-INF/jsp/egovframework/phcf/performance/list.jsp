@@ -99,7 +99,7 @@
 			noDataContent: '데이터가 없습니다.',
 			loadMessage: '조회 중...',
 			fields: [
-				{name: 	'APL_ID', 	title: '번호', 	type: 'text', 	editing: false, width:80, align: "center"},
+				{name: 	'SEQ', 	title: '번호', 	type: 'text', 	editing: false, width:80, align: "center"},
 			 	{name: 	'category', 	title: '신청 종류', 	type: 'text', 	editing: false, width: 80, align: "center"},
 			 	{name: 	'subject', 	title: '제목', 	type: 'text', 	editing: false, width: 300, align: "center"},
 			 	{name: 	'APL_DATE', 	title: '일시', 	type: 'text', 	editing: false, width: 110, align: "center", filtering: false},

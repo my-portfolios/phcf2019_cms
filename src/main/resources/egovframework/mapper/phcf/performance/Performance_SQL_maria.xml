@@ -9,8 +9,6 @@
 			AA.SEQ,
 			AA.BBS_ID,
 			AA.NTT_ID,
-			AA.APL_ID,
-			AA.EPISODE,
 			AA.MBER_ID,
 			AA.APL_DATE,
 			AA.APL_NAME,
@@ -32,8 +30,8 @@
 			AND AA.NTT_ID = BB.NTT_ID
 			AND BB.BBS_ID = CC.BBS_ID
 			AND BB.NTT_ID = CC.NTT_ID
-			<if test='APL_ID != null and APL_ID != ""'>
-				AND AA.APL_ID = #{APL_ID}
+			<if test='SEQ != null and SEQ != ""'>
+				AND AA.SEQ = #{SEQ}
 			</if>
 			<if test='category != null and category != ""'>
 				AND BB.CATE_NAME LIKE "%" #{category} "%"
@@ -53,7 +51,7 @@
 			<if test='RESULT != null and RESULT != ""'>
 				AND AA.RESULT = #{RESULT}
 			</if>
-		ORDER BY AA.APL_ID DESC
+		ORDER BY AA.SEQ DESC
 		<if test='pageSize != null and pageOffset != null'>
 			LIMIT ${pageSize} OFFSET ${pageOffset}
 		</if>
@@ -73,8 +71,8 @@
 				AND AA.NTT_ID = BB.NTT_ID
 				AND BB.BBS_ID = CC.BBS_ID
 				AND BB.NTT_ID = CC.NTT_ID
-				<if test='APL_ID != null and APL_ID != ""'>
-					AND AA.APL_ID = #{APL_ID}
+				<if test='SEQ != null and SEQ != ""'>
+					AND AA.SEQ = #{SEQ}
 				</if>
 				<if test='category != null and category != ""'>
 					AND BB.CATE_NAME LIKE "%" #{category} "%"
@@ -105,7 +103,7 @@
 		FROM
 			APPLYVISITORINFO	
 		WHERE 1=1
-        AND APL_ID = #{APL_ID}
+        AND APL_ID = #{SEQ}
 	</select>
 	
 	<update id="updatePerformanceApplierItem" parameterType="java.util.HashMap">

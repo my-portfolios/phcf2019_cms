@@ -105,7 +105,9 @@ public class EgovUserManageServiceImpl extends EgovAbstractServiceImpl implement
 	@Override
 	public String insertUser(UserManageVO userManageVO) throws Exception {
 		//고유아이디 셋팅
-		String uniqId = selectNextMberStringId();
+		String uniqId = idgenService.getNextStringId(); 
+		//String uniqId = selectNextMberStringId();
+		
 		userManageVO.setUniqId(uniqId);
 		//패스워드 암호화
 		String pass = EgovFileScrty.encryptPassword(userManageVO.getPassword(), EgovStringUtil.isNullToString(userManageVO.getEmplyrId()));//KISA 보안약점 조치 (2018-10-29, 윤창원)

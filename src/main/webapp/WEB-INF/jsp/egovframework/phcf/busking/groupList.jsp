@@ -350,22 +350,21 @@
 			
 			<tr>
 				<th>번호</th>
-				<td id="SEQ"></td>
-				
+				<td id="SEQ" ></td>
+			</tr>
+			<tr>	
 				<th>팀명</th>
-				<td id="TEAM_NAME" colspan="2"></td>
+				<td id="TEAM_NAME" ></td>
 			</tr>
 			<tr>
 				<th>대표자</th>
-				<td id="HEAD_NAME"></td>
-				
+				<td id="HEAD_NAME" ></td>
+			</tr>
+			<tr>		
 				<th>아이디</th>
-				<td id="MBER_ID" colspan="2"></td>
+				<td id="MBER_ID" ></td>
 			</tr>
 			<tr>
-				<th style="text-align:center;"></th>
-				<th style="text-align:center;"></th>
-				<th style="text-align:center;"></th>
 				<th style="text-align:center;"></th>
 				<th style="text-align:center;"></th>
 			</tr>
@@ -373,47 +372,53 @@
 			</tr>	
 			<tr>
 				<th>신청일시</th>
-				<td id="REG_DATE"></td>
-				
+				<td id="REG_DATE" ></td>
+			</tr>
+			<tr>		
 				<th>연락처</th>
-				<td id="PHONE" colspan="2"></td>
+				<td id="PHONE" ></td>
 				
 			</tr>
 			<tr>
 				<th>상태</th>
 				<td id="APPROVE_YN" ></td>
-					
+			</tr>
+			<tr>			
 				<th>지역</th>
-				<td id="AREA" colspan="2"></td>
+				<td id="AREA" ></td>
 			</tr>
 			
 			<tr>
 				<th>인원</th>
-				<td id="PERSONNEL"></td>
-				
+				<td id="PERSONNEL" ></td>
+			</tr>
+			<tr>		
 				<th>프로필</th>
-				<td id="PROFILE" colspan="2" ></td>
+				<td id="PROFILE"  ></td>
 			</tr>
 			<tr>
 				<th>멤버</th>
-				<td id="MBERS"></td>
-				
+				<td id="MBERS" ></td>
+			</tr>
+			<tr>		
 				<th>사용장비</th>
-				<td id="EQUIPMENT" colspan="2" ></td>
+				<td id="EQUIPMENT"  ></td>
 			</tr>
 			<tr>
 				<th>장르</th>
-				<td id="GENRE"></td>
-				
+				<td id="GENRE" ></td>
+			</tr>
+			<tr>		
 				<th>팀 영상 링크</th>
-				<td id="SNS_VIDEO" colspan="2" ></td>
+				<td id="SNS_VIDEO"  ></td>
 			</tr>
 			<tr>
 				<th>대표사진</th>
-				<td id="T_FILE"></td>
-				
+				<td id="T_FILE" ></td>
+			</tr>
+			<tr>		
 				<th>팀 관련 링크</th>
-				<td id="SNS_LINK" colspan="2"></td>
+				<td id="SNS_LINK" ></td>
 			</tr>
 			<tr>
 				<td colspan="5" id="closebtn" >

@@ -127,8 +127,8 @@
 			loadMessage: '조회 중...',
 			fields: [
 				{name:   'CHECK', type: 'checkbox', editing: false, readOnly: false, headerTemplate: function() { return $("<input></input>").attr("type","checkbox").attr("id","allCheck") } },
-				{name: 	'TEAM_NM', 	title: '단체명', 	type: 'text', 	editing: false, width:80, align: "center"},
-			 	{name: 	'HEAD_NM', 	title: '대표자명', 	type: 'text', 	editing: false, width: 230, align: "center"},
+				{name: 	'TEAM_NM', 	title: '단체명', 	type: 'text', 	editing: false, width:100, align: "center"},
+			 	{name: 	'HEAD_NM', 	title: '대표자명', 	type: 'text', 	editing: false, width: 150, align: "center"},
 			 	{name: 	'PHONE', 	title: '연락처', 	type: 'text', 	editing: false, width: 120, align: "center"},
 			 	{name: 	'REG_DATE', 	title: '등록일', 	type: 'text', 	editing: false, width: 110, align: "center"},
 			 	{name: 	'PLACE', 	title: '공간명', 	type: 'select', items: placeCode, readOnly: false, valueType: "string",valueField: "Id", textField: "Name", editing: true, width: 110, align: "center"},
@@ -476,13 +476,13 @@
 </div>	
 <div style="text-align:center;">
 	<div class="popup_modal" style="display:none;">
-		<table id="about_table" class="wTable" style="margin:auto;width:100%">
+		<table id="about_table" class="wTable" style="margin:auto;width:100%;min-width:850px;">
 			
 			<tr>
-				<th>번호</th>
+				<th width="100px">번호</th>
 				<td id="SEQ"></td>
 				
-				<th>팀명</th>
+				<th width="100px">팀명</th>
 				<td id="TEAM_NM" colspan="2"></td>
 			</tr>
 			<tr>
@@ -492,15 +492,6 @@
 				<th>연락처</th>
 				<td id="PHONE" colspan="2"></td>
 			</tr>
-			<tr>
-				<th style="text-align:center;"></th>
-				<th style="text-align:center;"></th>
-				<th style="text-align:center;"></th>
-				<th style="text-align:center;"></th>
-				<th style="text-align:center;"></th>
-			</tr>
-			<tr>
-			</tr>	
 			<tr>
 				<th>신청일시</th>
 				<td id="REG_DATE"></td>
@@ -532,10 +523,10 @@
 			</tr>
 			<tr>
 				<th>대표사진</th>
-				<td id="FILE"></td>
+				<td id="FILE" colspan="3" align="left"></td>
 			</tr>
 			<tr>
-				<td colspan="5" id="closebtn" >
+				<td colspan="4" id="closebtn" >
 					<input type="button" style="margin: 1%;"onclick="$('.popup_modal').css('display','none');$('.popup_bg').css('display','none');" value="닫기"/>
 					<input type="button" id="insert_btn" class="" onclick="fn_update('승인완료')" value="승인">
 					<input type="button" id="insert_btn" class="" onclick="fn_update('보류')" value="보류">

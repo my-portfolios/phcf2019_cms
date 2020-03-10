@@ -120,8 +120,8 @@
 			noDataContent: '데이터가 없습니다.',
 			loadMessage: '조회 중...',
 			fields: [
-				{name: 	'TEAM_NAME', 	title: '팀이름', 	type: 'text', 	editing: false, width:80, align: "center"},
-			 	{name: 	'HEAD_NAME', 	title: '대표자명', 	type: 'text', 	editing: false, width: 230, align: "center"},
+				{name: 	'TEAM_NAME', 	title: '팀이름', 	type: 'text', 	editing: false, width:200, align: "center"},
+			 	{name: 	'HEAD_NAME', 	title: '대표자명', 	type: 'text', 	editing: false, width: 100, align: "center"},
 			 	{name: 	'PHONE', 	title: '연락처', 	type: 'text', 	editing: false, width: 120, align: "center"},
 			 	{name: 	'REG_DATE', 	title: '등록일', 	type: 'text', 	editing: false, width: 110, align: "center"},
 			 	{name: 	'AREA', 	title: '지역', 	type: 'text', 	editing: false, width: 110, align: "center"},
@@ -187,7 +187,7 @@
 			}
 		});
 				
-		$(".popup_modal").css("left","10%");
+		$(".popup_modal").css("left","150px");
 		$(".popup_modal").css("display","");
 		$(".popup_modal").css("padding","1%");
 		
@@ -346,10 +346,10 @@
 </div>	
 <div style="text-align:center;">
 	<div class="popup_modal" style="display:none;">
-		<table id="about_table" class="wTable" style="margin:auto;width:100%">
+		<table id="about_table" class="wTable" style="margin:auto;width:100%;min-width:650px;">
 			
 			<tr>
-				<th>번호</th>
+				<th width="100px">번호</th>
 				<td id="SEQ" ></td>
 			</tr>
 			<tr>	
@@ -364,12 +364,6 @@
 				<th>아이디</th>
 				<td id="MBER_ID" ></td>
 			</tr>
-			<tr>
-				<th style="text-align:center;"></th>
-				<th style="text-align:center;"></th>
-			</tr>
-			<tr>
-			</tr>	
 			<tr>
 				<th>신청일시</th>
 				<td id="REG_DATE" ></td>
@@ -421,7 +415,7 @@
 				<td id="SNS_LINK" ></td>
 			</tr>
 			<tr>
-				<td colspan="5" id="closebtn" >
+				<td colspan="2" id="closebtn" >
 					<input type="button" style="margin: 1%;"onclick="$('.popup_modal').css('display','none');$('.popup_bg').css('display','none');" value="닫기"/>
 				</td>
 				

@@ -308,7 +308,7 @@ width:100%;
 .wTable > thead > tr > th { text-align:left; padding-left:14px; }
 .wTable > thead > tr > th.vtop { vertical-align:top; }
 .wTable > thead > tr > th span.pilsu { color:#d0270b; font-weight:500; margin-left:3px; }
-.wTable > tbody > tr > th { padding-left:28px; padding: 10px 10px 10px 28px; border-bottom:1px solid #d9d9d9; text-align:left; background:#f4f4f4;  min-width: 170px;}
+.wTable > tbody > tr > th { padding-left:28px; padding: 10px 10px 10px 28px; border-bottom:1px solid #d9d9d9; text-align:left; background:#f4f4f4; /*  min-width: 170px; */}
 .wTable > tbody > tr > th.vtop { vertical-align:top; }
 .wTable > tbody > tr > th span.pilsu { color:#d0270b; font-weight:500; margin-left:3px; }
 .wTable > tbody > tr > td { text-align:center; padding:14px 5px; border-bottom:1px solid #d9d9d9; }

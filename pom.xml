@@ -569,11 +569,44 @@
         </dependency>
 		
 		<dependency>
-	        <groupId>http.mine</groupId>        <!-- Doesn't matter -->
-	        <artifactId>http.mine</artifactId>   <!-- Doesn't matter -->
-	        <version>4.3</version>        <!-- Doesn't matter -->
+	        <groupId>http.mine</groupId>      
+	        <artifactId>http.mine</artifactId> 
+	        <version>4.3</version>       
 	        <scope>system</scope>
 	        <systemPath>${webapp.lib}/httpmime-4.3.jar</systemPath>
+	    </dependency>
+	    
+	    <!-- tag lib -->
+	    <dependency>
+	        <groupId>taglibs-standard-compat</groupId>      
+	        <artifactId>taglibs-standard-compat</artifactId> 
+	        <version>1.2.5</version>       
+	        <scope>system</scope>
+	        <systemPath>${webapp.lib}/taglibs-standard-compat-1.2.5.jar</systemPath>
+	    </dependency>
+	    
+	    <dependency>
+	        <groupId>taglibs-standard-impl</groupId>      
+	        <artifactId>taglibs-standard-impl</artifactId> 
+	        <version>1.2.5</version>       
+	        <scope>system</scope>
+	        <systemPath>${webapp.lib}/taglibs-standard-impl-1.2.5.jar</systemPath>
+	    </dependency>
+	    
+	    <dependency>
+	        <groupId>taglibs-standard-jstlel</groupId>      
+	        <artifactId>taglibs-standard-jstlel</artifactId> 
+	        <version>1.2.5</version>       
+	        <scope>system</scope>
+	        <systemPath>${webapp.lib}/taglibs-standard-jstlel-1.2.5.jar</systemPath>
+	    </dependency>
+	    
+	    <dependency>
+	        <groupId>taglibs-standard-spec</groupId>      
+	        <artifactId>taglibs-standard-spec</artifactId> 
+	        <version>1.2.5</version>       
+	        <scope>system</scope>
+	        <systemPath>${webapp.lib}/taglibs-standard-spec-1.2.5.jar</systemPath>
 	    </dependency>
     
     </dependencies>

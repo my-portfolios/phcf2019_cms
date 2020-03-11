@@ -80,8 +80,10 @@ public class EgovSndngMailRegistServiceImpl extends EgovAbstractServiceImpl impl
 			mailVO.setDsptchPerson(vo.getDsptchPerson());
 			mailVO.setRecptnPerson(recptnPersonList[j]);
 			mailVO.setSj(vo.getSj());
+			
 			//mailVO.setEmailCn(EgovStringUtil.checkHtmlView(vo.getEmailCn()));
 			mailVO.setEmailCn(vo.getEmailCn());
+			
 			mailVO.setSndngResultCode("R"); // 발송결과 요청
 
 			if (vo.getAtchFileId() == null || vo.getAtchFileId().equals("")) {

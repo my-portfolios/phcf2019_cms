@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width">
+<!-- <link rel="stylesheet" href="/css/egovframework/phcf/content/style.css"> -->
+<script type="text/javascript" src="/js/egovframework/com/cmm/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/js/egovframework/com/cmm/jquery.validate.min.js"></script>
+<title>QR코드를 통한 간편결재</title>
+<style>
+html, body, 
+div, h1, h2, h3, h4, h5, h6, 
+p, ul, ol, li, dl, dt, dd, 
+form, fieldset, input, select, textarea, button,
+article, aside, dialog, footer, header, section, footer, nav, figure, hgroup {margin:0;padding:0}
+html, body { height:100%; font-family:'Malgun Gothic','맑은 고딕','돋움','Dotum','굴림','Gulim','Helvetica','AppleSDGothicNeo','Sans-serif';} 
+a{color:#333 ;text-decoration:none}
+a:link, a:visited{text-decoration:none}
+a:hover, a:active{text-decoration:none}
+img{border:0}
+ol, ul{list-style:none} 
+
+.bl_1 {
+    font-size: 17px;
+    background: url(/images/egovframework/phcf/content/com/sub/h4_icon.png) no-repeat left 0px;
+    padding-left: 25px;
+    margin: 20px 0 10px 10px;
+    display: block;
+}
+
+.support .title { padding:20px 10px; background-color:#2b6db0; height:30px; color:#FFF; font-size:18px; font-weight:bold;  } 
+.support .popup_close { width:98%; text-align: right;    margin-top: -25px;    float: right;}
+.support .contents { margin:0px; line-height:24px; font-size: 14px;}
+.support ul { background:#fbfbfb;     margin: 0px 10px;     clear: both;}
+.support li {padding:0px 5px; color:#333;border-bottom:1px solid #e4e4e4;letter-spacing:-1px; line-height:42px; }
+.support li a.button{ width:65px;height:30px;line-height:30px;  }
+.support .left { float:left; width: 15%; background:#fbfbfb; font-weight: bold; }
+.support .right { float:left; width:80%; background:#ffffff;  height:auto;}
+.support label {margin:0px 5px;height:27px;  }
+.support input[type="checkbox"]{margin:0 5px 0 0}
+.support input[type="radio"]{margin:0 0px 0 0; width: 18px; height: 18px; vertical-align: text-bottom; cursor: pointer;}
+.support input[type="text"]{width:25%;height:24px;vertical-align:top;margin:5px 0 6px 0; }
+.support input[type="password"]{width:88px;height:24px;vertical-align:top;margin:5px 0 0 0; }
+.support select {width:25%;height:30px;vertical-align:top;margin:5px 0 0 0;position:relative;z-index:2;opacity:1;filter:alpha(opacity=0)}
+.button{display:inline-block;border-radius:3px;text-align:center;vertical-align:top; text-align:center;  border-style: none;}
+.btn_green {width:180px;height:50px;background:#2b6db0;color:#fff;line-height:50px;font-weight:bold}
+.btn_gray{height:30px;padding:0 15px;line-height:30px;background:#a8a8a8;color:#fff; margin: 5px 0 0 0;}
+
+@media all and (max-width: 470px) {
+.support ul { margin: 0px 0px;}
+.support .left { width: 95%;  background: #ffffff;}
+.support .right {width: 95%;   background: #fbfbfb;}
+.bl_1 {display: none;}
+}
+@media all and (max-width: 301px) {
+.support { width:300px;}
+}
+</style>
+</head>
+
+<script type="text/javascript">
+
+//email domain onchange
+function fn_eDomain_chg(){
+	$('#user_email2').val($('#emailDomainList').val());
+}
+
+
+$(document).ready(function() {
+
+	//validation 체크 전역변수
+	// 선택된 항목 마다 validate 체크를 달리 처리 해야 됨..
+	var validate = $("#frm").validate({
+	    onfocusout: false	// 포커스가 아웃되면 발생됨 꺼놓음
+	    , invalidHandler: function(form, validator) {		// 에러발생시 처리..
+	        var errors = validator.numberOfInvalids();
+	        if (errors) {
+
+	        	var message = validator.errorList[0].message; 
+		              
+		        if(message.length > 0) { alert(message); }		// 메세지 입력여부 확인 후 alert 창 띠우기..
+	            validator.errorList[0].element.focus();
+	        }
+	    }
+	    , submitHandler: function(frm) {		// validate 체크 완료 후 실행 로직....
+			if(!confirm("등록하시겠습니까?")) { return; }
+			    
+	    	frm.submit();
+		}
+	    , errorPlacement: function(error, element){ }
+	});
+
+	// validator 기본 메세지 처리...
+	$.extend( $.validator.messages,
+	          { required: "필수 항목입니다.",
+		          remote: "항목을 수정하세요.",
+		          email: "유효하지 않은 E-Mail주소입니다.",
+		          url: "유효하지 않은 URL입니다.",
+		          date: "올바른 날짜를 입력하세요.",
+		          dateISO: "올바른 날짜(ISO)를 입력하세요.",
+		          number: "유효한 숫자가 아닙니다.",
+		          digits: "숫자만 입력 가능합니다.",
+		          creditcard: "신용카드 번호가 바르지 않습니다.",
+		          equalTo: "같은 값을 다시 입력하세요.",
+		          extension: "올바른 확장자가 아닙니다.",
+		          maxlength: $.validator.format( "{0}자를 넘을 수 없습니다. " ),
+		          minlength: $.validator.format( "{0}자 이상 입력하세요." ),
+		          rangelength: $.validator.format( "문자 길이가 {0} 에서 {1} 사이의 값을 입력하세요." ),
+		          range: $.validator.format( "{0} 에서 {1} 사이의 값을 입력하세요." ),
+		          max: $.validator.format( "{0} 이하의 값을 입력하세요." ),
+		          min: $.validator.format( "{0} 이상의 값을 입력하세요." ) 
+		       });
+
+	validate.settings.rules = {
+			user_nm: { required: true }
+			, user_phone2: { required: true, number: true, rangelength: [3, 4] }
+			, user_phone3: { required: true, number: true, rangelength: [3, 4] }
+			, sc_price: { required: true, number: true }
+		};
+	
+	$('[name="support_btn"]').click(function() {
+		$('#frm').submit();
+	});
+
+});
+
+
+</script>
+
+
+<body>
+<form name="frm" id="frm" action="/nicepay/payRequest.do" method="post" target="_self">
+<input type="hidden" name="sp_mh_tp" value="O" />
+<input type="hidden" name="user_tp" value="U" />
+<input type="hidden" name="sc_tp" value="S" />
+<input type="hidden" name="browser" value="qr" />
+
+<div class="support">
+<div class="title"><strong>QR코드를 통한 간편결재</strong>
+<span class="popup_close"><a href="#" onclick="window.close();" ><img src="/images/egovframework/phcf/content/content/btn_support_close.png" alt="팝업닫기"></a></span></div>
+
+  <div class="contents">
+    <p class="bl_1"><strong>후원 정보</strong> </p>
+
+    	<ul>
+            <li class="left">이름</li>
+            <li class="right" >
+                <input type="text" id="user_nm" name="user_nm" style="width:82.5%;" value=""/>
+            </li>
+        </ul>
+        <ul>
+        	<li class="left">휴대폰번호</li>
+            <li class="right">
+                <select id="user_phone1" name="user_phone1">
+                    <option value="010">010</option>
+                    <option value="011">011</option>
+                    <option value="016">016</option>
+                    <option value="017">017</option>
+                    <option value="018">018</option>
+                    <option value="019">019</option>
+                </select> 
+                - 
+                <input type="text" id="user_phone2" name="user_phone2" class="mobile_input2" maxlength="4" onkeydown="onlyNumber(this)" value=""/>
+                 - 
+                 <input type="text" id="user_phone3" name="user_phone3" class="mobile_input3" maxlength="4" onkeydown="onlyNumber(this)" value=""/>
+            </li>
+        </ul>
+		 <ul>
+        	<li class="left">이메일</li>
+	        <li class="right">
+				<input type="text" id="user_email1" name="user_email1" class="email_type1" maxlength="40" value="">
+				<span class="deco">@</span>
+				<input type="text" id="user_email2" name="user_email2" class="email_type2" maxlength="40" value=""/>
+				<select id="emailDomainList" name="emailDomainList" onchange="fn_eDomain_chg();">
+					<option value="">직접입력</option>
+					<option value="naver.com">naver.com</option>
+					<option value="nate.com">nate.com</option>
+					<option value="daum.net">daum.net</option>
+					<option value="gmail.com">gmail.com</option>
+				</select>
+	        </li>
+        </ul>
+		<ul>
+        	<li class="left">결제방식</li>
+	        <li class="right">
+				<input type="radio" class="sp_mh_tp_is" id="sc_price_tp_c" name="sc_price_tp" value="C" checked><label for="sc_price_tp_c" class="sp_mh_tp_is">신용카드</label>
+				<input type="radio" class="sp_mh_tp_is" id="sc_price_tp_e" name="sc_price_tp" value="E"><label for="sc_price_tp_e" class="sp_mh_tp_is">실시간 계좌이체</label>
+				<input type="radio" class="sp_mh_tp_is" id="sc_price_tp_m" name="sc_price_tp" value="M"><label for="sc_price_tp_m" class="sp_mh_tp_is">무통장</label>
+	        </li>
+        </ul>
+        <ul>
+        	<li class="left">후원금액</li>
+	        <li class="right">
+				<select id="sc_price" name="sc_price" >
+					<option value="5000">5000</option>
+					<option value="10000">10000</option>
+					<option value="20000">20000</option>
+					<option value="30000">30000</option>
+					<option value="50000">50000</option>
+				</select>
+	        </li>
+        </ul>
+    <div style="clear:both;"></div>
+    <br>
+    <div style="text-align:center">
+		<button name="support_btn" class="button btn_green"  type="button">후원금 결제하기</button>
+	</div>
+    
+  </div>
+</div>
+</form>
+</body>
+</html>

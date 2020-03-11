@@ -113,4 +113,12 @@ public interface EgovMberManageService {
 
 	void updatetransferedDormantMberCode(MberManageVO mberManageVO) throws Exception;
 
+	public int insertDormantReserveMember(String mberId) throws Exception;
+
+	public List<HashMap<String, Object>> selectDormantReserveMemberList() throws Exception;
+
+	public void deleteDormantReserveMemberList(int seq) throws Exception;
+
+	public MberManageVO selectMberWithId(String mberId);
+
 }

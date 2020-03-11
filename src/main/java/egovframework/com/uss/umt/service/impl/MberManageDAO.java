@@ -148,4 +148,21 @@ public class MberManageDAO extends EgovComAbstractDAO{
 		update("mberManageDAO.updatetransferedDormantMberCode", mberManageVO);
 	}
 
+	public int insertDormantReserveMember(String mberId) {
+		return insert("mberManageDAO.insertDormantReserveMember", mberId);
+	}
+
+	public List<HashMap<String, Object>> selectDormantReserveMemberList() {
+		return selectList("mberManageDAO.selectDormantReserveMemberList");
+	}
+
+	public void deleteDormantReserveMemberList(int seq) {
+		delete("mberManageDAO.deleteDormantReserveMemberList", seq);
+		
+	}
+
+	public MberManageVO selectMberWithId(String mberId) {
+		return selectOne("mberManageDAO.selectMberWithId", mberId);
+	}
+
 }

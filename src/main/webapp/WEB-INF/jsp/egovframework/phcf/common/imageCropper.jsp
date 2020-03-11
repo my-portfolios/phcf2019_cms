@@ -54,7 +54,8 @@
             viewMode : 1,
             aspectRatio : defaultAspectRatio,
             background : false,
-            highlight: false
+            highlight: false,
+            autoCropArea: 1
         });
     }
 

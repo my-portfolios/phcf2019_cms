@@ -86,6 +86,18 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	/**
+	 * 기 등록된 사용자 중 검색조건에 맞는 일반회원의 정보를 데이터베이스에서 읽어와 화면에 출력
+	 * @param uniqId 상세조회대상 일반회원아이디
+	 * @return mberManageVO 일반회원상세정보
+	 * @throws Exception
+	 */
+	@Override
+	public MberManageVO selectMberWithId(String mberId) {
+		MberManageVO mberManageVO = mberManageDAO.selectMberWithId(mberId);
+		return mberManageVO;
+	}
+	
+	/**
 	 * 기 등록된 회원 중 검색조건에 맞는 회원들의 정보를 데이터베이스에서 읽어와 화면에 출력
 	 * @param userSearchVO 검색조건
 	 * @return List<MberManageVO> 일반회원목록정보
@@ -220,6 +232,21 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 	@Override
 	public void updatetransferedDormantMberCode(MberManageVO mberManageVO) throws Exception {
 		mberManageDAO.updatetransferedDormantMberCode(mberManageVO);
+	}
+	
+	@Override
+	public int insertDormantReserveMember(String mberId) throws Exception {
+		return mberManageDAO.insertDormantReserveMember(mberId);
+	}
+	
+	@Override
+	public List<HashMap<String, Object>> selectDormantReserveMemberList() throws Exception {
+		return mberManageDAO.selectDormantReserveMemberList();
+	}
+	
+	@Override
+	public void deleteDormantReserveMemberList(int seq) throws Exception {
+		mberManageDAO.deleteDormantReserveMemberList(seq);
 	}
 
 }

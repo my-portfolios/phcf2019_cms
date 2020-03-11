@@ -564,6 +564,7 @@ public class EgovMberManageController {
 	@RequestMapping(value = "/uss/umt/getMovedDormantMber.do")
 	public String getMovedDormantMber(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
 		
+		mberDormantCronQuartz.checkMemberList();
 		mberDormantCronQuartz.transferToDormant();
 		
 		if(paramMap.get("sPeriod") == null || paramMap.get("sPeriod").equals("")) paramMap.put("sPeriod", "12");

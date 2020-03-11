@@ -42,7 +42,7 @@ FROM(
              userNm LIKE '%' #{searchKeyword} '%'
         </if>
         </if>
-        ORDER BY sbscrbDe DESC
+        ORDER BY uniqId DESC
         LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
     </select>
     
@@ -172,9 +172,47 @@ FROM(
                 SBSCRB_DE        sbscrbDe,
                 LOCK_AT          lockAt,
                 MEMBERSHIP_TYPE		 membershipType,
-        		MEMBERSHIP_START_DT	membershipStartDt
+        		MEMBERSHIP_START_DT	membershipStartDt,
+        		send_mail_yn		sendMailYn,
+        		ci				ci,
+        		di				di
             FROM COMTNGNRLMBER
             WHERE ESNTL_ID=#{uniqId}
+        
+    </select>
+    
+      <select id="selectMberWithId" resultType="egovframework.com.uss.umt.service.MberManageVO">
+        
+            SELECT
+                ESNTL_ID          uniqId,
+                'USR01'          userTy,
+                MBER_ID          mberId,
+                MBER_NM          mberNm,
+                PASSWORD         password,
+                PASSWORD_HINT    passwordHint,
+                PASSWORD_CNSR    passwordCnsr,
+                IHIDNUM          ihidnum,
+                SEXDSTN_CODE     sexdstnCode,
+                ZIP              zip,
+                ADRES            adres,
+                AREA_NO          areaNo,
+                MBER_STTUS       mberSttus,
+                DETAIL_ADRES     detailAdres,
+                END_TELNO        endTelno,
+                MBTLNUM      moblphonNo,
+                GROUP_ID         groupId,
+                MBER_FXNUM       mberFxnum,
+                MBER_EMAIL_ADRES mberEmailAdres,
+                MIDDLE_TELNO     middleTelno,
+                SBSCRB_DE        sbscrbDe,
+                LOCK_AT          lockAt,
+                MEMBERSHIP_TYPE		 membershipType,
+        		MEMBERSHIP_START_DT	membershipStartDt,
+        		send_mail_yn		sendMailYn,
+        		ci				ci,
+        		di				di
+            FROM COMTNGNRLMBER
+            WHERE MBER_ID=#{mberId}
         
     </select>
     
@@ -273,8 +311,6 @@ FROM(
                 a.MEMBERSHIP_TYPE		 membershipType,
         		a.MEMBERSHIP_START_DT	membershipStartDt,
 				DATE_FORMAT(b.CREAT_DT, "%Y/%m/%d") creatDt,
-				a.user_comp_nm		userCompNm,
-        		a.user_comp_number	userCompNumber,
         		a.send_mail_yn		sendMailYn
 			FROM COMTNGNRLMBER a, LOGINLIST b
 			WHERE a.ESNTL_ID = b.CONECT_ID
@@ -315,8 +351,6 @@ FROM(
                 a.MEMBERSHIP_TYPE		 membershipType,
         		a.MEMBERSHIP_START_DT	membershipStartDt,
         		DATE_FORMAT(b.CREAT_DT, "%Y/%m/%d") creatDt,
-        		a.user_comp_nm		userCompNm,
-        		a.user_comp_number	userCompNumber,
         		a.send_mail_yn		sendMailYn
 			FROM SLEEPMEMBERLIST a, LOGINLIST b
 			WHERE a.ESNTL_ID = b.CONECT_ID
@@ -358,7 +392,7 @@ FROM(
 					  (
 					  	SELECT MAX(CREAT_DT) AS CREAT_DT, CONECT_ID FROM COMTNLOGINLOG GROUP BY CONECT_ID
 					  ) max
-					  WHERE DATE_ADD(DATE_FORMAT(max.CREAT_DT, "%Y/%m/%d"), INTERVAL 1 YEAR) <![CDATA[<]]> now()
+					  WHERE DATE_ADD(DATE_FORMAT(max.CREAT_DT, "%Y/%m/%d"), INTERVAL 6 MONTH) <![CDATA[<]]> now()
            	   )
 
 				SELECT 
@@ -387,8 +421,6 @@ FROM(
                 a.MEMBERSHIP_TYPE		 membershipType,
         		a.MEMBERSHIP_START_DT	membershipStartDt,
         		DATE_FORMAT(b.CREAT_DT, "%Y/%m/%d") creatDt,
-        		a.user_comp_nm		userCompNm,
-        		a.user_comp_number	userCompNumber,
         		a.send_mail_yn		sendMailYn,
         		a.ci				ci,
         		a.di				di
@@ -429,8 +461,6 @@ FROM(
         			USER_GRADE,
         			CI,
         			DI,
-        			user_comp_nm,
-        			user_comp_number,
         			send_mail_yn
         			)
               VALUES(
@@ -459,8 +489,6 @@ FROM(
                     #{userGrade},
                     #{ci},
                     #{di},
-                    #{userCompNm},
-                    #{userCompNumber},
                     #{sendMailYn}
                     )       
 			ON DUPLICATE KEY UPDATE
@@ -486,8 +514,6 @@ FROM(
         		USER_GRADE = #{userGrade},
         		CI = #{ci},
         		DI = #{di},
-        		user_comp_nm = #{userCompNm},
-        		user_comp_number = #{userCompNumber},
         		send_mail_yn = #{sendMailYn}
 			
     </insert>
@@ -516,12 +542,46 @@ FROM(
             USER_GRADE		= '',
             CI				= '',
             DI				= '',
-            user_comp_nm	= '',
-            user_comp_number= '',
             send_mail_yn	= ''
     		
 			WHERE ESNTL_ID = #{uniqId}
 			
     </update>
 
+    <insert id="insertDormantReserveMember" parameterType="egovframework.com.uss.umt.service.MberManageVO">
+			
+		INSERT INTO 
+		SLEEPMEMBERRESERVELIST ( 
+			MBER_ID 
+		)
+		SELECT 
+			#{mberId} AS MBER_ID
+		FROM 
+			DUAL
+		WHERE NOT EXISTS (
+			SELECT 
+			 	MBER_ID 
+			FROM 
+			 	SLEEPMEMBERRESERVELIST
+			WHERE  
+				MBER_ID = #{mberId}
+		 )
+    
+    </insert>
+    
+      <select id="selectDormantReserveMemberList" resultType="java.util.HashMap">
+			SELECT 
+				SEQ,
+				MBER_ID,
+              	DATE_FORMAT(CREATED_DT, "%Y-%m-%d") createdDt,
+              	DATE_FORMAT(UPDATED_DT, "%Y-%m-%d") updatedDt
+			FROM SLEEPMEMBERRESERVELIST
+    </select>
+    
+    <delete id="deleteDormantReserveMemberList" parameterType="int">
+    	DELETE FROM
+    		SLEEPMEMBERRESERVELIST
+    	WHERE 
+    		SEQ = #{seq}
+    </delete>
 </mapper>

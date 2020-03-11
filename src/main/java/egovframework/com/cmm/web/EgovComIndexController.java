@@ -170,10 +170,7 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 	}
 
 	@RequestMapping("/EgovLeft.do")
-	public String setLeftMenu(ModelMap model) throws Exception {
-
-
-
+	public String setLeftMenu(ModelMap model) throws Exception { 
 		return "egovframework/com/cmm/EgovUnitLeft";
 	
 	}

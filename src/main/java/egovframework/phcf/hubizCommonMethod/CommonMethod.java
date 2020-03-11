@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -306,4 +307,20 @@ public class CommonMethod {
 			return Integer.parseInt(src.toString());
 		}
 	}
+	
+	public String getFileContent(String fileName) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(fileName).getFile());
+        StringBuilder sb = new StringBuilder("");
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                sb.append(line).append("\n");
+            }
+            scanner.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
 }

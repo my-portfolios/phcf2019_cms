@@ -182,7 +182,11 @@ function fnSearch(){
 	</c:if>
 	<c:forEach var="result" items="${resultList}" varStatus="status">
 	<tr>
-	    <td><c:out value="${status.count}"/></td>
+		<c:set var="uniqId">${fn:split(result.uniqId, '_')[1]}</c:set>
+	    <td>
+	    	<fmt:formatNumber value="${uniqId}" type="number" groupingUsed="false" var="uniqId"/>
+	    	<c:out value="${uniqId}"/>
+	    </td>
 	    <td>
 	        <input name="checkField" title="checkField <c:out value="${status.count}"/>" type="checkbox"/>
 	        <input name="checkId" type="hidden" value="<c:out value='${result.userTy}'/>:<c:out value='${result.uniqId}'/>"/>

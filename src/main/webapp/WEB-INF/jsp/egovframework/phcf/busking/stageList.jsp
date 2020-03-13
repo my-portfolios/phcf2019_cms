@@ -487,7 +487,7 @@
 			</tr>
 			<tr>
 				<th>대표자</th>
-				<td id="HEAD_NAME"></td>
+				<td id="HEAD_NM"></td>
 				
 				<th>연락처</th>
 				<td id="PHONE" colspan="2"></td>
@@ -540,3 +540,5 @@
 </div>
 </body>
 </html>
+
+

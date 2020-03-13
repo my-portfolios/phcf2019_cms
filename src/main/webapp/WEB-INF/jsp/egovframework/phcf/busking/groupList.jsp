@@ -102,7 +102,7 @@
 				deleteItem: function(item) {
 					return $.ajax({
 						type: 'POST'
-						, url: '/busking/deleteGroup.do'
+						, url: '/busking/deleteBusking.do'
 						, data: item
 						, success: function(result) {
 							$("#jsGrid").jsGrid("loadData");

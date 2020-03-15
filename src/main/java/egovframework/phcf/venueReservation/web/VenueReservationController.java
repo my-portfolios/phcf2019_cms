@@ -104,13 +104,18 @@ public class VenueReservationController {
 			
 			String useDateTime = "";
 			String useDateTimeLine = "";
+			int datesCount = 1;
 			for(HashMap<String, Object> dates : venueReservationDatesList) {
 				String useDate = dates.get("USE_DATE").toString();
 				String useStartTime = dates.get("USE_START_TIME").toString().substring(0,5);
 				String useEndTime = dates.get("USE_END_TIME").toString().substring(0,5);
 				
-				useDateTime += String.format("%s %s ~ %s<br/>", useDate, useStartTime, useEndTime);
+				useDateTime += String.format("%s %s ~ %s", useDate, useStartTime, useEndTime);
 				useDateTimeLine += String.format("%s %s ~ %s, ", useDate, useStartTime, useEndTime);
+				
+				if(datesCount%3 == 0) useDateTime += "<br/>";
+				else useDateTime += " | ";
+				datesCount++;
 			}
 			
 			reservation.put("venueReservationDatesList", venueReservationDatesList);

@@ -61,9 +61,9 @@
 	        <select class="floatleft" id="searchType"><!--  -->
 	            <option value="USER_ID">아이디</option>
 	            <option value="MANAGER_NAME">이름</option>
-	            <c:if test='<%= request.getParameter("fixStatus") == null %>'>
+	            <%-- <c:if test='<%= request.getParameter("fixStatus") == null %>'>
 	            	<option value="SEARCH_DATE">대관일</option>
-	            </c:if>
+	            </c:if> --%>
 	        </select>
 		</li>
 		<!-- 검색키워드 및 조회버튼 -->

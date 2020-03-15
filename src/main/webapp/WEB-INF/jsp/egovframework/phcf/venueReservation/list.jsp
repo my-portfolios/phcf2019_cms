@@ -112,6 +112,7 @@
 			 	{name: 	'EVENT_NAME', 	title: '행사 명', 	type: 'text', 	editing: false, width: 250, align: "center" },
 			 	{name: 	'ORGAN_NAME', 	title: '업체 및 단체명', 	type: 'text', 	editing: false, width: 200, align: "center"},
 			 	{name: 	'RESULT', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true,width: 110, align: "center"},
+			 	{name: 	'CREATE_DT', title: '등록일', 	type: 'text', editing: false, width: 110, align: "center"},
 			 	{type: 'control', editButton: true, deleteButton: false, width: 70,updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
 			]
 		});
@@ -345,8 +346,8 @@
 				<th>담당자 이름</th>
 				<td id="MANAGER_NAME"></td>
 				
-				<th>담당자 직위</th>
-				<td id="MANAGER_GRADE" colspan="2" ></td>
+				<th>연락처 2</th>
+				<td id="TELNUMBER2" colspan="2" ></td>
 			</tr>
 			<tr>
 				<th>신청아이디</th>

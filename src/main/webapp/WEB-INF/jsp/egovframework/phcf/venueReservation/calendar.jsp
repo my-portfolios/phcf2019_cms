@@ -47,6 +47,10 @@
 				searchObject.fixStatus = "Y";
 				
 				loadEvent(searchObject);
+				
+				$("[aria-label='prev'], [aria-label='next']").on("click", function() {
+					loadEvent(searchObject);
+				});
 			};
 			
 			function loadEvent(filter){

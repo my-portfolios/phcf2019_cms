@@ -20,48 +20,47 @@
 	
 	<select id="selectVenueReservationRegList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		/* VenueReservationDAO.selectVenueReservationRegList */
-		SELECT
-			SEQ,
-			VENUE,
-			USE_ROOM,
-			MANAGER_NAME,
-			EVENT_NAME,
-			ORGAN_NAME,
-			TELNUMBER,
-			TELNUMBER2,
-			EMAIL,
-			FILE_ID,
-			USER_ID,
-			RESULT,
-			CHECK_YN,
-			CREATE_DT,
-			UPDATE_DT
+		SELECT DISTINCT
+			AA.SEQ,
+			AA.VENUE,
+			AA.USE_ROOM,
+			AA.MANAGER_NAME,
+			AA.EVENT_NAME,
+			AA.ORGAN_NAME,
+			AA.TELNUMBER,
+			AA.TELNUMBER2,
+			AA.EMAIL,
+			AA.FILE_ID,
+			AA.USER_ID,
+			AA.RESULT,
+			AA.CHECK_YN,
+			AA.CREATE_DT,
+			AA.UPDATE_DT
 		FROM
-			VENUERESERVATIONREG
+			VENUERESERVATIONREG AA,
+			VENUERESERVATIONDATES BB
 		WHERE 1=1
+			AND AA.SEQ = BB.REG_ID
 			<if test='fixStatus != null and fixStatus == "Y"'>
-				AND RESULT NOT IN ('C','D','O')
+				AND AA.RESULT NOT IN ('C','D','O')
 			</if>
 			<if test='venueCnd != null and venueCnd != ""'>
-				AND VENUE = #{venueCnd}
+				AND AA.VENUE = #{venueCnd}
 			</if>
 			<if test='resultCnd != null and resultCnd != ""'>
-				AND RESULT = #{resultCnd}
+				AND AA.RESULT = #{resultCnd}
 			</if>
-			<choose>
-				<when test = 'searchCnd == "SEARCH_DATE" and keyword != null and keyword != ""'>
-					AND (USE_DATE1 = #{keyword} OR USE_DATE2 = #{keyword} OR USE_DATE3 = #{keyword} OR USE_DATE4 = #{keyword} OR USE_DATE5 = #{keyword})
-				</when>
-				<otherwise>
-					<if test='searchCnd != null and searchCnd != "" and keyword != null and keyword != ""'>
-						AND ${searchCnd} LIKE '%' #{keyword} '%'
-					</if>
-				</otherwise>
-			</choose>
-			ORDER BY SEQ DESC
+			<if test='searchCnd != null and searchCnd != "" and keyword != null and keyword != ""'>
+				AND AA.${searchCnd} LIKE '%' #{keyword} '%'
+			</if>
+			<if test='currentDate != null and currentDate != ""'>
+				AND BB.USE_DATE LIKE '%' #{currentDate} '%'
+			</if>
+			ORDER BY AA.SEQ DESC
 			<if test='pageSize != null and pageOffset != null'>
 				LIMIT ${pageSize} OFFSET ${pageOffset}
 			</if>
+
 	</select>
 	
 	<select id="selectVenueReservationDatesList" parameterType="java.util.HashMap" resultType="java.util.HashMap">

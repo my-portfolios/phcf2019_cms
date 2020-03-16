@@ -4,7 +4,7 @@
 <html>
 	<link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="/css/egovframework/phcf/datepicker.css" />
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script> 		
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script> 		
 	<script src="/js/egovframework/phcf/datepicker.js"></script>
 	<script src="/js/egovframework/phcf/datepicker.ko.js"></script>
 	<script src="/js/egovframework/phcf/CommonMethod.js"></script>

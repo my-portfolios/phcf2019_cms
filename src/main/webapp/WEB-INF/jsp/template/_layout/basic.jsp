@@ -26,7 +26,7 @@
 <title>문화재단</title>
 
 <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
-<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,600,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="<c:url value='/css/egovframework/phcf/main/style.css' />">
 <link rel="stylesheet" href="<c:url value='/css/egovframework/phcf/main/menu.css' />">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/egovframework/phcf/slick/slick.css' />"/>

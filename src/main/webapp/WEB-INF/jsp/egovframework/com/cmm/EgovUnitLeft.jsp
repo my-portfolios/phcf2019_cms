@@ -10,7 +10,7 @@
 <title>eGovFrame 공통 컴포넌트</title>
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link href="<c:url value='/css/egovframework/com/cmm/main.css' />" rel="stylesheet" type="text/css">
-<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.8.2.min.js"></script>
 <style>
     .menu li {cursor:pointer;}
     .menu .hide{display:none;}

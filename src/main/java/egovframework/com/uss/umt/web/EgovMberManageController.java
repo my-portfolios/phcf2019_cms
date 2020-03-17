@@ -311,6 +311,9 @@ public class EgovMberManageController {
 			if ("".equals(mberManageVO.getGroupId())) {//KISA 보안약점 조치 (2018-10-29, 윤창원)
 				mberManageVO.setGroupId(null);
 			}
+			else if ("".equals(mberManageVO.getMembershipStartDt())) {//KISA 보안약점 조치 (2018-10-29, 윤창원)
+				mberManageVO.setMembershipStartDt(null);
+			}
 			mberManageService.updateMber(mberManageVO);
 			//Exception 없이 진행시 수정성공메시지
 			model.addAttribute("resultMsg", "success.common.update");

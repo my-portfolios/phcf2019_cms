@@ -73,7 +73,7 @@
 				<form name="subForm" method="post" action="<c:url value='/cop/bbs/selectArticleDetail.do'/>">
 				    <input name="nttId" type="hidden" value="<c:out value="${articleVO.nttId}"/>">
 				    <input name="bbsId" type="hidden" value="<c:out value="${articleVO.bbsId}"/>">
-				    <span class="link"><input type="submit" value="<c:out value='${fn:substring(articleVO.nttSj, 0, 40)}'/>" style="border:0px solid #e0e0e0;"></span>
+				    <span class="link"><input type="submit" value="<c:out value='${fn:substring(articleVO.nttSj, 0, 100)}'/>" style="border:0px solid #e0e0e0;"></span>
 				</form>
 			</td>
 		</tr>

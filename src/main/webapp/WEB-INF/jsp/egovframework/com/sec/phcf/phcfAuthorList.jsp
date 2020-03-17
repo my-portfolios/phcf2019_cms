@@ -34,15 +34,15 @@ $(document).ready(function() {
 	
 	// 필터링 기능 때문에 전체를 조회 할 수 있는 코드값을 추가 함.
 	var pageArr = ${pageList};
-	pageArr.unshift({code: '', codeNm: '전체'});
+	pageArr.unshift({code: '', codeNm: ''});
 	var deptArr = ${deptList};
-	deptArr.unshift({deptCode: '', deptNm: '전체'})
+	deptArr.unshift({deptCode: '', deptNm: ''})
 	var groupArr = ${groupList};
-	groupArr.unshift({groupId: '', groupNm: '전체'});
+	groupArr.unshift({groupId: '', groupNm: ''});
 	var menuArr = ${menuList};
-	menuArr.unshift({link: '', menuNm: '전체'});
+	menuArr.unshift({link: '', menuNm: ''});
 	var useYnArr = [{code : 'Y', codeNm: 'Y'}, {code : 'N', codeNm: 'N'}];
-	useYnArr.unshift({code: '', codeNm: '전체'});
+	useYnArr.unshift({code: '', codeNm: ''});
 	
 	// jsGrid 셋팅
 	$('#jsGrid').jsGrid({

@@ -117,14 +117,18 @@ function fncOnChangeImage() {
 			<th><spring:message code="ussIonBnr.bannerUpdt.linkUrl"/> <span class="pilsu">*</span></th><!-- 링크URL -->
 			<td class="left">
 			    <input name="linkUrl" id="linkUrl" title="<spring:message code="ussIonBnr.bannerUpdt.linkUrl"/>" type="text" value="<c:out value='${banner.linkUrl}'/>" maxLength="255" />&nbsp;<form:errors path="linkUrl" />
+			    페이지 이동을 하지 않으려면 #을 입력하십시오.	
 			</td>
 		</tr>
 		<tr>
 			<th><spring:message code="ussIonBnr.bannerUpdt.bannerImage"/> <span class="pilsu">*</span></th><!-- 배너이미지 -->
 			<td class="left">
 				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=1.8','bannerImage','width=1000,height=640,resizable=no');" value="선택"/>
-				페이지 이동을 하지 않으려면 #을 입력하십시오.	
+				
 	            <input type="hidden" id="popupImage" name="popupImage" value="${banner.bannerImage}" readOnly/>
+	            <br /><br />
+	            <img src="/images/egovframework/phcf/admin/cms_banner03.png" alt=""><br />
+	            (메인 배너 사이즈 : 420px * 223px or 700 * 347, 문화공간 배너 사이즈 : 준비중, 축제 배너 사이즈 : 준비중)
 			</td>
 			<%-- <td class="left">
 			    <div class="egov_file_box" style="display:inline-block">

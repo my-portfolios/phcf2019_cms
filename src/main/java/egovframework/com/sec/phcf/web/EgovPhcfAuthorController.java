@@ -222,6 +222,6 @@ public class EgovPhcfAuthorController {
     
     @RequestMapping(value="/sec/phcf/EgovPhcfAuthorBanGoToUrl.do")
 	public ModelAndView EgovPhcfAuthorBanGoToUrl(ModelMap model) throws Exception {
-    	return CommonMethod.generalAlertThrowing("", "_content", "접근 권한이 없습니다!");
+    	return CommonMethod.generalAlertThrowing("/", "_self", "접근 권한이 없습니다!");
 	}
 }

@@ -27,6 +27,7 @@ import egovframework.com.sec.phcf.service.AuthManage;
 import egovframework.com.sec.phcf.service.AuthManageVO;
 import egovframework.com.sec.phcf.service.EgovPhcfAuthorService;
 import egovframework.com.utl.cas.service.EgovSessionCookieUtil;
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.phcf.util.JsonUtil;
 
 /**
@@ -113,7 +114,8 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 				request.setAttribute("phcfAuthCheck",phcfAuthCheck);
 				
 				if(!phcfAuthCheck) {
-					ModelAndView modelAndView = new ModelAndView("redirect:"+banGoToUrl);
+					ModelAndView modelAndView = CommonMethod.generalAlertThrowing("/", "_self", "접근 권한이 없습니다!"); 
+							/*new ModelAndView("forward:"+banGoToUrl);*/
 					throw new ModelAndViewDefiningException(modelAndView);
 				}
 			}

@@ -174,7 +174,7 @@ public class EgovMainImageController {
 	    	
 	    	CommonMethod.base64ImageDecoder(popupImage, "MAIN_IMG", mainImage.getImageId());
 	    	
-	    	String imageDc = paramMap.get("mainSubject") + "|" + paramMap.get("subSubject") + "|" + paramMap.get("connectPage");
+	    	String imageDc = paramMap.get("mainSubject") + "|" + paramMap.get("subSubject") + "|" + paramMap.get("connectPage") + "|" + paramMap.get("target");
 	    	mainImage.setImageDc(imageDc);
 
 	    	model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
@@ -208,7 +208,7 @@ public class EgovMainImageController {
 		} else {
 			CommonMethod.base64ImageDecoder(popupImage, "MAIN_IMG", mainImage.getImageId());
 
-			String imageDc = paramMap.get("mainSubject") + "|" + paramMap.get("subSubject") + "|" + paramMap.get("connectPage");
+			String imageDc = paramMap.get("mainSubject") + "|" + paramMap.get("subSubject") + "|" + paramMap.get("connectPage") + "|" + paramMap.get("target");
 			
 	    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 	    	mainImage.setUserId(user.getId());

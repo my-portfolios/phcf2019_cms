@@ -159,8 +159,14 @@ function fncOnChangeImage() {
 		<tr class="mainTitle" <c:if test="${mainImage.displayPage != '메인'}">style="display:none;"</c:if>>
 			<th>연결될 페이지</th>
 			<td class="left">
-			    <input name="connectPage" title="연결될 페이지" type="text" value="<c:out value='${fn:split(mainImage.imageDc,"|")[2]}'/>" maxLength="100" />			    
+			    주소 : <input name="connectPage" title="연결될 페이지" type="text" value="<c:out value='${fn:split(mainImage.imageDc,"|")[2]}'/>" maxLength="100" />			    
 			    페이지 이동을 하지 않으려면 #을 입력하십시오.
+				<br/><br/>
+				표시 될 창 : 
+				<select name="target">
+					<option value="_blank" <c:if test="${fn:split(mainImage.imageDc,'|')[3] == '_blank'}">selected</c:if>>새 창으로 열기</option>
+					<option value="_self" <c:if test="${fn:split(mainImage.imageDc,'|')[3] == '_self'}">selected</c:if>>현재 창으로 열기</option>
+				</select>
 			</td>
 		</tr>
 		<tr>

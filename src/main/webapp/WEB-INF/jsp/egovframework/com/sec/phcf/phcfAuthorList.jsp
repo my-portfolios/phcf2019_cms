@@ -167,6 +167,7 @@ $(document).ready(function() {
 				<option value="cms" <c:if test="${page == 'cms' }">selected</c:if>>관리자페이지</option>
 				<option value="main" <c:if test="${page == 'main' }">selected</c:if>>메인홈페이지</option>
 				<option value="place" <c:if test="${page == 'place' }">selected</c:if>>문화공간페이지</option>
+				<option value="festival" <c:if test="${page == 'festival' }">selected</c:if>>문화공간페이지</option>
 			</select>
 		</li>
 	</ul>

@@ -147,9 +147,12 @@ public class CommonMethod {
 	 * @param date
 	 * @return list
 	 */
-	public static ArrayList<Object> addList(ArrayList<Object> list, String obj) {
-		if(!list.contains(obj)) list.add(obj);
-		return list;
+	public static ArrayList<Object> addList(List<Object> list, Object obj) {
+		ArrayList<Object> copiedList = new ArrayList<>();
+		copiedList.addAll(list);
+		
+		if(!copiedList.contains(obj)) copiedList.add(obj);
+		return copiedList;
 	}
 
 	/**
@@ -308,6 +311,27 @@ public class CommonMethod {
 		}
 	}
 	
+	public static int numberConvert(Object src, int defaultValue) {
+
+		if (src == null || src.equals("null") || src.equals("")) {
+			return defaultValue;
+		} else {
+			return Integer.parseInt(src.toString());
+		}
+	}
+	
+	public static String stringConvert(Object src, String defaultValue) {
+
+		if (src == null || src.equals("null") || src.equals("")) {
+			return defaultValue;
+		} else {
+			return src.toString();
+		}
+	}
+	
+	/*
+	 * 파일 경로를 넣으면 파일의 내용을 반환한다.
+	 */
 	public String getFileContent(String fileName) {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(fileName).getFile());

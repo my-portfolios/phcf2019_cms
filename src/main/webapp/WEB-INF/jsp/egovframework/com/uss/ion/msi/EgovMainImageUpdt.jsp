@@ -36,16 +36,38 @@
 <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>"></script>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
+
+<link rel="stylesheet" href="/css/egovframework/phcf/datepicker.css" /> 		
+<script src="/js/egovframework/phcf/datepicker.js"></script>
+<script src="/js/egovframework/phcf/datepicker.ko.js"></script>
 <validator:javascript formName="mainImage" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javaScript" language="javascript">
 
 $(function(){
 	$("#displayPage").on("change", function(){
-		if($(this).val()=="메인"){
+		if($(this).val()!="문화공간"){
 			$(".mainTitle").css("display","");
+			if($(this).val() == "축제"){
+				$(".dday").css("display","");
+			}
+			else {
+				$(".dday").css("display","none");
+			}
 		}
 		else {
 			$(".mainTitle").css("display","none");
+		}
+	});
+	 
+	$("#dday").datepicker({
+		language: 'ko',
+		position: 'top right',
+		clearButton: true,
+		showOtherMonths: false,
+		moveToOtherMonthsOnSelect: false,
+		selectOtherMonths: false,
+		navTitles: {
+			days: 'yyyy 년 MM'
 		}
 	});
 });
@@ -88,7 +110,6 @@ function fncOnChangeImage() {
 
 <body>
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript><!-- 자바스크립트를 지원하지 않는 브라우저에서는 일부 기능을 사용하실 수 없습니다. -->
-
 <div class="wTableFrm">
 	<!-- 타이틀 -->
 	<h2><spring:message code="uss.ion.msi.mainImageUpdt.mainImageUpdt" /></h2><!-- 메인화면이미지 수정 -->
@@ -111,16 +132,16 @@ function fncOnChangeImage() {
 				</select>	
 			</td>
 		</tr>
-		<tr class="mainTitle" <c:if test="${mainImage.displayPage != '메인'}">style="display:none;"</c:if>>
+		<tr class="mainTitle" <c:if test="${mainImage.displayPage == '문화공간'}">style="display:none;"</c:if>>
 			<th>주 제목</th>
 			<td class="left">
-			    <input name="mainSubject" title="주 제목" type="text" value="<c:out value='${fn:split(mainImage.imageDc,"|")[0]}'/>" maxLength="100" />
+			    <input name="mainSubject" title="주 제목" type="text" value="${mainImage.mainSubject}" maxLength="100" />
 			</td>
 		</tr>
-		<tr class="mainTitle" <c:if test="${mainImage.displayPage != '메인'}">style="display:none;"</c:if>>
+		<tr class="mainTitle" <c:if test="${mainImage.displayPage == '문화공간'}">style="display:none;"</c:if>>
 			<th>부 제목</th>
 			<td class="left">
-			    <input name="subSubject" title="부 제목" type="text" value="<c:out value='${fn:split(mainImage.imageDc,"|")[1]}'/>" maxLength="100" />
+			    <input name="subSubject" title="부 제목" type="text" value="${mainImage.subSubject}" maxLength="100" />
 			</td>
 		</tr>
 		<tr style="display:none;">
@@ -156,17 +177,23 @@ function fncOnChangeImage() {
 			<th>적용 이미지 미리보기</th>
 			<td  class="left"><img id="popupImageView" style="width:80%;" src="/upload/MAIN_IMG/${mainImage.imageId}.png?<%=new java.util.Date()%>" class="max-img"/></td>
 		</tr>
-		<tr class="mainTitle" <c:if test="${mainImage.displayPage != '메인'}">style="display:none;"</c:if>>
+		<tr class="mainTitle" <c:if test="${mainImage.displayPage == '문화공간'}">style="display:none;"</c:if>>
 			<th>연결될 페이지</th>
 			<td class="left">
-			    주소 : <input name="connectPage" title="연결될 페이지" type="text" value="<c:out value='${fn:split(mainImage.imageDc,"|")[2]}'/>" maxLength="100" />			    
+			    주소 : <input name="connectPage" title="연결될 페이지" type="text" value="${mainImage.connectPage}" maxLength="100" />			    
 			    페이지 이동을 하지 않으려면 #을 입력하십시오.
 				<br/><br/>
 				표시 될 창 : 
 				<select name="target">
-					<option value="_blank" <c:if test="${fn:split(mainImage.imageDc,'|')[3] == '_blank'}">selected</c:if>>새 창으로 열기</option>
-					<option value="_self" <c:if test="${fn:split(mainImage.imageDc,'|')[3] == '_self'}">selected</c:if>>현재 창으로 열기</option>
+					<option value="_blank" <c:if test="${mainImage.target == '_blank'}">selected</c:if>>새 창으로 열기</option>
+					<option value="_self" <c:if test="${mainImage.target == '_self'}">selected</c:if>>현재 창으로 열기</option>
 				</select>
+			</td>
+		</tr>
+		<tr class="mainTitle dday" <c:if test="${mainImage.displayPage != '축제'}">style="display:none;"</c:if>>
+			<th>D-Day 설정</th>
+			<td class="left">
+			    <input name="dday" id="dday" title="D-Day" type="text" value="${mainImage.dday}" maxLength="100" readOnly/>			    
 			</td>
 		</tr>
 		<tr>

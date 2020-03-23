@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ArtTourDAO">
+
+	<select id="selectArtTourApplierList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		/* ArtTourDAO.selectArtTourApplierList */
+		SELECT DISTINCT
+			AA.SEQ,
+			AA.BBS_ID,
+			AA.NTT_ID,
+			AA.MBER_ID,
+			AA.APL_DATE,
+			AA.APL_NAME,
+			AA.APL_PHONE,
+			AA.APL_EMAIL,
+			AA.APL_POSTCODE,
+			AA.APL_ADDRESS,
+			AA.APL_PRICE,
+			AA.MEMO,
+			AA.FILE_ID,
+			AA.RESULT,
+			DATE_FORMAT(AA.CREATE_DT,'%Y-%m-%d %H:%i:%s') AS CREATE_DT,			
+			DATE_FORMAT(AA.UPDATE_DT,'%Y-%m-%d %H:%i:%s') AS UPDATE_DT
+		FROM
+			APPLIERINFO AA
+		WHERE 1=1
+			AND BBS_ID NOT LIKE "BBSMSTR_%"
+			<if test='SEQ != null and SEQ != ""'>
+				AND AA.SEQ = #{SEQ}
+			</if>
+			<if test='APL_NAME != null and APL_NAME != ""'>
+				AND AA.APL_NAME LIKE "%" #{APL_NAME} "%"
+			</if>
+			<if test='APL_PHONE != null and APL_PHONE != ""'>
+				AND AA.APL_PHONE LIKE "%" #{APL_PHONE} "%"
+			</if>
+			<if test='BBS_ID != null and BBS_ID != ""'>
+				AND AA.BBS_ID LIKE "%" #{BBS_ID} "%"
+			</if>
+			<if test='NTT_ID != null and NTT_ID != ""'>
+				AND AA.NTT_ID LIKE "%" #{NTT_ID} "%"
+			</if>
+			<if test='RESULT != null and RESULT != ""'>
+				AND AA.RESULT = #{RESULT}
+			</if>
+		ORDER BY AA.SEQ DESC
+		<if test='pageSize != null and pageOffset != null'>
+			LIMIT ${pageSize} OFFSET ${pageOffset}
+		</if>
+	</select>
+	
+	<select id="selectArtTourApplierListCnt" parameterType="java.util.HashMap" resultType="int">
+		/* PerformanceDAO.selectPerformanceApplierListCnt */
+		WITH APPLIED_LIST AS (
+			SELECT DISTINCT
+				AA.SEQ AS SEQ
+			FROM
+				APPLIERINFO AA
+			WHERE 1=1
+				AND BBS_ID NOT LIKE "BBSMSTR_%"
+				<if test='SEQ != null and SEQ != ""'>
+					AND AA.SEQ = #{SEQ}
+				</if>
+				<if test='APL_NAME != null and APL_NAME != ""'>
+					AND AA.APL_NAME LIKE "%" #{APL_NAME} "%"
+				</if>
+				<if test='APL_PHONE != null and APL_PHONE != ""'>
+					AND AA.APL_PHONE LIKE "%" #{APL_PHONE} "%"
+				</if>
+				<if test='BBS_ID != null and BBS_ID != ""'>
+					AND AA.BBS_ID LIKE "%" #{BBS_ID} "%"
+				</if>
+				<if test='NTT_ID != null and NTT_ID != ""'>
+					AND AA.NTT_ID LIKE "%" #{NTT_ID} "%"
+				</if>
+				<if test='RESULT != null and RESULT != ""'>
+					AND AA.RESULT = #{RESULT}
+				</if>
+		)
+		SELECT COUNT(*) AS CNT FROM APPLIED_LIST
+	</select>
+	
+	<select id="selectAppliedVisitorArtTourList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		/* PerformanceDAO.selectAppliedVisitorPerformanceList */
+		SELECT 
+			*
+		FROM
+			APPLYVISITORINFO	
+		WHERE 1=1
+        AND APL_ID = #{SEQ}
+	</select>
+	
+	<update id="updateArtTourApplierItem" parameterType="java.util.HashMap">
+		/* PerformanceDAO.updatePerformanceAppliedData */
+		UPDATE
+			APPLIERINFO
+		SET
+			RESULT = #{RESULT}
+		WHERE 
+			SEQ = #{SEQ}  
+	</update>
+
+</mapper>

@@ -128,6 +128,12 @@ function fncBannerDelete() {
 			<td class="left">
 				<input id="linkUrl" type="text" name="linkUrl" value="<c:out value='${banner.linkUrl}'/>" title="<spring:message code="ussIonBnr.bannerRegist.linkUrl"/>" maxLength="255" />
 				<form:errors path="linkUrl" />페이지 이동을 하지 않으려면 #을 입력하십시오.
+				<br/>
+				표시 될 창 : 
+				<select name="bannerDc">
+					<option value="_blank" <c:if test="${mainImage.bannerDc == '_blank'}">selected</c:if>>새 창으로 열기</option>
+					<option value="_self" <c:if test="${mainImage.bannerDc == '_self'}">selected</c:if>>현재 창으로 열기</option>
+				</select>
 			</td>
 		</tr>
 		<tr>
@@ -147,12 +153,12 @@ function fncBannerDelete() {
 			<th>배너 이미지 미리보기</th>
 			<td class="left"><img id="popupImageView" style="width:80%;"  class="max-img"/></td>
 		</tr>
-		<tr style="display:none;">
+		<%-- <tr style="display:none;">
 			<th><spring:message code="ussIonBnr.bannerRegist.bannerDc"/> </th><!-- 배너설명 -->
 			<td class="left">
 				<input id="bannerDc" type="text" name="bannerDc" value="<c:out value='${banner.bannerDc}'/>" title="<spring:message code="ussIonBnr.bannerRegist.bannerDc"/>" maxLength="100" />
 			</td>
-		</tr>
+		</tr> --%>
 		<tr>
 			<th><spring:message code="ussIonBnr.bannerRegist.sortOrdr"/> <span class="pilsu">*</span></th><!-- 정렬순서 -->
 			<td class="left">

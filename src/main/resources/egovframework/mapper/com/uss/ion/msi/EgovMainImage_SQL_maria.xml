@@ -12,6 +12,11 @@
         <result property="imageFile" column="IMAGE_FILE"/>
         <result property="imageDc" column="IMAGE_DC"/>
         <result property="reflctAt" column="REFLCT_AT"/>
+        <result property="mainSubject" column="MAIN_SUBJECT"/>
+        <result property="subSubject" column="SUB_SUBJECT"/>
+        <result property="connectPage" column="CONNECT_PAGE"/>
+        <result property="target" column="TARGET"/>
+        <result property="dday" column="DDAY"/>
         <result property="userId" column="FRST_REGISTER_ID"/>
         <result property="regDate" column="FRST_REGIST_PNTTM"/>
     </resultMap>
@@ -34,6 +39,11 @@
                    IMAGE_FILE,
                    IMAGE_DC,
                    REFLCT_AT,
+                   MAIN_SUBJECT,
+                   SUB_SUBJECT,
+                   CONNECT_PAGE,
+                   TARGET,
+                   DDAY,
                    FRST_REGISTER_ID,
                    FRST_REGIST_PNTTM
               FROM COMTNMAINIMAGE
@@ -65,6 +75,11 @@
                    IMAGE_FILE,
                    IMAGE_DC,
                    REFLCT_AT,
+                   MAIN_SUBJECT,
+                   SUB_SUBJECT,
+                   CONNECT_PAGE,
+                   TARGET,
+                   DDAY,
                    FRST_REGISTER_ID,
                    FRST_REGIST_PNTTM 
               FROM COMTNMAINIMAGE 
@@ -82,6 +97,11 @@
                    		SORT_ORDR,
                         IMAGE_FILE,
                         IMAGE_DC,
+                        MAIN_SUBJECT,
+                        SUB_SUBJECT,
+                        CONNECT_PAGE,
+                        TARGET,
+                        DDAY,
                         REFLCT_AT,
                         FRST_REGISTER_ID,
                         FRST_REGIST_PNTTM)
@@ -92,6 +112,11 @@
                         #{sortOrdr},
                         #{imageFile},
                         #{imageDc},
+                        #{mainSubject},
+                   		#{subSubject},
+                   		#{connectPage},
+                   		#{target},
+                   		#{dday},
                         #{reflctAt},
                         #{userId},
                         now())
@@ -107,6 +132,11 @@
                    SORT_ORDR = #{sortOrdr},
                    IMAGE_DC = #{imageDc},
                    REFLCT_AT = #{reflctAt},
+                   MAIN_SUBJECT = #{mainSubject},
+                   SUB_SUBJECT = #{subSubject},
+                   CONNECT_PAGE = #{connectPage},
+                   TARGET = #{target},
+                   DDAY = #{dday},
                    LAST_UPDUSR_ID = #{userId},
                    LAST_UPDT_PNTTM = now()
              WHERE IMAGE_ID = #{imageId}    

@@ -118,6 +118,12 @@ function fncOnChangeImage() {
 			<td class="left">
 			    <input name="linkUrl" id="linkUrl" title="<spring:message code="ussIonBnr.bannerUpdt.linkUrl"/>" type="text" value="<c:out value='${banner.linkUrl}'/>" maxLength="255" />&nbsp;<form:errors path="linkUrl" />
 			    페이지 이동을 하지 않으려면 #을 입력하십시오.	
+			    <br/>
+				표시 될 창 : 
+				<select name="bannerDc">
+					<option value="_blank" <c:if test="${mainImage.bannerDc == '_blank'}">selected</c:if>>새 창으로 열기</option>
+					<option value="_self" <c:if test="${mainImage.bannerDc == '_self'}">selected</c:if>>현재 창으로 열기</option>
+				</select>
 			</td>
 		</tr>
 		<tr>
@@ -144,12 +150,12 @@ function fncOnChangeImage() {
 				<img id="popupImageView" src="/upload/BANNER/${banner.bannerId}.png?<%=new java.util.Date()%>">
 			</td>
 		</tr>		
-		<tr style="display:none;">
+		<%-- <tr style="display:none;">
 			<th><spring:message code="ussIonBnr.bannerUpdt.bannerDc"/></th><!-- 배너설명 -->
 			<td class="left">
 			    <input name="bannerDc" id="bannerDc" title="<spring:message code="ussIonBnr.bannerUpdt.bannerDc"/>" type="text" value="<c:out value='${banner.bannerDc}'/>" maxLength="100" />
 			</td>
-		</tr>
+		</tr> --%>
 		<tr>
 			<th><spring:message code="ussIonBnr.bannerUpdt.sortOrdr"/> <span class="pilsu">*</span></th><!-- 정렬순서 -->
 			<td class="left">

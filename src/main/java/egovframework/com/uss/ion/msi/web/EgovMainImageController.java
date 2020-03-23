@@ -172,11 +172,10 @@ public class EgovMainImageController {
 	    	mainImage.setImageId(egovMainImageIdGnrService.getNextStringId());
 	    	mainImage.setUserId(user.getId());
 	    	
-	    	CommonMethod.base64ImageDecoder(popupImage, "MAIN_IMG", mainImage.getImageId());
+	    	if(popupImage != null) {
+	    		CommonMethod.base64ImageDecoder(popupImage, "MAIN_IMG", mainImage.getImageId());
+	    	}
 	    	
-	    	String imageDc = paramMap.get("mainSubject") + "|" + paramMap.get("subSubject") + "|" + paramMap.get("connectPage") + "|" + paramMap.get("target");
-	    	mainImage.setImageDc(imageDc);
-
 	    	model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
 	    	model.addAttribute("mainImage", egovMainImageService.insertMainImage(mainImage, mainImageVO));
 
@@ -206,13 +205,12 @@ public class EgovMainImageController {
     		model.addAttribute("mainImageVO", mainImage);
 			return "egovframework/com/uss/ion/msi/EgovMainImageUpdt";
 		} else {
-			CommonMethod.base64ImageDecoder(popupImage, "MAIN_IMG", mainImage.getImageId());
+			if(popupImage != null) {
+				CommonMethod.base64ImageDecoder(popupImage, "MAIN_IMG", mainImage.getImageId());
+			}
 
-			String imageDc = paramMap.get("mainSubject") + "|" + paramMap.get("subSubject") + "|" + paramMap.get("connectPage") + "|" + paramMap.get("target");
-			
 	    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 	    	mainImage.setUserId(user.getId());
-	    	mainImage.setImageDc(imageDc);
 
 	    	egovMainImageService.updateMainImage(mainImage);
 //	    	return "forward:/uss/ion/msi/getMainImage.do";

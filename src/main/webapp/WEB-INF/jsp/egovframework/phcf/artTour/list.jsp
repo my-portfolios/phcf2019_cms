@@ -8,30 +8,31 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>무대 신청자 리스트</title>
+<title>신청자 리스트</title>
 <link href="<c:url value='/css/egovframework/com/com.css' />" rel="stylesheet" type="text/css">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/jqueryui.css' />">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/Chart.min.css' />">
 <link type="text/css" rel="stylesheet" href="/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet" href="/js/egovframework/phcf/jsgrid-1.5.3/jsgrid-theme.min.css" />
+
 <script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/jqueryui.js' />"></script>
 <link rel="stylesheet" type="text/css" href="/css/egovframework/phcf/popup.css"/>
 <script src="<c:url value='/js/egovframework/com/cmm/Chart.min.js' />"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/Chart.bundle.min.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.js'/>"></script>
-
 <script>
-	var searchFilter = new Object();
 	var jsonString;
+	var articleUrl;
 	var resultCode = [
-			{Name : "접수 요청", Id: "R"},
- 			{Name : "접수 취소", Id: "C"},
- 			{Name : "접수 완료", Id: "S"},
- 			{Name : "승인 완료", Id: "A"},
- 			{Name : "승인 거절", Id: "D"},
- 			{Name : "승인 취소", Id: "O"}
- 		];
+		{Name : "전체", Id: ""},
+		{Name : "신청 완료", Id: "R"},
+		{Name : "반려", Id: "N"},
+		{Name : "승인 완료", Id: "C"},
+		{Name : "보류", Id: "D"},
+		{Name : "처리 중", Id: "I"},
+		{Name : "취소 신청", Id: "B"}
+	];
 	
 	$(function(){
 		
@@ -40,6 +41,7 @@
 			height: 'auto',
 			autoload: true,
 			editing: true,
+			filtering: true,
 			paging: true,
 			pageLoading: true,
 			pageSize: 10,
@@ -52,23 +54,18 @@
 			controller: {
 				loadData: function(filter) {			
 					var d = $.Deferred();
-					
-					searchFilter.pageIndex = filter.pageIndex;
-					searchFilter.pageSize = filter.pageSize;
-					
 					$.ajax({
 						type: 'POST',
-						url: '/venueReservation/selectReservationListToJson.do',
+						url: '/artTour/selectArtTourApplierListJson.do',
 						dataType: 'JSON',
-						data: searchFilter,
+						data: filter,
 						success : function(data){
 							try {
-								jsonString = data.venueReservationRegJson;
-								jsonString = JSON.parse(jsonString);
+								jsonString = data.artTourApplierList;
 								
 								var list = {
 									data: jsonString,
-									itemsCount : jsonString == 0 ? 0 : JSON.parse(data.venueReservationRegListCnt)
+									itemsCount : data.artTourApplierListCnt
 								}	
 							}
 							catch(e){
@@ -83,7 +80,7 @@
 				updateItem: function(item) {
 					return $.ajax({
 						type: 'POST'
-						, url: '/venueReservation/updateReservationItem.do'
+						, url: '/artTour/updateArtTourApplierItem.do'
 						, data: item
 						, success: function(result) {
 							$("#jsGrid").jsGrid("loadData");
@@ -102,20 +99,17 @@
 			loadMessage: '조회 중...',
 			fields: [
 				{name: 	'SEQ', 	title: '번호', 	type: 'text', 	editing: false, width:80, align: "center"},
-			 	{name: 	'VENUE', 	title: '대관 장소', 	type: 'text', 	editing: false, width: 230, align: "center"},
-			 	{name: 	'USE_ROOM', 	title: '대관 시설', 	type: 'text', 	editing: false, width: 120, align: "center"},
-			 	{name: 	'USE_DATE1', 	title: '1일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE2', 	title: '2일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE3', 	title: '3일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE4', 	title: '4일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'USE_DATE5', 	title: '5일차 대관 일시', 	type: 'text', 	editing: false, width: 110, align: "center"},
-			 	{name: 	'EVENT_NAME', 	title: '행사 명', 	type: 'text', 	editing: false, width: 250, align: "center" },
-			 	{name: 	'ORGAN_NAME', 	title: '업체 및 단체명', 	type: 'text', 	editing: false, width: 200, align: "center"},
+			 	{name: 	'BBS_ID', 	title: '종류', 	type: 'text', 	editing: false, width: 80, align: "center"},
+			 	{name: 	'NTT_ID', 	title: '구분', 	type: 'text', 	editing: false, width: 300, align: "center"},
+			 	{name: 	'APL_DATE', 	title: '일시', 	type: 'text', 	editing: false, width: 110, align: "center", filtering: false},
+			 	{name: 	'APL_NAME', 	title: '신청자명', 	type: 'text', 	editing: false, width: 110, align: "center"},
+			 	{name: 	'APL_PHONE', 	title: '연락처', 	type: 'text', 	editing: false, width: 110, align: "center"},
+			 	{name: 	'CREATE_DT', 	title: '신청일', 	type: 'text', 	editing: false, width: 180, align: "center", filtering: false},
 			 	{name: 	'RESULT', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true,width: 110, align: "center"},
 			 	{type: 'control', editButton: true, deleteButton: false, width: 70,updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
 			]
 		});
-	});
+	}); 
 	
 	function about(seq){
 		var fileId;
@@ -126,10 +120,8 @@
 					var jsonId = $(item2).attr("id");
 					var jsonText = item[jsonId];
 					if(jsonId != "FILE_ID"){
-						if(!Number.isInteger(jsonText) && jsonText != null && jsonText != '' && jsonText.includes("<br/>")) {
-							jsonText = jsonText.replace("<br/>", " ");
-						}
-						else if(jsonId == "RESULT"){
+						
+						if(jsonId == "RESULT"){
 							$.each(resultCode, function(index3, item3){
 								if(item3.Id == jsonText) {
 									jsonText = item3.Name;
@@ -137,7 +129,10 @@
 							});
 						}
 						
-						if(jsonId != "closebtn"){
+						if(jsonId == "visitorInfo") {
+							$(item2).html(jsonText);
+						}
+						else if(jsonId != "btn"){
 							if(jsonText == "" || jsonText == null || typeof jsonText == "undefined" || jsonText == undefined) $(item2).text(""); 
 							else $(item2).text(jsonText);
 						}
@@ -162,6 +157,7 @@
 		$(".popup_modal").css("left","10%");
 		$(".popup_modal").css("display","");
 		$(".popup_modal").css("padding","1%");
+		$(".popup_modal").css("width","80%");
 		
 		$(".popup_bg").css("width","100%");
 		$(".popup_bg").css("height","100%");
@@ -171,27 +167,12 @@
 		$(".popup_bg").css("display","");
 	}
 	
-	function search(){
-		var searchType = $("#searchType").val();
-		var venue = $("#VENUE").val();
-		var result = $("#RESULT").val();
-		var keyword = $("#keyword").val();
-		
-		searchFilter = new Object();
-		searchFilter.searchCnd = searchType;
-		searchFilter.venueCnd = venue;
-		searchFilter.resultCnd = result;
-		searchFilter.keyword = keyword;
-		
-		$("#jsGrid").jsGrid("loadData");
-	}
 </script>
 
 </head>
 
 <div class="board">
-	<h1>대관신청 리스트</h1>
-	<c:import url="/venueReservation/searchView.do"/>
+	<h1>신청자 리스트</h1>
 	<div id="jsGrid"></div>
 </div>	
 
@@ -203,30 +184,38 @@
 				<th>번호</th>
 				<td id="SEQ"></td>
 				
-				<th>행사명</th>
-				<td id="EVENT_NAME" colspan="2"></td>
+				<th>일시</th>
+				<td id="APL_DATE"></td>
 			</tr>
 			<tr>
-				<th>대관장소</th>
-				<td id="VENUE"></td>
+				<th>종류</th>
+				<td id="BBS_ID"></td>
 				
-				<th>대관시설</th>
-				<td id="USE_ROOM" colspan="2"></td>
+				<th>행사명</th>
+				<td id="NTT_ID"></td>
 			</tr>
 			<tr>
-				<th style="text-align:center;">1일차대관일시</th>
-				<th style="text-align:center;">2일차대관일시</th>
-				<th style="text-align:center;">3일차대관일시</th>
-				<th style="text-align:center;">4일차대관일시</th>
-				<th style="text-align:center;">5일차대관일시</th>
+				<th>신청아이디</th>
+				<td id="MBER_ID"></td>
+				
+				<th>신청자 이름</th>
+				<td id="APL_NAME"></td>
+				
 			</tr>
 			<tr>
-				<td id="USE_DATE1"></td>
-				<td id="USE_DATE2"></td>
-				<td id="USE_DATE3"></td>
-				<td id="USE_DATE4"></td>
-				<td id="USE_DATE5"></td>
-			</tr>	
+				<th>연락처</th>
+				<td id="APL_PHONE"></td>
+				
+				<th>상태</th>
+				<td id="RESULT"></td>
+			</tr>
+			<tr>
+				<th>입금액</th>
+				<td id="APL_PRICE"></td>
+				
+				<th>참석자</th>
+				<td id="visitorInfo"></td>
+			</tr>
 			<tr>
 				<th>신청일시</th>
 				<td id="CREATE_DT"></td>
@@ -235,39 +224,11 @@
 				<td id="UPDATE_DT" colspan="2"></td>
 			</tr>
 			<tr>
-				<th>상태</th>
-				<td id="RESULT"></td>
-					
-				<th>첨부파일</th>
-				<td id="FILE_ID" colspan="2"></td>
-			</tr>
-			
-			<tr>
-				<th>업체 및 단체명</th>
-				<td id="ORGAN_NAME"></td>
-				
-				<th>연락처</th>
-				<td id="TELNUMBER" colspan="2" ></td>
-			</tr>
-			<tr>
-				<th>담당자 이름</th>
-				<td id="MANAGER_NAME"></td>
-				
-				<th>담당자 직위</th>
-				<td id="MANAGER_GRADE" colspan="2" ></td>
-			</tr>
-			<tr>
-				<th>신청아이디</th>
-				<td id="USER_ID"></td>
-				
-				<th>이메일</th>
-				<td id="EMAIL" colspan="2" ></td>
-			</tr>
-			<tr>
-				<td colspan="5" id="closebtn" >
-					<input type="button" style="margin: 1%;"onclick="$('.popup_modal').css('display','none');$('.popup_bg').css('display','none');" value="닫기"/>
+				<td colspan="5" id="btn" >
+					<input type="button" onclick="$('.popup_modal').css('display','none');$('.popup_bg').css('display','none');" value="닫기"/>
 				</td>
 			</tr>
+			
 		</table>
 	</div>
 	<div class="popup_bg" style="display:none;"></div>

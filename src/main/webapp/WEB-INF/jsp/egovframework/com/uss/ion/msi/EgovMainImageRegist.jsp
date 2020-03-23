@@ -38,17 +38,39 @@
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/jqueryui.js' />"></script>
+
+<link rel="stylesheet" href="/css/egovframework/phcf/datepicker.css" /> 		
+<script src="/js/egovframework/phcf/datepicker.js"></script>
+<script src="/js/egovframework/phcf/datepicker.ko.js"></script>
 <validator:javascript formName="mainImage" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javaScript" language="javascript">
 
 
 $(function(){
 	$("#displayPage").on("change", function(){
-		if($(this).val()=="메인"){
+		if($(this).val()!="문화공간"){
 			$(".mainTitle").css("display","");
+			if($(this).val() == "축제"){
+				$(".dday").css("display","");
+			}
+			else {
+				$(".dday").css("display","none");
+			}
 		}
 		else {
 			$(".mainTitle").css("display","none");
+		}
+	});
+	
+	$("#dday").datepicker({
+		language: 'ko',
+		position: 'top right',
+		clearButton: true,
+		showOtherMonths: false,
+		moveToOtherMonthsOnSelect: false,
+		selectOtherMonths: false,
+		navTitles: {
+			days: 'yyyy 년 MM'
 		}
 	});
 });
@@ -162,8 +184,21 @@ function fncOnChangeImage() {
 		<tr class="mainTitle">
 			<th>연결될 페이지</th>
 			<td class="left">
-			    <input name="connectPage" title="연결될 페이지" type="text" maxLength="100" />
+			    주소: <input name="connectPage" title="연결될 페이지" type="text" maxLength="100" />
 			    페이지 이동을 하지 않으려면 #을 입력하십시오.
+			    
+			    <br/><br/>
+				표시 될 창 : 
+				<select name="target">
+					<option value="_blank" >새 창으로 열기</option>
+					<option value="_self" >현재 창으로 열기</option>
+				</select>
+			</td>
+		</tr>
+		<tr class="mainTitle dday" <c:if test="${mainImage.displayPage != '축제'}">style="display:none;"</c:if>>
+			<th>D-Day 설정</th>
+			<td class="left">
+			    <input name="dday" id="dday" title="D-Day" type="text" maxLength="100" readOnly/>			    
 			</td>
 		</tr>
 		<tr>

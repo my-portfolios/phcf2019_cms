@@ -264,6 +264,7 @@ public class CommonMethod {
 	}
 	
 	public static boolean base64ImageDecoder(String base64, String target, String title){
+		if(base64 == null || base64.equals("")) return false;
 		String savePath = EgovProperties.getProperty("Globals.fileStorePath")+target+"/"+title+".png";
 		System.out.println("savePath = " + savePath);
 		byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64);

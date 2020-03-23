@@ -211,7 +211,8 @@ public class EgovBannerController {
 			
 			banner.setBannerImage(popupImage);
 			banner.setAtchFile(true);
-			
+			System.out.println("banner " + banner.getBannerDc());
+			System.out.println("banner " + bannerVO.getBannerDc());
 
 			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 			banner.setUserId(user.getId());

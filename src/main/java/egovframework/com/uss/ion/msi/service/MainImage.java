@@ -59,6 +59,16 @@ public class MainImage extends ComDefaultVO {
 	 */
 	private boolean isAtchFile;
 	
+	private String mainSubject;
+	
+	private String subSubject;
+	
+	private String connectPage;
+	
+	private String target;
+	
+	private String dday;
+	
 	/**
 	 * @return the imageId
 	 */
@@ -181,6 +191,36 @@ public class MainImage extends ComDefaultVO {
 	 */
 	public void setAtchFile(boolean isAtchFile) {
 		this.isAtchFile = isAtchFile;
+	}
+	public String getMainSubject() {
+		return mainSubject;
+	}
+	public void setMainSubject(String mainSubject) {
+		this.mainSubject = mainSubject;
+	}
+	public String getSubSubject() {
+		return subSubject;
+	}
+	public void setSubSubject(String subSubject) {
+		this.subSubject = subSubject;
+	}
+	public String getConnectPage() {
+		return connectPage;
+	}
+	public void setConnectPage(String connectPage) {
+		this.connectPage = connectPage;
+	}
+	public String getTarget() {
+		return target;
+	}
+	public void setTarget(String target) {
+		this.target = target;
+	}
+	public String getDday() {
+		return dday;
+	}
+	public void setDday(String dday) {
+		this.dday = dday;
 	}
 
 	

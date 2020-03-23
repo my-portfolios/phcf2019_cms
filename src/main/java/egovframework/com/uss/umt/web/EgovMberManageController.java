@@ -1,22 +1,9 @@
 package egovframework.com.uss.umt.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import egovframework.com.cmm.ComDefaultCodeVO;
-import egovframework.com.cmm.LoginVO;
-import egovframework.com.cmm.annotation.IncludedInfo;
-import egovframework.com.cmm.service.EgovCmmUseService;
-import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.com.uss.umt.service.EgovMberManageService;
-import egovframework.com.uss.umt.service.MberManageVO;
-import egovframework.com.uss.umt.service.UserDefaultVO;
-import egovframework.com.uss.umt.service.UserManageVO;
-import egovframework.com.utl.sim.service.EgovFileScrty;
-import egovframework.phcf.scheduler.MberDormantCronQuartz;
-import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 import javax.annotation.Resource;
 
@@ -29,6 +16,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.annotation.IncludedInfo;
+import egovframework.com.cmm.service.CmmnDetailCode;
+import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.com.uss.umt.service.EgovMberManageService;
+import egovframework.com.uss.umt.service.MberManageVO;
+import egovframework.com.uss.umt.service.UserDefaultVO;
+import egovframework.com.uss.umt.service.UserManageVO;
+import egovframework.com.utl.sim.service.EgovFileScrty;
+import egovframework.phcf.scheduler.MberDormantCronQuartz;
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
  * 일반회원관련 요청을  비지니스 클래스로 전달하고 처리된결과를  해당   웹 화면으로 전달하는  Controller를 정의한다
@@ -251,11 +253,17 @@ public class EgovMberManageController {
 		//그룹정보를 조회 - GROUP_ID정보
 		vo.setTableNm("COMTNORGNZTINFO");
 		List<?> groupId_result = cmmUseService.selectGroupIdDetail(vo);
+		List<CmmnDetailCode> reGroupId_result = new ArrayList<>();
+		
+		for(int i=0;i<groupId_result.size();i++) {
+			CmmnDetailCode groupId = (CmmnDetailCode) groupId_result.get(i);
+			if(!groupId.getCode().equals("GROUP_00000000000000")) reGroupId_result.add(groupId); 
+		}
 
 		model.addAttribute("passwordHint_result", passwordHint_result); //패스워트힌트목록
 		model.addAttribute("sexdstnCode_result", sexdstnCode_result); //성별구분코드목록
 		model.addAttribute("mberSttus_result", mberSttus_result); //사용자상태코드목록
-		model.addAttribute("groupId_result", groupId_result); //그룹정보 목록
+		model.addAttribute("groupId_result", reGroupId_result); //그룹정보 목록
 
 		MberManageVO mberManageVO = mberManageService.selectMber(mberId);
 		model.addAttribute("mberManageVO", mberManageVO);

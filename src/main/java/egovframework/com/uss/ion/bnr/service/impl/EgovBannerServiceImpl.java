@@ -83,7 +83,9 @@ public class EgovBannerServiceImpl extends EgovAbstractServiceImpl implements Eg
 	 * @param banner - 배너 model
 	 */
 	public void updateBanner(Banner banner, BannerVO bannerVO) throws Exception{
-		CommonMethod.base64ImageDecoder(banner.getBannerImage(), "BANNER", banner.getBannerId());
+		if(banner.getBannerImage() != null) {
+			CommonMethod.base64ImageDecoder(banner.getBannerImage(), "BANNER", banner.getBannerId());
+		}
 		banner.setBannerImage("");
 		
 		bannerDAO.updateBanner(banner);

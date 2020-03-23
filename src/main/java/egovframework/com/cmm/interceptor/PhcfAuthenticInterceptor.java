@@ -80,7 +80,8 @@ public class PhcfAuthenticInterceptor extends HandlerInterceptorAdapter {
 		List<String> externalPageUrl = new ArrayList<>(Arrays.asList(
 				EgovProperties.getProperty("Globals.main_url"),
 				EgovProperties.getProperty("Globals.cms_url"),
-				EgovProperties.getProperty("Globals.place_url")));		
+				EgovProperties.getProperty("Globals.place_url"),
+				EgovProperties.getProperty("Globals.festival_url")));
 		request.setAttribute("externalPageUrl", externalPageUrl);
 				
 		String banGoToUrl = "/sec/phcf/EgovPhcfAuthorBanGoToUrl.do";

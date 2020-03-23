@@ -29,7 +29,7 @@
 	      </tr>
 	      <tr>
 	       <td>
-	       		<img src='<c:url value='/cmm/fms/getImage.do'/>?atchFileId=<c:out value="${fileVO.atchFileId}"/>&fileSn=<c:out value="${fileVO.fileSn}"/>'  width="640" alt="해당파일이미지"/>
+	       		<img src="${externalPageUrl[1]}/cmm/fms/getImage.do?atchFileId=${fileVO.atchFileId}&fileSn=${fileVO.fileSn}" width="640" alt="해당파일이미지"/>
 	       </td>
 	      </tr>
 	      <tr>

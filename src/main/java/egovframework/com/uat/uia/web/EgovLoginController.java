@@ -172,10 +172,10 @@ public class EgovLoginController {
 		
 		//쿠키 로그인
 		Cookie[] cookies = request.getCookies();
-		for(Cookie cookie : cookies) {
+		/*for(Cookie cookie : cookies) {
 			System.out.println("=== 쿠키명 : " + cookie.getName());
 			System.out.println("=== 쿠키값 : " + cookie.getValue());
-		}
+		}*/
 		
 		// 3. 메인 페이지 이동
 		String main_page = Globals.MAIN_PAGE;

@@ -68,7 +68,6 @@
 						data: searchFilter,
 						success : function(data){
 							try {
-								console.log(data);
 								jsonString = data.groupListJson;
 								jsonString = JSON.parse(jsonString);
 								
@@ -141,7 +140,6 @@
 				$("#about_table td").each(function(index2, item2){
 					var jsonId = $(item2).attr("id");
 					var jsonText = item[jsonId];
-					console.log(jsonId);
 					if(jsonId != "T_FILE"){
 						if(!Number.isInteger(jsonText) && jsonText != null && jsonText != '' && jsonText.includes("<br/>")) {
 							jsonText = jsonText.replace("<br/>", " ");
@@ -169,7 +167,6 @@
 					}
 					else {
 						fileId = jsonText;
-						console.log("bb  " + fileId);
 					}
 				});
 			}
@@ -214,7 +211,7 @@
 		searchFilter.searchKeyword = searchKeyword;
 	}
 	function search(){
-		
+		searchFilterSet();
 		$("#jsGrid").jsGrid("loadData");
 		/* $("#jsGrid").jsGrid("search",{ genre:genre, area:area, searchKeyword:searchKeyword }).done(function(){
 			console.log("?")
@@ -291,7 +288,6 @@
 				try {
 					jsonString = data.groupListJson;
 					jsonString = JSON.parse(jsonString);
-					console.log(jsonString);
 					var list = {
 						data: jsonString,
 						itemsCount : jsonString == 0 ? 0 : JSON.parse(data.groupListCnt)

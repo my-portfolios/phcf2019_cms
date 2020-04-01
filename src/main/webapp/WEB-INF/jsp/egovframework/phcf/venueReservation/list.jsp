@@ -147,7 +147,7 @@
 		
 		$.ajax({
 			type: 'POST',
-			url: '/cmm/fms/selectFileInfs.do',
+			url: '${externalPageUrl[2]}/cmm/fms/selectFileInfs.do',
 			data: {
 				"param_atchFileId" : fileId 
 			},

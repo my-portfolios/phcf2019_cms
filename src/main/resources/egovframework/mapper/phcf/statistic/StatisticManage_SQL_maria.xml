@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="StatisticDAO">
-
-
 	<select id="selectMonthlyReport" resultType="java.util.HashMap">
 	/* StatisticDAO.selectMonthlyReport 월별 접속자 통계 */
-		SELECT	SUBSTRING(OCCRRNC_DE,5,2) AS OMONTH
-				, SUM(USER_CO) AS OCNT
-		FROM 	COMTSUSERSUMMARY 
-		WHERE LEFT(OCCRRNC_DE, 4) = DATE_FORMAT(CURDATE(),'%Y')
+		SELECT	
+			SUBSTRING(DATE_FORMAT(CREAT_DT,'%Y-%m-%D'),6,2) AS OMONTH,
+			COUNT(CONECT_MTHD) AS OCNT
+		FROM 	COMTNLOGINLOG 
+		WHERE CONECT_MTHD = 'I'
+		AND LEFT(CREAT_DT, 4) = DATE_FORMAT(CURDATE(),'%Y')
 		GROUP BY OMONTH
 	</select>
 	

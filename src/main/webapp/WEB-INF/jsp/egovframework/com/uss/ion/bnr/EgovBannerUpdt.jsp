@@ -121,8 +121,8 @@ function fncOnChangeImage() {
 			    <br/>
 				표시 될 창 : 
 				<select name="bannerDc">
-					<option value="_blank" <c:if test="${mainImage.bannerDc == '_blank'}">selected</c:if>>새 창으로 열기</option>
-					<option value="_self" <c:if test="${mainImage.bannerDc == '_self'}">selected</c:if>>현재 창으로 열기</option>
+					<option value="_blank" <c:if test="${banner.bannerDc == '_blank'}">selected</c:if>>새 창으로 열기</option>
+					<option value="_self" <c:if test="${banner.bannerDc == '_self'}">selected</c:if>>현재 창으로 열기</option>
 				</select>
 			</td>
 		</tr>

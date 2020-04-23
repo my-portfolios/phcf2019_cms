@@ -124,6 +124,7 @@
 						<td class="left">
 						<select id="${venueItems.CODE}_useYn">
 							<option value="Y" <c:if test="${masterItems.USE_YN == 'Y'}">selected</c:if>>사용</option>
+							<option value="A" <c:if test="${masterItems.USE_YN == 'A'}">selected</c:if>>관리자만 가능</option>
 							<option value="N" <c:if test="${masterItems.USE_YN == 'N'}">selected</c:if>>미사용</option>
 						</select> 
 						※ 대관에 대한 사용 여부를 설정합니다.

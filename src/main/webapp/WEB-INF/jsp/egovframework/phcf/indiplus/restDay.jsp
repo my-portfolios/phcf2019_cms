@@ -121,7 +121,7 @@
 		<div class="board">
 			<h1>인디플러스 포항 휴관일 리스트 조회</h1>
 			휴관 날짜는 yyyy-mm-dd 같은 형식으로 등록해주세요. <br/><br/>
-			
+
 			<div id="jsGrid"></div>
 		</div>
 	</body>

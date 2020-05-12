@@ -368,6 +368,7 @@
 
 	<div class="buttonarea floatright" style="text-align: right; margin-top:20px; margin-right:20px;">
 		<input type="button" id="excel_btn" class="" onclick="fn_excelDownload()" value="Excel Download">
+		<input type="button" id="modify_dates" onclick="location.href='/venueReservation/modifyDates.do'" value="날짜 수정"/> 
 	</div>
 </body>
 </html>

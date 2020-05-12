@@ -70,6 +70,36 @@ public class VenueReservationController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/venueReservation/modifyDates.do")
+	public ModelAndView modifyDates(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, String> paramMap) {
+		ModelAndView mav = new ModelAndView("egovframework/phcf/venueReservation/modifyDates"); 
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/venueReservation/selectVenueReservationInfo.do")
+	public ModelAndView selectVenueReservationInfo(@RequestParam String SEQ) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		mav.addObject("list", service.selectVenueReservationInfo(SEQ));
+		return mav;
+	}
+	
+	@RequestMapping(value="/venueReservation/deleteVenueReservationDates.do")
+	public ModelAndView deleteVenueReservationDates(@RequestParam String SEQ) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		try {
+			service.deleteVenueReservationDates(SEQ);
+			mav.addObject("result", "true");
+		} catch (Exception e) {
+			mav.addObject("result", "false");
+			e.printStackTrace();
+		}
+		
+		return mav;
+	}
+	
 	@RequestMapping(value="/venueReservation/selectReservationManageList.do")
 	public ModelAndView selectReservationManageList(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, String> paramMap) throws Exception {
 		ModelAndView mav = new ModelAndView("egovframework/phcf/venueReservation/manage");

@@ -37,4 +37,13 @@ public class VenueReservationDAO extends EgovComAbstractDAO {
 	public List<HashMap<String, Object>> selectDetailCodeList(String code) throws Exception {
 		return selectList("VenueReservationDAO.selectDetailCodeList", code);
 	}
+	
+	public List<HashMap<String, Object>> selectVenueReservationInfo(String SEQ) {
+		return selectList("VenueReservationDAO.selectVenueReservationInfo", SEQ);
+	}
+
+	public void deleteVenueReservationDates(String SEQ) {
+		delete("VenueReservationDAO.deleteVenueReservationDates", SEQ);
+	}
+
 }

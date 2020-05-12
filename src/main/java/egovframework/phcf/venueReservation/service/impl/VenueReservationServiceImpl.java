@@ -49,4 +49,14 @@ public class VenueReservationServiceImpl extends EgovAbstractServiceImpl impleme
 		return dao.selectDetailCodeList(code);
 	}
 
+	@Override
+	public List<HashMap<String, Object>> selectVenueReservationInfo(String SEQ) {
+		return dao.selectVenueReservationInfo(SEQ);
+	}
+
+	@Override
+	public void deleteVenueReservationDates(String SEQ) {
+		dao.deleteVenueReservationDates(SEQ);
+	}
+
 }

@@ -138,6 +138,33 @@
 			
 	</update>
 	
+	<select id="selectVenueReservationInfo" parameterType="String" resultType="java.util.HashMap">
+		SELECT
+			BB.SEQ,
+			BB.REG_ID,
+			AA.VENUE,
+			AA.USE_ROOM,
+			BB.DAYS,
+			DATE_FORMAT(BB.USE_DATE,'%Y-%m-%d') AS USE_DATE,
+			DATE_FORMAT(BB.USE_START_TIME,'%H:%i') AS USE_START_TIME,
+			DATE_FORMAT(BB.USE_END_TIME,'%H:%i') AS USE_END_TIME,
+			AA.RESULT,
+			DATE_FORMAT(BB.CREATE_DT,'%Y-%m-%d %H:%i:%s') AS CREATE_DT,
+			DATE_FORMAT(BB.UPDATE_DT,'%Y-%m-%d %H:%i:%s') AS UPDATE_DT
+		FROM
+			VENUERESERVATIONREG AA,
+			VENUERESERVATIONDATES BB
+		WHERE 1=1
+			AND AA.SEQ = BB.REG_ID
+			AND AA.SEQ = #{SEQ}
+	</select>
+	
+	<delete id="deleteVenueReservationDates" parameterType="String" >
+		DELETE FROM
+			VENUERESERVATIONDATES
+		WHERE SEQ = #{SEQ} 
+	</delete>
+	
 	<select id="selectDetailCodeList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT 
 			CODE,

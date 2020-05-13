@@ -190,7 +190,7 @@ function fnGetCookie(name) {
 	<div class="search_box" title="<spring:message code="common.noScriptTitle.msg"/>"><!-- 이 레이아웃은 하단 정보를 대한 검색 정보로 구성되어 있습니다. -->
 		<ul>
 			<li>
-				최근 수정한 팝업 3개만 표시됩니다.
+				최근 수정한 팝업 4개만 표시됩니다.
 			</li>
 			<li>
 				<select name="searchCondition" class="select" title="<spring:message code="select.searchCondition"/>"><!-- 검색조건선택 -->

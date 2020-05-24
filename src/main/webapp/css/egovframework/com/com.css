@@ -328,6 +328,7 @@ width:100%;
 .wTable > tbody > tr > td a.re_btn:hover { text-decoration:none; }
 .wTable > tbody > tr > td select {height:24px; border:1px solid #dedede; }
 .wTable > tbody > tr > td img {/* margin-left:7px;*/ }
+.wTable > tbody > tr > td #popupImageView {max-width: 100%; min-width: auto;}
 .wTable input[readonly="readonly"] {height:22px; border:1px solid #d2d2d2; }
 .wTable > tbody > tr > td input[type=checkbox] {vertical-align:-3px; }
 .wTable > tbody > tr > th .btn { text-align: center;cursor: pointer; float: none; }

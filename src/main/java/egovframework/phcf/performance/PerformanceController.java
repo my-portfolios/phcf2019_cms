@@ -61,7 +61,6 @@ public class PerformanceController {
 			HashMap<String, Object> applyInfo = new HashMap<>();
 			applyInfo.putAll(applier);
 			List<HashMap<String, Object>> applyVisitorList = service.selectAppliedVisitorPerformanceList(applyInfo);
-			System.out.println("applyVisitorList " + applyVisitorList);
 			String visitorInfo = "";
 			for(HashMap<String, Object> visitor : applyVisitorList) {
 				visitorInfo += visitor.get("PERSON_NAME").toString() + " " + visitor.get("PERSON_PHONE").toString() + "<br/>";
@@ -90,7 +89,6 @@ public class PerformanceController {
 	@RequestMapping(value = "/performance/updatePerformanceApplierItem.do", method=RequestMethod.POST)
 	public ModelAndView updateReservationMaster(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, Object> paramMap) {
 		ModelAndView mav = new ModelAndView("jsonView");
-		System.out.println("paramMap " + paramMap);
 		String result = "success";
 		try {
 			service.updatePerformanceApplierItem(paramMap);

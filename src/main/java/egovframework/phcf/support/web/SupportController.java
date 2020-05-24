@@ -81,7 +81,6 @@ public class SupportController {
    @RequestMapping(value="/cms/support/getCmsSupportList.do")
    public String getCmsSupportList(@RequestParam HashMap<String, Object> paramMap, ModelMap model) throws Exception {
       
-      System.out.println("== getCmsSupportList paramMap : " + paramMap);
       
       // 리스트 및 total count 값 적용..
       List<HashMap<String, Object>> cmsSupportList = supportService.selectCmsSupportList(paramMap);
@@ -96,7 +95,6 @@ public class SupportController {
    @RequestMapping(value="/cms/support/updateCmsSupportItem.do")
    public String updateCmsSupportItem(@RequestParam HashMap<String, Object> paramMap, ModelMap model) throws Exception {
       
-      System.out.println("== updateCmsSupportItem paramMap : " + paramMap);
       
       supportService.updateCmsSupportItem(paramMap);
       
@@ -108,7 +106,6 @@ public class SupportController {
    @RequestMapping(value="/cms/support/deleteCmsSupportItem.do")
    public String deleteCmsSupportItem(@RequestParam HashMap<String, Object> paramMap, ModelMap model) throws Exception {
       
-      System.out.println("== deleteCmsSupportItem paramMap : " + paramMap);
       
       supportService.deleteCmsSupportItem(paramMap);
       
@@ -133,7 +130,6 @@ public class SupportController {
 	@RequestMapping(value="/cms/support/delete_detailInfo.do", method=RequestMethod.POST)
 	public ModelAndView delete_detailInfo(HttpServletRequest request) throws Exception {
 		ParamMap paramMap = parseRequestCleanXss(request);
-		System.out.println("== delete_detailInfo paramMap : " + paramMap);
 		
 		ModelAndView mav = new ModelAndView("jsonView");
 		
@@ -158,7 +154,6 @@ public class SupportController {
 	public ModelAndView updateDetailInfo(HttpServletRequest request) throws Exception {
 		
 		ParamMap paramMap = parseRequestCleanXss(request);
-		System.out.println("== updateDetailInfo paramMap : " + paramMap);
 
 		supportService.updateDetailinfo(paramMap);
 		
@@ -199,7 +194,6 @@ public class SupportController {
 	@RequestMapping(value="/cms/support/status_modify.do")
 	public ModelAndView statusModify(@RequestParam(value="cms_id") String cms_id
 														, @RequestParam(value="use_yn") String use_yn) throws Exception {
-		System.out.println("여기보세요");
 		supportService.updateStatusModify(cms_id, use_yn);
 		
 		ModelAndView mav = new ModelAndView("jsonView");
@@ -488,7 +482,6 @@ public class SupportController {
 		String order_num = nicepayService.getOrderNumber(); 	// 주문번호를 생성한다.
 		paramMap.put("order_num", order_num);
 		
-		System.out.println("paramMap    " + paramMap);
 		supportService.insertUserSupportLog(paramMap);
 		
 		// CMS동의 인증서는 화면에서 web api를 통해 미리 전송한다.(이거 안된다고~~~~!!!!!!!)
@@ -497,7 +490,6 @@ public class SupportController {
 		// 해당 이미지 파일을 가져와 복사해서 
 		// 서버에 저장된 물리 경로를 이용해 해당 파일을 가져와야 된다.
 		List<ParamMap> fileList = (List<ParamMap>)paramMap.get("fileList");
-		System.out.println("fileList " + fileList);
 		int fileAgreeindex = getFileIndex( fileList, "attach_argree" );
 		ParamMap fileMap = fileList.get(fileAgreeindex);	// 등록된 파일은 무조건 1개이어야 한다.
 		
@@ -707,7 +699,6 @@ public class SupportController {
 		
 		String url = "https://rest.thebill.co.kr:4435/thebill/test/retailers/" + dealID + "/members/" + String.valueOf(paramMap.get("accUserId")) + "/agree";
 //		String url = "https://rest.thebill.co.kr:4435/thebill/test/retailers/30000000/members/abcd1234/agree";
-		System.out.println("== access url : " + url);
 		
 		HttpPost httppost = new HttpPost(url);
 		httppost.setHeader("Api-key", apiKey);
@@ -726,7 +717,6 @@ public class SupportController {
 		HttpResponse httpResponse = httpclient.execute(httppost);
 		HttpEntity entity = httpResponse.getEntity();
 		
-		System.out.println("== httpResponse info : " + EntityUtils.toString(entity, "UTF-8"));
 		
 		
 		return null;

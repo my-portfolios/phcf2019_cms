@@ -49,7 +49,6 @@ public class ArtTourController {
 		
 		for(HashMap<String, Object> applier : performanceApplierList) {
 			List<HashMap<String, Object>> applyVisitorList = service.selectAppliedVisitorArtTourList(applier);
-			System.out.println("applyVisitorList " + applyVisitorList);
 			
 			String visitorInfo = "";
 			for(HashMap<String, Object> visitor : applyVisitorList) {
@@ -67,7 +66,6 @@ public class ArtTourController {
 	@RequestMapping(value = "/artTour/updateArtTourApplierItem.do", method=RequestMethod.POST)
 	public ModelAndView updateReservationMaster(HttpServletRequest request, ModelMap model, @RequestParam HashMap<String, Object> paramMap) {
 		ModelAndView mav = new ModelAndView("jsonView");
-		System.out.println("paramMap " + paramMap);
 		String result = "success";
 		try {
 			service.updateArtTourApplierItem(paramMap);

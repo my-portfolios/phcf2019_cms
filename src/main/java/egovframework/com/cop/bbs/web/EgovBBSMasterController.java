@@ -635,7 +635,6 @@ public class EgovBBSMasterController {
 		File dir = new File(source);
 		
 		if(!dir.exists()) { 
-			System.out.println("디렉토리가 존재하지 않습니다"); 
 			return null; 
 		}
 		

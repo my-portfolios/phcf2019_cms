@@ -109,7 +109,6 @@ public class AuthenticInterceptor extends HandlerInterceptorAdapter {
 
 		// 우리가 만들어 논 쿠키를 꺼내온다.
         Cookie phcfCmsLoginCookie = WebUtils.getCookie(request,"phcfCmsLoginCookie");
-        System.out.println("=== phcfCmsLoginCookie "+ phcfCmsLoginCookie.getValue());
         if (phcfCmsLoginCookie != null){// 쿠키가 존재하는 경우(이전에 로그인때 생성된 쿠키가 존재한다는 것)
             // loginCookie의 값을 꺼내오고 -> 즉, 저장해논 세션Id를 꺼내오고
             String cmsSessionId = phcfCmsLoginCookie.getValue();
@@ -119,7 +118,6 @@ public class AuthenticInterceptor extends HandlerInterceptorAdapter {
             paramMap.put("sessionId", cmsSessionId);
             
             LoginVO resultVO = loginService.cookieLogin(paramMap);
-            System.out.println("=== resultVO(cms) : "+ resultVO);
             if(vo != null) System.out.println("=== vo(cms) : "+ vo.getSessionId());
 			if ( resultVO != null ){// 그런 사용자가 있다면
 			            	

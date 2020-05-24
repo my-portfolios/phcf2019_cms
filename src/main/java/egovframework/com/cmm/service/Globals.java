@@ -25,6 +25,8 @@ public class Globals {
     public static final String MAIN_PAGE = EgovProperties.getProperty("Globals.MainPage");
   //메인 페이지
     public static final String SITE_NAME = EgovProperties.getProperty("Globals.SiteName");
+    
+    public static final String PROJECT_NAME = EgovProperties.getProperty("Globals.ProjectName");
     //ShellFile 경로
     public static final String SHELL_FILE_PATH = EgovProperties.getPathProperty("Globals.ShellFilePath");
     //퍼로퍼티 파일 위치

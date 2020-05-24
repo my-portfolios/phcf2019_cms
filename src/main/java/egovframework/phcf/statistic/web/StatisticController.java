@@ -42,7 +42,6 @@ public class StatisticController {
 		String conectCnt = service.selectConnectCnt();
 		model.addAttribute("conectCnt", conectCnt);
 		
-		System.out.println("=== === MODEL에 담겼낭 : " + model);
 		
 		return "egovframework/phcf/statistic/statusReport";
 	}
@@ -70,7 +69,6 @@ public class StatisticController {
 	public String getPopulMenuList(ModelMap model) throws Exception {
 		List<HashMap<String, Object>> populMenuList = service.selectPopulMenuList();
 		model.addAttribute("value", populMenuList);
-		System.out.println("=== === model : " + model);
 		return "jsonView";
 	}
 }

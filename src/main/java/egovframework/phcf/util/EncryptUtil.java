@@ -16,7 +16,6 @@ public class EncryptUtil {
 		try {
 			digData = SDBCrypto.DigestSha256(text);
 		} catch (Exception e) {
-			System.out.println( " DigestSha256 makes exception ");
 		}
 		
 		return digData;

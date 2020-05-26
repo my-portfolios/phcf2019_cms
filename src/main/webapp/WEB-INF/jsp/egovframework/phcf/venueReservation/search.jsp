@@ -10,7 +10,7 @@
 	var datePicker_use = false;
 	$(function(){
 		$("#searchType").on("change",function(){
-			if($(this).val() == "SEARCH_DATE"){
+			if($(this).val() == "BB.USE_DATE"){
 				datePicker = $("#keyword").datepicker({
 					language: 'ko',
 					position: 'bottom right',
@@ -59,11 +59,11 @@
 		</li>
 		<li>
 	        <select class="floatleft" id="searchType"><!--  -->
-	            <option value="USER_ID">아이디</option>
-	            <option value="MANAGER_NAME">이름</option>
-	            <%-- <c:if test='<%= request.getParameter("fixStatus") == null %>'>
-	            	<option value="SEARCH_DATE">대관일</option>
-	            </c:if> --%>
+	            <option value="AA.USER_ID">아이디</option>
+	            <option value="AA.MANAGER_NAME">이름</option>
+	            <c:if test='<%= request.getParameter("fixStatus") == null %>'>
+	            	<option value="BB.USE_DATE">대관일</option>
+	            </c:if>
 	        </select>
 		</li>
 		<!-- 검색키워드 및 조회버튼 -->

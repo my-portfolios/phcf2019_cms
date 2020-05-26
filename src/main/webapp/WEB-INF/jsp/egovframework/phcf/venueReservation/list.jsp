@@ -184,6 +184,7 @@
 	function search(){
 		searchFilterSet();
 		$("#jsGrid").jsGrid("loadData");
+		$("#jsGrid").jsGrid("openPage", 1);
 	}
 	
 	/* excel download source  */

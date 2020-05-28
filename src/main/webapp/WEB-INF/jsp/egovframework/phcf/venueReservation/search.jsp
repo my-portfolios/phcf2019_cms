@@ -39,7 +39,7 @@
 					<option value="">상태</option>
 					<option value="R">접수요청</option>
 					<option value="C">접수취소</option>
-					<!--<option value="S">접수완료</option>-->
+					<option value="S">접수완료</option>
 					<option value="A">승인완료</option>	
 					<option value="D">승인거절</option>	
 					<option value="O">승인취소</option>

@@ -31,7 +31,7 @@
 	var resultCode = [
 			{Name : "접수 요청", Id: "R"},
  			{Name : "접수 취소", Id: "C"},
- 			{Name : "접수 완료", Id: "S"},
+ 			/*{Name : "접수 완료", Id: "S"},*/
  			{Name : "승인 완료", Id: "A"},
  			{Name : "승인 거절", Id: "D"},
  			{Name : "승인 취소", Id: "O"},

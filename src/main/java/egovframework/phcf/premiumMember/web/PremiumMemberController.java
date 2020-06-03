@@ -1,11 +1,10 @@
 package egovframework.phcf.premiumMember.web;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.json.Json;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import egovframework.com.cmm.annotation.IncludedInfo;
+import egovframework.com.uss.umt.service.EgovMberManageService;
+import egovframework.com.uss.umt.service.MberManageVO;
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.phcf.premiumMember.service.PremiumMemberService;
 import egovframework.phcf.util.JsonUtil;
 
@@ -29,6 +30,9 @@ import egovframework.phcf.util.JsonUtil;
 public class PremiumMemberController {
 	@Resource(name="PremiumMemberService")
 	private PremiumMemberService service;
+	
+	@Resource(name="mberManageService")
+	private EgovMberManageService egovMberManageService;
 	
 	@RequestMapping(value="/premiumMember/selectMembershipRegList.do")
 	public ModelAndView selectMembershipRegList(ModelMap model, @RequestParam HashMap<String, String> paramMap) throws Exception {
@@ -51,6 +55,18 @@ public class PremiumMemberController {
 
 		int payListCnt = service.selectMembershipRegListCnt(paramMap);
 		List<HashMap<String, Object>> payList = service.selectMembershipRegList(paramMap);
+		for(HashMap<String, Object> pay : payList) {
+			MberManageVO mberManageVO = egovMberManageService.selectMberWithId(pay.get("MEM_ID").toString());
+			if(mberManageVO != null) {  
+				pay.put("MEM_NM", mberManageVO.getMberNm());
+				if(pay.get("RESULT").toString().equals("Y") && mberManageVO.getMembershipStartDt() != null) {
+					pay.put("MEMBERSHIP_START_DT", mberManageVO.getMembershipStartDt());
+					pay.put("MEMBERSHIP_END_DT", CommonMethod.calcDate(mberManageVO.getMembershipStartDt(), Calendar.YEAR, 1, "yyyy-MM-dd"));
+				}
+			} else {
+				pay.put("MEM_NM", "회원정보없음");
+			}
+		}
 		
 		String payListJson = JsonUtil.getJsonArrayFromList(payList).toString();
 		

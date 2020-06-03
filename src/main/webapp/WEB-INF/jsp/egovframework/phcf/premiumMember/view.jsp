@@ -97,14 +97,17 @@
 					fields: [
 						{name: 	'SEQ', 	title: '번호', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'MEM_ID', 	title: '회원 아이디', 	type: 'text', 	editing: false, align: "center"},
+					 	{name: 	'MEM_NM', 	title: '회원 명', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'PRE_TYPE', 	title: '멤버십 회원 유형', 	type: 'select', editing: false, items: premiumCode, valueType: "string",valueField: "Id", textField: "Name", align: "center"},
 					 	{name: 	'PAY_PRICE', 	title: '금액', 	type: 'text', 	editing: false,  align: "center"},
 					 	{name: 	'SEND_SMS', title: '문자 수신', 	type: 'select', items: ynCode, editing: false,valueType: "string",valueField: "Id", textField: "Name", align: "center"},
 					 	{name: 	'SEND_MAIL', title: '메일 수신', 	type: 'select', items: ynCode, editing: false,valueType: "string",valueField: "Id", textField: "Name", align: "center"},
 					 	{name: 	'CREATE_DT', 	title: '신청 일시', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'UPDATE_DT', 	title: '수정 일시', 	type: 'text', 	editing: false,  align: "center"},
+					 	{name: 	'MEMBERSHIP_START_DT', 	title: '시작 일', 	type: 'text', 	editing: false, align: "center"},
+					 	{name: 	'MEMBERSHIP_END_DT', 	title: '종료 일', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'RESULT', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true, align: "center"},
-					 	{name: 	'CHECK_YN', 	title: '관리자 확인 여부', 	type: 'select', editing: false, items: checkCode, valueType: "string",valueField: "Id", textField: "Name",  align: "center"},
+					 	/* {name: 	'CHECK_YN', 	title: '관리자 확인 여부', 	type: 'select', editing: false, items: checkCode, valueType: "string",valueField: "Id", textField: "Name",  align: "center"}, */
 					 	{type: 'control', editButton: true, deleteButton: false, updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
 					]
 				});
@@ -197,7 +200,7 @@
 				</li>
 				<li>
 					<select class="floatleft" id="search_type">
-						<option value="MEM_NAME">입금자명</option>
+						<!-- <option value="MEM_NAME">입금자명</option> -->
 						<option value="MEM_ID">아이디</option>
 						<option value="PAY_PRICE">금액</option>
 					</select>

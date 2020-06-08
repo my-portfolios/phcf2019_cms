@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import egovframework.com.cop.bbs.service.BoardAddedColmnsVO;
 import egovframework.com.cop.bbs.service.BoardVO;
 import egovframework.com.cop.bbs.service.EgovArticleService;
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.phcf.performance.service.PerformanceService;
 
 @Controller
@@ -58,6 +59,7 @@ public class PerformanceController {
 			boardVO = egovArticleService.selectArticleDetail(boardVO);
 			List<BoardAddedColmnsVO> addedColmnList = egovArticleService.selectArticleAddedColmnsDetail(boardVO);
 			
+			if(boardVO == null || addedColmnList == null) { continue; }
 			HashMap<String, Object> applyInfo = new HashMap<>();
 			applyInfo.putAll(applier);
 			List<HashMap<String, Object>> applyVisitorList = service.selectAppliedVisitorPerformanceList(applyInfo);

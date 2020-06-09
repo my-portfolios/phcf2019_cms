@@ -5,7 +5,7 @@
 
 	<select id="selectPerformanceApplierList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		/* PerformanceDAO.selectPerformanceApplierList */
-		SELECT DISTINCT
+		SELECT 
 			AA.SEQ,
 			AA.BBS_ID,
 			AA.NTT_ID,
@@ -30,6 +30,7 @@
 			AND AA.NTT_ID = BB.NTT_ID
 			AND BB.BBS_ID = CC.BBS_ID
 			AND BB.NTT_ID = CC.NTT_ID
+			AND BB.USE_AT = "Y"
 			<if test='SEQ != null and SEQ != ""'>
 				AND AA.SEQ = #{SEQ}
 			</if>
@@ -60,7 +61,7 @@
 	<select id="selectPerformanceApplierListCnt" parameterType="java.util.HashMap" resultType="int">
 		/* PerformanceDAO.selectPerformanceApplierListCnt */
 		WITH APPLIED_LIST AS (
-			SELECT DISTINCT
+			SELECT
 				AA.SEQ AS SEQ
 			FROM
 				APPLIERINFO AA,
@@ -71,6 +72,7 @@
 				AND AA.NTT_ID = BB.NTT_ID
 				AND BB.BBS_ID = CC.BBS_ID
 				AND BB.NTT_ID = CC.NTT_ID
+				AND BB.USE_AT = "Y"
 				<if test='SEQ != null and SEQ != ""'>
 					AND AA.SEQ = #{SEQ}
 				</if>

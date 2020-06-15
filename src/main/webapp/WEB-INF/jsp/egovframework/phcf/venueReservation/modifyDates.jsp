@@ -30,6 +30,7 @@ window.onload = function() {
 	$('#jsGrid').jsGrid({
 		width: '100%',
 		height: 'auto',
+		editing: true,
 		autoload: false,
 		controller: {
 			loadData: function(filter) {			
@@ -53,10 +54,28 @@ window.onload = function() {
 					, url: '/venueReservation/deleteVenueReservationDates.do'
 					, data: item
 					, success: function(result) {
-						$("#jsGrid").jsGrid("loadData");
+						result = JSON.parse(result).result;
+						if(result == "false") { alert('삭제에 실패했습니다!'); }
+						searchAction();
 					}
 					, error: function(e) {
 						alert('삭제에 실패했습니다!');
+					}
+				}); 
+			},
+			updateItem: function(item) {
+				 return $.ajax({
+					type: 'POST'
+					, url: '/venueReservation/updateVenueReservationDates.do'
+					, data: item
+					, success: function(result) {
+						result = JSON.parse(result).result;
+						console.log(result);
+						if(result == "false") { alert('수정에 실패했습니다!'); }
+						searchAction();
+					}
+					, error: function(e) {
+						alert('수정에 실패했습니다!');
 					}
 				}); 
 			} 
@@ -75,8 +94,10 @@ window.onload = function() {
 		 	{name: 	'VENUE', 	title: '대관 장소', 	type: 'text', 	editing: false, width: 230, align: "center"},
 		 	{name: 	'USE_ROOM', 	title: '대관 시설', 	type: 'text', 	editing: false, width: 120, align: "center"},
 		 	{name: 	'USE_DATE', 	title: '대관 일', 	type: 'text', 	editing: false, width: 120, align: "center"},
+		 	{name: 	'USE_START_TIME', 	title: '사용 시작 시간', 	type: 'text', 	editing: true, width: 90, align: "center"},
+		 	{name: 	'USE_END_TIME', 	title: '사용 종료 시간', 	type: 'text', 	editing: true, width: 90, align: "center"},
 		 	{name: 	'CREATE_DT', title: '등록일', 	type: 'text', editing: false, width: 110, align: "center"},
-		 	{type: 'control', editButton: false, deleteButton: true, width: 70,deleteButtonTooltip: "삭제",cancelEditButtonTooltip: "취소"}
+		 	{type: 'control', editButton: true, deleteButton: true, width: 70, editButtonTooltip: "삭제", deleteButtonTooltip: "삭제",cancelEditButtonTooltip: "취소"}
 		]
 	});
 

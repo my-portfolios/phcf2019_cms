@@ -47,6 +47,9 @@
 			<if test='venueCnd != null and venueCnd != ""'>
 				AND AA.VENUE = #{venueCnd}
 			</if>
+			<if test='roomCnd != null and roomCnd != ""'>
+				AND AA.USE_ROOM = #{roomCnd}
+			</if>
 			<if test='resultCnd != null and resultCnd != ""'>
 				AND AA.RESULT = #{resultCnd}
 			</if>
@@ -111,6 +114,9 @@
 				</if>
 				<if test='venueCnd != null and venueCnd != ""'>
 					AND AA.VENUE = #{venueCnd}
+				</if>
+				<if test='roomCnd != null and roomCnd != ""'>
+					AND AA.USE_ROOM = #{roomCnd}
 				</if>
 				<if test='resultCnd != null and resultCnd != ""'>
 					AND AA.RESULT = #{resultCnd}
@@ -180,6 +186,20 @@
 			VENUERESERVATIONDATES
 		WHERE SEQ = #{SEQ} 
 	</delete>
+	
+	
+	<update id="updateVenueReservationDates" parameterType="java.util.HashMap">
+		/* VenueReservationDAO.updateVenueReservationDates */
+		
+		UPDATE
+			VENUERESERVATIONDATES
+		SET
+			USE_START_TIME = #{USE_START_TIME},
+			USE_END_TIME = #{USE_END_TIME}
+		WHERE 1=1
+			AND SEQ = #{SEQ}
+			
+	</update>
 	
 	<select id="selectDetailCodeList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT 

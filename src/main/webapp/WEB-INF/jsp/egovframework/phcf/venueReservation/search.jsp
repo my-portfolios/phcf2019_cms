@@ -48,13 +48,19 @@
 			</c:if>
 		</li>
 		<li><!-- 조건 -->
-               <select class="floatleft" id="VENUE">
+               <select class="floatleft" id="VENUE" onchange="selectRoomList(this.value)" >
 				<option value="">대관 장소</option>					
 				<option value="포항문화예술회관">포항문화예술회관</option>					
 				<option value="대잠홀">대잠홀</option>
-				<option value="중앙아트홀">중앙아트홀</option>					
-				<option value="구룡포생활문화센터(아라예술촌)">구룡포생활문화센터(아라예술촌)</option>					
-				<option value="아르코공연연습센터@포항">아르코공연연습센터@포항</option>				
+				<option value="중앙아트홀(인디플러스 포항)">중앙아트홀(인디플러스 포항)</option>					
+				<option value="구룡포생활문화센터">구룡포생활문화센터</option>					
+				<option value="아르코공연연습센터">아르코공연연습센터</option>				
+			</select>
+		</li>
+		<li><!-- 조건 -->
+               <select class="floatleft" id="ROOM">
+				<option value="">대관 시설</option>					
+							
 			</select>
 		</li>
 		<li>
@@ -73,3 +79,22 @@
 		</li>
 	</ul>
 </div>
+
+<script>
+	function selectRoomList(value) {
+		$.post('/venueReservation/selectRoomList.do', {
+			venue: value
+		}, function(event) {
+			$("#ROOM").empty();
+			$("#ROOM").append('<option value="">대관 시설</option>');
+			$.each(JSON.parse(event).roomList, function(i, iv) {
+				console.log(iv);
+				$("#ROOM").append("<option value='" + iv +"'>"+ iv +"</option>");
+			});
+			
+		}).fail(function(){
+			
+		});
+	}
+
+</script>

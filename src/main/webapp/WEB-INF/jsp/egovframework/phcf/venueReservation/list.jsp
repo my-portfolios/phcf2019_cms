@@ -172,12 +172,14 @@
 	function searchFilterSet(){
 		var searchType = $("#searchType").val();
 		var venue = $("#VENUE").val();
+		var room = $("#ROOM").val();
 		var result = $("#RESULT").val();
 		var keyword = $("#keyword").val();
 		
 		searchFilter = new Object();
 		searchFilter.searchCnd = searchType;
 		searchFilter.venueCnd = venue;
+		searchFilter.roomCnd = room;
 		searchFilter.resultCnd = result;
 		searchFilter.keyword = keyword;
 	}
@@ -257,6 +259,7 @@
 					 	excelJson = new Object();
 						excelJson.번호=index+1;
 						excelJson.행사명=item.EVENT_NAME;
+						excelJson.업체및단체명=item.ORGAN_NAME;
 						excelJson.담당자이름=item.MANAGER_NAME;
 						excelJson.연락처=item.TELNUMBER;
 						excelJson.이메일=item.EMAIL;

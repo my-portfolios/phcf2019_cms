@@ -13,4 +13,5 @@ public interface VenueReservationService {
 	public List<HashMap<String, Object>> selectDetailCodeList(String code) throws Exception;
 	public List<HashMap<String, Object>> selectVenueReservationInfo(String SEQ);
 	public void deleteVenueReservationDates(String SEQ);
+	public void updateVenueReservationDates(HashMap<String, Object> paramMap);
 }

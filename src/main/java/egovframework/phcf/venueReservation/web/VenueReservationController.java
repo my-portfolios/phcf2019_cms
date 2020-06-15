@@ -1,5 +1,7 @@
 package egovframework.phcf.venueReservation.web;
 
+import java.util.ArrayList;
+
 /**
  * @Class Name  : VenueReservationController.java
  * @Description : 대관 신청 관리 Controller
@@ -18,7 +20,6 @@ package egovframework.phcf.venueReservation.web;
 
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -82,6 +83,22 @@ public class VenueReservationController {
 		ModelAndView mav = new ModelAndView("jsonView");
 		
 		mav.addObject("list", service.selectVenueReservationInfo(SEQ));
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/venueReservation/updateVenueReservationDates.do")
+	public ModelAndView updateVenueReservationDates(@RequestParam HashMap<String, Object> paramMap) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		try {
+			service.updateVenueReservationDates(paramMap);
+			mav.addObject("result", "true");
+		} catch (Exception e) {
+			mav.addObject("result", "false");
+			e.printStackTrace();
+		}
+		
 		return mav;
 	}
 	
@@ -191,6 +208,20 @@ public class VenueReservationController {
 		}
 		
 		mav.addObject("result", result);
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/venueReservation/selectRoomList.do")
+	public ModelAndView selectRoomList(@RequestParam String venue) throws Exception {
+		ModelAndView mav = new ModelAndView("jsonView");
+		List<String> roomList = new ArrayList<>();
+		List<HashMap<String, Object>> codeList = service.selectDetailCodeList("PHC008");
+		for(HashMap<String, Object> code : codeList) {
+			if(venue.equals(code.get("CODE_DC").toString())) { roomList.add(code.get("CODE_NM").toString()); }
+		}
+		
+		mav.addObject("roomList", roomList);
 		return mav;
 	}
 	

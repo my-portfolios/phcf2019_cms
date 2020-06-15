@@ -59,4 +59,9 @@ public class VenueReservationServiceImpl extends EgovAbstractServiceImpl impleme
 		dao.deleteVenueReservationDates(SEQ);
 	}
 
+	@Override
+	public void updateVenueReservationDates(HashMap<String, Object> paramMap) {
+		dao.updateVenueReservationDates(paramMap);
+	}
+
 }

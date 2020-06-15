@@ -46,4 +46,8 @@ public class VenueReservationDAO extends EgovComAbstractDAO {
 		delete("VenueReservationDAO.deleteVenueReservationDates", SEQ);
 	}
 
+	public void updateVenueReservationDates(HashMap<String, Object> paramMap) {
+		update("VenueReservationDAO.updateVenueReservationDates",paramMap);
+	}
+
 }

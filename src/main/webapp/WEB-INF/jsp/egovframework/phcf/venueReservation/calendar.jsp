@@ -14,6 +14,7 @@
 <script src="/js/egovframework/phcf/fullcalendar/core.main.min.js"></script>
 <script src="/js/egovframework/phcf/fullcalendar/daygrid.main.min.js"></script>
 <script src="/js/egovframework/phcf/CommonMethod.js"></script>
+<script src="https://malsup.github.io/jquery.blockUI.js"></script>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -24,6 +25,7 @@
 			var events;
 			var eventsListIndex = 0;
 			var calendarObj;
+			var searchObject = new Object();
 			
 			document.addEventListener('DOMContentLoaded', function() {
 		    	var calendarEl = document.getElementById('calendarDiv');
@@ -43,7 +45,6 @@
 		  	});
 		
 			window.onload = function() {
-				var searchObject = new Object();
 				searchObject.fixStatus = "Y";
 				
 				loadEvent(searchObject);
@@ -67,6 +68,12 @@
 					url: '/venueReservation/selectReservationListToJson.do',
 					dataType: 'json',
 					data: filter,
+					beforeSend: function() {
+						$.blockUI({ message: '<h3 style="margin: 5%">잠시만 기다려 주세요</h3>' });
+					},
+					complete: function() {
+						$.unblockUI();
+					},
 					success : function(data){
 						jsonString = data.venueReservationRegJson;
 						jsonString = JSON.parse(jsonString);
@@ -79,10 +86,9 @@
 								else if(item["VENUE"]=="중앙아트홀(인디플러스 포항)") colorCode = "#F9E79F"; //노랑
 								else if(item["VENUE"]=="구룡포생활문화센터") colorCode = "#D2B4DE"; //보라
 								else if(item["VENUE"]=="아르코공연연습센터") colorCode = "#F5B7B1"; //분홍
-									  
+									 
 								$.each(item.venueReservationDatesList, function(datesIndex,datesItem){
 									events = new Object();
-									
 									events.title = item.EVENT_NAME;
 									events.start = datesItem.USE_DATE + "T" + datesItem.USE_START_TIME;
 									events.end = datesItem.USE_DATE + "T" + datesItem.USE_END_TIME;
@@ -98,13 +104,15 @@
 			function search(){
 				var searchType = $("#searchType").val();
 				var venue = $("#VENUE").val();
+				var room = $("#ROOM").val();
 				var result = $("#RESULT").val();
 				var keyword = $("#keyword").val();
 				
-				var searchObject = new Object();
+				searchObject = new Object();
 				searchObject.fixStatus = "Y";
 				searchObject.searchCnd = searchType;
 				searchObject.venueCnd = venue;
+				searchObject.roomCnd = room;
 				searchObject.resultCnd = result;
 				searchObject.keyword = keyword;
 				

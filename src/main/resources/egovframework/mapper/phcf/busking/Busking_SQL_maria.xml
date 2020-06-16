@@ -151,7 +151,7 @@
 		select S.SEQ
 			, S.GROUP_SEQ
 			, S.MBER_ID
-			, S.REG_DATE
+			, DATE_FORMAT(S.REG_DATE,'%Y-%m-%d %H:%i:%s') AS REG_DATE
 			, S.PROG_NM
 			, S.PLACE
 			, <!-- CONCAT( -->S.DATE_BGN<!-- ,' ~ ', S.DATE_END) AS DATE -->

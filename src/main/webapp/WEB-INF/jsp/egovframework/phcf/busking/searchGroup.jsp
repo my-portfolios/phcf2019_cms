@@ -63,6 +63,7 @@
 					<option value="" label="선택" />
 					<option value="TEAM_NAME" label="팀이름">
 					<option value="HEAD_NAME" label="대표자">
+					<option value="MBER_ID" label="아이디">
 				</select>
 			</c:if>
 		</li>

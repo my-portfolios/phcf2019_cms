@@ -25,6 +25,11 @@
 		      		and HEAD_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
 		      	</if>
 		    </if>
+		    <if test="searchCondition!=null and searchCondition.equals('MBER_ID') ">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and MBER_ID LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      	</if>
+		    </if>
 		     	and DELETE_YN=0
 		   ORDER BY SEQ DESC
 		   <if test="pageNm==1">
@@ -53,6 +58,11 @@
 			<if test="searchCondition.equals('HEAD_NAME') ">
 				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
 		      		and HEAD_NAME LIKE CONCAT('%' , #{searchKeyword}, '%')
+		      	</if>
+		    </if>
+		    <if test="searchCondition!=null and searchCondition.equals('MBER_ID') ">
+				<if test="searchKeyword !=null and !searchKeyword.equals('') ">
+		      		and MBER_ID LIKE CONCAT('%' , #{searchKeyword}, '%')
 		      	</if>
 		    </if>
 	     	and DELETE_YN=0

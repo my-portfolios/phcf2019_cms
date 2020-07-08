@@ -362,7 +362,7 @@ public class EgovPopupManageController {
 	private List<ComDefaultCodeVO> getTimeHH() {
 		ArrayList<ComDefaultCodeVO> listHH = new ArrayList<ComDefaultCodeVO>();
 		HashMap<?, ?> hmHHMM;
-		for (int i = 0; i <= 24; i++) {
+		for (int i = 0; i <= 23; i++) {
 			String sHH = "";
 			String strI = String.valueOf(i);
 			if (i < 10) {
@@ -390,7 +390,7 @@ public class EgovPopupManageController {
 	private List<ComDefaultCodeVO> getTimeMM() {
 		ArrayList<ComDefaultCodeVO> listMM = new ArrayList<ComDefaultCodeVO>();
 		HashMap<?, ?> hmHHMM;
-		for (int i = 0; i <= 60; i++) {
+		for (int i = 0; i <= 59; i++) {
 
 			String sMM = "";
 			String strI = String.valueOf(i);

@@ -89,11 +89,11 @@
 	<bean id="cmsSupportScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
- 				<ref bean="cmsAgreeSenderTrigger" /> 
+ 				<!-- <ref bean="cmsAgreeSenderTrigger" /> 
  				<ref bean="cmsUserCreateSenderTrigger" /> 
  				<ref bean="cmsUserRecvTrigger" /> 
  				<ref bean="cmsPayCreateSenderTrigger" />
- 				<ref bean="cmsPayRecvTrigger" />
+ 				<ref bean="cmsPayRecvTrigger" /> -->
 			</list>
 		</property>
 	</bean>

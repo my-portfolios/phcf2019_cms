@@ -169,7 +169,7 @@ function fncOnChangeImage() {
 				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=2.80','mainImage','width=1000,height=640,resizable=no');" value="선택"/>
 	            <input type="hidden" id="popupImage" name="popupImage" readOnly/><br /><br />
 	            <img src="/images/egovframework/phcf/admin/cms_banner02.png" alt=""><br />	
-	            (메인 이미지 사이즈 : 1920px * 854px, 문화공간  이미지 사이즈 : 1920px * 685px, 축제  이미지 사이즈 : 1920px * 685px)
+	            (메인 이미지 사이즈 : 1920px * 937px, 문화공간  이미지 사이즈 : 1920px * 685px, 축제  이미지 사이즈 : 1920px * 685px)
 			</td>
 			    <%-- <div class="egov_file_box" style="display:inline-block">
 				<label for="egovfile_0" id="file_label"><spring:message code="title.attachedFileSelect"/></label> <!-- 파일선택 -->

@@ -163,7 +163,7 @@ function fncOnChangeImage() {
 	            <input type="hidden" id="popupImage" name="popupImage" readOnly/>
 	             * 이미지 변경 <br /><br />
 	            <img src="/images/egovframework/phcf/admin/cms_banner02.png" alt=""><br />
-	            (메인 이미지 사이즈 : 1920px * 854px, 문화공간  이미지 사이즈 : 1920px * 685px, 축제  이미지 사이즈 : 1920px * 685px)
+	            (메인 이미지 사이즈 : 1920px * 937px, 문화공간  이미지 사이즈 : 1920px * 685px, 축제  이미지 사이즈 : 1920px * 685px)
 			</td>
 			<%-- 
 			<td class="left">

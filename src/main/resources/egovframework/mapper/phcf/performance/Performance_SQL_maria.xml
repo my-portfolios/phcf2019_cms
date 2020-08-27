@@ -61,36 +61,33 @@
 			SELECT
 				AA.SEQ AS SEQ
 			FROM
-				APPLIERINFO AA,
-				COMTNBBS BB,
-				BBSADDEDCOLMNS CC
-			WHERE 
-				AA.BBS_ID = BB.BBS_ID
-				AND AA.NTT_ID = BB.NTT_ID
-				AND BB.BBS_ID = CC.BBS_ID
-				AND BB.NTT_ID = CC.NTT_ID
-				AND BB.USE_AT = "Y"
-				<if test='SEQ != null and SEQ != ""'>
-					AND AA.SEQ = #{SEQ}
-				</if>
-				<if test='category != null and category != ""'>
-					AND BB.CATE_NAME LIKE "%" #{category} "%"
-				</if>
-				<if test='subject != null and subject != ""'>
-					AND BB.NTT_SJ LIKE "%" #{subject} "%"
-				</if>
-				<if test='APL_NAME != null and APL_NAME != ""'>
-					AND AA.APL_NAME LIKE "%" #{APL_NAME} "%"
-				</if>
-				<if test='APL_PHONE != null and APL_PHONE != ""'>
-					AND AA.APL_PHONE LIKE "%" #{APL_PHONE} "%"
-				</if>
-				<if test='APL_EMAIL != null and APL_EMAIL != ""'>
-					AND AA.APL_EMAIL LIKE "%" #{APL_EMAIL} "%"
-				</if>
-				<if test='RESULT != null and RESULT != ""'>
-					AND AA.RESULT = #{RESULT}
-				</if>
+			APPLIERINFO AA,
+			COMTNBBS BB
+		WHERE 
+			AA.BBS_ID = BB.BBS_ID
+			AND AA.NTT_ID = BB.NTT_ID
+			AND BB.USE_AT = "Y"
+			<if test='SEQ != null and SEQ != ""'>
+				AND AA.SEQ = #{SEQ}
+			</if>
+			<if test='category != null and category != ""'>
+				AND BB.CATE_NAME LIKE "%" #{category} "%"
+			</if>
+			<if test='subject != null and subject != ""'>
+				AND BB.NTT_SJ LIKE "%" #{subject} "%"
+			</if>
+			<if test='APL_NAME != null and APL_NAME != ""'>
+				AND AA.APL_NAME LIKE "%" #{APL_NAME} "%"
+			</if>
+			<if test='APL_PHONE != null and APL_PHONE != ""'>
+				AND AA.APL_PHONE LIKE "%" #{APL_PHONE} "%"
+			</if>
+			<if test='APL_EMAIL != null and APL_EMAIL != ""'>
+				AND AA.APL_EMAIL LIKE "%" #{APL_EMAIL} "%"
+			</if>
+			<if test='RESULT != null and RESULT != ""'>
+				AND AA.RESULT = #{RESULT}
+			</if>
 		)
 		SELECT COUNT(*) AS CNT FROM APPLIED_LIST
 	</select>

@@ -24,7 +24,7 @@
     <repositories>
         <repository>
             <id>mvn2</id>
-            <url>http://repo1.maven.org/maven2/</url>
+            <url>https://repo1.maven.org/maven2/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -608,7 +608,7 @@
 	        <scope>system</scope>
 	        <systemPath>${webapp.lib}/taglibs-standard-spec-1.2.5.jar</systemPath>
 	    </dependency>
-    
+
     </dependencies>
     <build>
         <defaultGoal>install</defaultGoal>

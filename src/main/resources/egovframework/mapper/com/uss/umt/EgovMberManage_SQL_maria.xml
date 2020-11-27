@@ -11,7 +11,7 @@
     
  <select id="selectMberList" resultType="egovMap">
 SELECT 
-    uniqId, userTy, userId , userNm, emailAdres, areaNo, middleTelno, endTelno, moblphonNo, groupId, sttus, sbscrbDe, membershipType,membershipStartDt
+    uniqId, userTy, userId , userNm, emailAdres, areaNo, middleTelno, endTelno, moblphonNo, groupId, sttus, sbscrbDe, membershipType,membershipStartDt,sendMailYn
 FROM(
     SELECT 
         ESNTL_ID               uniqId,
@@ -27,7 +27,8 @@ FROM(
         MBER_STTUS            sttus,
         SBSCRB_DE             sbscrbDe,
         MEMBERSHIP_TYPE		 membershipType,
-        MEMBERSHIP_START_DT	membershipStartDt
+        MEMBERSHIP_START_DT	membershipStartDt,
+        send_mail_yn	sendMailYn
     FROM    COMTNGNRLMBER
     ) A
         WHERE 1=1
@@ -43,7 +44,9 @@ FROM(
         </if>
         </if>
         ORDER BY uniqId DESC
+        <if test='recordCountPerPage != null and recordCountPerPage != -1 and firstIndex != null and firstIndex != -1'>
         LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+        </if>
     </select>
     
     

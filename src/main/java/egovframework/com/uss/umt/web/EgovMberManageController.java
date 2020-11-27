@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,8 +30,11 @@ import egovframework.com.uss.umt.service.MberManageVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
 import egovframework.com.uss.umt.service.UserManageVO;
 import egovframework.com.utl.sim.service.EgovFileScrty;
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.phcf.scheduler.MberDormantCronQuartz;
+import egovframework.phcf.util.ExcelUtil;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
@@ -541,6 +546,98 @@ public class EgovMberManageController {
 
 		return "egovframework/com/uss/umt/EgovMberPasswordUpdt";
 	}
+	
+	@RequestMapping(value = "/uss/umt/exportExcelMberList.do")
+	public void exportExcelMberList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+		if (!isAuthenticated || loginVO.getUserSe() != "USR") {
+			CommonMethod.generalAlertThrowing("/", "", "권한이 없습니다.");
+		}
+
+		UserDefaultVO userSearchVO = new UserDefaultVO(); 
+		userSearchVO.setLastIndex(-1);
+		userSearchVO.setRecordCountPerPage(-1);
+		List<?> mberList = mberManageService.selectMberList(userSearchVO);
+		
+		ComDefaultCodeVO comDefaultCodeVO = new ComDefaultCodeVO();
+		comDefaultCodeVO.setTableNm("COMTNORGNZTINFO");
+		List<CmmnDetailCode> groupList = cmmUseService.selectGroupIdDetail(comDefaultCodeVO);
+		List<CmmnDetailCode> membershipTypeList = CommonMethod.getCodeDetailVOList("PHC010", cmmUseService);
+		
+		Map<String, Object> groupMap = new HashMap<>();
+		Map<String, Object> membershipTypeMap = new HashMap<>();
+		
+		for(CmmnDetailCode cmmnCode : groupList) {
+			groupMap.put(cmmnCode.getCode(), cmmnCode.getCodeNm());
+		}
+		
+		membershipTypeMap.put("N", "무료회원");
+		for(CmmnDetailCode cmmnCode : membershipTypeList) {
+			membershipTypeMap.put(cmmnCode.getCode(), cmmnCode.getCodeNm());
+		}
+		
+		List<Map<String, Object>> headList = new ArrayList<>();
+		Map<String, Object> headMap = new HashMap<>();
+		headMap.put("text", "이름"); headMap.put("value", "mberNm");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put("text", "아이디"); headMap.put("value", "mberId");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put("text", "전화번호"); headMap.put("value", "moblphonNo");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put("text", "회원 분류"); headMap.put("value", "groupId");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put("text", "이메일"); headMap.put("value", "mberEmailAdres");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put("text", "가입일시"); headMap.put("value", "sbscrbDe");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put("text", "유료멤버십 여부"); headMap.put("value", "membershipType");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put("text", "유료멤버십 시작일"); headMap.put("value", "membershipStartDt");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put("text", "메일 수신여부"); headMap.put("value", "sendMailYn");		
+		headList.add(headMap);
+		
+		List<Map<String, Object>> valueList = new ArrayList<>();
+		for(int i=0;i<mberList.size();i++) {
+			EgovMap vo = (EgovMap)mberList.get(i);
+			Map<String, Object> valueMap = new HashMap<>();
+			if(vo.get("sttus") == null || !vo.get("sttus").equals("P")) { continue; }
+			
+			valueMap.put("mberNm", vo.get("userNm"));
+			valueMap.put("mberId", vo.get("userId"));
+			valueMap.put("moblphonNo", vo.get("moblphonNo"));
+			valueMap.put("groupId", CommonMethod.stringConvert(groupMap.get(vo.get("groupId")), ""));
+			valueMap.put("mberEmailAdres", vo.get("emailAdres"));
+			valueMap.put("sbscrbDe", vo.get("sbscrbDe"));
+			valueMap.put("membershipType", CommonMethod.stringConvert(membershipTypeMap.get(vo.get("membershipType")), ""));
+			valueMap.put("membershipStartDt", vo.get("membershipStartDt"));
+			valueMap.put("sendMailYn", CommonMethod.stringConvert(vo.get("sendMailYn"), "N").equals("Y") ? "예" : "아니오");
+			
+			valueList.add(valueMap);
+		}
+		
+		ExcelUtil excelUtil = new ExcelUtil();
+		excelUtil.exportExcel(request, response, headList, valueList);
+	}
+	
+	
 	
 	/**
 	 * 휴먼회원 관리화면

@@ -159,11 +159,11 @@ function fncOnChangeImage() {
 		<tr>
 			<th><spring:message code="uss.ion.msi.mainImageUpdt.mainImage" /> <span class="pilsu">*</span></th><!-- 이미지 -->
 			<td class="left">
-				<input type="button" onclick="window.open('/common/imageCropper.do','mainImage','width=1000,height=640,resizable=no');" value="선택"/>
+				<input type="button" onclick="window.open('/common/imageCropper.do?ratio=2.04','mainImage','width=1000,height=640,resizable=no');" value="선택"/>
 	            <input type="hidden" id="popupImage" name="popupImage" readOnly/>
 	             * 이미지 변경 <br /><br />
 	            <img src="/images/egovframework/phcf/admin/cms_banner02.png" alt=""><br />
-	            (메인 이미지 사이즈 : 1920px * 937px, 문화공간  이미지 사이즈 : 1920px * 685px, 축제  이미지 사이즈 : 1920px * 685px)
+	            (메인 이미지 사이즈 : 1920px * 937px(상단 여백 120px 포함), 문화공간  이미지 사이즈 : 1920px * 685px, 축제  이미지 사이즈 : 1920px * 685px)
 			</td>
 			<%-- 
 			<td class="left">
@@ -180,7 +180,7 @@ function fncOnChangeImage() {
 		<tr class="mainTitle" <c:if test="${mainImage.displayPage == '문화공간'}">style="display:none;"</c:if>>
 			<th>연결될 페이지</th>
 			<td class="left">
-			    주소 : <input name="connectPage" title="연결될 페이지" type="text" value="${mainImage.connectPage}" maxLength="100" />			    
+			    주소 : <input name="connectPage" title="연결될 페이지" type="text" value="${mainImage.connectPage}" />			    
 			    페이지 이동을 하지 않으려면 #을 입력하십시오.
 				<br/><br/>
 				표시 될 창 : 

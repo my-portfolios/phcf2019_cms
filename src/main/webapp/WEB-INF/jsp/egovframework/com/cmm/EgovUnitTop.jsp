@@ -53,7 +53,7 @@
 			<div>
 				<a href="${externalPageUrl[0]}" target="_blank"><span>포항문화재단</span></a> 
 				<a href="${externalPageUrl[2]}" target="_blank"><span>문화공간</span> </a>
-				<a href="#"><span>축제</span></a>
+				<a href="${externalPageUrl[3]}" target="_blank"><span>축제</span></a>
 			</div>
 			<div><span class="quickmenu_down" onclick="window.open('/images/egovframework/phcf/admin/cms_manual.pdf')">메뉴얼 다운로드</span></div>
 			<div id="currentTime">로딩 중...</div>

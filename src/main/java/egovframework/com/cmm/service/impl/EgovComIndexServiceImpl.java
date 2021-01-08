@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.com.cmm.ComDefaultVO;
 import egovframework.com.cmm.service.EgovComIndexService;
+import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 /**
@@ -58,6 +59,12 @@ public class EgovComIndexServiceImpl extends EgovAbstractServiceImpl implements 
 	
 	@Override
 	public void contentsMenuMapping(HashMap<String, String> vo) throws Exception{
+		String contentsLink = "#";
+		if(!EgovStringUtil.nullConvert(vo.get("nttId")).equals("0")) {
+			contentsLink = "/common/getContents.do" + String.format("?menu1=%s&menu2=%s&menu3=%s", vo.get("depth1"), vo.get("depth2"), vo.get("depth3") );
+		}
+		
+		vo.put("contentsLink", contentsLink);
 		dao.contentsMenuMapping(vo);
 	}
 	

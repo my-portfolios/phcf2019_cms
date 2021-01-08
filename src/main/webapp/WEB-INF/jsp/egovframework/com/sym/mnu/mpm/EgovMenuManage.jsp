@@ -38,7 +38,7 @@
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
 <script language="javascript1.2" type="text/javaScript">
-<!--
+
 $(function(){
 	refreshSelectBox();
 });
@@ -185,10 +185,10 @@ function menuBttClick(id){
 		dataType: "json",
 		data: {menuNo:id, nttId:$("#menuSelectNo"+id+" option:selected").val(), nttSj:$("#menuSelectNo"+id+" option:selected").text()},
 		success: function(data){
-			console.log(data);
 			refreshSelectBox();
 			if(data.param.nttId != 0) $('#menuNttSj'+id).html(data.param.nttSj);
 			else $('#menuNttSj'+id).html('');
+			$('#menuLink'+id).html(data.param.contentsLink);
 		},
 		error: function(request, status, error) {
 			console.log("error");
@@ -217,7 +217,6 @@ function contentpageYn(id){
 	});
 }
 
--->
 </script>
 </head>
 <body>
@@ -285,7 +284,7 @@ function contentpageYn(id){
 			       <%-- <span class="link"><a href="<c:url value='/sym/mnu/mpm/EgovMenuManageListDetailSelect.do?req_menuNo='/>${menuNo}" onclick="selectUpdtMenuManageDetail('<c:out value="${menuNo}"/>'); return false;"><c:out value="${result.menuNm}"/></a></span> --%>
 			       <c:out value="${result.menuNm}"/>
 			    </td>
-			    <td><c:out value="${result.link}"/></td>
+			    <td id="menuLink${menuNo}"><c:out value="${result.link}"/></td>
 			    <td><c:out value="${result.depth1}"/><c:out value="${result.depth2}"/><c:out value="${result.depth3}"/></td>
 			    <td>
 			    	<select id="contentpageYn${menuNo}" name="contentpageYn" onchange="javascript:contentpageYn('${menuNo}');">

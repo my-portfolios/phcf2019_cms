@@ -92,6 +92,7 @@
 		UPDATE
 			MENUINFOLIST
 		SET
+			LINK = #{contentsLink},
 			CONTENT_ID = #{nttId}
 		WHERE
 			PAGE_NM = #{pageNm}

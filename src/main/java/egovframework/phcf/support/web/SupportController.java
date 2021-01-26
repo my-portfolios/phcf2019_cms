@@ -620,8 +620,6 @@ public class SupportController {
 		
 		setPageSize10(paramMap);
 		
-		System.out.print("paramMapparamMapparamMapparamMapparamMapparamMap"+paramMap);
-		
 		//ModelAndView에 Object를 추가하여 CmsSupport.xml의 'getCmsStatusList'와 맵핑
 		//'getCmsStatusList'는 Limit이 걸린 쿼리이므로 전체 건수가 나오는 Object를 따로 추가해야 하나?
 		mav.addObject("cmsStatus", supportService.getCmsStatusList(paramMap));

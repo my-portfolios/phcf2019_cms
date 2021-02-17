@@ -300,7 +300,7 @@ public class DateUtil {
  	public static List<String> getHolidayList(String yyyy, String mm) throws Exception {
  		
  		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=feXwNwwZcXWkll4O8MoSG87Iwkyjnw2MdKeVlKap8dH97%2B0Bk0jn55iHINoU%2BMYOSlg1EZhVh8XUOuSe3D%2BcOw%3D%3D"); /*Service Key*/
+ 		urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=" + "9pooQFOw84mpp7FiV5NtwVJKHWuDCSQFmJH5hii7TkDeI5iHgHt7fzuXHyyAqGyeaMb00RYhrbEjXubt2QxxHg%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("solYear","UTF-8") + "=" + URLEncoder.encode(yyyy, "UTF-8")); /*연*/
         urlBuilder.append("&" + URLEncoder.encode("solMonth","UTF-8") + "=" + URLEncoder.encode(mm, "UTF-8")); /*월*/
         URL url = new URL(urlBuilder.toString());

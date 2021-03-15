@@ -1,9 +1,11 @@
 package egovframework.com.uss.umt.web;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,8 @@ import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.com.cop.ems.service.EgovSndngMailRegistService;
+import egovframework.com.cop.ems.service.SndngMailVO;
 import egovframework.com.uss.umt.service.EgovMberManageService;
 import egovframework.com.uss.umt.service.MberManageVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
@@ -81,6 +85,10 @@ public class EgovMberManageController {
 	/** DefaultBeanValidator beanValidator */
 	@Autowired
 	private DefaultBeanValidator beanValidator;
+	
+	@Resource(name = "sndngMailRegistService")
+	private EgovSndngMailRegistService sndngMailRegistService;
+	
 
 	/**
 	 * 일반회원목록을 조회한다. (pageing)
@@ -683,6 +691,54 @@ public class EgovMberManageController {
 	//	int totCnt = mberManageService.getMovedDormantMberCnt(paramMap);
     //    model.addAttribute("totCnt", totCnt);
 
+		return "jsonView";
+	}
+	
+	@RequestMapping(value = "/uss/umt/alertBeforeDormantTestMail.do")
+	public String alertBeforeDormantTestMail(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
+		CommonMethod commonMethod = new CommonMethod();
+	
+		SndngMailVO sndngMailVO = new SndngMailVO();
+		sndngMailVO.setSj("[포항문화재단] 휴먼회원 전환 예정 안내 메일");
+		sndngMailVO.setEmailCn(commonMethod.getFileContent("egovframework/mail/rest_guide.html"));
+		sndngMailVO.setDsptchPerson("phcf01");
+		sndngMailVO.setFileStreCours("");
+
+		Map<String, Object> mber = new HashMap<>();
+		mber.put("mberEmailAdres", "dmsl4848@hubizict.com");
+		
+		if(mber.get("mberEmailAdres") != null && !mber.get("mberEmailAdres").equals("") && 
+				Pattern.matches("^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$", mber.get("mberEmailAdres").toString())) {
+			
+			sndngMailVO.setRecptnPerson(mber.get("mberEmailAdres").toString());
+			System.out.println("==== checkMemberList" + mber.get("mberEmailAdres").toString());
+			sndngMailRegistService.insertSndngMail(sndngMailVO);
+		}
+
+		return "jsonView";
+	}
+	
+	@RequestMapping(value = "/uss/umt/alertAfterDormantTestMail.do")
+	public String alertAfterDormantTestMail(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
+		CommonMethod commonMethod = new CommonMethod();
+	
+		SndngMailVO sndngMailVO = new SndngMailVO();
+		sndngMailVO.setSj("[포항문화재단] 휴먼회원 전환 안내 메일");
+		sndngMailVO.setEmailCn(commonMethod.getFileContent("egovframework/mail/email_rest.html"));
+		sndngMailVO.setDsptchPerson("phcf01");
+		sndngMailVO.setFileStreCours("");
+
+		Map<String, Object> mber = new HashMap<>();
+		mber.put("mberEmailAdres", "dmsl4848@hubizict.com");
+			
+		if(mber.get("mberEmailAdres").toString() != null && !mber.get("mberEmailAdres").toString().equals("") && 
+				Pattern.matches("^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$",mber.get("mberEmailAdres").toString())) {
+			sndngMailVO.setRecptnPerson(mber.get("mberEmailAdres").toString());
+			System.out.println("==== transferToDormant" + mber.get("mberEmailAdres").toString());
+			
+			sndngMailRegistService.insertSndngMail(sndngMailVO);
+		}
+		
 		return "jsonView";
 	}
 }

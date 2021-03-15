@@ -105,15 +105,17 @@ public class EgovMultiPartEmail implements Serializable {
 	}
 
 	public String send(String addTo, String subject, String msg, EmailAttachment attachment) throws EmailException {
-		MultiPartEmail email = new MultiPartEmail();
+		HtmlEmail email = new HtmlEmail();
 
 		email.setCharset("UTF-8");
 		email.setHostName(this.host);
 		email.setSmtpPort(this.port);
-		email.setStartTLSEnabled(true);
+		//email.setStartTLSEnabled(true);
+		email.setSSLOnConnect(true);
+		email.setSslSmtpPort(String.valueOf(this.port));
 		email.setAuthenticator(new DefaultAuthenticator(this.id, this.password));
-		email.setSocketConnectionTimeout(60000);
-		email.setSocketTimeout(60000);
+		email.setSocketConnectionTimeout(20000);
+		email.setSocketTimeout(20000);
 		email.setFrom(this.emailAddress, this.senderName);
 		email.addTo(addTo);
 		email.setSubject(subject);
@@ -123,28 +125,8 @@ public class EgovMultiPartEmail implements Serializable {
 			email.attach(attachment);
 		}
 
-
 		return email.send();
 
 	}
 
-	public String htmlSend(String addTo, String subject, String msg) throws EmailException {
-
-		HtmlEmail email = new HtmlEmail();
-		email.setCharset("UTF-8");
-		email.setHostName(this.host);
-		email.setSmtpPort(this.port);
-		email.setStartTLSEnabled(true);
-		email.setAuthenticator(new DefaultAuthenticator(this.id, this.password));
-		email.setSocketConnectionTimeout(60000);
-		email.setSocketTimeout(60000);
-		email.setFrom(this.emailAddress, this.senderName);
-		email.addTo(addTo);
-		email.setSubject(subject);
-		email.setHtmlMsg(msg);
-		email.setTextMsg("포항문화재단 메일");
-
-		return email.send();
-
-	}
 }

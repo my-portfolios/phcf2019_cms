@@ -78,7 +78,7 @@ public class EgovSndngMailServiceImpl extends EgovAbstractServiceImpl implements
 			else
 			{
 				// 메일을 전송합니다
-				egovMultiPartEmail.htmlSend(recptnPerson, subject, emailCn);
+				egovMultiPartEmail.send(recptnPerson, subject, emailCn);
 			}
 
 			Throwable t = new Throwable();

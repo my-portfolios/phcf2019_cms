@@ -12,47 +12,48 @@
     
     <!-- 메일 연동 인터페이스에서 첨부파일 미사용 -->
     <bean id="EMSMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" 
-        p:host="smtp.gmail.com" 
-        p:port="587"  
+        p:host="smtps.hiworks.com" 
+        p:port="465"  
         p:protocol="smtp" 
-        p:username="hubizictsi@gmail.com" 
+        p:username="hubizictsi@hubizict.com" 
         p:password="hubizict12#"> 
         <property name="javaMailProperties"> 
             <props> 
-                <prop key="mail.smtps.auth">true</prop> 
-                <prop key="mail.smtps.startls.enable">true</prop> 
-                <prop key="mail.smtps.debug">true</prop> 
+                <prop key="mail.smtps.debug">true</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtps.ssl.enable">true</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
             </props> 
         </property> 
     </bean>
      
     <!-- 메일 연동 인터페이스에서 첨부파일 사용 -->
 	<bean id="egovMultiPartEmail" class="egovframework.com.cop.ems.service.EgovMultiPartEmail"
-		p:host="smtp.gmail.com"
-		p:port="587"
-		p:id="hubizictsi@gmail.com"
+		p:host="smtps.hiworks.com"
+		p:port="465"
+		p:id="hubizictsi@hubizict.com"
 		p:password="hubizict12#"
-		p:senderName="(재)포항문화재단"
-		p:emailAddress="mailtest@phcf.or.kr" />
+		p:senderName="포항문화재단"
+		p:emailAddress="phcf@phcf.or.kr" />
 	  
     <!-- 모니터링 서비스에서 사용 gmail, hanmail 용 -->
     <bean id="mntrngMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" 
-        p:host="smtp.gmail.com"
-        p:port="587"
+        p:host="smtps.hiworks.com"
+        p:port="465"
         p:protocol="smtp"
-        p:username="hubizictsi@gmail.com" 
+        p:username="hubizictsi@hubizict.com" 
         p:password="hubizict12#">
         <property name="javaMailProperties"> 
             <props>
-                <prop key="mail.smtps.auth">true</prop> 
-                <prop key="mail.smtps.startls.enable">true</prop> 
-                <prop key="mail.smtps.debug">true</prop> 
+                <prop key="mail.smtps.debug">true</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtps.ssl.enable">true</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
             </props> 
         </property> 
     </bean>
     
-    <!-- 메일발송 설정 -->
-    <bean id='phcfMailer' class="egovframework.phcf.common.PhcfMailer">
+	<bean id='phcfMailer' class="egovframework.phcf.common.PhcfMailer">
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
 		<property name="password" value="hubizict12#" />

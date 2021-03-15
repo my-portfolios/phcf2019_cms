@@ -1,14 +1,14 @@
 package egovframework.com.uss.umt.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 import egovframework.com.uss.umt.service.MberManageVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
 import egovframework.com.uss.umt.service.UserManageVO;
-
-import org.springframework.stereotype.Repository;
 
 /**
  * 일반회원관리에 관한 데이터 접근 클래스를 정의한다.
@@ -117,52 +117,44 @@ public class MberManageDAO extends EgovComAbstractDAO{
     public void updateLockIncorrect(MberManageVO mberManageVO) {
         update("mberManageDAO.updateLockIncorrect", mberManageVO);
     }
-    
-    @SuppressWarnings("unchecked")
-	public List<HashMap<String, Object>> getDormantMber(HashMap<String, Object> paramMap) {
-        return (List<HashMap<String, Object>>) list("mberManageDAO.getDormantMber", paramMap);
-    }
-    
-    @SuppressWarnings("unchecked")
-	public List<HashMap<String, Object>> getMovedDormantMber(HashMap<String, Object> paramMap) {
-        return (List<HashMap<String, Object>>) list("mberManageDAO.getMovedDormantMber", paramMap);
-    }
-    
-	public int getDormantMberCnt(HashMap<String, Object> paramMap) {
-        return (int) selectOne("mberManageDAO.getDormantMberCnt", paramMap);
-    }
-	
-	public int getMovedDormantMberCnt(HashMap<String, Object> paramMap) {
-        return (int) selectOne("mberManageDAO.getMovedDormantMberCnt", paramMap);
-    }
-	
-	public List<MberManageVO> getDormantMber12() {
-        return selectList("mberManageDAO.getDormantMber12");
-    }
-	
-	public void transferDormantMber(MberManageVO mberManageVO) {
-        insert("mberManageDAO.transferDormantMber", mberManageVO);
-    }
-	
-	public void updatetransferedDormantMberCode(MberManageVO mberManageVO) {
-		update("mberManageDAO.updatetransferedDormantMberCode", mberManageVO);
-	}
-
-	public int insertDormantReserveMember(String mberId) {
-		return insert("mberManageDAO.insertDormantReserveMember", mberId);
-	}
-
-	public List<HashMap<String, Object>> selectDormantReserveMemberList() {
-		return selectList("mberManageDAO.selectDormantReserveMemberList");
-	}
-
-	public void deleteDormantReserveMemberList(int seq) {
-		delete("mberManageDAO.deleteDormantReserveMemberList", seq);
-		
-	}
 
 	public MberManageVO selectMberWithId(String mberId) {
 		return selectOne("mberManageDAO.selectMberWithId", mberId);
+	}
+	
+	/* 휴면 회원 전환 대상자 조회 */ 
+	public List<Map<String, Object>> selectDormantReserveMemberList(Map<String, Object> paramMap) throws Exception {
+		return selectList("mberManageDAO.selectDormantReserveMemberList", paramMap);
+	}
+	
+	/* 휴면 회원 전환 대상자 입력 */
+	public void insertDormantReserveMember(MberManageVO mberManageVO) throws Exception {
+		insert("mberManageDAO.insertDormantReserveMember", mberManageVO);
+	}
+	
+	/* 휴면 회원 전환 대상자 삭제 */
+	public void deleteDormantReserveMemberList(Map<String, Object> paramMap) throws Exception {
+		delete("mberManageDAO.deleteDormantReserveMemberList", paramMap);
+	}
+	
+	/* 휴면 회원 조회 */
+	public List<Map<String, Object>> selectDormantMberList(Map<String, Object> paramMap) throws Exception {
+		return selectList("mberManageDAO.selectDormantMberList", paramMap);
+	}
+	
+	/* 휴면회원 전환 (휴면회원 삽입) */
+	public void transferDormantMber(MberManageVO mberManageVO) throws Exception {
+		insert("mberManageDAO.transferDormantMber", mberManageVO);
+	}
+	
+	/* 휴면회원 전환 (회원 정보 삭제) */
+	public void updateMberToDormant(MberManageVO mberManageVO) throws Exception {
+		update("mberManageDAO.updateMberToDormant", mberManageVO);
+	}
+	
+	/* 로그인하지 않은 회원 조회 */
+	public List<Map<String, Object>> selectNotLoggedMberList(Map<String, Object> paramMap) throws Exception {
+		return selectList("mberManageDAO.selectNotLoggedMberList", paramMap);
 	}
 
 }

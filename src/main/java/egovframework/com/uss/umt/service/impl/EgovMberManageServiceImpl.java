@@ -2,6 +2,7 @@ package egovframework.com.uss.umt.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import egovframework.com.uss.umt.service.EgovMberManageService;
 import egovframework.com.uss.umt.service.MberManageVO;
@@ -198,55 +199,46 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 		mberManageDAO.updateLockIncorrect(mberManageVO);
 	}
 	
+	/* 휴면 회원 전환 대상자 조회 */
 	@Override
-	public List<HashMap<String, Object>> getDormantMber(HashMap<String, Object> paramMap) throws Exception {
-		return mberManageDAO.getDormantMber(paramMap);
+	public List<Map<String, Object>> selectDormantReserveMemberList(Map<String, Object> paramMap) throws Exception {
+		return mberManageDAO.selectDormantReserveMemberList(paramMap);
 	}
 	
+	/* 휴면 회원 전환 대상자 입력 */
 	@Override
-	public List<HashMap<String, Object>> getMovedDormantMber(HashMap<String, Object> paramMap) throws Exception {
-		return mberManageDAO.getMovedDormantMber(paramMap);
+	public void insertDormantReserveMember(MberManageVO mberManageVO) throws Exception {
+		mberManageDAO.insertDormantReserveMember(mberManageVO);
 	}
 	
+	/* 휴면 회원 전환 대상자 삭제 */
 	@Override
-	public int getDormantMberCnt(HashMap<String, Object> paramMap) throws Exception {
-		return mberManageDAO.getDormantMberCnt(paramMap);
+	public void deleteDormantReserveMemberList(Map<String, Object> paramMap) throws Exception {
+		mberManageDAO.deleteDormantReserveMemberList(paramMap);
 	}
 	
+	/* 휴면 회원 조회 */
 	@Override
-	public int getMovedDormantMberCnt(HashMap<String, Object> paramMap) throws Exception {
-		return mberManageDAO.getMovedDormantMberCnt(paramMap);
+	public List<Map<String, Object>> selectDormantMberList(Map<String, Object> paramMap) throws Exception {
+		return mberManageDAO.selectDormantMberList(paramMap);
 	}
 	
-	
-	@Override
-	public List<MberManageVO> getDormantMber() throws Exception {
-		return mberManageDAO.getDormantMber12();
-	}
-	
+	/* 휴면회원 전환 (휴면회원 삽입) */
 	@Override
 	public void transferDormantMber(MberManageVO mberManageVO) throws Exception {
 		mberManageDAO.transferDormantMber(mberManageVO);
 	}
 	
+	/* 휴면회원 전환 (회원 정보 삭제) */
 	@Override
-	public void updatetransferedDormantMberCode(MberManageVO mberManageVO) throws Exception {
-		mberManageDAO.updatetransferedDormantMberCode(mberManageVO);
+	public void updateMberToDormant(MberManageVO mberManageVO) throws Exception {
+		mberManageDAO.updateMberToDormant(mberManageVO);
 	}
 	
+	/* 로그인하지 않은 회원 조회 */
 	@Override
-	public int insertDormantReserveMember(String mberId) throws Exception {
-		return mberManageDAO.insertDormantReserveMember(mberId);
+	public List<Map<String, Object>> selectNotLoggedMberList(Map<String, Object> paramMap) throws Exception {
+		return mberManageDAO.selectNotLoggedMberList(paramMap);
 	}
 	
-	@Override
-	public List<HashMap<String, Object>> selectDormantReserveMemberList() throws Exception {
-		return mberManageDAO.selectDormantReserveMemberList();
-	}
-	
-	@Override
-	public void deleteDormantReserveMemberList(int seq) throws Exception {
-		mberManageDAO.deleteDormantReserveMemberList(seq);
-	}
-
 }

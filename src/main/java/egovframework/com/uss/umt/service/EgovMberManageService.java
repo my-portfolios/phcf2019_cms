@@ -2,6 +2,7 @@ package egovframework.com.uss.umt.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 일반회원관리에 관한 인터페이스클래스를 정의한다.
@@ -99,26 +100,27 @@ public interface EgovMberManageService {
 	 */
 	public void updateLockIncorrect(MberManageVO mberManageVO) throws Exception;
 	
-	public List<HashMap<String, Object>> getDormantMber(HashMap<String, Object> paramMap) throws Exception;
-	
-	public List<MberManageVO> getDormantMber() throws Exception;
-	
-	public List<HashMap<String, Object>> getMovedDormantMber(HashMap<String, Object> paramMap) throws Exception;
-	
-	public int getDormantMberCnt(HashMap<String, Object> paramMap) throws Exception;
-	
-	public int getMovedDormantMberCnt(HashMap<String, Object> paramMap) throws Exception;
-
-	void transferDormantMber(MberManageVO mberManageVO) throws Exception;
-
-	void updatetransferedDormantMberCode(MberManageVO mberManageVO) throws Exception;
-
-	public int insertDormantReserveMember(String mberId) throws Exception;
-
-	public List<HashMap<String, Object>> selectDormantReserveMemberList() throws Exception;
-
-	public void deleteDormantReserveMemberList(int seq) throws Exception;
 
 	public MberManageVO selectMberWithId(String mberId);
-
+	
+	/* 휴면 회원 전환 대상자 조회 */
+	public List<Map<String, Object>> selectDormantReserveMemberList(Map<String, Object> paramMap) throws Exception;
+	
+	/* 휴면 회원 전환 대상자 입력 */
+	public void insertDormantReserveMember(MberManageVO mberManageVO) throws Exception;
+	
+	/* 휴면 회원 전환 대상자 삭제 */
+	public void deleteDormantReserveMemberList(Map<String, Object> paramMap) throws Exception;
+		
+	/* 휴면 회원 조회 */
+	public List<Map<String, Object>> selectDormantMberList(Map<String, Object> paramMap) throws Exception;
+		
+	/* 휴면회원 전환 (휴면회원 삽입) */
+	public void transferDormantMber(MberManageVO mberManageVO) throws Exception;
+		
+	/* 휴면회원 전환 (회원 정보 삭제) */
+	public void updateMberToDormant(MberManageVO mberManageVO) throws Exception;
+	
+	/* 로그인하지 않은 회원 조회 */
+	public List<Map<String, Object>> selectNotLoggedMberList(Map<String, Object> paramMap) throws Exception;
 }

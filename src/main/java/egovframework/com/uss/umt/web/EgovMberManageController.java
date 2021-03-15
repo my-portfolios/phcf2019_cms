@@ -657,14 +657,15 @@ public class EgovMberManageController {
 	@RequestMapping(value = "/uss/umt/getDormantMber.do")
 	public String getDormantMber(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
 		
+		mberDormantCronQuartz.checkMemberList();
 		mberDormantCronQuartz.transferToDormant();
 		
 		if(paramMap.get("sPeriod") == null || paramMap.get("sPeriod").equals("")) paramMap.put("sPeriod", "12");
 	
-		model.addAttribute("value", mberManageService.getDormantMber(paramMap));
+	//	model.addAttribute("value", mberManageService.getDormantMber(paramMap));
 		
-		int totCnt = mberManageService.getDormantMberCnt(paramMap);
-        model.addAttribute("totCnt", totCnt);
+		//int totCnt = mberManageService.getDormantMberCnt(paramMap);
+   //     model.addAttribute("totCnt", totCnt);
 
 		return "jsonView";
 	}
@@ -677,10 +678,10 @@ public class EgovMberManageController {
 		
 		if(paramMap.get("sPeriod") == null || paramMap.get("sPeriod").equals("")) paramMap.put("sPeriod", "12");
 		
-		model.addAttribute("value", mberManageService.getMovedDormantMber(paramMap));
+	//	model.addAttribute("value", mberManageService.getMovedDormantMber(paramMap));
 		
-		int totCnt = mberManageService.getMovedDormantMberCnt(paramMap);
-        model.addAttribute("totCnt", totCnt);
+	//	int totCnt = mberManageService.getMovedDormantMberCnt(paramMap);
+    //    model.addAttribute("totCnt", totCnt);
 
 		return "jsonView";
 	}

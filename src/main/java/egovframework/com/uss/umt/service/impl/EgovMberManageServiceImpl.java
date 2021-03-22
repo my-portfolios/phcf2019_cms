@@ -240,5 +240,10 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 	public List<Map<String, Object>> selectNotLoggedMberList(Map<String, Object> paramMap) throws Exception {
 		return mberManageDAO.selectNotLoggedMberList(paramMap);
 	}
+
+	@Override
+	public int selectDormantMberCnt(HashMap<String, Object> paramMap) throws Exception {
+		return mberManageDAO.selectDormantMberCnt(paramMap);
+	}
 	
 }

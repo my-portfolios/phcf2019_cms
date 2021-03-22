@@ -123,4 +123,6 @@ public interface EgovMberManageService {
 	
 	/* 로그인하지 않은 회원 조회 */
 	public List<Map<String, Object>> selectNotLoggedMberList(Map<String, Object> paramMap) throws Exception;
+
+	public int selectDormantMberCnt(HashMap<String, Object> paramMap) throws Exception;
 }

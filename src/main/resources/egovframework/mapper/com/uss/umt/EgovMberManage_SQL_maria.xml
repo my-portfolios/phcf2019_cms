@@ -351,12 +351,23 @@ FROM(
                 a.LOCK_AT          lockAt,
                 a.MEMBERSHIP_TYPE		 membershipType,
         		a.MEMBERSHIP_START_DT	membershipStartDt,
-        		DATE_FORMAT(b.CREAT_DT, "%Y/%m/%d") creatDt,
         		a.send_mail_yn		sendMailYn
 			FROM SLEEPMEMBERLIST a
 			GROUP BY uniqId
 	        ORDER BY sbscrbDe DESC
+	        <if test='pageSize != null and pageOffset != null'>
+				LIMIT ${pageSize} OFFSET ${pageOffset}
+			</if>
         
+    </select>
+    
+    
+     <select id="selectDormantMberCnt" resultType="int">
+        	
+            SELECT 
+				COUNT(*) CNT
+			FROM SLEEPMEMBERLIST a
+			
     </select>
     
     <insert id="transferDormantMber" parameterType="egovframework.com.uss.umt.service.MberManageVO">

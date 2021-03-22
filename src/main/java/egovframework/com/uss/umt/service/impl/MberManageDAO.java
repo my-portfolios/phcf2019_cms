@@ -1,5 +1,6 @@
 package egovframework.com.uss.umt.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -155,6 +156,10 @@ public class MberManageDAO extends EgovComAbstractDAO{
 	/* 로그인하지 않은 회원 조회 */
 	public List<Map<String, Object>> selectNotLoggedMberList(Map<String, Object> paramMap) throws Exception {
 		return selectList("mberManageDAO.selectNotLoggedMberList", paramMap);
+	}
+
+	public int selectDormantMberCnt(HashMap<String, Object> paramMap) {
+		return (int) selectOne("mberManageDAO.selectDormantMberCnt", paramMap);
 	}
 
 }

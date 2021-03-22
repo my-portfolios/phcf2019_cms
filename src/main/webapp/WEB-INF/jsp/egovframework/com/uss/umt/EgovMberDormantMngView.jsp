@@ -23,18 +23,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	// 필터링 기능 때문에 전체를 조회 할 수 있는 코드값을 추가 함.
-	/* var pageArr = ${pageList};
-	pageArr.unshift({code: '', codeNm: '전체'});
-	var deptArr = ${deptList};
-	deptArr.unshift({deptCode: '', deptNm: '전체'})
-	var groupArr = ${groupList};
-	groupArr.unshift({groupId: '', groupNm: '전체'});
-	var menuArr = ${menuList};
-	menuArr.unshift({link: '', menuNm: '전체'});
-	var useYnArr = [{code : 'Y', codeNm: 'Y'}, {code : 'N', codeNm: 'N'}];
-	useYnArr.unshift({code: '', codeNm: '전체'}); 
-	var sPeriodArr = [{prd : '6', prdNm: '6개월'}, {prd : '12', prdNm: '1년'}, {prd : '0', prdNm: '활동회원'}];*/
 	var sendMailYnArr = [{code : 'Y', codeNm: 'Y'}, {code : 'N', codeNm: 'N'}];
 	
 	// jsGrid 셋팅
@@ -44,33 +32,48 @@ $(document).ready(function() {
 		
 		, autoload: true
 		
-		, filtering: true
-		, editing: true
-		//, inserting: true
+		, filtering: false
+		, editing: false
+		, inserting: false
 		, paging: true
 		, pageLoading: true
 		, pageSize: 10
 		, pageButtoncount: 5
 		, pageIndex: 1
-		
+		, pageNextText : "다음"
+		, pagePrevText : "이전"
+		, pageFirstText : "처음"
+		, pageLastText  : "마지막"
+		, pagerFormat : "{prev} {pages} {next}"
 		, deleteConfirm: "삭제 하시겠습니까?"
 		, controller: {
 			loadData: function(filter) {
 				
-				var getDataUrl = '';
-				if($("#sPeriodSort").val()) filter.sPeriod = $("#sPeriodSort").val();
-				if(filter.sPeriod == '6' || filter.sPeriod == '0') getDataUrl = '/uss/umt/getDormantMber.do';
-				else getDataUrl = '/uss/umt/getMovedDormantMber.do';
-				
 				var d = $.Deferred();
+				var obj = new Object();
+				obj.pageIndex = filter.pageIndex;
+				obj.pageSize = filter.pageSize;
 				
 				$.ajax({
-					type: 'POST'
-					, url: getDataUrl
-					, data: filter
-					, dataType: 'JSON'
-				}).done(function(response) {
-					d.resolve({data: response.value, itemsCount: response.totCnt });
+					type: 'POST',
+					url: '/uss/umt/getDormantMber.do',
+					dataType: 'JSON',
+					data: obj,
+					success : function(data){
+						try {
+							if(typeof data != 'object') { data = JSON.parse(data); }
+							
+							var list = {
+								data: data.value,
+								itemsCount : data.totCnt
+							};
+						}
+						catch(e){
+							alert("오류 발생! \n"+e);
+						}
+						
+						d.resolve(list);
+					}
 				});
 				
 				return d.promise();
@@ -88,7 +91,7 @@ $(document).ready(function() {
 						alert('삽입 중 오류 발생.');
 					}
 				});
-			}  */
+			}  
 			, updateItem: function(item) {
 				return $.ajax({
 					type: 'POST'
@@ -116,32 +119,14 @@ $(document).ready(function() {
 						alert('삭제 중 오류 발생.');
 					}
 				});
-			}
+			}*/
 		}
 	
 		, noDateContent: '데이터가 없습니다.'
 		, loadMessage: '조회 중...'
-		, rowClick: function(args) {
-			var $items = $("#"+args.item.mberId+"Ch");
-			if(!$items.prop("checked")) $items.prop("checked",true);
-			else $items.prop("checked",false);
-		}
 			
 		, fields: [
-			{name: 'mberId', title:'<input type="checkbox" id="checkall">', 
-				itemTemplate: function(value, item) {
-                	return $("<input>").attr("type", "checkbox")
-                					.attr("name", "mberId")
-                					.attr("value",value)
-                					.attr("class","mberIdCh")
-                					.attr("id",value+"Ch")
-                					.click(function(){ 
-                						if(!$(this).prop("checked")) $(this).prop("checked",true);
-                						else $(this).prop("checked",false);
-                					});
-             	}, 
-            width: 20, align: 'center'  }
-			, {name: 'mberId', title:'아이디', type: 'text', editing: false, width: 50, align: 'center' }
+			{name: 'mberId', title:'아이디', type: 'text', editing: false, width: 50, align: 'center' }
 			, {name: 'mberNm', title: '회원명', type: 'text', editing: false, width: 80, align: 'center' }
 			, {name: 'groupNm', title: '그룹이름', type: 'text', editing: false, width: 80, align: 'center' }
 			, {name: 'moblphonNo', title: '연락처', type: 'text', editing: false, width: 80, align: 'center' }
@@ -151,49 +136,14 @@ $(document).ready(function() {
 				}
 			}
 			, {name: 'sbscrbDe', title: '최초가입일', type: 'text', editing: false, filtering: false, width: 80, align: 'center' }
-			, {name: 'creatDt', title: '마지막로그인', type: 'text', editing: false, filtering: false, width: 80, align: 'center' }
 			, {name: 'sendMailYn', title: '메일수신여부', type: 'select', items: sendMailYnArr, valueField: 'code', textField: 'codeNm', editing: false, filtering: true,
 				itemTemplate: function(value, item) {
 					return $("<div>").attr("class","sendMailYnDiv").text(value);
 				}, 
 				width: 80, align: 'center' }
-			, {type: 'control', deleteButton: false}
 		]
 	});
 	
-	$("#sPeriodSort").change(function() {
-		$('#jsGrid').jsGrid("search", { sPeriod: $("#sPeriodSort").val() })
-    });
-	
-	$("#sendEmail").click(function(){
-		$(".mberIdCh").each(function (index, item){
-			var $mailAdrs = $("#"+$(item).val()+"Ch").closest('td').nextAll(':has(.mailAdrsDiv):first').text();
-			if($(item).prop("checked")) {
-				var mailSubject = "휴면회원이 되었습니다.";
-				var mailContent = "휴면회원이 되었습니다.";
-				
-				var formData = new FormData();
-				
-				formData.append("posblAtchFileNumber","1");
-				formData.append("fileStreCours","");
-				formData.append("recptnPerson",$mailAdrs);
-				formData.append("sj",mailSubject);
-				formData.append("emailCn",mailContent);
-				
-				var xhr = new XMLHttpRequest();
-
-				xhr.open("POST", "/cop/ems/insertSndngMail.do");  
-				xhr.send(formData);
-				
-				console.log($(item).val());
-				console.log($mailAdrs);
-			}
-		});
-	});
-	
-	$("#sPeriodSelect").change(function(){
-		$("#frm").submit();
-	});
 	
 });
 </script>
@@ -205,18 +155,7 @@ $(document).ready(function() {
 <form name="frm" id="frm" action="/uss/umt/getDormantMber.do" method="post" >
 <div class="board">
 	<h1>휴먼회원 관리</h1>
-<div class="search_box" >
-	<ul>
-		<li class="div-right"><div id="sendEmail">안내메일 보내기</div></li>
-		<li class="div-right">
-			<select id="sPeriodSort">
-				<option value="12">휴먼회원(12개월)</option>
-				<option value="6">휴먼회원(6개월)</option>
-				<option value="0">활동회원</option>
-			</select>
-		</li>
-	</ul>
-</div>
+
 
 <input type="hidden" id="page_no" name="page_no" value="${paramMap.page_no }">
 

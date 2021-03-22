@@ -665,15 +665,16 @@ public class EgovMberManageController {
 	@RequestMapping(value = "/uss/umt/getDormantMber.do")
 	public String getDormantMber(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
 		
-		mberDormantCronQuartz.checkMemberList();
-		mberDormantCronQuartz.transferToDormant();
-		
-		if(paramMap.get("sPeriod") == null || paramMap.get("sPeriod").equals("")) paramMap.put("sPeriod", "12");
+		Object pageIndex = paramMap.get("pageIndex");
+		Object pageSize = paramMap.get("pageSize");
+		int pageOffset  = 0;
+		if(pageIndex != null && pageSize != null) {
+			pageOffset = (Integer.parseInt(pageIndex.toString())-1) * Integer.parseInt(pageSize.toString());
+			paramMap.put("pageOffset", pageOffset);
+		}
 	
-	//	model.addAttribute("value", mberManageService.getDormantMber(paramMap));
-		
-		//int totCnt = mberManageService.getDormantMberCnt(paramMap);
-   //     model.addAttribute("totCnt", totCnt);
+		model.addAttribute("value", mberManageService.selectDormantMberList(paramMap));
+		model.addAttribute("totCnt", mberManageService.selectDormantMberCnt(paramMap));
 
 		return "jsonView";
 	}
@@ -683,62 +684,8 @@ public class EgovMberManageController {
 		
 		mberDormantCronQuartz.checkMemberList();
 		mberDormantCronQuartz.transferToDormant();
-		
-		if(paramMap.get("sPeriod") == null || paramMap.get("sPeriod").equals("")) paramMap.put("sPeriod", "12");
-		
-	//	model.addAttribute("value", mberManageService.getMovedDormantMber(paramMap));
-		
-	//	int totCnt = mberManageService.getMovedDormantMberCnt(paramMap);
-    //    model.addAttribute("totCnt", totCnt);
-
+	
 		return "jsonView";
 	}
 	
-	@RequestMapping(value = "/uss/umt/alertBeforeDormantTestMail.do")
-	public String alertBeforeDormantTestMail(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
-		CommonMethod commonMethod = new CommonMethod();
-	
-		SndngMailVO sndngMailVO = new SndngMailVO();
-		sndngMailVO.setSj("[포항문화재단] 휴먼회원 전환 예정 안내 메일");
-		sndngMailVO.setEmailCn(commonMethod.getFileContent("egovframework/mail/rest_guide.html"));
-		sndngMailVO.setDsptchPerson("phcf01");
-		sndngMailVO.setFileStreCours("");
-
-		Map<String, Object> mber = new HashMap<>();
-		mber.put("mberEmailAdres", "dmsl4848@hubizict.com");
-		
-		if(mber.get("mberEmailAdres") != null && !mber.get("mberEmailAdres").equals("") && 
-				Pattern.matches("^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$", mber.get("mberEmailAdres").toString())) {
-			
-			sndngMailVO.setRecptnPerson(mber.get("mberEmailAdres").toString());
-			System.out.println("==== checkMemberList" + mber.get("mberEmailAdres").toString());
-			sndngMailRegistService.insertSndngMail(sndngMailVO);
-		}
-
-		return "jsonView";
-	}
-	
-	@RequestMapping(value = "/uss/umt/alertAfterDormantTestMail.do")
-	public String alertAfterDormantTestMail(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
-		CommonMethod commonMethod = new CommonMethod();
-	
-		SndngMailVO sndngMailVO = new SndngMailVO();
-		sndngMailVO.setSj("[포항문화재단] 휴먼회원 전환 안내 메일");
-		sndngMailVO.setEmailCn(commonMethod.getFileContent("egovframework/mail/email_rest.html"));
-		sndngMailVO.setDsptchPerson("phcf01");
-		sndngMailVO.setFileStreCours("");
-
-		Map<String, Object> mber = new HashMap<>();
-		mber.put("mberEmailAdres", "dmsl4848@hubizict.com");
-			
-		if(mber.get("mberEmailAdres").toString() != null && !mber.get("mberEmailAdres").toString().equals("") && 
-				Pattern.matches("^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$",mber.get("mberEmailAdres").toString())) {
-			sndngMailVO.setRecptnPerson(mber.get("mberEmailAdres").toString());
-			System.out.println("==== transferToDormant" + mber.get("mberEmailAdres").toString());
-			
-			sndngMailRegistService.insertSndngMail(sndngMailVO);
-		}
-		
-		return "jsonView";
-	}
 }

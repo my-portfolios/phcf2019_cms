@@ -111,8 +111,8 @@ public class EgovMultiPartEmail implements Serializable {
 		email.setHostName(this.host);
 		email.setSmtpPort(this.port);
 		//email.setStartTLSEnabled(true);
-		email.setSSLOnConnect(true);
-		email.setSslSmtpPort(String.valueOf(this.port));
+		//email.setSSLOnConnect(true);
+		//email.setSslSmtpPort(String.valueOf(this.port));
 		email.setAuthenticator(new DefaultAuthenticator(this.id, this.password));
 		email.setSocketConnectionTimeout(20000);
 		email.setSocketTimeout(20000);

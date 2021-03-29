@@ -60,7 +60,7 @@ public class MberDormantCronQuartz {
 				List<Map<String, Object>> dormantReserveList = mberManageService.selectDormantReserveMemberList(paramMap2);
 				if(dormantReserveList.size() > 0) { continue; }
 				
-				System.out.println("mBervomBervomBervomBervomBervo"+mber.get("mberId"));
+				System.out.println("==== mBervomBervomBervomBervomBervo"+mber.get("mberId"));
 				
 				if(mber.get("mberEmailAdres") != null && !mber.get("mberEmailAdres").equals("") && 
 						Pattern.matches("^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$", mber.get("mberEmailAdres").toString())) {

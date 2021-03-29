@@ -2,26 +2,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xmlns:p="http://www.springframework.org/schema/p"  
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"> 
-     
-    <!-- 일반용   
-    <bean id="mntrngMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" 
-        p:host="smtp.gmail.com"  
-        p:username="hubizictsi@gmail.com" 
-        p:password="hubizict12#" /> 
-    --> 
+
     
     <!-- 메일 연동 인터페이스에서 첨부파일 미사용 -->
     <bean id="EMSMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" 
-        p:host="smtps.hiworks.com" 
-        p:port="465"  
+        p:host="mail.phcf.or.kr" 
+        p:port="25"  
         p:protocol="smtp" 
-        p:username="hubizictsi@hubizict.com" 
-        p:password="hubizict12#"> 
+        p:username="pcf900@phcf.or.kr" 
+        p:password="wjddusdnr84*"> 
         <property name="javaMailProperties"> 
             <props> 
-                <prop key="mail.smtps.debug">true</prop>
+                <prop key="mail.smtp.debug">true</prop>
 				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtps.ssl.enable">true</prop>
+				<prop key="mail.smtp.ssl.enable">false</prop>
 				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
             </props> 
         </property> 
@@ -29,36 +23,36 @@
      
     <!-- 메일 연동 인터페이스에서 첨부파일 사용 -->
 	<bean id="egovMultiPartEmail" class="egovframework.com.cop.ems.service.EgovMultiPartEmail"
-		p:host="smtps.hiworks.com"
-		p:port="465"
-		p:id="hubizictsi@hubizict.com"
-		p:password="hubizict12#"
+		p:host="mail.phcf.or.kr"
+		p:port="25"
+		p:id="pcf900@phcf.or.kr"
+		p:password="wjddusdnr84*"
 		p:senderName="포항문화재단"
-		p:emailAddress="phcf@phcf.or.kr" />
+		p:emailAddress="pcf900@phcf.or.kr" />
 	  
     <!-- 모니터링 서비스에서 사용 gmail, hanmail 용 -->
     <bean id="mntrngMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" 
-        p:host="smtps.hiworks.com"
-        p:port="465"
+        p:host="mail.phcf.or.kr"
+        p:port="25"
         p:protocol="smtp"
-        p:username="hubizictsi@hubizict.com" 
-        p:password="hubizict12#">
+        p:username="pcf900@phcf.or.kr" 
+        p:password="wjddusdnr84*">
         <property name="javaMailProperties"> 
             <props>
-                <prop key="mail.smtps.debug">true</prop>
+                <prop key="mail.smtp.debug">true</prop>
 				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtps.ssl.enable">true</prop>
+				<prop key="mail.smtp.ssl.enable">false</prop>
 				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
             </props> 
         </property> 
     </bean>
     
 	<bean id='phcfMailer' class="egovframework.phcf.common.PhcfMailer">
-		<property name="host" value="smtp.gmail.com" />
-		<property name="port" value="587" />
-		<property name="password" value="hubizict12#" />
-		<property name="tail" value='@gmail.com'/>
-		<property name="user" value='hubizictsi'/>
+		<property name="host" value="mail.phcf.or.kr" />
+		<property name="port" value="25" />
+		<property name="password" value="wjddusdnr84*" />
+		<property name="tail" value='@phcf.or.kr'/>
+		<property name="user" value='pcf900'/>
 	</bean> 
     
     <!-- 스케줄러에서 메일발송시 설정 -->

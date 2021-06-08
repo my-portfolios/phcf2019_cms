@@ -36,8 +36,8 @@
 	<bean id="cmsMemberScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
- 				<ref bean="mberDormantTransferTrigger" />
- 				<ref bean="mberDormantReserveTrigger" />
+<!--  				<ref bean="mberDormantTransferTrigger" /> -->
+<!--  				<ref bean="mberDormantReserveTrigger" /> -->
 			</list>
 		</property>
 	</bean>

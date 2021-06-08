@@ -142,6 +142,7 @@ function fnSearch(){
 				<input type="submit" class="s_btn" value="<spring:message code="button.inquire" />" title="<spring:message code="title.inquire" /> <spring:message code="input.button" />" />
 				<input type="button" class="s_btn" onClick="fnDeleteUser(); return false;" value="<spring:message code="title.delete" />" title="<spring:message code="title.delete" /> <spring:message code="input.button" />" />
 				<span class="btn_b"><a href="<c:url value='/uss/umt/EgovMberInsertView.do'/>" onClick="fnAddUserView(); return false;"  title="<spring:message code="button.create" /> <spring:message code="input.button" />"><spring:message code="button.create" /></a></span>
+				<span class="btn_b"><a href="<c:url value='/uss/umt/exportExcelMberList.do'/>">Excel Download</a></span>
 			</li>
 		</ul>
 	</div>

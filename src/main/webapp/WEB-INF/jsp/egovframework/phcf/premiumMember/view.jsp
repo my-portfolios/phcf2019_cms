@@ -208,6 +208,7 @@
 				<li>
 					<input type="text" id="search_data" class="s_input" />
 					<input type="button" onclick="search();" value="검색" class="s_btn" />
+					<span class="btn_b"><a href="<c:url value='/premiumMember/exportExcelMberList.do'/>">Excel Download</a></span>
 				</li>
 			</ul>
 		</div>

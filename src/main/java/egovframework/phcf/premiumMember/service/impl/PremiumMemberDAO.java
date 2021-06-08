@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
+import egovframework.com.uss.umt.service.MberManageVO;
+import egovframework.com.uss.umt.service.UserDefaultVO;
 
 /**
  * 유료멤버십 관련 DAO 클래스
@@ -29,5 +31,10 @@ public class PremiumMemberDAO extends EgovComAbstractDAO{
 
 	public void updateMembershipGrade(HashMap<String, String> paramMap) {
 		update("PremiumMemberDAO.updateMembershipGrade", paramMap);
+	}
+	
+	public List<MberManageVO> selectMembershipList(UserDefaultVO userSearchVO) throws Exception {
+		return selectList("PremiumMemberDAO.selectMembershipList");
+		
 	}
 }

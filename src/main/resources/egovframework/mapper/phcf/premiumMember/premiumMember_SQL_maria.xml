@@ -61,6 +61,34 @@
 		</if>
 	</select>
 	
+	<select id="selectMembershipList" resultType="egovMap">
+		/* premiumMember.selectMembershipList */
+		SELECT 
+			userNo, userId, userNm, preType, payPrice, sendSms, sendMail, createDt, updateDt, startDt, checkYn, result, mberSttus
+		FROM (
+		SELECT
+			SEQ			userNo,  
+			MEM_ID		userId,
+			B.MBER_NM	userNm,
+			PRE_TYPE		preType,
+			PAY_PRICE	payPrice,
+			SEND_SMS		sendSms,
+			SEND_MAIL	sendMail,
+			CREATE_DT	createDt,
+			UPDATE_DT	updateDt,
+			B.MEMBERSHIP_START_DT	startDt,
+			A.CHECK_YN 	checkYn,
+			A.RESULT 		result,
+			B.MBER_STTUS	mberSttus
+		FROM membershipreglog A
+		JOIN comtngnrlmber B
+		ON MEM_ID = B.MBER_ID
+		) AA
+		ORDER BY userNo DESC
+			
+		
+	</select>
+	
 	<update id="updateMembershipStatus" parameterType="java.util.HashMap">
 		/* premiumMember.updateMembershipStatus */
 		

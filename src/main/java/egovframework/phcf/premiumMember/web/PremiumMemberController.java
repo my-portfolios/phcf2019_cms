@@ -1,10 +1,19 @@
 package egovframework.phcf.premiumMember.web;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,17 +22,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import egovframework.com.cmm.ComDefaultCodeVO;
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.CmmnDetailCode;
+import egovframework.com.cmm.service.EgovCmmUseService;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.com.sym.ccm.cde.service.CmmnDetailCodeVO;
 import egovframework.com.uss.umt.service.EgovMberManageService;
 import egovframework.com.uss.umt.service.MberManageVO;
+import egovframework.com.uss.umt.service.UserDefaultVO;
 import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.phcf.premiumMember.service.PremiumMemberService;
+import egovframework.phcf.util.DateUtil;
+import egovframework.phcf.util.ExcelUtil;
 import egovframework.phcf.util.JsonUtil;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
 /**
  * 유료멤버십 관련 Controller
  * @author	김량래
  * @since	2019-11-11
+ * @see
+ * <pre>
+ * 	<< 개정이력(Modification Information) >>
+ *
+ *   수정일      수정자           수정내용
+ *  -------    --------    ---------------------------
+ *  2021-06-08	김경민         	엑셀 다운로드 기능 추가
+ *   
+ * </pre>
  * */
 
 @Controller
@@ -33,6 +61,11 @@ public class PremiumMemberController {
 	
 	@Resource(name="mberManageService")
 	private EgovMberManageService egovMberManageService;
+	
+	/** cmmUseService */
+	@Resource(name = "EgovCmmUseService")
+	private EgovCmmUseService cmmUseService;
+	
 	
 	@RequestMapping(value="/premiumMember/selectMembershipRegList.do")
 	public ModelAndView selectMembershipRegList(ModelMap model, @RequestParam HashMap<String, String> paramMap) throws Exception {
@@ -61,7 +94,7 @@ public class PremiumMemberController {
 				pay.put("MEM_NM", mberManageVO.getMberNm());
 				if(pay.get("RESULT").toString().equals("Y") && mberManageVO.getMembershipStartDt() != null) {
 					pay.put("MEMBERSHIP_START_DT", mberManageVO.getMembershipStartDt());
-					pay.put("MEMBERSHIP_END_DT", CommonMethod.calcDate(mberManageVO.getMembershipStartDt(), Calendar.YEAR, 1, "yyyy-MM-dd"));
+					pay.put("MEMBERSHIP_END_DT", CommonMethod.calcDate(mberManageVO.getMembershipStartDt(), Calendar.YEAR, getMembershipDurationYear(), "yyyy-MM-dd"));
 				}
 			} else {
 				pay.put("MEM_NM", "회원정보없음");
@@ -97,5 +130,162 @@ public class PremiumMemberController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/premiumMember/exportExcelMberList.do")
+	public void exportExcelMberList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 어떤 VO를 사용해야하는가? : userSearchVO  
+		// Service 객체는 어떤 것을 사용해야하는가? : private PremiumMemberService service;
+		
+		 
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+
+		if (!isAuthenticated || loginVO.getUserSe() != "USR") {
+			CommonMethod.generalAlertThrowing("/", "", "권한이 없습니다.");
+		}
+		
+		
+		UserDefaultVO userSearchVO = new UserDefaultVO(); 
+		userSearchVO.setLastIndex(-1);
+		userSearchVO.setRecordCountPerPage(-1);
+		List<?> mberList = service.selectMembershipList(userSearchVO);
+		
+		
+		
+		//멤버십 여부, 멤버십 종류를 위한 코드인듯.
+		
+		/*ComDefaultCodeVO comDefaultCodeVO = new ComDefaultCodeVO();
+		comDefaultCodeVO.setTableNm("COMTNORGNZTINFO");
+		List<CmmnDetailCode> groupList = cmmUseService.selectGroupIdDetail(comDefaultCodeVO);
+		List<CmmnDetailCode> membershipTypeList = CommonMethod.getCodeDetailVOList("PHC010", cmmUseService);
+		
+		Map<String, Object> groupMap = new HashMap<>();
+		Map<String, Object> membershipTypeMap = new HashMap<>();
+		
+		for(CmmnDetailCode cmmnCode : groupList) {
+			groupMap.put(cmmnCode.getCode(), cmmnCode.getCodeNm());
+		}
+		
+		membershipTypeMap.put("N", "무료회원");
+		for(CmmnDetailCode cmmnCode : membershipTypeList) {
+			membershipTypeMap.put(cmmnCode.getCode(), cmmnCode.getCodeNm());
+		}*/
+		
+		String text = "text";
+		String value = "value";
+		
+		List<Map<String, Object>> headList = new ArrayList<>();
+		Map<String, Object> headMap = new HashMap<>();
+		headMap.put(text, "이름"); headMap.put(value, "userNm");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put(text, "아이디"); headMap.put(value, "userId");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put(text, "멤버십 유형"); headMap.put(value, "preType");		
+		headList.add(headMap);
+		
+		//어차피 3만원으로 통일될 것인데 금액이 필요할까?
+		headMap = new HashMap<>();
+		headMap.put(text, "금액"); headMap.put(value, "payPrice");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put(text, "문자 수신 여부"); headMap.put(value, "sendSms");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put(text, "메일 수신 여부"); headMap.put(value, "sendMail");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put(text, "신청 일시"); headMap.put(value, "createDt");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put(text, "수정 일시"); headMap.put(value, "updateDt");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put(text, "멤버십 시작일"); headMap.put(value, "startDt");		
+		headList.add(headMap);
+		
+		// 멤버십 종료일은 DB에 없다.
+		headMap = new HashMap<>();
+		headMap.put(text, "멤버십 종료일"); headMap.put(value, "expireDt");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put(text, "상태"); headMap.put(value, "result");		
+		headList.add(headMap);
+		
+
+		//관리자 승인 여부
+		Map<String, String> adminApprovalMap = new HashMap<>();
+		adminApprovalMap.put("", "접수 요청");
+		adminApprovalMap.put("C", "접수 취소");
+		adminApprovalMap.put("Y", "승인");
+		adminApprovalMap.put("N", "반려");
+		
+		List<Map<String, Object>> valueList = new ArrayList<>();
+		for(int i=0;i<mberList.size();i++) {
+			//EgovMap : Map 형태이다.
+			EgovMap vo = (EgovMap)mberList.get(i);
+			Map<String, Object> valueMap = new HashMap<>();
+//			if(vo.get("mberSttus") == null || !vo.get("mberSttus").equals("P")) { continue; }
+			
+			valueMap.put("userNm", vo.get("userNm"));
+			valueMap.put("userId", vo.get("userId"));
+			valueMap.put("preType", CommonMethod.stringConvert(vo.get("preType"), "B").equals("P") ? "프리미엄회원" : "일반회원");
+			valueMap.put("payPrice", vo.get("payPrice"));
+			valueMap.put("sendSms", CommonMethod.stringConvert(vo.get("sendSms"), "N").equals("Y") ? "예" : "아니오");
+			valueMap.put("sendMail", CommonMethod.stringConvert(vo.get("sendMail"), "N").equals("Y") ? "예" : "아니오");
+			valueMap.put("createDt", vo.get("createDt"));
+			valueMap.put("updateDt", vo.get("updateDt"));
+			
+			String result = adminApprovalMap.get(CommonMethod.stringConvert(vo.get("result"), ""));
+			valueMap.put("result", result);
+			
+			//회원 상태가 '접수 취소'가 아닐 때만 시작일, 종료일을 기록한다.
+			if(!result.equals(adminApprovalMap.get("C"))) {
+				// startDt는 멤버십 시작일이다.
+				Date startDt = (Date) vo.get("startDt");
+				
+				if(startDt != null) {
+					valueMap.put("startDt", vo.get("startDt"));
+					
+			        //expireDt
+			        valueMap.put("expireDt", getExpireDt(startDt));
+
+				}
+			}
+			
+			
+
+			
+			
+			valueList.add(valueMap);
+		}
+		
+		ExcelUtil excelUtil = new ExcelUtil();
+		excelUtil.exportExcel(request, response, headList, valueList);
+	}
 	
+	private int getMembershipDurationYear() throws Exception {
+		// 																맴버십 유효기간을 나타내는 코드
+		List<CmmnDetailCode> codeVOList = CommonMethod.getCodeDetailVOList("PHC025", cmmUseService);
+		int year = Integer.parseInt(codeVOList.get(0).getCodeNm());
+		
+		
+		return year;
+	}
+	
+	private String getExpireDt(Date startDt) throws Exception {
+		Calendar cal = Calendar.getInstance();
+        cal.setTime(startDt);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        cal.add(Calendar.YEAR, getMembershipDurationYear());
+		return df.format(cal.getTime());
+	}
 }

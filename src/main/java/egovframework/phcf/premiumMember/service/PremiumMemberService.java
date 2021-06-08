@@ -3,6 +3,9 @@ package egovframework.phcf.premiumMember.service;
 import java.util.HashMap;
 import java.util.List;
 
+import egovframework.com.uss.umt.service.MberManageVO;
+import egovframework.com.uss.umt.service.UserDefaultVO;
+
 
 /**
  * 유료멤버십 관련 서비스
@@ -16,4 +19,5 @@ public interface PremiumMemberService {
 	public int selectMembershipRegListCnt(HashMap<String, String> paramMap) throws Exception;
 	public void updateMembershipStatus(HashMap<String, String> paramMap) throws Exception;
 	public void updateMembershipGrade(HashMap<String, String> paramMap) throws Exception;
+	public List<MberManageVO> selectMembershipList(UserDefaultVO userSearchVO) throws Exception;
 }

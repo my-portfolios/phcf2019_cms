@@ -46,8 +46,6 @@ public class PremiumMemberServiceImpl extends EgovAbstractServiceImpl implements
 	}
 	
 	/* 프리미엄 멤버 조회*/
-	// return type을 어떻게 정해야하는지?
-	// Dao 단도 바꿔야하는지?
 	@Override
 	public List<MberManageVO> selectMembershipList(UserDefaultVO userSearchVO) throws Exception {
 		return dao.selectMembershipList(userSearchVO);

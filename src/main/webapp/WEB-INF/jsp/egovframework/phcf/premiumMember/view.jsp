@@ -21,7 +21,7 @@
 				 			{Name : "승인", Id: "Y"},
 				 			{Name : "반려", Id: "N"}];
 			var checkCode = [{Name: "승인 대기", Id: "N"},{Name: "승인 완료", Id: "Y"}];
-			var premiumCode = [{Name: "프리미엄회원", Id: "P"},{Name: "일반회원", Id: "B"}];
+			var premiumCode = [{Name: "프리미엄회원", Id: "P"},{Name: "일반회원", Id: "B"}, {Name: "멤버십회원", Id: "M"}];
 			var ynCode = [{Name: "예", Id: "Y"},{Name: "아니오", Id: "N"}];
 			var jsonString;
 			
@@ -56,6 +56,7 @@
 								success : function(data){
 									try {
 										jsonString = data.payListJson;
+										
 										console.log(jsonString);
 										jsonString = JSON.parse(jsonString);
 										
@@ -83,6 +84,7 @@
 									$("#jsGrid").jsGrid("loadData");
 								}
 								, error: function(e) {
+									
 									alert('변경에 실패했습니다!');
 								}
 							});

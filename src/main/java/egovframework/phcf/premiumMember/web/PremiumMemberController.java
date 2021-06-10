@@ -94,7 +94,10 @@ public class PremiumMemberController {
 				pay.put("MEM_NM", mberManageVO.getMberNm());
 				if(pay.get("RESULT").toString().equals("Y") && mberManageVO.getMembershipStartDt() != null) {
 					pay.put("MEMBERSHIP_START_DT", mberManageVO.getMembershipStartDt());
-					pay.put("MEMBERSHIP_END_DT", CommonMethod.calcDate(mberManageVO.getMembershipStartDt(), Calendar.YEAR, getMembershipDurationYear(), "yyyy-MM-dd"));
+					pay.put("MEMBERSHIP_END_DT"
+							, CommonMethod.calcDate(mberManageVO.getMembershipStartDt()
+									, Calendar.YEAR, getMembershipDurationYear(pay.get("MEM_ID").toString())
+									, "yyyy-MM-dd"));
 				}
 			} else {
 				pay.put("MEM_NM", "회원정보없음");
@@ -121,11 +124,15 @@ public class PremiumMemberController {
 		hashMap.put("ID", payList.get(0).get("MEM_ID").toString());
 		
 		String result = payList.get(0).get("RESULT").toString();
+		hashMap.put("RESULT", result);
 		mav.addObject("result",result);
 		
-		if(result.equals("Y")) {
-			service.updateMembershipGrade(hashMap);
-		}
+		
+		//result : "Y", "C", "N", ""
+		//승인으로 변경시 "Y', 접수 취소 "C", 반려 "N", 접수 요청 ""
+//		if(result.equals("Y")) {
+		service.updateMembershipGrade(hashMap);
+//		}
 		
 		return mav;
 	}
@@ -235,9 +242,10 @@ public class PremiumMemberController {
 			Map<String, Object> valueMap = new HashMap<>();
 //			if(vo.get("mberSttus") == null || !vo.get("mberSttus").equals("P")) { continue; }
 			
+			
 			valueMap.put("userNm", vo.get("userNm"));
 			valueMap.put("userId", vo.get("userId"));
-			valueMap.put("preType", CommonMethod.stringConvert(vo.get("preType"), "B").equals("P") ? "프리미엄회원" : "일반회원");
+			valueMap.put("preType", getPreType(vo.get("preType")));
 			valueMap.put("payPrice", vo.get("payPrice"));
 			valueMap.put("sendSms", CommonMethod.stringConvert(vo.get("sendSms"), "N").equals("Y") ? "예" : "아니오");
 			valueMap.put("sendMail", CommonMethod.stringConvert(vo.get("sendMail"), "N").equals("Y") ? "예" : "아니오");
@@ -256,7 +264,7 @@ public class PremiumMemberController {
 					valueMap.put("startDt", vo.get("startDt"));
 					
 			        //expireDt
-			        valueMap.put("expireDt", getExpireDt(startDt));
+			        valueMap.put("expireDt", getExpireDt(CommonMethod.dateToString(startDt, "yyyy-MM-dd"), (String)vo.get("userId")));
 
 				}
 			}
@@ -272,20 +280,37 @@ public class PremiumMemberController {
 		excelUtil.exportExcel(request, response, headList, valueList);
 	}
 	
-	private int getMembershipDurationYear() throws Exception {
-		// 																맴버십 유효기간을 나타내는 코드
+	private int getMembershipDurationYear(String id) throws Exception {
+		MberManageVO mberManageVO = egovMberManageService.selectMberWithId(id);
+		String membershipType = mberManageVO.getMembershipType();
+		// 															맴버십 유효기간을 나타내는 코드
 		List<CmmnDetailCode> codeVOList = CommonMethod.getCodeDetailVOList("PHC025", cmmUseService);
-		int year = Integer.parseInt(codeVOList.get(0).getCodeNm());
+//		int year = Integer.parseInt(codeVOList.get(0).getCodeNm());
+//		String checkDate = CommonMethod.checkDateCompare(startDt, "2021-06-08", "yyyy-MM-dd");
 		
 		
-		return year;
+		return membershipType.equals("M") ? Integer.parseInt(codeVOList.get(1).getCodeNm()) 
+				: Integer.parseInt(codeVOList.get(0).getCodeNm());
 	}
 	
-	private String getExpireDt(Date startDt) throws Exception {
+	private String getExpireDt(String startDt, String id) throws Exception {
+		Date startDate = CommonMethod.stringToDate(startDt, "yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
-        cal.setTime(startDt);
+        cal.setTime(startDate);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        cal.add(Calendar.YEAR, getMembershipDurationYear());
+        cal.add(Calendar.YEAR, getMembershipDurationYear(id));
 		return df.format(cal.getTime());
+	}
+	
+	private String getPreType(Object membershipType) throws Exception {
+		
+		List<CmmnDetailCode> membershipTypeList = CommonMethod.getCodeDetailVOList("PHC010", cmmUseService);
+		Map<String, Object> membershipTypeMap = new HashMap<>();
+		for(CmmnDetailCode code : membershipTypeList) {			
+			membershipTypeMap.put(code.getCode(), code.getCodeNm());
+		}
+		//membershipType : B, P, M 
+		String membership = CommonMethod.stringConvert(membershipTypeMap.get(membershipType), "");
+		return membership;
 	}
 }

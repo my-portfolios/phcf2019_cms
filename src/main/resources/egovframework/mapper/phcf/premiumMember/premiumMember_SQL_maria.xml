@@ -108,14 +108,33 @@
 			SEQ = #{SEQ}
 	</update>
 	
+<!-- 	<update id="updateMembershipGrade" parameterType="java.util.HashMap"> -->
+<!-- 		/* premiumMember.updateMembershipGrade */ -->
+		
+<!-- 		UPDATE -->
+<!-- 			COMTNGNRLMBER -->
+<!-- 		SET -->
+<!-- 			MEMBERSHIP_TYPE = #{TYPE}, -->
+<!-- 			MEMBERSHIP_START_DT = NOW() -->
+<!-- 		WHERE  -->
+<!-- 			MBER_ID = #{ID} -->
+<!-- 	</update> -->
+	
 	<update id="updateMembershipGrade" parameterType="java.util.HashMap">
 		/* premiumMember.updateMembershipGrade */
 		
 		UPDATE
 			COMTNGNRLMBER
 		SET
-			MEMBERSHIP_TYPE = #{TYPE},
-			MEMBERSHIP_START_DT = NOW()
+			<choose>
+				<when test='"Y".equals(RESULT)'>
+                    MEMBERSHIP_TYPE = #{TYPE},
+		    	    MEMBERSHIP_START_DT = NOW()
+				</when>
+				<otherwise>
+                    MEMBERSHIP_TYPE = 'N'
+				</otherwise>
+			</choose>
 		WHERE 
 			MBER_ID = #{ID}
 	</update>

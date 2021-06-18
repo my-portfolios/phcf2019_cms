@@ -232,6 +232,7 @@ $(function(){
 					<form:option value="N" label="기본회원(유료멤버십 ×)"/>
 					<form:option value="B" label="일반회원"/>
 					<form:option value="P" label="프리미엄회원"/>
+					<form:option value="M" label="멤버십회원"/>
 				</form:select>
 			</td>
 		</tr>

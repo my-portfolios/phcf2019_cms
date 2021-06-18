@@ -22,12 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.service.CmmnDetailCode;
 import egovframework.com.cmm.service.EgovCmmUseService;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
-import egovframework.com.sym.ccm.cde.service.CmmnDetailCodeVO;
 import egovframework.com.uss.umt.service.EgovMberManageService;
 import egovframework.com.uss.umt.service.MberManageVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
@@ -136,6 +134,34 @@ public class PremiumMemberController {
 		
 		return mav;
 	}
+	
+	/*@RequestMapping(value = "/premiumMember/testPage.do")
+	public ModelAndView rqRsTest() {
+		ModelAndView mav = new ModelAndView("/egovframework/phcf/premiumMember/test_view");
+		
+		return mav;
+	}*/
+	
+	
+	
+	/*@RequestMapping(value = "/premiumMember/test.do", method=RequestMethod.POST)
+	public ModelAndView tklink(ModelMap model, @RequestParam HashMap<String, Object> paramMap) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		System.out.println("here !!!1");
+		HashMap<String, Object> responseMap = new HashMap<>();
+		MberManageVO user_info = egovMberManageService.selectMberWithId(paramMap.get("test_id").toString());
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("mBerId", user_info.getMberId());
+		map.put("mBerNm", user_info.getMberNm());
+		map.put("mberEmailAdres", user_info.getMberEmailAdres());
+		map.put("mBerId", user_info.getMberEmailAdres());
+		map.put("membershipType", user_info.getMembershipType());
+		
+		mav.addObject("user_info", map);
+		responseMap.put("user_info", map);
+		return mav;
+	}*/
 	
 	@RequestMapping(value = "/premiumMember/exportExcelMberList.do")
 	public void exportExcelMberList(HttpServletRequest request, HttpServletResponse response) throws Exception {

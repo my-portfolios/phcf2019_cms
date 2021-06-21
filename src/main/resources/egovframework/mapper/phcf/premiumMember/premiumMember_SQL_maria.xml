@@ -64,7 +64,7 @@
 	<select id="selectMembershipList" resultType="egovMap">
 		/* premiumMember.selectMembershipList */
 		SELECT 
-			userNo, userId, userNm, preType, payPrice, sendSms, sendMail, createDt, updateDt, startDt, checkYn, result, mberSttus
+			userNo, userId, userNm, preType, payPrice, sendSms, sendMail, createDt, updateDt, startDt, expireDt, checkYn, result, mberSttus
 		FROM (
 		SELECT
 			SEQ			userNo,  
@@ -77,6 +77,7 @@
 			CREATE_DT	createDt,
 			UPDATE_DT	updateDt,
 			B.MEMBERSHIP_START_DT	startDt,
+			B.MEMBERSHIP_EXPIRE_DT expireDt,
 			A.CHECK_YN 	checkYn,
 			A.RESULT 		result,
 			B.MBER_STTUS	mberSttus
@@ -108,6 +109,7 @@
 			SEQ = #{SEQ}
 	</update>
 	
+	<!-- 2021.06 이전 코드 -->
 <!-- 	<update id="updateMembershipGrade" parameterType="java.util.HashMap"> -->
 <!-- 		/* premiumMember.updateMembershipGrade */ -->
 		
@@ -120,6 +122,7 @@
 <!-- 			MBER_ID = #{ID} -->
 <!-- 	</update> -->
 	
+	<!-- 멤버십 변경 -->
 	<update id="updateMembershipGrade" parameterType="java.util.HashMap">
 		/* premiumMember.updateMembershipGrade */
 		
@@ -129,7 +132,8 @@
 			<choose>
 				<when test='"Y".equals(RESULT)'>
                     MEMBERSHIP_TYPE = #{TYPE},
-		    	    MEMBERSHIP_START_DT = NOW()
+		    	    MEMBERSHIP_START_DT = NOW(),
+		    	    MEMBERSHIP_EXPIRE_DT = MEMBERSHIP_START_DT + INTERVAL #{membershipDurationYear} YEAR
 				</when>
 				<otherwise>
                     MEMBERSHIP_TYPE = 'N'

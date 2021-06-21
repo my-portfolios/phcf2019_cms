@@ -94,7 +94,7 @@ public class PremiumMemberController {
 					pay.put("MEMBERSHIP_START_DT", mberManageVO.getMembershipStartDt());
 					pay.put("MEMBERSHIP_END_DT"
 							, CommonMethod.calcDate(mberManageVO.getMembershipStartDt()
-									, Calendar.YEAR, getMembershipDurationYear(pay.get("MEM_ID").toString())
+									, Calendar.YEAR, getMembershipDurationYear(pay.get("PRE_TYPE").toString())
 									, "yyyy-MM-dd"));
 				}
 			} else {
@@ -120,6 +120,9 @@ public class PremiumMemberController {
 		
 		hashMap.put("TYPE", payList.get(0).get("PRE_TYPE").toString());
 		hashMap.put("ID", payList.get(0).get("MEM_ID").toString());
+		hashMap.put("membershipDurationYear", String.valueOf(
+				getMembershipDurationYear(
+						payList.get(0).get("PRE_TYPE").toString())));
 		
 		String result = payList.get(0).get("RESULT").toString();
 		hashMap.put("RESULT", result);
@@ -219,7 +222,7 @@ public class PremiumMemberController {
 		headMap.put(text, "멤버십 유형"); headMap.put(value, "preType");		
 		headList.add(headMap);
 		
-		//어차피 3만원으로 통일될 것인데 금액이 필요할까?
+		
 		headMap = new HashMap<>();
 		headMap.put(text, "금액"); headMap.put(value, "payPrice");		
 		headList.add(headMap);
@@ -289,8 +292,9 @@ public class PremiumMemberController {
 				if(startDt != null) {
 					valueMap.put("startDt", vo.get("startDt"));
 					
-			        //expireDt
-			        valueMap.put("expireDt", getExpireDt(CommonMethod.dateToString(startDt, "yyyy-MM-dd"), (String)vo.get("userId")));
+			        // expireDt는 멤버십 만료일이다.
+			        //valueMap.put("expireDt", getExpireDt(CommonMethod.dateToString(startDt, "yyyy-MM-dd"), (String)vo.get("preType")));
+			        valueMap.put("expireDt", vo.get("expireDt"));
 
 				}
 			}
@@ -306,25 +310,25 @@ public class PremiumMemberController {
 		excelUtil.exportExcel(request, response, headList, valueList);
 	}
 	
-	private int getMembershipDurationYear(String id) throws Exception {
-		MberManageVO mberManageVO = egovMberManageService.selectMberWithId(id);
-		String membershipType = mberManageVO.getMembershipType();
+	private int getMembershipDurationYear(String membershipType) throws Exception {
+//		MberManageVO mberManageVO = egovMberManageService.selectMberWithId(membershipType);
+//		String membershipType = mberManageVO.getMembershipType();
 		// 															맴버십 유효기간을 나타내는 코드
 		List<CmmnDetailCode> codeVOList = CommonMethod.getCodeDetailVOList("PHC025", cmmUseService);
 //		int year = Integer.parseInt(codeVOList.get(0).getCodeNm());
 //		String checkDate = CommonMethod.checkDateCompare(startDt, "2021-06-08", "yyyy-MM-dd");
 		
-		
 		return membershipType.equals("M") ? Integer.parseInt(codeVOList.get(1).getCodeNm()) 
 				: Integer.parseInt(codeVOList.get(0).getCodeNm());
 	}
 	
-	private String getExpireDt(String startDt, String id) throws Exception {
+	// 쓰지 않음
+	private String getExpireDt(String startDt, String membershipType) throws Exception {
 		Date startDate = CommonMethod.stringToDate(startDt, "yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
         cal.setTime(startDate);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        cal.add(Calendar.YEAR, getMembershipDurationYear(id));
+        cal.add(Calendar.YEAR, getMembershipDurationYear(membershipType));
 		return df.format(cal.getTime());
 	}
 	

@@ -245,5 +245,17 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 	public int selectDormantMberCnt(HashMap<String, Object> paramMap) throws Exception {
 		return mberManageDAO.selectDormantMberCnt(paramMap);
 	}
+
+	/* 특정 membershipType을 제외하고 나머지  회원들의 멤버십 관련 정보 조회 */
+	@Override
+	public List<MberManageVO> selectMberListExcept(String membershipType) throws Exception {
+		return mberManageDAO.selectMberListExcept(membershipType);
+	}
+	
+	/* 회원 만료일이 지난 회원을 무료 회원으로 전환 */
+	@Override
+	public void updateMberTypeAfterExpire(MberManageVO mberManageVO) throws Exception {
+		mberManageDAO.updateMberTypeAfterExpire(mberManageVO);
+	}
 	
 }

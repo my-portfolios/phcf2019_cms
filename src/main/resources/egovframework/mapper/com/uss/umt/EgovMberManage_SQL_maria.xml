@@ -212,6 +212,7 @@ FROM(
                 LOCK_AT          lockAt,
                 MEMBERSHIP_TYPE		 membershipType,
         		MEMBERSHIP_START_DT	membershipStartDt,
+        		MEMBERSHIP_EXPIRE_DT	membershipExpireDt,
         		send_mail_yn		sendMailYn,
         		ci				ci,
         		di				di
@@ -502,4 +503,27 @@ FROM(
 		GROUP BY uniqId
 		  ORDER BY sbscrbDe DESC
     </select>
+    	
+    <select id="selectMberListExcept" resultType="egovframework.com.uss.umt.service.MberManageVO">
+    	/* mberManageDAO.selectMberListExcept */
+    	SELECT
+    		MBER_ID mberId, 
+			MEMBERSHIP_TYPE membershipType,
+			MEMBERSHIP_START_DT membershipStartDt,
+			MEMBERSHIP_EXPIRE_DT membershipExpireDt
+		FROM
+			COMTNGNRLMBER
+		WHERE membership_type != #{membershipType}
+    </select>
+    
+    <update id="updateMberTypeAfterExpire" parameterType="egovframework.com.uss.umt.service.MberManageVO">
+    	/* mberManageDAO.updateMberTypeAfterExpire */
+    	<![CDATA[
+    	UPDATE COMTNGNRLMBER 
+		SET MEMBERSHIP_TYPE = 'N'
+		WHERE 1=1
+			AND MBER_ID = #{mberId}
+			AND MEMBERSHIP_EXPIRE_DT < NOW()
+		]]>	
+    </update>
 </mapper>

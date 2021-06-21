@@ -115,6 +115,8 @@ public class MberManageVO extends UserDefaultVO{
 	
 	private String membershipStartDt;
 	
+	private String membershipExpireDt;
+	
 	private String userGrade;
 	
 	private String ci;
@@ -489,6 +491,12 @@ public class MberManageVO extends UserDefaultVO{
 	}
 	public void setSendMailYn(String sendMailYn) {
 		this.sendMailYn = sendMailYn;
+	}
+	public String getMembershipExpireDt() {
+		return membershipExpireDt;
+	}
+	public void setMembershipExpireDt(String membershipExpireDt) {
+		this.membershipExpireDt = membershipExpireDt;
 	}
 	
 	

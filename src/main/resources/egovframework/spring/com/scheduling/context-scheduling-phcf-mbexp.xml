@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+	
+	
+	<!-- 멤버십 만료 처리를 위한 Job -->
+	<bean id="cmsMembershipExpireJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="CmsMembershipExpireCronQuartz" />
+		<property name="targetMethod" value="updateMembershipTypeWhenExpire" />
+		<property name="concurrent" value="false" />
+	</bean>
+		
+	<bean id="cmsMembershipExpireTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="cmsMembershipExpireJob" />
+		<!-- 시작하고 10초후에 실행한다. (milisecond) -->
+		<property name="startDelay" value="10000" />
+		<!-- 20초마다 수행 하여야 함. -->
+		<property name="cronExpression" value="0/20 * * * * ? *" />
+	</bean>
+	
+	
+	<bean id="cmsSupportScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+ 				<ref bean="cmsMembershipExpireTrigger" /> 
+			</list>
+		</property>
+	</bean>
+
+</beans>

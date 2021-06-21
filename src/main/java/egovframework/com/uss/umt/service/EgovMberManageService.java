@@ -125,4 +125,10 @@ public interface EgovMberManageService {
 	public List<Map<String, Object>> selectNotLoggedMberList(Map<String, Object> paramMap) throws Exception;
 
 	public int selectDormantMberCnt(HashMap<String, Object> paramMap) throws Exception;
+	
+	/* 특정 membershipType을 제외하고 나머지  회원들의 멤버십 관련 정보 조회 */
+	public List<MberManageVO> selectMberListExcept(String merbrshipType) throws Exception;
+	
+	/* 회원 만료일이 지난 회원을 무료 회원으로 전환 */
+	public void updateMberTypeAfterExpire(MberManageVO mberManageVO) throws Exception;
 }

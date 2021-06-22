@@ -92,10 +92,10 @@ public class PremiumMemberController {
 				pay.put("MEM_NM", mberManageVO.getMberNm());
 				if(pay.get("RESULT").toString().equals("Y") && mberManageVO.getMembershipStartDt() != null) {
 					pay.put("MEMBERSHIP_START_DT", mberManageVO.getMembershipStartDt());
-					pay.put("MEMBERSHIP_END_DT"
-							, CommonMethod.calcDate(mberManageVO.getMembershipStartDt()
-									, Calendar.YEAR, getMembershipDurationYear(pay.get("PRE_TYPE").toString())
-									, "yyyy-MM-dd"));
+					pay.put("MEMBERSHIP_END_DT", mberManageVO.getMembershipExpireDt());
+//							, CommonMethod.calcDate(mberManageVO.getMembershipStartDt()
+//									, Calendar.YEAR, getMembershipDurationYear(pay.get("PRE_TYPE").toString())
+//									, "yyyy-MM-dd"));
 				}
 			} else {
 				pay.put("MEM_NM", "회원정보없음");

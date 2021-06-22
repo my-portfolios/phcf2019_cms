@@ -74,8 +74,8 @@
 			PAY_PRICE	payPrice,
 			SEND_SMS		sendSms,
 			SEND_MAIL	sendMail,
-			CREATE_DT	createDt,
-			UPDATE_DT	updateDt,
+			DATE_FORMAT(CREATE_DT,'%Y/%m/%d %H:%i:%s')	createDt,
+			DATE_FORMAT(UPDATE_DT,'%Y/%m/%d %H:%i:%s')	updateDt,
 			B.MEMBERSHIP_START_DT	startDt,
 			B.MEMBERSHIP_EXPIRE_DT expireDt,
 			A.CHECK_YN 	checkYn,
@@ -87,7 +87,6 @@
 		) AA
 		ORDER BY userNo DESC
 			
-		
 	</select>
 	
 	<update id="updateMembershipStatus" parameterType="java.util.HashMap">

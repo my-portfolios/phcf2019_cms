@@ -32,32 +32,27 @@ public class CmsMembershipExpireCronQuartz {
 	public void updateMembershipTypeWhenExpire() throws Exception {
 		
 		System.out.println("updateMembershipTypeWhenExpire: !!");
-		test();
-	}
-	
-	public void test() throws Exception {
 		// 무료 회원이 아닌 모든 회원의 멤버십 관룐 정보를 가져온다.
-		
-		List<MberManageVO> membershipMberList = mberManageService.selectMberListExcept("N");
-		MberManageVO me = mberManageService.selectMberWithId("hkimkm1");
-		System.out.println("me: !!" + me.getMberId());
-
-		if(me.getMembershipExpireDt() != null) {
-//			mberManageService.updateMberTypeAfterExpire(me);
-		}
-		int i = 0;
-		for(MberManageVO mVO : membershipMberList) {
-			if(mVO.getMembershipExpireDt() != null) {
-				System.out.println("mberId: " + mVO.getMberId());
-				i++;
-				mberManageService.updateMberTypeAfterExpire(mVO);
+			List<MberManageVO> membershipMberList = mberManageService.selectMberListExcept("N");
+//				MberManageVO me = mberManageService.selectMberWithId("hkimkm1");
+//				System.out.println("me: !!" + me.getMberId());
+	//
+//				if(me.getMembershipExpireDt() != null) {
+//					mberManageService.updateMberTypeAfterExpire(me);
+//				}
+			int i = 0;
+			for(MberManageVO mVO : membershipMberList) {
+				/* MEMBERSHIP_EXPIRE_DT가 NULL이 아닐 때만 수행 */
+				if(mVO.getMembershipExpireDt() != null) {
+					System.out.println("mberId: " + mVO.getMberId());
+					i++;
+//					mberManageService.updateMberTypeAfterExpire(mVO);
+				}
 			}
-		}
-		System.out.println("size: " + membershipMberList.size());
-		System.out.println("i: " + i);
-		
-	
-		
+			System.out.println("변경 전 유료 회원 size: " + membershipMberList.size());
+			System.out.println("i: " + i);
+			System.out.println("~~0시 1분 동작 완료~~");
 	}
+	
 	
 }

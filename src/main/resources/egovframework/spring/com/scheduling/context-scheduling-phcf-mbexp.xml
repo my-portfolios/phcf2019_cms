@@ -11,12 +11,14 @@
 		<property name="concurrent" value="false" />
 	</bean>
 		
+		<!-- Trigger -->
 	<bean id="cmsMembershipExpireTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="cmsMembershipExpireJob" />
-		<!-- 시작하고 10초후에 실행한다. (milisecond) -->
+		<!-- 시작하고 30초후에 실행한다. (milisecond) -->
 		<property name="startDelay" value="10000" />
-		<!-- 20초마다 수행 하여야 함. -->
-		<property name="cronExpression" value="0/20 * * * * ? *" />
+		<!-- 매일 0시 1분마다 수행 하여야 함. -->
+		<property name="cronExpression" value="0 1 0 1/1 * ? *" />
+<!-- 		<property name="cronExpression" value="0/20 * * 1/1 * ? *" /> -->
 	</bean>
 	
 	

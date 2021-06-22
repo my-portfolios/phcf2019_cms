@@ -523,7 +523,7 @@ FROM(
 		SET MEMBERSHIP_TYPE = 'N'
 		WHERE 1=1
 			AND MBER_ID = #{mberId}
-			AND MEMBERSHIP_EXPIRE_DT < NOW()
+			AND MEMBERSHIP_EXPIRE_DT < CURDATE()
 		]]>	
     </update>
 </mapper>

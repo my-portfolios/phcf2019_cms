@@ -171,5 +171,11 @@ public class MberManageDAO extends EgovComAbstractDAO{
 	public void updateMberTypeAfterExpire(MberManageVO mberManageVO) throws Exception {
 		update("mberManageDAO.updateMberTypeAfterExpire", mberManageVO);
 	}
+	
+	/* 멤버십 만료 전까지 x일이 남은 회원들의 목록 조회*/
+	public List<MberManageVO> selectMberNearExpireList(Map<String, Object> paramMap) throws Exception {
+		return selectList("mberManageDAO.selectMberNearExpireList", paramMap);
+		
+	}
 
 }

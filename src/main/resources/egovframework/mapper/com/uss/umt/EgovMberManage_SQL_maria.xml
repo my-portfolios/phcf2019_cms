@@ -526,4 +526,19 @@ FROM(
 			AND MEMBERSHIP_EXPIRE_DT < CURDATE()
 		]]>	
     </update>
+    
+    <select id="selectMberNearExpireList" parameterType="java.util.HashMap" resultType="egovframework.com.uss.umt.service.MberManageVO">
+    	/* mberManageDAO.selectMberNearExpireList */
+    	<![CDATA[
+    	SELECT
+			MBER_ID,
+			MBER_EMAIL_ADRES, 
+			MEMBERSHIP_EXPIRE_DT, 
+			DATEDIFF(MEMBERSHIP_EXPIRE_DT, CURDATE()) AS LEFT_DAYS
+		FROM COMTNGNRLMBER
+		WHERE MEMBERSHIP_TYPE != 'N' 
+		AND DATEDIFF(MEMBERSHIP_EXPIRE_DT, CURDATE()) <= #{daysBefore} 
+		AND DATEDIFF(MEMBERSHIP_EXPIRE_DT, CURDATE()) >= '0'
+		]]>
+    </select>
 </mapper>

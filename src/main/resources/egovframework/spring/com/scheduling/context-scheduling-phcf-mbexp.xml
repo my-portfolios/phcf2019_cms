@@ -4,28 +4,47 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 	
 	
-	<!-- 멤버십 만료 처리를 위한 Job -->
+	<!-- 멤버십 만료 처리를 위한 JobDetail -->
 	<bean id="cmsMembershipExpireJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="CmsMembershipExpireCronQuartz" />
 		<property name="targetMethod" value="updateMembershipTypeWhenExpire" />
 		<property name="concurrent" value="false" />
 	</bean>
 		
-		<!-- Trigger -->
+		<!-- 멤버십 만료 처리 Trigger -->
 	<bean id="cmsMembershipExpireTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="cmsMembershipExpireJob" />
 		<!-- 시작하고 30초후에 실행한다. (milisecond) -->
 		<property name="startDelay" value="10000" />
 		<!-- 매일 0시 1분마다 수행 하여야 함. -->
-		<property name="cronExpression" value="0 1 0 1/1 * ? *" />
-<!-- 		<property name="cronExpression" value="0/20 * * 1/1 * ? *" /> -->
+<!-- 		<property name="cronExpression" value="0 1 0 1/1 * ? *" /> -->
+		<property name="cronExpression" value="0/20 * * 1/1 * ? *" />
 	</bean>
 	
 	
+	<!-- 멤버십 만료 전 안내 메일 발송 JobDetail -->
+	<bean id="cmsMembershipExpireNoticeJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="CmsMembershipExpireCronQuartz" />
+		<property name="targetMethod" value="sendMailNoticeExpire" />
+		<property name="concurrent" value="false" />
+	</bean>
+		
+		<!-- 멤버십 만료 전 안내 메일 발송 Trigger -->
+	<bean id="cmsMembershipExpireNoticeTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="cmsMembershipExpireNoticeJob" />
+		<!-- 시작하고 30초후에 실행한다. (milisecond) -->
+		<property name="startDelay" value="10000" />
+		<!-- 매일 0시 1분마다 수행 하여야 함. -->
+<!-- 		<property name="cronExpression" value="0 1 0 1/1 * ? *" /> -->
+		<property name="cronExpression" value="0/20 * * 1/1 * ? *" />
+	</bean>
+	
+	<!-- Scheduler -->
 	<bean id="cmsSupportScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
- 				<ref bean="cmsMembershipExpireTrigger" /> 
+<!--  				<ref bean="cmsMembershipExpireTrigger" />  -->
+<!--  				<ref bean="cmsMembershipExpireNoticeTrigger" /> -->
 			</list>
 		</property>
 	</bean>

@@ -258,4 +258,10 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 		mberManageDAO.updateMberTypeAfterExpire(mberManageVO);
 	}
 	
+	/* 멤버십 만료 전까지 x일이 남은 회원들의 목록 조회*/
+	@Override
+	public List<MberManageVO> selectMberNearExpireList(Map<String, Object> paramMap) throws Exception {
+		return mberManageDAO.selectMberNearExpireList(paramMap);
+	}
+	
 }

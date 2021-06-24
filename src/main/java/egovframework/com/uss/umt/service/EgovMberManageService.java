@@ -131,4 +131,7 @@ public interface EgovMberManageService {
 	
 	/* 회원 만료일이 지난 회원을 무료 회원으로 전환 */
 	public void updateMberTypeAfterExpire(MberManageVO mberManageVO) throws Exception;
+	
+	/* 멤버십 만료 전까지 x일이 남은 회원들의 목록 조회*/
+	public List<MberManageVO> selectMberNearExpireList(Map<String, Object> paramMap) throws Exception;
 }

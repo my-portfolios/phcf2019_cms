@@ -1,5 +1,6 @@
 package egovframework.phcf.scheduler;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,7 @@ public class CmsMembershipExpireCronQuartz {
 //			test();
 	}
 	// email match test
-	public void test() {
+	/*public void test() {
 		UserDefaultVO uVO = new UserDefaultVO();
 		uVO.setFirstIndex(-1);
 		try {
@@ -88,23 +89,25 @@ public class CmsMembershipExpireCronQuartz {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	@Transactional
 	public void sendMailNoticeExpire() {
 		try {
+			int daysBefore = 30;
+			String dateFormat = "yyyy-MM-dd";
 			String mailSubject = "[포항문화재단] 멤버십 만료 예정 안내 메일";
 			
 			CommonMethod commonMethod = new CommonMethod();
 			
 			/*
-			 * 멤버십 만료 전까지 한 달 남은 회원 목록을 조회한다. 
+			 * 멤버십 만료 전까지 30일이 남지 않은 회원 목록을 조회한다. 
 			 * */
 			Map<String, Object> paramMap = new HashMap<>();
-			// 만료 전 30일 남은 멤버들의 목록 조회
-			paramMap.put("daysBefore", 30);
+			// 만료 전까지 30일이 남지 않은 남은 멤버들의 목록 조회
+			paramMap.put("daysBefore", daysBefore);
 			List<MberManageVO> mberNearExpireList = mberManageService.selectMberNearExpireList(paramMap);
-			
+			System.out.println("mberNearExpireList sie: " + mberNearExpireList.size());
 			
 			/*
 			 * 메일 양식 작성
@@ -135,21 +138,28 @@ public class CmsMembershipExpireCronQuartz {
 			// 각 멤버에게 메일 발송	
 			for(MberManageVO mber : mberNearExpireList) {
 				
-				System.out.println("==== mberId: "+mber.getMberId());
-				String mberEmailAdres = mber.getMberEmailAdres();
-				// 유효한 메일인지 검사
-				if(!mberEmailAdres.equals("") && mberEmailAdres != null &&  
-						Pattern.matches(regEx, mberEmailAdres)) {
-					
-					// 수신자 설정
-					sndngMailVO.setRecptnPerson(mberEmailAdres.toString());
-					System.out.println("==== emailAdres: " + mberEmailAdres.toString());
-					// 메일 발송 및 등록
-//					sndngMailRegistService.insertSndngMail(sndngMailVO);
-					
-					MberManageVO mberManageVO = new MberManageVO();
-					mberManageVO.setMberId(mber.getMberId());
-//					mberManageService.insertDormantReserveMember(mberManageVO); // 휴면 회원 대상자로 삽입
+				String mailSendingDay = CommonMethod.calcDate(mber.getMembershipExpireDt(),
+						Calendar.DATE, -daysBefore, dateFormat);
+				
+				System.out.println("mailSendingDay: " + mailSendingDay);
+				//메일을 보내야할 날짜가 오늘이 맞는지 체크(각 회원마다 안내 메일은 한 번만 보내야 한다.)
+				if(mailSendingDay.equals(CommonMethod.getTodayDate(dateFormat))) {
+				
+					System.out.println("==== mberId: "+mber.getMberId());
+					String mberEmailAdres = mber.getMberEmailAdres();
+					// 유효한 메일인지 검사
+					if(!mberEmailAdres.equals("") && mberEmailAdres != null &&  
+							Pattern.matches(regEx, mberEmailAdres)) {
+						
+						// 수신자 설정
+						sndngMailVO.setRecptnPerson(mberEmailAdres.toString());
+						System.out.println("==== emailAdres: " + mberEmailAdres.toString());
+						System.out.println("===expireDT: "+mber.getMembershipExpireDt());
+						
+						// 메일 발송 및 등록
+//						sndngMailRegistService.insertSndngMail(sndngMailVO);
+						
+					}
 				}
 			}
 		} catch(Exception e) {

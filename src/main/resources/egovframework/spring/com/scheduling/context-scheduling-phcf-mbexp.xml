@@ -43,6 +43,7 @@
 	<bean id="cmsSupportScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
+			<!-- 사용시 주석 해제 -->
 <!--  				<ref bean="cmsMembershipExpireTrigger" />  -->
 <!--  				<ref bean="cmsMembershipExpireNoticeTrigger" /> -->
 			</list>

@@ -263,5 +263,10 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 	public List<MberManageVO> selectMberNearExpireList(Map<String, Object> paramMap) throws Exception {
 		return mberManageDAO.selectMberNearExpireList(paramMap);
 	}
+
+	@Override
+	public List<MberManageVO> selectMberListForSndngMail(Map<String, Object> paramMap) throws Exception {
+		return mberManageDAO.selectMberListForSndngMail(paramMap);
+	}
 	
 }

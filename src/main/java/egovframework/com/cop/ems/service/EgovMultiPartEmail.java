@@ -108,6 +108,7 @@ public class EgovMultiPartEmail implements Serializable {
 		HtmlEmail email = new HtmlEmail();
 
 		email.setCharset("UTF-8");
+//		email.setCharset("EUC-KR");
 		email.setHostName(this.host);
 		email.setSmtpPort(this.port);
 		//email.setStartTLSEnabled(true);

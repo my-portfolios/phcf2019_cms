@@ -42,7 +42,7 @@ public class CmsMembershipExpireCronQuartz {
 	private EgovSndngMailRegistService sndngMailRegistService;
 	
 	// email regular expression
-	private String regEx = "^[0-9a-zA-Z]([-_\\.0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
+	private String regEx = CommonMethod.EMAIL_ADDRESS_REGEX;
 	
 	@Transactional
 	public void updateMembershipTypeWhenExpire() throws Exception {

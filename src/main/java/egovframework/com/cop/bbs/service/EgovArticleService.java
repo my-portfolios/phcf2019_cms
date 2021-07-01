@@ -48,4 +48,7 @@ public interface EgovArticleService {
 	int latestArticleListViewCnt(HashMap<String, Object> vo);
 
 	int latestMultiArticleListViewCnt(HashMap<String, Object> vo);
+	
+	 // category name에 따라 article 선택 
+	Map<String, Object> selectArticleListByCateName(BoardVO boardVO);
 }

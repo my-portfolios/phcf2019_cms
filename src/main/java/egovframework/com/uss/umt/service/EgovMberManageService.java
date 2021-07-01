@@ -134,4 +134,7 @@ public interface EgovMberManageService {
 	
 	/* 멤버십 만료 전까지 x일이 남은 회원들의 목록 조회*/
 	public List<MberManageVO> selectMberNearExpireList(Map<String, Object> paramMap) throws Exception;
+	
+	/* 멤버십 타입에 따른 회원 메일 주소 목록*/
+	public List<MberManageVO> selectMberListForSndngMail(Map<String, Object> paramMap) throws Exception;
 }

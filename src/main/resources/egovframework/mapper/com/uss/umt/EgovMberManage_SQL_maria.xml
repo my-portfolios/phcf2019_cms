@@ -503,7 +503,38 @@ FROM(
 		GROUP BY uniqId
 		  ORDER BY sbscrbDe DESC
     </select>
+    
+    <!-- 메일 전송을 위한 회원 리스트 조회 
+    	멤버십 타입을 기준으로 정함.
+    -->
+     <select id="selectMberListForSndngMail" parameterType="java.util.HashMap" resultType="egovframework.com.uss.umt.service.MberManageVO">
+    	/* mberManageDAO.selectMberListForSndngMail */
+    	SELECT
+    		MBER_ID mberId,
+    		MBER_NM mberNm,
+    		MBER_EMAIL_ADRES mberEmailAdres, 
+			MEMBERSHIP_TYPE membershipType,
+			MEMBERSHIP_START_DT membershipStartDt,
+			MEMBERSHIP_EXPIRE_DT membershipExpireDt,
+			SEND_MAIL_YN sendMailYn
+		FROM
+			COMTNGNRLMBER
+		WHERE 
+			SEND_MAIL_YN = 'Y'
+			<!-- null check 해주는 것이 더 안정적이다. -->
+		<choose>
+			<when test='toMembership.equals("Y") and toNormal.equals("Y")'> 
+			</when>
+			<when test='toMembership.equals("Y")'>
+				AND MEMBERSHIP_TYPE != 'N'
+			</when>
+			<otherwise>
+				AND MEMBERSHIP_TYPE = 'N'
+			</otherwise>
+		</choose>
+    </select>
     	
+    	<!-- 특정 멤버십 타입의 회원을 제외한 회원 목록을 가져온다. -->
     <select id="selectMberListExcept" resultType="egovframework.com.uss.umt.service.MberManageVO">
     	/* mberManageDAO.selectMberListExcept */
     	SELECT

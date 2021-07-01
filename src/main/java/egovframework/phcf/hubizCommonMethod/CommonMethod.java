@@ -29,6 +29,13 @@ import egovframework.phcf.common.service.CommonService;
 public class CommonMethod {
 	
 	/**
+	 * 메일 전송 시 이메일 유효성 검사를 위한 Regular Expression
+	 * @since 2021-07-01
+	 * @author 김경민
+	 * 
+	 * */
+	public static final String EMAIL_ADDRESS_REGEX = "^[0-9a-zA-Z]([-_\\.0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
+	/**
 	 * 날짜 비교
 	 * @param date1
 	 * @param date2

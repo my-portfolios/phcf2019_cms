@@ -34,8 +34,8 @@
 		<property name="jobDetail" ref="cmsMembershipExpireNoticeJob" />
 		<!-- 시작하고 30초후에 실행한다. (milisecond) -->
 		<property name="startDelay" value="10000" />
-		<!-- 매일 0시 1분마다 수행 하여야 함. -->
-<!-- 		<property name="cronExpression" value="0 1 0 1/1 * ? *" /> -->
+		<!-- 매일 0시 3분마다 수행 하여야 함. -->
+<!-- 		<property name="cronExpression" value="0 3 0 1/1 * ? *" /> -->
 		<property name="cronExpression" value="0/20 * * 1/1 * ? *" />
 	</bean>
 	

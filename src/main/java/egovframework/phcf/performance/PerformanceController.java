@@ -1,6 +1,7 @@
 package egovframework.phcf.performance;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -362,22 +363,36 @@ public class PerformanceController {
 				// 게시물의 원래 파일이 없을 때
 				if (sndngMailVO.getAtchFileId() == null || sndngMailVO.getAtchFileId().equals("")) {
 					sndngMailVO.setAtchFileId(_atchFileId);
-					sndngMailVO.setOrignlFileNm(orignlFileList);
+					// 한긒 파일명 깨짐 방지
+					sndngMailVO.setOrignlFileNm(strDecode(orignlFileList, "UTF-8", "8859_1"));
+//					sndngMailVO.setOrignlFileNm(orignlFileList);
 				}
 				// 게시물의 원래 파일이 있을 때
 				else {
 					fileVo.setAtchFileId(sndngMailVO.getAtchFileId());
 					fileVo.setFileSn("0");
 					fileVo = fileMngService.selectFileInf(fileVo);
-					sndngMailVO.setOrignlFileNm(fileVo.getOrignlFileNm());
+					
+					// 한긒 파일명 깨짐 방지
+					sndngMailVO.setOrignlFileNm(strDecode(fileVo.getOrignlFileNm(), "UTF-8", "8859_1"));
+//					sndngMailVO.setOrignlFileNm(fileVo.getOrignlFileNm());
 				}
 			}
 			//첨부 파일이 있을 때
 			else {
 				sndngMailVO.setAtchFileId(_atchFileId);
-				sndngMailVO.setOrignlFileNm(orignlFileList);
+				// 한긒 파일명 깨짐 방지
+				sndngMailVO.setOrignlFileNm(strDecode(orignlFileList, "UTF-8", "8859_1"));
+//				sndngMailVO.setOrignlFileNm(orignlFileList);
 			}
 		}
+		
+		// 자동으로 파일 첨부해주는 기능을 없애려면 하려면 이것을 주석 해제하고 위의 코드를 없애면 된다.
+		/*if (sndngMailVO != null) {
+			sndngMailVO.setAtchFileId(_atchFileId);
+			sndngMailVO.setDsptchPerson(user.getId());
+			sndngMailVO.setOrignlFileNm(orignlFileList);
+		}*/
 		
 		// 메일 제목 설정
 		sndngMailVO.setSj(sndngMailVO.getSj());
@@ -415,14 +430,14 @@ public class PerformanceController {
 		
 		
 		
-		// 이 부분을 여러 회원에게 보내는 for문 형식으로 변경
+		// 테스트할 때의 코드
 		List<String> mailAddresses =  new ArrayList<>();
 		mailAddresses.add("hkimkm1@hubizict.com");
 //		mailAddresses.add("hkkyoungmin@gmail.com");
 		for(String address : mailAddresses) {
 			sndngMailVO.setRecptnPerson(address);
 			// 메일 등록 및 발송
-			boolean result = sndngMailRegistService.insertSndngMail(sndngMailVO);			
+//			boolean result = sndngMailRegistService.insertSndngMail(sndngMailVO);			
 		}
 		////////////*******************************************
 		boolean result = true;
@@ -471,7 +486,7 @@ public class PerformanceController {
 	      
 	      //타겟 String이 시작하는 지점
 	      startIndex = sb.indexOf(startStr, startIndex);
-	      System.out.println("startIndex=="+startIndex);
+	      
 	      if(startIndex == -1) break;
 	      
 	      //타겟 String의 바로 다음 지점
@@ -481,12 +496,17 @@ public class PerformanceController {
 	      endIndex = sb.indexOf(endStr, startIndex);
 	      
 	      String imgTag = sb.substring(startIndex, endIndex+1);
-	      System.out.println(imgTag);
+	      
 	      startIndex = endIndex + 1;
 	    }
 	    
 	    
 		return sb.toString();
+	}
+	
+	private String strDecode(String originalString, String originalCharSet, String toCharSet) throws UnsupportedEncodingException {
+		String decoded = new String(originalString.getBytes(originalCharSet), toCharSet);
+		return decoded;
 	}
 	
 	

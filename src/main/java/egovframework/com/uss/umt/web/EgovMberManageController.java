@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
@@ -663,7 +664,14 @@ public class EgovMberManageController {
 	}
 	
 	@RequestMapping(value = "/uss/umt/getDormantMber.do")
-	public String getDormantMber(ModelMap model, @RequestParam HashMap<String, Object> paramMap) throws Exception {
+	public ModelAndView getDormantMber(ModelMap model, @ModelAttribute("userSearchVO") UserManageVO userSearchVO, @RequestParam HashMap<String, Object> paramMap) throws Exception {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		
+//		paramMap.put("pageIndex", userSearchVO.getPageIndex());
+//		paramMap.put("pageSize", userSearchVO.getPageSize());
+//		paramMap.put("searchCondition", userSearchVO.getSearchCondition());
+//		paramMap.put("searchKeyword", userSearchVO.getSearchKeyword());
 		
 		Object pageIndex = paramMap.get("pageIndex");
 		Object pageSize = paramMap.get("pageSize");
@@ -672,11 +680,16 @@ public class EgovMberManageController {
 			pageOffset = (Integer.parseInt(pageIndex.toString())-1) * Integer.parseInt(pageSize.toString());
 			paramMap.put("pageOffset", pageOffset);
 		}
+		
+		
+		
+		List<Map<String, Object>> mapList = mberManageService.selectDormantMberList(paramMap);
+		int totCnt = mberManageService.selectDormantMberCnt(paramMap);
+		model.addAttribute("value", mapList);
+		model.addAttribute("totCnt", totCnt);
 	
-		model.addAttribute("value", mberManageService.selectDormantMberList(paramMap));
-		model.addAttribute("totCnt", mberManageService.selectDormantMberCnt(paramMap));
-
-		return "jsonView";
+//		return "jsonView";
+		return mav;
 	}
 	
 	@RequestMapping(value = "/uss/umt/getMovedDormantMber.do")

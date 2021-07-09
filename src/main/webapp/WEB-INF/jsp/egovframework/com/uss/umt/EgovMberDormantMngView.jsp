@@ -21,6 +21,8 @@
 <script type="text/javascript" src="<c:url value='/js/egovframework/phcf/jsgrid-1.5.3/jsgrid.min.js'/>"></script>
 
 <script type="text/javascript">
+
+var searchFilter = new Object();
 $(document).ready(function() {
 	
 	var sendMailYnArr = [{code : 'Y', codeNm: 'Y'}, {code : 'N', codeNm: 'N'}];
@@ -44,29 +46,40 @@ $(document).ready(function() {
 		, pagePrevText : "이전"
 		, pageFirstText : "처음"
 		, pageLastText  : "마지막"
+		, pageNavigatorNextText : "..."
+		, pageNavigatorPrevText : "..."
 		, pagerFormat : "{prev} {pages} {next}"
 		, deleteConfirm: "삭제 하시겠습니까?"
 		, controller: {
 			loadData: function(filter) {
 				
 				var d = $.Deferred();
-				var obj = new Object();
-				obj.pageIndex = filter.pageIndex;
-				obj.pageSize = filter.pageSize;
+// 				var obj = new Object();	
+				if(searchFilter.isSearched){
+					searchFilter.pageIndex = 1;
+					delete searchFilter.isSearched;
+				}
+				else 
+					searchFilter.pageIndex = filter.pageIndex;
+				searchFilter.pageSize = filter.pageSize;
+				
+				
 				
 				$.ajax({
 					type: 'POST',
 					url: '/uss/umt/getDormantMber.do',
 					dataType: 'JSON',
-					data: obj,
+					data: searchFilter,
 					success : function(data){
 						try {
+							
 							if(typeof data != 'object') { data = JSON.parse(data); }
 							
 							var list = {
 								data: data.value,
 								itemsCount : data.totCnt
 							};
+							
 						}
 						catch(e){
 							alert("오류 발생! \n"+e);
@@ -122,7 +135,7 @@ $(document).ready(function() {
 			}*/
 		}
 	
-		, noDateContent: '데이터가 없습니다.'
+		, noDataContent: '데이터가 없습니다.'
 		, loadMessage: '조회 중...'
 			
 		, fields: [
@@ -144,8 +157,32 @@ $(document).ready(function() {
 		]
 	});
 	
+    $("#searchKeyword").keypress(function (event) {
+    	if (event.which == 13){ // 엔터키를 누르면 실행한다.
+        	search();  
+    	}
+	});
 	
 });
+
+
+	
+
+function search(){
+	searchFilter = new Object();
+	var searchKeyword = $("#searchKeyword").val();
+	var searchCondition = $("#searchCondition").val();
+	
+	searchFilter.searchKeyword = searchKeyword;
+	searchFilter.searchCondition = searchCondition;
+	searchFilter.isSearched = true;
+	
+	
+	
+	
+	$("#jsGrid").jsGrid("loadData");
+	$("#jsGrid").jsGrid("reset");
+}
 </script>
 
 </head>
@@ -155,9 +192,26 @@ $(document).ready(function() {
 <form name="frm" id="frm" action="/uss/umt/getDormantMber.do" method="post" >
 <div class="board">
 	<h1>휴먼회원 관리</h1>
+	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
+		<ul>
+			<li><!-- 조건 -->
+                <select name="searchCondition" id="searchCondition" title="<spring:message code="comUssUmt.userManageSsearch.searchConditioTitle" />"><!--  -->
+                    <option value="0" ><spring:message code="comUssUmt.userManageSsearch.searchConditionId" /></option><!-- ID  -->
+                    <option value="1" selected="selected"><spring:message code="comUssUmt.userManageSsearch.searchConditionName" /></option><!-- Name -->
+                </select>
+			</li>
+			<!-- 검색키워드 및 조회버튼 -->
+			<li>
+				<input class="s_input" id="searchKeyword" name="searchKeyword" type="text"  size="35" title="<spring:message code="title.search" /> <spring:message code="input.input" />"<%--  value='<c:out value="${value.searchKeyword}"/>' --%>  maxlength="255" >
+				<input type="button" onclick="search();" id="searchButton" class="s_btn" value="<spring:message code="button.inquire" />" title="<spring:message code="title.inquire" /> <spring:message code="input.button" />" />
+				
+				
+			</li>
+		</ul>
+	</div>
 
-
-<input type="hidden" id="page_no" name="page_no" value="${paramMap.page_no }">
+	
+<%-- 	<input type="hidden" id="page_no" name="page_no" value="${paramMap.page_no }"> --%>
 
 	<div class="area">
 		<div id="jsGrid"></div>

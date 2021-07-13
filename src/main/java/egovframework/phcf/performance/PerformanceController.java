@@ -80,7 +80,7 @@ public class PerformanceController {
 	private EgovMberManageService mberManageService;
 	
 	
-
+	private String emailRegex = EgovProperties.getProperty("emailAddress.Regex.javaString");
 	
 	
 	@RequestMapping(value = "/performance/list.do")
@@ -232,8 +232,10 @@ public class PerformanceController {
 		/*if (sndngMailVO != null && sndngMailVO.getLink() != null && !sndngMailVO.getLink().equals("")) {
 			link = sndngMailVO.getLink();
 		}*/
-		searchBoardVO.setBbsId(request.getParameter("bbsId"));
-		searchBoardVO.setNttId(Long.valueOf(request.getParameter("selectedId")));
+		String bbsId = request.getParameter("bbsId");
+		
+		searchBoardVO.setBbsId(bbsId);
+		searchBoardVO.setNttId(Long.valueOf(nttId));
 		
 		// article 선택
 		BoardVO article = egovArticleService.selectArticleDetail(searchBoardVO);
@@ -265,6 +267,9 @@ public class PerformanceController {
 		System.out.println(sndngMailVO.getRecptnPerson());
 		
 		mav.addObject("resultInfo", sndngMailVO);
+		mav.addObject("bbsId", bbsId);
+		mav.addObject("nttId", nttId);
+		
 		System.out.println("in /performance/writeMail.do sndngMailVO file==="+sndngMailVO.getAtchFileId());
 		
 
@@ -284,7 +289,11 @@ public class PerformanceController {
 	public String insertSndngMail(final MultipartHttpServletRequest multiRequest, @ModelAttribute("sndngMailVO") SndngMailVO sndngMailVO, ModelMap model, HttpServletRequest request)
 			throws Exception {
 		
-		
+		/*
+		 * 이메일 보낼 시 정해야할 부분
+		 * 발신자, 수신자, 메일 제목, 메일 내용, 첨부 파일
+		 * 
+		 */
 		String link = "N";
 		if (sndngMailVO != null && sndngMailVO.getLink() != null && !sndngMailVO.getLink().equals("")) {
 			link = sndngMailVO.getLink();
@@ -306,6 +315,8 @@ public class PerformanceController {
 		// 유료 회원, 무료 회원의 이메일 목록 추출을 위한 작업
 		List<MberManageVO> mberManageList;
 		HashMap<String, Object> searchMap = new HashMap<>();
+		CommonMethod commonMethod = new CommonMethod();
+		
 		if(request.getParameter("checked_membership") != null &&
 				request.getParameter("checked_normal") != null) {
 			searchMap.put("toMembership", "Y");
@@ -345,17 +356,18 @@ public class PerformanceController {
 		}
 		
 		System.out.println("_atchFileId2===" +_atchFileId);
-		String orignlFileList = "";
-
+		String orignlFileList = ""; //첨부 파일이 최대 한 개이므로 파일 이름이 한 가지이다.
+		
 		for (int i = 0; i < _result.size(); i++) {
 			FileVO fileVO = _result.get(i);
 			orignlFileList = fileVO.getOrignlFileNm();
 		}
 		
-		
-		
+		sndngMailVO.setDsptchPerson(user.getId());
 		//첨부 파일 처리
-		if (sndngMailVO != null) { // 첨부파일이 있든 없든 항상 실행됨.
+		sndngMailVO = attachFile(sndngMailVO, _atchFileId, orignlFileList);
+		//첨부 파일 처리
+		/*if (sndngMailVO != null) { // 첨부파일이 있든 없든 항상 실행됨.
 			FileVO fileVo = new FileVO();
 			//첨부 파일이 없을 때
 			sndngMailVO.setDsptchPerson(user.getId());
@@ -385,7 +397,7 @@ public class PerformanceController {
 				sndngMailVO.setOrignlFileNm(strDecode(orignlFileList, "UTF-8", "8859_1"));
 //				sndngMailVO.setOrignlFileNm(orignlFileList);
 			}
-		}
+		}*/
 		
 		// 자동으로 파일 첨부해주는 기능을 없애려면 하려면 이것을 주석 해제하고 위의 코드를 없애면 된다.
 		/*if (sndngMailVO != null) {
@@ -397,24 +409,50 @@ public class PerformanceController {
 		// 메일 제목 설정
 		sndngMailVO.setSj(sndngMailVO.getSj());
 		
-		// 메일 내용에 있는 img의 url 얻기
-		String emailCn = localImgCnToURL(sndngMailVO.getEmailCn());
-
 		// 메일 내용 설정
+		BoardVO boardSearchVO = new BoardVO();
+		String bbsId = request.getParameter("bbsId");
+		String nttId = request.getParameter("nttId");
+		boardSearchVO.setBbsId(bbsId);
+		boardSearchVO.setNttId(Long.valueOf(nttId));
+		BoardVO article = egovArticleService.selectArticleDetail(boardSearchVO);
+		
+		String articleUrl = EgovProperties.getProperty("Globals.place_url") + "/cop/bbs/selectArticleDetail.do?" 
+				+ "bbsId=" + bbsId + "&nttId=" + nttId;
+		String emailTemplate = commonMethod.getFileContent("egovframework/mail/email_performance.html");
+		String emailCn = emailTemplate.replace("#emailContent#", sndngMailVO.getEmailCn())
+				.replace("#articleTitle#", article.getNttSj())
+				.replace("#articleLink#", articleUrl);
+		
+		// article poster img 얻기
+		String posterImgChildPath = "IMG/" + bbsId + "_"+ nttId + ".png";
+		String posterImgFullPath = EgovProperties.getProperty("Globals.fileStorePath") + posterImgChildPath;
+		File posterImgFile = new File(posterImgFullPath); 
+		if(posterImgFile.exists()) {
+			emailCn = emailCn.replace("#posterSrc#", "/upload/" + posterImgChildPath);
+		} else {
+			emailCn = emailCn.replace("#posterSrc#", "");
+		}
+		emailCn = CommonMethod.localImgSrcToGlobal(emailCn);
+		
 		sndngMailVO.setEmailCn(emailCn);
+		
 		
 		System.out.println("email Sj==" + sndngMailVO.getSj());
 		System.out.println("in /performance/insertSndngMail.do, emailCn===" + sndngMailVO.getEmailCn());
 		System.out.println("sndngMailVO file==="+sndngMailVO.getAtchFileId());
 		System.out.println("DsptchPerson==" + sndngMailVO.getDsptchPerson());
 		System.out.println("OrignlFileNm==" + sndngMailVO.getOrignlFileNm());
+		
+		System.out.println("emialRegex===" + emailRegex);
 		////////////////************************* 실서버에 적용할 때는 수정할 부분
+		
 		
 		int j = 0;
 		for(MberManageVO mber : mberManageList) {
 			String e_adres = mber.getMberEmailAdres();
-			if(!e_adres.equals("") && e_adres != null &&
-					Pattern.matches(CommonMethod.EMAIL_ADDRESS_REGEX, e_adres)) {
+			if(!e_adres.equals("") && e_adres != null && /*EgovFormatCheckUtil.checkFormatMail(e_adres)*/
+					Pattern.matches(emailRegex, e_adres)) {
 				System.out.println("email==" + e_adres + 
 						" \nsendMailYn==" + mber.getSendMailYn() + " \nmbershipType==" + mber.getMembershipType());
 				
@@ -426,6 +464,7 @@ public class PerformanceController {
 				j++;
 			}
 		}
+		System.out.println("total mail original target==" + mberManageList.size());
 		System.out.println("total mail target=="+j);
 		
 		
@@ -437,7 +476,7 @@ public class PerformanceController {
 		for(String address : mailAddresses) {
 			sndngMailVO.setRecptnPerson(address);
 			// 메일 등록 및 발송
-//			boolean result = sndngMailRegistService.insertSndngMail(sndngMailVO);			
+			boolean result = sndngMailRegistService.insertSndngMail(sndngMailVO);			
 		}
 		////////////*******************************************
 		boolean result = true;
@@ -474,39 +513,55 @@ public class PerformanceController {
 		
 	}
 	
-	private String localImgCnToURL(String content) {
-		StringBuilder sb = new StringBuilder(content);
-		int startIndex = 0;
-	    int endIndex = 0;
-	    while(startIndex < sb.length()){
-	      System.out.println("initial startIndex=="+startIndex);
-	      String startStr =  "<img src=\"";
-	      // String startStr = "<table>";
-	      String endStr = ">";
-	      
-	      //타겟 String이 시작하는 지점
-	      startIndex = sb.indexOf(startStr, startIndex);
-	      
-	      if(startIndex == -1) break;
-	      
-	      //타겟 String의 바로 다음 지점
-	      startIndex += startStr.length();
-	      
-	      sb.insert(startIndex, EgovProperties.getProperty("Globals.main_url"));
-	      endIndex = sb.indexOf(endStr, startIndex);
-	      
-	      String imgTag = sb.substring(startIndex, endIndex+1);
-	      
-	      startIndex = endIndex + 1;
-	    }
-	    
-	    
-		return sb.toString();
-	}
 	
 	private String strDecode(String originalString, String originalCharSet, String toCharSet) throws UnsupportedEncodingException {
 		String decoded = new String(originalString.getBytes(originalCharSet), toCharSet);
 		return decoded;
+	}
+	
+	private SndngMailVO attachFile(SndngMailVO sndngMailVO, String attachedFileId, String originalFileNm) throws Exception {
+		//첨부 파일 처리
+				/*if (sndngMailVO != null) { // 첨부파일이 있든 없든 항상 실행됨.
+					FileVO fileVo = new FileVO();
+					sndngMailVO.setDsptchPerson(dispatchId);
+					//첨부 파일이 없을 때
+					if(attachedFileId == null || attachedFileId.equals("")) {
+						// 게시물의 원래 파일이 없을 때
+						if (sndngMailVO.getAtchFileId() == null || sndngMailVO.getAtchFileId().equals("")) {
+							sndngMailVO.setAtchFileId(attachedFileId);
+							// 한긒 파일명 깨짐 방지
+							sndngMailVO.setOrignlFileNm(strDecode(originalFileNm, "UTF-8", "8859_1"));
+//							sndngMailVO.setOrignlFileNm(orignlFileList);
+						}
+						// 게시물의 원래 파일이 있을 때
+						else {
+							fileVo.setAtchFileId(sndngMailVO.getAtchFileId());
+							fileVo.setFileSn("0");
+							fileVo = fileMngService.selectFileInf(fileVo);
+							
+							// 한긒 파일명 깨짐 방지
+							sndngMailVO.setOrignlFileNm(strDecode(fileVo.getOrignlFileNm(), "UTF-8", "8859_1"));
+//							sndngMailVO.setOrignlFileNm(fileVo.getOrignlFileNm());
+						}
+					}
+					//첨부 파일이 있을 때
+					else {
+						sndngMailVO.setAtchFileId(attachedFileId);
+						// 한긒 파일명 깨짐 방지
+						sndngMailVO.setOrignlFileNm(strDecode(originalFileNm, "UTF-8", "8859_1"));
+//						sndngMailVO.setOrignlFileNm(orignlFileList);
+					}
+				}*/
+				
+				// 자동으로 파일 첨부해주는 기능을 없애려면 하려면 이것을 주석 해제하고 위의 코드를 없애면 된다.
+				if (sndngMailVO != null) {
+					sndngMailVO.setAtchFileId(attachedFileId);
+//					sndngMailVO.setDsptchPerson(dispatchId);
+					sndngMailVO.setOrignlFileNm(strDecode(originalFileNm, "UTF-8", "8859_1"));
+				}
+				
+				return sndngMailVO;
+		
 	}
 	
 	

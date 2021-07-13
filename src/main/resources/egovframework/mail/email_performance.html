@@ -10,8 +10,9 @@ html, body { height:100%; font-family:'Malgun Gothic','맑은 고딕','돋움','
 a{color:#333 ;text-decoration:none}
 a:link, a:visited{text-decoration:none}
 a:hover, a:active{text-decoration:none}
-img{border:0}
-ol, ul{list-style:none} 
+img{border:0; align:center}
+ol, ul{list-style:none}
+
 </style>
 </head>
 
@@ -27,10 +28,13 @@ ol, ul{list-style:none}
      <strong>#toName# 님</strong>, 안녕하세요? <br /><br />
       본 메일은 회원님의 메일수신 동의에 따라 발송된 안내 메일 입니다..<br />
       아래의 최신 공연/전시 에 대한 확인 하세요<br /><br/>
-       #imgUrl#<br/>
+      <h2 style="text-align:center;">#articleTitle#</h2>
+      <img src="#posterSrc#" id="poster" title="#articleTitle#" width="300" height="400"/>
+       <br/>
+       <div id="emailContent">#emailContent#</div>
       <img title="웹베너.jpg" src="https://phcf.or.kr/common/file/download.do?upload_file_name=20181122_0754003a2feee7a39f829186100000f7_l.jpg"><br />
      	<strong>2018 송년 기획 연극 <사랑해요, 당신></strong><br /><br />
-        <a href="https://phcf.or.kr/skin/gongyeon/list.do?MENU_SEQ=10266&PAGE_SEQ=10221&LANG=ko_KR" style="text-decoration:none"><span style="font-weight: bold; color: #fff; position: relative;  padding: 8px 12px; background: #28a039;border-radius: 3px;">포항문화재단 공연일정 안내 GO</span></a><br/><br/>      
+        <a href="#articleLink#" style="text-decoration:none"><span style="font-weight: bold; color: #fff; position: relative;  padding: 8px 12px; background: #28a039;border-radius: 3px;">포항문화재단 공연일정 안내 GO</span></a><br/><br/>      
       </li>
     </ul>
   </div>

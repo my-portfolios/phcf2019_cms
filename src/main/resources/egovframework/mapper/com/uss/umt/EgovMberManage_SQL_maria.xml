@@ -539,6 +539,7 @@ FROM(
 			COMTNGNRLMBER
 		WHERE 
 			SEND_MAIL_YN = 'Y'
+			AND MBER_STTUS != 'H'
 			<!-- null check 해주는 것이 더 안정적이다. -->
 		<choose>
 			<when test='toMembership.equals("Y") and toNormal.equals("Y")'> 

@@ -63,7 +63,7 @@ function fnInit(){
 	if (closeYn == "Y") {
 		window.close();
 	}
-	document.sndngMailVO.recptnPerson.focus();
+	document.sndngMailVO.sj.focus();
 }
 
 function fileCheck() {
@@ -166,7 +166,9 @@ function fileCheck() {
 		<span class="btn_s"><a href="<c:url value='/performance/sendInfo.do' />"  title="<spring:message code="button.list" /> <spring:message code="input.button" />"><spring:message code="button.list" /></a></span>
 	</div><div style="clear:both;"></div>
 	
-
+	<input type="hidden" name="bbsId" value="${bbsId}"/>
+	<input type="hidden" name="nttId" value="${nttId}"/>
+	
 	</form:form>
 	<script type="text/javascript">
 	var maxFileNum = document.sndngMailVO.posblAtchFileNumber.value;

@@ -99,7 +99,7 @@
 					fields: [
 						{name: 	'SEQ', 	title: '번호', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'MEM_ID', 	title: '회원 아이디', 	type: 'text', 	editing: false, align: "center"},
-					 	{name: 	'MEM_NM', 	title: '회원 명', 	type: 'text', 	editing: false, align: "center"},
+					 	{name: 	'MBER_NM', 	title: '회원 명', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'PRE_TYPE', 	title: '멤버십 회원 유형', 	type: 'select', editing: false, items: premiumCode, valueType: "string",valueField: "Id", textField: "Name", align: "center"},
 					 	{name: 	'PAY_PRICE', 	title: '금액', 	type: 'text', 	editing: false,  align: "center"},
 					 	{name: 	'SEND_SMS', title: '문자 수신', 	type: 'select', items: ynCode, editing: false,valueType: "string",valueField: "Id", textField: "Name", align: "center"},
@@ -128,6 +128,7 @@
 				searchFilter.search_data = search_data;
 				
 				$("#jsGrid").jsGrid("loadData");
+				$("#jsGrid").jsGrid("reset");
 			}
 			
 			function about(seq){
@@ -191,6 +192,7 @@
 						<option value="">전체</option>
 						<option value="B">일반회원</option>
 						<option value="P">프리미엄회원</option>
+						<option value="M">멤버십회원</option>
 					</select>
 				</li>
 				<li>
@@ -204,6 +206,7 @@
 					<select class="floatleft" id="search_type">
 						<!-- <option value="MEM_NAME">입금자명</option> -->
 						<option value="MEM_ID">아이디</option>
+						<option value="MBER_NM">이름</option>
 						<option value="PAY_PRICE">금액</option>
 					</select>
 				</li>

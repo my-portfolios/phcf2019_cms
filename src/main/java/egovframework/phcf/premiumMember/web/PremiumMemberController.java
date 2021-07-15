@@ -86,10 +86,11 @@ public class PremiumMemberController {
 
 		int payListCnt = service.selectMembershipRegListCnt(paramMap);
 		List<HashMap<String, Object>> payList = service.selectMembershipRegList(paramMap);
+		
 		for(HashMap<String, Object> pay : payList) {
 			MberManageVO mberManageVO = egovMberManageService.selectMberWithId(pay.get("MEM_ID").toString());
 			if(mberManageVO != null) {  
-				pay.put("MEM_NM", mberManageVO.getMberNm());
+//				pay.put("MEM_NM", mberManageVO.getMberNm());
 				if(pay.get("RESULT").toString().equals("Y") && mberManageVO.getMembershipStartDt() != null) {
 					pay.put("MEMBERSHIP_START_DT", mberManageVO.getMembershipStartDt());
 					pay.put("MEMBERSHIP_END_DT", mberManageVO.getMembershipExpireDt());
@@ -98,7 +99,7 @@ public class PremiumMemberController {
 //									, "yyyy-MM-dd"));
 				}
 			} else {
-				pay.put("MEM_NM", "회원정보없음");
+				pay.put("MBER_NM", "회원정보없음");
 			}
 		}
 		

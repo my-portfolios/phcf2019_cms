@@ -249,7 +249,18 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 	/* 특정 membershipType을 제외하고 나머지  회원들의 멤버십 관련 정보 조회 */
 	@Override
 	public List<MberManageVO> selectMberListExcept(String membershipType) throws Exception {
-		return mberManageDAO.selectMberListExcept(membershipType);
+		HashMap<String, Object> paramMap = new HashMap<>();
+		paramMap.put("except", true);
+		paramMap.put("membershipType", membershipType);
+		return mberManageDAO.selectMberListSpecificMembership(paramMap);
+	}
+	
+	@Override
+	public List<MberManageVO> selectMberListSpecificMembership(String merbershipType) throws Exception {
+		HashMap<String, Object> paramMap = new HashMap<>();
+		paramMap.put("except", false);
+		paramMap.put("membershipType", merbershipType);
+		return mberManageDAO.selectMberListSpecificMembership(paramMap);
 	}
 	
 	/* 회원 만료일이 지난 회원을 무료 회원으로 전환 */

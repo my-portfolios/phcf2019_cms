@@ -29,13 +29,6 @@ import egovframework.phcf.common.service.CommonService;
 public class CommonMethod {
 	
 	/**
-	 * 메일 전송 시 이메일 유효성 검사를 위한 Regular Expression
-	 * @since 2021-07-01
-	 * @author 김경민
-	 * 
-	 * */
-	public static final String EMAIL_ADDRESS_REGEX = "^[0-9a-zA-Z]([-_\\.0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$";
-	/**
 	 * 날짜 비교
 	 * @param date1
 	 * @param date2
@@ -355,4 +348,38 @@ public class CommonMethod {
         }
         return sb.toString();
     }
+	
+	/*
+	 * img src를 
+	 * 서버 내부에서만 접근할 수 있는 경로에서
+	 * 서버 외부에서도 접근할 수 있도록 바꾼다.
+	 * 
+	 */
+	public static String localImgSrcToGlobal(String content) {
+		StringBuilder sb = new StringBuilder(content);
+		int startIndex = 0;
+	    int endIndex = 0;
+	    while(startIndex < sb.length()){
+	      // img 태그 시작부분
+	      String imgStartStr =  "<img src=\"";
+	      // img 태그 끝부분
+	      String imgEndStr = ">";
+	      
+	      //타겟 String이 시작하는 지점
+	      startIndex = sb.indexOf(imgStartStr, startIndex);
+	      
+	      if(startIndex == -1) break;
+	      
+	      //타겟 String의 바로 다음 지점
+	      startIndex += imgStartStr.length();
+	      
+	      sb.insert(startIndex, EgovProperties.getProperty("Globals.main_url"));
+	      endIndex = sb.indexOf(imgEndStr, startIndex);
+	      	      
+	      startIndex = endIndex + 1;
+	    }
+	    
+	    
+		return sb.toString();
+	}
 }

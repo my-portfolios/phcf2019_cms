@@ -162,9 +162,14 @@ public class MberManageDAO extends EgovComAbstractDAO{
 		return (int) selectOne("mberManageDAO.selectDormantMberCnt", paramMap);
 	}
 	
-	/* 특정 멤버십 타입이 아닌 모든 회원 조회  */
+	/* 특정 멤버십 타입이 아닌 모든 회원 조회  
 	public List<MberManageVO> selectMberListExcept(String membershipType) throws Exception {
 		return selectList("mberManageDAO.selectMberListExcept", membershipType);
+	}*/
+	
+	/* 특정 멤버십 타입이 아닌 모든 회원 조회  */
+	public List<MberManageVO> selectMberListSpecificMembership(Map<String, Object> paramMap) throws Exception {
+		return selectList("mberManageDAO.selectMberListSpecificMembership", paramMap);
 	}
 	
 	/* 유료 회원 만료일이 지난 회원을 무료 회원으로 전환 */

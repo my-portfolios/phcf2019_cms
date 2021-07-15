@@ -542,9 +542,9 @@ FROM(
 			AND MBER_STTUS != 'H'
 			<!-- null check 해주는 것이 더 안정적이다. -->
 		<choose>
-			<when test='toMembership.equals("Y") and toNormal.equals("Y")'> 
+			<when test='(toMembership != null and toMembership.equals("Y")) and (toNormal != null and toNormal.equals("Y"))'> 
 			</when>
-			<when test='toMembership.equals("Y")'>
+			<when test='toMembership != null and toMembership.equals("Y")'>
 				AND MEMBERSHIP_TYPE != 'N'
 			</when>
 			<otherwise>
@@ -564,6 +564,28 @@ FROM(
 		FROM
 			COMTNGNRLMBER
 		WHERE membership_type != #{membershipType}
+    </select>
+    
+    	<!-- 특정 멤버십 타입의 회원을 제외한 회원 목록을 가져온다. -->
+    <select id="selectMberListSpecificMembership" parameterType="java.util.HashMap" resultType="egovframework.com.uss.umt.service.MberManageVO">
+    	
+    	SELECT
+    		MBER_ID mberId,
+    		MBER_EMAIL_ADRES mberEmailAdres,  
+			MEMBERSHIP_TYPE membershipType,
+			MEMBERSHIP_START_DT membershipStartDt,
+			MEMBERSHIP_EXPIRE_DT membershipExpireDt
+		FROM
+			COMTNGNRLMBER
+		WHERE 1 = 1
+		<choose>
+			<when test="except == null or !except">
+			AND membership_type = #{membershipType}
+			</when>
+			<otherwise>
+			AND membership_type != #{membershipType}
+			</otherwise>
+		</choose>
     </select>
     
     <update id="updateMberTypeAfterExpire" parameterType="egovframework.com.uss.umt.service.MberManageVO">
@@ -588,8 +610,7 @@ FROM(
 		WHERE MEMBERSHIP_TYPE != 'N' 
 		<![CDATA[
 		AND DATEDIFF(MEMBERSHIP_EXPIRE_DT, CURDATE()) <= #{daysBefore}
-		AND DATEDIFF(MEMBERSHIP_EXPIRE_DT, CURDATE()) >= '0' 
 		]]>
-		<!-- 		AND DATEDIFF(MEMBERSHIP_EXPIRE_DT, CURDATE()) >= '0' -->
+		<!-- 		AND DATEDIFF(MEMBERSHIP_EXPIRE_DT, CURDATE()) >= '0'  -->
     </select>
 </mapper>

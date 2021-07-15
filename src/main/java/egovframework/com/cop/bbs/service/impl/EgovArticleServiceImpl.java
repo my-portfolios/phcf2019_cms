@@ -208,4 +208,20 @@ public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements E
 		return map;
 	}
 
+	@Override
+	public Map<String, Object> selectArticleListByCateNames(HashMap<String, Object> boardVO) {
+		List<BoardVO> list = egovArticleDao.selectArticleListByCateNames(boardVO);
+
+		int cnt = egovArticleDao.selectArticleListByCateNamesCnt(boardVO);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("resultList", list);
+		map.put("resultCnt", Integer.toString(cnt));
+
+		return map;
+	}
+	
+	
+
 }

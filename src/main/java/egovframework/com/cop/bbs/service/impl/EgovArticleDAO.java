@@ -132,4 +132,12 @@ public class EgovArticleDAO extends EgovComAbstractDAO {
 	public int selectArticleListByCateNameCnt(BoardVO boardVO){
 		return (Integer)selectOne("BBSArticle.selectArticleListByCateNameCnt", boardVO);
 	}
+
+	public List<BoardVO> selectArticleListByCateNames(HashMap<String, Object> boardVO) {
+		return selectList("BBSArticle.selectArticleListByCateNames", boardVO);
+	}
+
+	public int selectArticleListByCateNamesCnt(HashMap<String, Object> boardVO) {
+		return (Integer)selectOne("BBSArticle.selectArticleListByCateNamesCnt", boardVO);
+	}
 }

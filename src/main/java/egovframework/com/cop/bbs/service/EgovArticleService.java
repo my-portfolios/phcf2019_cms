@@ -51,4 +51,7 @@ public interface EgovArticleService {
 	
 	 // category name에 따라 article 선택 
 	Map<String, Object> selectArticleListByCateName(BoardVO boardVO);
+	
+	// category name list에 따라 article 선택 
+	Map<String, Object> selectArticleListByCateNames(HashMap<String, Object> boardVO);
 }

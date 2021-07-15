@@ -169,8 +169,8 @@ public class PerformanceController {
 	 *  -> 메일 전송
 	 * */
 	
-	@RequestMapping(value = "/performance/sendInfo.do")
-	public String sendInfo(@ModelAttribute("boardVO") BoardVO boardVO, ModelMap model) throws Exception {
+	@RequestMapping(value = "/performance/articleInfos.do")
+	public String articleInfos(@ModelAttribute("boardVO") BoardVO boardVO, ModelMap model) throws Exception {
 //		// 미인증 사용자에 대한 보안처리
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {
@@ -180,6 +180,8 @@ public class PerformanceController {
 		}
 		
 		String cateName = "공연";
+		String[] cateNames = {"공연", "전시", "행사"};
+		
 		/** EgovPropertyService */
 		boardVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		boardVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -190,14 +192,25 @@ public class PerformanceController {
 		paginationInfo.setCurrentPageNo(boardVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(boardVO.getPageUnit());
 		paginationInfo.setPageSize(boardVO.getPageSize());
-
-		boardVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		
+		//boardVO 이용
+		/*boardVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		boardVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		boardVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-		boardVO.setCateName(cateName);
+		boardVO.setCateName(cateName);*/
+		
+		//HashMap 이용
+		HashMap<String, Object> boardMap = new HashMap<>();
+		boardMap.put("firstIndex", paginationInfo.getFirstRecordIndex());
+		boardMap.put("lastIndex", paginationInfo.getLastRecordIndex());
+		boardMap.put("recordCountPerPage", paginationInfo.getRecordCountPerPage());
+		boardMap.put("cateList", cateNames);
+		boardMap.put("searchCnd", boardVO.getSearchCnd());
+		boardMap.put("searchWrd", boardVO.getSearchWrd());
 		
 		// performance 조회
-		Map<String, Object> articleListMap = egovArticleService.selectArticleListByCateName(boardVO);
+		Map<String, Object> articleListMap = egovArticleService.selectArticleListByCateNames(boardMap);
+//		Map<String, Object> articleListMap = egovArticleService.selectArticleListByCateName(boardVO);
 		List<BoardVO> articleList = (List<BoardVO>)articleListMap.get("resultList");
 		model.addAttribute("resultList", articleList);
 		
@@ -482,7 +495,7 @@ public class PerformanceController {
 		boolean result = true;
 		// 여러 명에게 메일을 보낼 경우 결과를 일일이 다 확인할 수 없다. => boolean arr를 만들어서 반영할까?
 		if (result) {
-			return "redirect:/performance/sendInfo.do";
+			return "redirect:/performance/articleInfos.do";
 			
 		} else {
 			return "egovframework/com/cmm/error/egovError";
@@ -509,7 +522,7 @@ public class PerformanceController {
 		String cid = email.embed(uFile);
 		System.out.println("cid===" + cid);
 		
-		return "redirect:/performance/sendInfo.do";
+		return "redirect:/performance/articleInfos.do";
 		
 	}
 	

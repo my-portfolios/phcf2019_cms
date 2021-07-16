@@ -17,8 +17,11 @@
 			PAY_PRICE,
 			SEND_SMS,
 			SEND_MAIL,
+			SEND_POST,
 			RESULT,
 			CHECK_YN,
+			B.MEMBERSHIP_START_DT,
+			B.MEMBERSHIP_EXPIRE_DT,
 			DATE_FORMAT(CREATE_DT,'%Y/%m/%d %H:%i:%s') AS CREATE_DT,
 			DATE_FORMAT(UPDATE_DT,'%Y/%m/%d %H:%i:%s') AS UPDATE_DT
 		FROM
@@ -70,7 +73,7 @@
 	<select id="selectMembershipList" resultType="egovMap">
 		/* premiumMember.selectMembershipList */
 		SELECT 
-			userNo, userId, userNm, preType, payPrice, sendSms, sendMail, createDt, updateDt, startDt, expireDt, checkYn, result, mberSttus
+			userNo, userId, userNm, preType, payPrice, sendSms, sendMail, sendPost, createDt, updateDt, startDt, expireDt, checkYn, result, mberSttus
 		FROM (
 		SELECT
 			SEQ			userNo,  
@@ -80,6 +83,7 @@
 			PAY_PRICE	payPrice,
 			SEND_SMS		sendSms,
 			SEND_MAIL	sendMail,
+			SEND_POST 	sendPost,
 			DATE_FORMAT(CREATE_DT,'%Y/%m/%d %H:%i:%s')	createDt,
 			DATE_FORMAT(UPDATE_DT,'%Y/%m/%d %H:%i:%s')	updateDt,
 			B.MEMBERSHIP_START_DT	startDt,

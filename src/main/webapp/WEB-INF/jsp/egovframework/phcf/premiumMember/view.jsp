@@ -105,10 +105,11 @@
 					 	{name: 	'PAY_PRICE', 	title: '금액', 	type: 'text', 	editing: false,  align: "center"},
 					 	{name: 	'SEND_SMS', title: '문자 수신', 	type: 'select', items: ynCode, editing: false,valueType: "string",valueField: "Id", textField: "Name", align: "center"},
 					 	{name: 	'SEND_MAIL', title: '메일 수신', 	type: 'select', items: ynCode, editing: false,valueType: "string",valueField: "Id", textField: "Name", align: "center"},
+					 	{name: 	'SEND_POST', title: '우편물 수신', 	type: 'select', items: ynCode, editing: false,valueType: "string",valueField: "Id", textField: "Name", align: "center"},
 					 	{name: 	'CREATE_DT', 	title: '신청 일시', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'UPDATE_DT', 	title: '수정 일시', 	type: 'text', 	editing: false,  align: "center"},
 					 	{name: 	'MEMBERSHIP_START_DT', 	title: '시작 일', 	type: 'text', 	editing: false, align: "center"},
-					 	{name: 	'MEMBERSHIP_END_DT', 	title: '종료 일', 	type: 'text', 	editing: false, align: "center"},
+					 	{name: 	'MEMBERSHIP_EXPIRE_DT', 	title: '종료 일', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'RESULT', title: '상태', 	type: 'select', items: resultCode, readOnly: false,valueType: "string",valueField: "Id", textField: "Name", editing: true, align: "center"},
 					 	/* {name: 	'CHECK_YN', 	title: '관리자 확인 여부', 	type: 'select', editing: false, items: checkCode, valueType: "string",valueField: "Id", textField: "Name",  align: "center"}, */
 					 	{type: 'control', editButton: true, deleteButton: false, updateButtonTooltip: "수정",cancelEditButtonTooltip: "취소"}
@@ -145,6 +146,7 @@
 							else if(jsonId == "PRE_TYPE"){jsonText = codeToString(premiumCode, jsonText);}
 							else if(jsonId == "SEND_SMS"){jsonText = codeToString(ynCode, jsonText);}
 							else if(jsonId == "SEND_MAIL"){jsonText = codeToString(ynCode, jsonText);}
+							else if(jsonId == "SEND_POST"){jsonText = codeToString(ynCode, jsonText);}
 							else if(jsonId == "CHECK_YN"){jsonText = codeToString(checkCode, jsonText);}
 							
 							if(jsonId != "closebtn"){
@@ -252,6 +254,10 @@
 				
 				<th>메일 수신</th>
 				<td id="SEND_MAIL"></td>
+			</tr>
+			<tr>
+				<th>우편물 수신</th>
+				<td id="SEND_POST"></td>
 			</tr>	
 			<tr>
 				<th>상태</th>

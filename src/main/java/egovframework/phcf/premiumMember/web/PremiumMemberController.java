@@ -86,23 +86,18 @@ public class PremiumMemberController {
 
 		int payListCnt = service.selectMembershipRegListCnt(paramMap);
 		List<HashMap<String, Object>> payList = service.selectMembershipRegList(paramMap);
-		
 		for(HashMap<String, Object> pay : payList) {
 			MberManageVO mberManageVO = egovMberManageService.selectMberWithId(pay.get("MEM_ID").toString());
 			if(mberManageVO != null) {  
 //				pay.put("MEM_NM", mberManageVO.getMberNm());
-				if(pay.get("RESULT").toString().equals("Y") && mberManageVO.getMembershipStartDt() != null) {
-					pay.put("MEMBERSHIP_START_DT", mberManageVO.getMembershipStartDt());
-					pay.put("MEMBERSHIP_END_DT", mberManageVO.getMembershipExpireDt());
-//							, CommonMethod.calcDate(mberManageVO.getMembershipStartDt()
-//									, Calendar.YEAR, getMembershipDurationYear(pay.get("PRE_TYPE").toString())
-//									, "yyyy-MM-dd"));
+				if(!pay.get("RESULT").toString().equals("Y") || mberManageVO.getMembershipStartDt() == null) {
+					pay.remove("MEMBERSHIP_START_DT");
+					pay.remove("MEMBERSHIP_EXPIRE_DT");
 				}
 			} else {
 				pay.put("MBER_NM", "회원정보없음");
 			}
 		}
-		
 		String payListJson = JsonUtil.getJsonArrayFromList(payList).toString();
 		
 		model.addAttribute("payListCnt",payListCnt);
@@ -139,40 +134,9 @@ public class PremiumMemberController {
 		return mav;
 	}
 	
-	/*@RequestMapping(value = "/premiumMember/testPage.do")
-	public ModelAndView rqRsTest() {
-		ModelAndView mav = new ModelAndView("/egovframework/phcf/premiumMember/test_view");
-		
-		return mav;
-	}*/
-	
-	
-	
-	/*@RequestMapping(value = "/premiumMember/test.do", method=RequestMethod.POST)
-	public ModelAndView tklink(ModelMap model, @RequestParam HashMap<String, Object> paramMap) {
-		ModelAndView mav = new ModelAndView("jsonView");
-		System.out.println("here !!!1");
-		HashMap<String, Object> responseMap = new HashMap<>();
-		MberManageVO user_info = egovMberManageService.selectMberWithId(paramMap.get("test_id").toString());
-		
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("mBerId", user_info.getMberId());
-		map.put("mBerNm", user_info.getMberNm());
-		map.put("mberEmailAdres", user_info.getMberEmailAdres());
-		map.put("mBerId", user_info.getMberEmailAdres());
-		map.put("membershipType", user_info.getMembershipType());
-		
-		mav.addObject("user_info", map);
-		responseMap.put("user_info", map);
-		return mav;
-	}*/
-	
 	@RequestMapping(value = "/premiumMember/exportExcelMberList.do")
 	public void exportExcelMberList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 어떤 VO를 사용해야하는가? : userSearchVO  
-		// Service 객체는 어떤 것을 사용해야하는가? : private PremiumMemberService service;
 		
-		 
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 
@@ -180,12 +144,11 @@ public class PremiumMemberController {
 			CommonMethod.generalAlertThrowing("/", "", "권한이 없습니다.");
 		}
 		
-		
-		UserDefaultVO userSearchVO = new UserDefaultVO(); 
-		userSearchVO.setLastIndex(-1);
-		userSearchVO.setRecordCountPerPage(-1);
-		List<?> mberList = service.selectMembershipList(userSearchVO);
-		
+//		UserDefaultVO userSearchVO = new UserDefaultVO(); 
+//		userSearchVO.setLastIndex(-1);
+//		userSearchVO.setRecordCountPerPage(-1);
+//		List<?> mberList = service.selectMembershipList(userSearchVO);
+		List<HashMap<String, Object >> regList = service.selectMembershipRegList(new HashMap<String, String>());
 		
 		
 		//멤버십 여부, 멤버십 종류를 위한 코드인듯.
@@ -223,7 +186,6 @@ public class PremiumMemberController {
 		headMap.put(text, "멤버십 유형"); headMap.put(value, "preType");		
 		headList.add(headMap);
 		
-		
 		headMap = new HashMap<>();
 		headMap.put(text, "금액"); headMap.put(value, "payPrice");		
 		headList.add(headMap);
@@ -234,6 +196,10 @@ public class PremiumMemberController {
 		
 		headMap = new HashMap<>();
 		headMap.put(text, "메일 수신 여부"); headMap.put(value, "sendMail");		
+		headList.add(headMap);
+		
+		headMap = new HashMap<>();
+		headMap.put(text, "우편물 수신 여부"); headMap.put(value, "sendPost");		
 		headList.add(headMap);
 		
 		headMap = new HashMap<>();
@@ -248,7 +214,6 @@ public class PremiumMemberController {
 		headMap.put(text, "멤버십 시작일"); headMap.put(value, "startDt");		
 		headList.add(headMap);
 		
-		// 멤버십 종료일은 DB에 없다.
 		headMap = new HashMap<>();
 		headMap.put(text, "멤버십 종료일"); headMap.put(value, "expireDt");		
 		headList.add(headMap);
@@ -265,50 +230,53 @@ public class PremiumMemberController {
 		adminApprovalMap.put("Y", "승인");
 		adminApprovalMap.put("N", "반려");
 		
+		List<Map<String, Object>> valueList = getValueList(regList, adminApprovalMap);
+		
+		
+		ExcelUtil excelUtil = new ExcelUtil();
+		excelUtil.exportExcel(request, response, headList, valueList);
+
+	}
+	
+	private List<Map<String, Object>> getValueList(List<HashMap<String, Object >> regList, Map<String, String> adminApprovalMap) throws Exception {
 		List<Map<String, Object>> valueList = new ArrayList<>();
-		for(int i=0;i<mberList.size();i++) {
-			//EgovMap : Map 형태이다.
-			EgovMap vo = (EgovMap)mberList.get(i);
+		for(int i=0;i<regList.size();i++) {
+			HashMap<String, Object> vo = regList.get(i);
 			Map<String, Object> valueMap = new HashMap<>();
 //			if(vo.get("mberSttus") == null || !vo.get("mberSttus").equals("P")) { continue; }
 			
+			valueMap.put("userNm", vo.get("MBER_NM"));
+			valueMap.put("userId", vo.get("MEM_ID"));
+			valueMap.put("preType", getPreType(vo.get("PRE_TYPE")));
+			valueMap.put("payPrice", vo.get("PAY_PRICE"));
+			valueMap.put("sendSms", CommonMethod.stringConvert(vo.get("SEND_SMS"), "N").equals("Y") ? "예" : "아니오");
+			valueMap.put("sendMail", CommonMethod.stringConvert(vo.get("SEND_MAIL"), "N").equals("Y") ? "예" : "아니오");
+			valueMap.put("sendPost", CommonMethod.stringConvert(vo.get("SEND_POST"), "N").equals("Y") ? "예" : "아니오");
+			valueMap.put("createDt", vo.get("CREATE_DT"));
+			valueMap.put("updateDt", vo.get("UPDATE_DT"));
 			
-			valueMap.put("userNm", vo.get("userNm"));
-			valueMap.put("userId", vo.get("userId"));
-			valueMap.put("preType", getPreType(vo.get("preType")));
-			valueMap.put("payPrice", vo.get("payPrice"));
-			valueMap.put("sendSms", CommonMethod.stringConvert(vo.get("sendSms"), "N").equals("Y") ? "예" : "아니오");
-			valueMap.put("sendMail", CommonMethod.stringConvert(vo.get("sendMail"), "N").equals("Y") ? "예" : "아니오");
-			valueMap.put("createDt", vo.get("createDt"));
-			valueMap.put("updateDt", vo.get("updateDt"));
-			
-			String result = adminApprovalMap.get(CommonMethod.stringConvert(vo.get("result"), ""));
+			String result = adminApprovalMap.get(CommonMethod.stringConvert(vo.get("RESULT"), ""));
 			valueMap.put("result", result);
 			
 			//회원 상태가 '접수 취소'가 아닐 때만 시작일, 종료일을 기록한다.
 			if(!result.equals(adminApprovalMap.get("C"))) {
 				// startDt는 멤버십 시작일이다.
-				Date startDt = (Date) vo.get("startDt");
+				Date startDt = (Date) vo.get("MEMBERSHIP_START_DT");
 				
 				if(startDt != null) {
-					valueMap.put("startDt", vo.get("startDt"));
+					valueMap.put("startDt", vo.get("MEMBERSHIP_START_DT"));
 					
 			        // expireDt는 멤버십 만료일이다.
 			        //valueMap.put("expireDt", getExpireDt(CommonMethod.dateToString(startDt, "yyyy-MM-dd"), (String)vo.get("preType")));
-			        valueMap.put("expireDt", vo.get("expireDt"));
+			        valueMap.put("expireDt", vo.get("MEMBERSHIP_EXPIRE_DT"));
 
 				}
 			}
 			
-			
-
-			
-			
 			valueList.add(valueMap);
 		}
 		
-		ExcelUtil excelUtil = new ExcelUtil();
-		excelUtil.exportExcel(request, response, headList, valueList);
+		return valueList;
 	}
 	
 	private int getMembershipDurationYear(String membershipType) throws Exception {

@@ -9,6 +9,7 @@
 			SEQ,
 			MEM_ID,
 			B.MBER_NM,
+			B.MEMBERSHIP_TYPE,
 			BIRTH_DATE,
 			ADDRESS1,
 			ADDRESS2,

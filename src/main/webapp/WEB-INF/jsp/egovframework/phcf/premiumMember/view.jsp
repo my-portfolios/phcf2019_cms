@@ -21,7 +21,7 @@
 				 			{Name : "승인", Id: "Y"},
 				 			{Name : "반려", Id: "N"}];
 			var checkCode = [{Name: "승인 대기", Id: "N"},{Name: "승인 완료", Id: "Y"}];
-			var premiumCode = [{Name: "프리미엄회원", Id: "P"},{Name: "일반회원", Id: "B"}, {Name: "멤버십회원", Id: "M"}];
+			var premiumCode = [{Name: "프리미엄회원", Id: "P"},{Name: "일반회원", Id: "B"}, {Name: "멤버십회원", Id: "M"}, {Name: "무료회원", Id: "N"}];
 			var ynCode = [{Name: "예", Id: "Y"},{Name: "아니오", Id: "N"}];
 			var jsonString;
 			
@@ -100,7 +100,8 @@
 						{name: 	'SEQ', 	title: '번호', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'MEM_ID', 	title: '회원 아이디', 	type: 'text', 	editing: false, align: "center"},
 					 	{name: 	'MBER_NM', 	title: '회원 명', 	type: 'text', 	editing: false, align: "center"},
-					 	{name: 	'PRE_TYPE', 	title: '멤버십 회원 유형', 	type: 'select', editing: false, items: premiumCode, valueType: "string",valueField: "Id", textField: "Name", align: "center"},
+// 					 	{name: 	'MEMBERSHIP_TYPE', 	title: '현재 회원 유형', 	type: 'select', editing: false, items: premiumCode, valueType: "string", valueField: "Id", textField: "Name", align: "center"},
+					 	{name: 	'PRE_TYPE', 	title: '멤버십 회원 유형', 	type: 'select', editing: false, items: premiumCode, valueType: "string", valueField: "Id", textField: "Name", align: "center"},
 					 	{name: 	'PAY_PRICE', 	title: '금액', 	type: 'text', 	editing: false,  align: "center"},
 					 	{name: 	'SEND_SMS', title: '문자 수신', 	type: 'select', items: ynCode, editing: false,valueType: "string",valueField: "Id", textField: "Name", align: "center"},
 					 	{name: 	'SEND_MAIL', title: '메일 수신', 	type: 'select', items: ynCode, editing: false,valueType: "string",valueField: "Id", textField: "Name", align: "center"},

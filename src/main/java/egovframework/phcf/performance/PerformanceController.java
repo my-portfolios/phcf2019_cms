@@ -379,45 +379,7 @@ public class PerformanceController {
 		sndngMailVO.setDsptchPerson(user.getId());
 		//첨부 파일 처리
 		sndngMailVO = attachFile(sndngMailVO, _atchFileId, orignlFileList);
-		//첨부 파일 처리
-		/*if (sndngMailVO != null) { // 첨부파일이 있든 없든 항상 실행됨.
-			FileVO fileVo = new FileVO();
-			//첨부 파일이 없을 때
-			sndngMailVO.setDsptchPerson(user.getId());
-			if(_atchFileId == null || _atchFileId.equals("")) {
-				// 게시물의 원래 파일이 없을 때
-				if (sndngMailVO.getAtchFileId() == null || sndngMailVO.getAtchFileId().equals("")) {
-					sndngMailVO.setAtchFileId(_atchFileId);
-					// 한긒 파일명 깨짐 방지
-					sndngMailVO.setOrignlFileNm(strDecode(orignlFileList, "UTF-8", "8859_1"));
-//					sndngMailVO.setOrignlFileNm(orignlFileList);
-				}
-				// 게시물의 원래 파일이 있을 때
-				else {
-					fileVo.setAtchFileId(sndngMailVO.getAtchFileId());
-					fileVo.setFileSn("0");
-					fileVo = fileMngService.selectFileInf(fileVo);
-					
-					// 한긒 파일명 깨짐 방지
-					sndngMailVO.setOrignlFileNm(strDecode(fileVo.getOrignlFileNm(), "UTF-8", "8859_1"));
-//					sndngMailVO.setOrignlFileNm(fileVo.getOrignlFileNm());
-				}
-			}
-			//첨부 파일이 있을 때
-			else {
-				sndngMailVO.setAtchFileId(_atchFileId);
-				// 한긒 파일명 깨짐 방지
-				sndngMailVO.setOrignlFileNm(strDecode(orignlFileList, "UTF-8", "8859_1"));
-//				sndngMailVO.setOrignlFileNm(orignlFileList);
-			}
-		}*/
 		
-		// 자동으로 파일 첨부해주는 기능을 없애려면 하려면 이것을 주석 해제하고 위의 코드를 없애면 된다.
-		/*if (sndngMailVO != null) {
-			sndngMailVO.setAtchFileId(_atchFileId);
-			sndngMailVO.setDsptchPerson(user.getId());
-			sndngMailVO.setOrignlFileNm(orignlFileList);
-		}*/
 		
 		// 메일 제목 설정
 		sndngMailVO.setSj(sndngMailVO.getSj());
@@ -566,7 +528,7 @@ public class PerformanceController {
 					}
 				}*/
 				
-				// 자동으로 파일 첨부해주는 기능을 없애려면 하려면 이것을 주석 해제하고 위의 코드를 없애면 된다.
+				// 자동으로 파일 첨부해주는 기능을 없애려면 하려면 이것을 주석 해제
 				if (sndngMailVO != null) {
 					sndngMailVO.setAtchFileId(attachedFileId);
 //					sndngMailVO.setDsptchPerson(dispatchId);

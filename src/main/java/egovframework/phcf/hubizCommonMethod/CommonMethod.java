@@ -356,13 +356,15 @@ public class CommonMethod {
 	 * 
 	 */
 	public static String localImgSrcToGlobal(String content) {
-		StringBuilder sb = new StringBuilder(content);
+		
+		
+		/*StringBuilder sb = new StringBuilder(content);
 		int startIndex = 0;
 	    int endIndex = 0;
 	    while(startIndex < sb.length()){
-	      // img 태그 시작부분
+	      
 	      String imgStartStr =  "<img src=\"";
-	      // img 태그 끝부분
+	      
 	      String imgEndStr = ">";
 	      
 	      //타겟 String이 시작하는 지점
@@ -378,8 +380,9 @@ public class CommonMethod {
 	      	      
 	      startIndex = endIndex + 1;
 	    }
+//		return sb.toString();*/
 	    
-	    
-		return sb.toString();
+//	    return content.replaceAll("<img.*src=\\\"\\/upload.*>", "<img src=\""+ EgovProperties.getProperty("Globals.main_url") +"/upload");
+		return content.replace("<img src=\"/upload", "<img src=\""+ EgovProperties.getProperty("Globals.main_url") +"/upload");
 	}
 }

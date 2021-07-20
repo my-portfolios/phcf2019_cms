@@ -129,14 +129,12 @@ function fileCheck() {
 		<tr>
 			<th>${title} </th>
 			<td class="nopd">
-		      	<div>
-		      		<p>게시물에 등록된 파일이 있을 경우 자동으로 메일에 첨부됩니다. 새롭게 파일을 첨부하면 첨부된 파일로 대체됩니다. </p>
-		      	 </div>
+		      	
 			      <table>
 				    <tr>
 				      <td width="600"><input name="file_1" id="egovComFileUploader" type="file" tabindex="3" 
 				      onchange="this.select(); document.getElementById('egovComFileUploader').value=document.selection.createRange().text.toString();"
-				       title="${title} ${inputTxt}" accept=".jpg, .png"/></td>
+				       title="${title} ${inputTxt}" accept="image/*"/></td>
 				    </tr>
 				    <tr>
 				      <td width="600">
@@ -149,12 +147,14 @@ function fileCheck() {
 		<!-- 발신내용 -->
 		<c:set var="title"><spring:message code="comCopSymEms.regist.content"/></c:set>
 		<tr>
-			<th>${title} </th>
+			<th>${title} 
+			</th>
 			<td class="nopd">
 				<c:import url="/smarteditor/SmartEditor2.jsp" >
 <%-- 					<c:param name="resultInfo" value="1234" /> --%>
 				</c:import>
 <%-- 				<textarea id="emailCn" name="emailCn" cols="75" rows="25" tabindex="4" title="${title} ${inputTxt}" />${resultInfo.emailCn}</textarea> --%>
+						<p>사진 너비가 600px이 넘으면 템플릿 너비를 초과할 수 있습니다.</p>
 			</td>
 		</tr>
 	</tbody>

@@ -34,6 +34,7 @@ import egovframework.phcf.premiumMember.service.PremiumMemberService;
 import egovframework.phcf.util.DateUtil;
 import egovframework.phcf.util.ExcelUtil;
 import egovframework.phcf.util.JsonUtil;
+import egovframework.phcf.util.PremiumUtil;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 
@@ -117,8 +118,9 @@ public class PremiumMemberController {
 		hashMap.put("TYPE", payList.get(0).get("PRE_TYPE").toString());
 		hashMap.put("ID", payList.get(0).get("MEM_ID").toString());
 		hashMap.put("membershipDurationYear", String.valueOf(
-				getMembershipDurationYear(
-						payList.get(0).get("PRE_TYPE").toString())));
+				PremiumUtil.getMembershipDurationYear(
+						payList.get(0).get("PRE_TYPE").toString(),
+						cmmUseService)));
 		
 		String result = payList.get(0).get("RESULT").toString();
 		hashMap.put("RESULT", result);
@@ -279,7 +281,7 @@ public class PremiumMemberController {
 		return valueList;
 	}
 	
-	private int getMembershipDurationYear(String membershipType) throws Exception {
+	/*private int getMembershipDurationYear(String membershipType) throws Exception {
 //		MberManageVO mberManageVO = egovMberManageService.selectMberWithId(membershipType);
 //		String membershipType = mberManageVO.getMembershipType();
 		// 															맴버십 유효기간을 나타내는 코드
@@ -289,7 +291,7 @@ public class PremiumMemberController {
 		
 		return membershipType.equals("M") ? Integer.parseInt(codeVOList.get(1).getCodeNm()) 
 				: Integer.parseInt(codeVOList.get(0).getCodeNm());
-	}
+	}*/
 	
 	// 쓰지 않음
 	private String getExpireDt(String startDt, String membershipType) throws Exception {
@@ -297,7 +299,7 @@ public class PremiumMemberController {
 		Calendar cal = Calendar.getInstance();
         cal.setTime(startDate);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        cal.add(Calendar.YEAR, getMembershipDurationYear(membershipType));
+        cal.add(Calendar.YEAR, PremiumUtil.getMembershipDurationYear(membershipType, cmmUseService));
 		return df.format(cal.getTime());
 	}
 	

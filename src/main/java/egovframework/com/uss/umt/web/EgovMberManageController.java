@@ -263,6 +263,9 @@ public class EgovMberManageController {
 		//사용자상태코드를 코드정보로부터 조회
 		vo.setCodeId("COM013");
 		List<?> mberSttus_result = cmmUseService.selectCmmCodeDetail(vo);
+		
+		vo.setCodeId("PHC010");
+		List<CmmnDetailCode> membershipType_result = cmmUseService.selectCmmCodeDetail(vo);
 
 		//그룹정보를 조회 - GROUP_ID정보
 		vo.setTableNm("COMTNORGNZTINFO");
@@ -278,6 +281,7 @@ public class EgovMberManageController {
 		model.addAttribute("sexdstnCode_result", sexdstnCode_result); //성별구분코드목록
 		model.addAttribute("mberSttus_result", mberSttus_result); //사용자상태코드목록
 		model.addAttribute("groupId_result", reGroupId_result); //그룹정보 목록
+		model.addAttribute("membershipType_result", membershipType_result); //유료멤버십 등급 코드 목록
 
 		MberManageVO mberManageVO = mberManageService.selectMber(mberId);
 		model.addAttribute("mberManageVO", mberManageVO);

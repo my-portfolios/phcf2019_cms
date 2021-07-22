@@ -93,8 +93,44 @@ $(function(){
 	         , changeYear: true  // 년선택 selectbox 표시 (기본은 false)
 	         , showButtonPanel: true // 하단 today, done  버튼기능 추가 표시 (기본은 false)
 	});
+	
+	$("#membershipExpireDt").datepicker( 
+	        {dateFormat:'yy-mm-dd'
+	         , showOn: 'button'
+	         , buttonImage: '<c:url value='/images/egovframework/com/cmm/icon/bu_icon_carlendar.gif'/>'  
+	         , buttonImageOnly: true
+	         
+	         , showMonthAfterYear: true
+	         , showOtherMonths: true
+		     , selectOtherMonths: true
+				
+	         , changeMonth: true // 월선택 select box 표시 (기본은 false)
+	         , changeYear: true  // 년선택 selectbox 표시 (기본은 false)
+	         , showButtonPanel: true // 하단 today, done  버튼기능 추가 표시 (기본은 false)
+	});
+	
+});
 
-        });
+function updateExpireDt(){
+	let mType = $("#membershipType");
+	
+	let mbershipDuration = 2;
+	
+	if(mType.val() == 'M')
+		mbershipDuration = 2;
+	else if(mType.val() == 'N')
+		mbershipDuration = 0;
+	else
+		mbershipDuration = 1;
+	
+	let startDt = new Date($("#membershipStartDt").val());
+	let expireDt = startDt;
+	
+	expireDt.setFullYear(startDt.getFullYear() + mbershipDuration);
+
+	$("#membershipExpireDt").datepicker("setDate", expireDt);
+	
+}
 </script>
 </head>
 <body>
@@ -224,25 +260,31 @@ $(function(){
                     <div><form:errors path="mberEmailAdres" cssClass="error" /></div>
 			</td>
 		</tr>
-		
+		<!-- 유료멤버십 정보 -->
 		<tr id="membershipTypeTr">
 			<th>유료멤버십 등급</th>
 			<td class="left">
 				<form:select path="membershipType" id="membershipType">
 					<form:option value="N" label="기본회원(유료멤버십 ×)"/>
-					<form:option value="B" label="일반회원"/>
-					<form:option value="P" label="프리미엄회원"/>
-					<form:option value="M" label="멤버십회원"/>
+<%-- 					<form:option value="B" label="일반회원"/> --%>
+<%-- 					<form:option value="P" label="프리미엄회원"/> --%>
+<%-- 					<form:option value="M" label="멤버십회원"/> --%>
+					<form:options items="${membershipType_result}" itemValue="code" itemLabel="codeNm"/>
 				</form:select>
 			</td>
 		</tr>
 		<tr id="membershipTypeTr">
 			<th>유료멤버십 가입일</th>
 			<td class="left">
-				<form:input path="membershipStartDt" id="membershipStartDt"/>
+				<form:input path="membershipStartDt" id="membershipStartDt" onchange="updateExpireDt();"/>
 			</td>
 		</tr>
-		
+		<tr id="membershipTypeTr">
+			<th>유료멤버십 만료일</th>
+			<td class="left">
+				<form:input path="membershipExpireDt" id="membershipExpireDt"/>
+			</td>
+		</tr>
 		
 		
 		<!-- 아래는 사용하지 않음  -->

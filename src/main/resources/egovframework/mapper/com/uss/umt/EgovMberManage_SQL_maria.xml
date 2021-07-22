@@ -176,6 +176,7 @@ FROM(
                 LOCK_AT          lockAt,
                 MEMBERSHIP_TYPE		 membershipType,
         		MEMBERSHIP_START_DT	membershipStartDt,
+        		MEMBERSHIP_EXPIRE_DT membershipExpireDt,
         		send_mail_yn		sendMailYn,
         		ci				ci,
         		di				di
@@ -242,7 +243,8 @@ FROM(
                 MBER_EMAIL_ADRES = #{mberEmailAdres},
                 MIDDLE_TELNO     = #{middleTelno},
                 MEMBERSHIP_TYPE = #{membershipType},
-        		MEMBERSHIP_START_DT	= #{membershipStartDt}
+        		MEMBERSHIP_START_DT	= #{membershipStartDt},
+        		MEMBERSHIP_EXPIRE_DT	= #{membershipExpireDt}
             WHERE ESNTL_ID=#{uniqId}
         
     </update>

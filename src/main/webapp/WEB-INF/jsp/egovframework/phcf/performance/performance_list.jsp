@@ -97,6 +97,20 @@ function fnSelectArticle(id) {
     document.listForm.action = "<c:url value='/performance/writeMail.do'/>";
     document.listForm.submit();
 }
+
+function fnSelectArticleForMessage(id) {
+	document.listForm.selectedId.value = id;
+	array = id.split(":");
+	if(array[0] == "") {
+	} else {
+	    bbsId = array[0];
+	    nttId = array[1];    
+	} 
+	document.listForm.bbsId.value = bbsId;
+	document.listForm.selectedId.value = nttId;
+    document.listForm.action = "<c:url value='/performance/writeMessage.do'/>";
+    document.listForm.submit();
+}
 //사용하지 않음.
 function fnAddUserView() {
     document.listForm.action = "<c:url value='/uss/umt/EgovMberInsertView.do'/>";
@@ -222,7 +236,8 @@ function fnSearch(){
 		onclick="javascript:fnSelectArticle('<c:out value="${result.bbsId}" />:<c:out value="${result.nttId}"/>'); return false;">메일 발송</a></td>
 		
 		<!-- 문자 발송 -->
-		<td><a href="<c:url value='/performance/sendMail.do'/>?selectedId=<c:out value="${result.nttId}"/>" >문자 발송</a></td>
+		<td><a href="<c:url value='/performance/writeMessage.do'/>?selectedId=<c:out value="${result.nttId}"/>" 
+		onclick="javascript:fnSelectArticleForMessage('<c:out value="${result.bbsId}" />:<c:out value="${result.nttId}"/>'); return false;">문자 발송</a></td>
 	</tr>
 	</c:forEach>
 	</tbody>

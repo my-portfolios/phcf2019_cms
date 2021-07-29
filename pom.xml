@@ -608,7 +608,13 @@
 	        <scope>system</scope>
 	        <systemPath>${webapp.lib}/taglibs-standard-spec-1.2.5.jar</systemPath>
 	    </dependency>
-
+		
+		<!-- 팝빌(링크허브) 문자 서비스 이용-->
+		<dependency>
+		    <groupId>kr.co.linkhub</groupId>
+		    <artifactId>popbill-sdk</artifactId>
+		    <version>1.36.0</version>
+		</dependency>
     </dependencies>
     <build>
         <defaultGoal>install</defaultGoal>

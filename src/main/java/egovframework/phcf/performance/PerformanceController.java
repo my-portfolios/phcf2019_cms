@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.mail.HtmlEmail;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.popbill.api.MessageService;
+
 
 import egovframework.com.cmm.ComDefaultCodeVO;
 import egovframework.com.cmm.LoginVO;
@@ -78,6 +83,9 @@ public class PerformanceController {
 	/** mberManageService */
 	@Resource(name = "mberManageService")
 	private EgovMberManageService mberManageService;
+	
+	@Autowired
+    private MessageService messageService;
 	
 	
 	private String emailRegex = EgovProperties.getProperty("emailAddress.Regex.javaString");
@@ -232,8 +240,8 @@ public class PerformanceController {
 	
 	//메일 작성 폼에 들어가기 전 처리
 	
-	@RequestMapping(value = "/performance/writeMail.do")
-	public ModelAndView sendMail(/*@ModelAttribute("sndngMailVO") SndngMailVO sndngMailVO,*/ HttpServletRequest request, @RequestParam("selectedId") String nttId) throws Exception {
+	@RequestMapping(value = "/performance/writeMail.do", method=RequestMethod.POST)
+	public ModelAndView writeMail(/*@ModelAttribute("sndngMailVO") SndngMailVO sndngMailVO,*/ HttpServletRequest request, @RequestParam("selectedId") String nttId) throws Exception {
 //	public ModelAndView sendMail(final MultipartHttpServletRequest multiRequest, @RequestParam("selectedId") String nttId, @ModelAttribute("boardVO") BoardVO boardVO, ModelMap model, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("egovframework/phcf/performance/mailRegist");
 		
@@ -298,7 +306,7 @@ public class PerformanceController {
 	 * @return String
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/performance/insertSndngMail.do")
+	@RequestMapping(value = "/performance/insertSndngMail.do", method=RequestMethod.POST)
 	public String insertSndngMail(final MultipartHttpServletRequest multiRequest, @ModelAttribute("sndngMailVO") SndngMailVO sndngMailVO, ModelMap model, HttpServletRequest request)
 			throws Exception {
 		
@@ -367,7 +375,7 @@ public class PerformanceController {
 			_atchFileId = fileMngService.insertFileInfs(_result); //파일이 생성되고나면 생성된 첨부파일 ID를 리턴한다.
 
 		}
-		
+		System.out.println("_result===" + _result);
 		System.out.println("_atchFileId2===" +_atchFileId);
 		String orignlFileList = ""; //첨부 파일이 최대 한 개이므로 파일 이름이 한 가지이다.
 		
@@ -375,8 +383,13 @@ public class PerformanceController {
 			FileVO fileVO = _result.get(i);
 			orignlFileList = fileVO.getOrignlFileNm();
 		}
-		
-		sndngMailVO.setDsptchPerson(user.getId());
+		if (sndngMailVO != null) {
+			sndngMailVO.setDsptchPerson(user.getId());
+		}
+		else {
+			sndngMailVO  = new SndngMailVO();
+			sndngMailVO.setDsptchPerson(user.getId());
+		}
 		//첨부 파일 처리
 		sndngMailVO = attachFile(sndngMailVO, _atchFileId, orignlFileList);
 		
@@ -447,7 +460,7 @@ public class PerformanceController {
 		// 테스트할 때의 코드
 		List<String> mailAddresses =  new ArrayList<>();
 		mailAddresses.add("hkimkm1@hubizict.com");
-//		mailAddresses.add("hkkyoungmin@gmail.com");
+		mailAddresses.add("hkkyoungmin@gmail.com");
 		for(String address : mailAddresses) {
 			sndngMailVO.setRecptnPerson(address);
 			// 메일 등록 및 발송
@@ -464,12 +477,35 @@ public class PerformanceController {
 		}
 	}
 	
-	
+	@RequestMapping(value = "/performance/writeMessage.do", method=RequestMethod.POST)
+	public ModelAndView writeMessage(@RequestParam HashMap<String, Object> paramMap, HttpServletRequest request, @RequestParam("selectedId") String nttId) {
+		ModelAndView mav = new ModelAndView("egovframework/phcf/performance/writeMessage");
+//		ModelAndView mav = new ModelAndView("egovframework/com/cop/sms/EgovSmsInfoRegist");
+		String sjPrefix = "[포항문화재단] ";
+		System.out.println("sms paramMap====" + paramMap);
+		System.out.println("sms nttId===" + nttId);
+		System.out.println("request parameter selectedId==" + request.getParameter("selectedId"));
+		
+		String bbsId = request.getParameter("bbsId");
+		
+		BoardVO searchBoardVO = new BoardVO();
+		
+		searchBoardVO.setBbsId(bbsId);
+		searchBoardVO.setNttId(Long.valueOf(nttId));
+		
+		// article 선택
+		BoardVO article = egovArticleService.selectArticleDetail(searchBoardVO);
+		
+		
+		
+		
+		return mav;
+	}
 	
 	@RequestMapping(value = "/performance/test.do")
 	public String test(ModelMap model, HttpServletRequest request)
 			throws Exception{
-		FileVO fileVO = new FileVO();
+		/*FileVO fileVO = new FileVO();
 		fileVO.setAtchFileId("FILE_000000000016312");
 		fileVO.setFileSn("0");
 		FileVO fvo = fileMngService.selectFileInf(fileVO);
@@ -482,7 +518,8 @@ public class PerformanceController {
 		HtmlEmail email = new HtmlEmail();
 		File img = new File("C:/eGovFrameDev-3.8.0-64bit/workspace/upload/NSE_202106300503482360");
 		String cid = email.embed(uFile);
-		System.out.println("cid===" + cid);
+		System.out.println("cid===" + cid);*/
+		
 		
 		return "redirect:/performance/articleInfos.do";
 		

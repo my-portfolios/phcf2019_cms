@@ -6,9 +6,12 @@ import egovframework.com.cop.ems.service.SndngMailVO;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
+import java.util.Arrays;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.mail.EmailAttachment;
+import org.apache.commons.mail.EmailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailAuthenticationException;
@@ -106,6 +109,58 @@ public class EgovSndngMailServiceImpl extends EgovAbstractServiceImpl implements
 			return false;
 		}
 
+		return true;
+	}
+	
+	
+	
+	/**
+	 * 여러 메일을 한 번에 보낸다.
+	 * 
+	 * @author 김경민
+	 * @version 2021-08-03
+	 * @param emailAddresses 수신 메일 주소 목록
+	 * @param dividedSize 한 번에 보낼 메일 수 (최대 10건)
+	 * @param sndngMailVO
+	 * @return boolean 메일 전송 성공/실패 여부
+	 * @exception Exception
+	 */
+	@Override
+	public boolean sendMultiMail(String[] emailAddresses, int dividedSize, SndngMailVO sndngMailVO) throws Exception {
+		if(dividedSize > 10 || dividedSize <= 0) {
+			throw new Exception("dividedSize should be 1~10");
+		}
+		try {
+			int emailAddresseSize = emailAddresses.length;
+			int partitionedFirstIndex = 0;
+			
+			do {
+				String[] addressArr = new String[dividedSize]; 
+				int addressIndex = 0;
+				try {
+					for(addressIndex = 0; addressIndex < dividedSize; addressIndex++) {
+							addressArr[addressIndex] = emailAddresses[partitionedFirstIndex + addressIndex];
+					}
+					egovMultiPartEmail.send(addressArr, sndngMailVO.getSj(), sndngMailVO.getEmailCn());
+					partitionedFirstIndex += dividedSize;
+				}
+				catch(ArrayIndexOutOfBoundsException e) {
+					String[] lastArr =  Arrays.copyOf(addressArr, addressIndex);
+					egovMultiPartEmail.send(lastArr, sndngMailVO.getSj(), sndngMailVO.getEmailCn());
+					break;
+				}
+			}
+			while(partitionedFirstIndex < emailAddresseSize);
+			
+		} catch (EmailException e) {
+			LOGGER.error("error in sending multi emails");
+			e.printStackTrace();
+			return false;
+		} catch (Exception e) {
+			LOGGER.error("unknown error in sending multi emails");
+			return false;
+		}
+		
 		return true;
 	}
 

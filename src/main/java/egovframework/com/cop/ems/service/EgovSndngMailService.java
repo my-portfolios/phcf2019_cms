@@ -25,4 +25,16 @@ public interface EgovSndngMailService {
 	 * @exception Exception
 	 */
 	boolean sndngMail(SndngMailVO vo) throws Exception;
+	
+	/**
+	 * 여러 메일을 한 번에 보낸다.
+	 * 
+	 * @param emailAddresses 수신 메일 주소 목록
+	 * @param dividedSize 한 번에 보낼 메일 수
+	 * @param sndngMailVO 
+	 * @return boolean 메일 전송 성공/실패 여부
+	 * @exception Exception 
+	 */
+	
+	public boolean sendMultiMail(String[] emailAddresses, int dividedSize, SndngMailVO sndngMailVO) throws Exception;
 }

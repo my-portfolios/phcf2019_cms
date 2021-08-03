@@ -2,6 +2,7 @@ package egovframework.com.cop.ems.service.impl;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.FileVO;
@@ -185,5 +186,26 @@ public class EgovSndngMailRegistServiceImpl extends EgovAbstractServiceImpl impl
 		sndngMailRegistDAO.updateSndngMail(sndngMailVO);
 
 		return true;
+	}
+	
+	@Override
+	public Callable<Boolean> sendSingleMailCallable(SndngMailVO sndngMailVO) {
+		Callable<Boolean> callableSingleMail = new Callable<Boolean>() {
+			
+			@Override
+			public Boolean call() throws Exception {
+				try {
+					insertSndngMail(sndngMailVO);     
+				} catch (Exception e) {
+					System.out.println("thread error!");
+					e.printStackTrace();
+					System.out.println(e.getMessage());
+					return false;
+				}
+				return true;
+			}
+			
+		};
+		return callableSingleMail;
 	}
 }

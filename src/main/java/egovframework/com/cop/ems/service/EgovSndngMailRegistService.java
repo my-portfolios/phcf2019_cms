@@ -1,5 +1,7 @@
 package egovframework.com.cop.ems.service;
 
+import java.util.concurrent.Callable;
+
 /**
  * 발송메일등록, 발송요청XML파일 생성하는 비즈니스 인터페이스 클래스
  * @author 공통서비스 개발팀 박지욱
@@ -41,4 +43,11 @@ public interface EgovSndngMailRegistService {
 	 * @exception Exception
 	 */
 	public boolean recptnXmlData(String xml) throws Exception;
+	
+	/**
+	 * 메일을 발송하는 Callable를 생성한다.
+	 * @param sndngMailVO
+	 * @return Callable
+	 */
+	public Callable<Boolean> sendSingleMailCallable(SndngMailVO sndngMailVO);
 }

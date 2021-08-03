@@ -3,16 +3,21 @@ package egovframework.phcf.performance;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -40,8 +45,9 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.cop.bbs.service.BoardAddedColmnsVO;
 import egovframework.com.cop.bbs.service.BoardVO;
 import egovframework.com.cop.bbs.service.EgovArticleService;
+import egovframework.com.cop.ems.service.EgovMultiPartEmail;
 import egovframework.com.cop.ems.service.EgovSndngMailRegistService;
-import egovframework.com.cop.ems.service.SndngMail;
+import egovframework.com.cop.ems.service.EgovSndngMailService;
 import egovframework.com.cop.ems.service.SndngMailVO;
 import egovframework.com.uss.umt.service.EgovMberManageService;
 import egovframework.com.uss.umt.service.MberManageVO;
@@ -84,8 +90,15 @@ public class PerformanceController {
 	@Resource(name = "mberManageService")
 	private EgovMberManageService mberManageService;
 	
+	/** popbill message service*/
 	@Autowired
     private MessageService messageService;
+	
+	@Resource(name = "egovMultiPartEmail")
+	private EgovMultiPartEmail egovMultiPartEmail;
+	
+	@Resource(name = "egovSndngMailService")
+	private EgovSndngMailService egovSndngMailService;
 	
 	
 	private String emailRegex = EgovProperties.getProperty("emailAddress.Regex.javaString");
@@ -340,20 +353,20 @@ public class PerformanceController {
 		
 		if(request.getParameter("checked_membership") != null &&
 				request.getParameter("checked_normal") != null) {
-			searchMap.put("toMembership", "Y");
-			searchMap.put("toNormal", "Y");
+			searchMap.put("toMembership", true);
+			searchMap.put("toNormal", true);
 			System.out.println("==멤버십, 일반회원 선택");
 		}
 		// 유료 회원의 이메일 목록 추출
 		else if(request.getParameter("checked_membership") != null) {
-			searchMap.put("toMembership", "Y");
-			searchMap.put("toNormal", "N");
+			searchMap.put("toMembership", true);
+			searchMap.put("toNormal", false);
 			System.out.println("==맴버십만 선택");
 		}
 		// 무료 회원의 이메일 목록 추출
 		else {
-			searchMap.put("toMembership", "N");
-			searchMap.put("toNormal", "Y");
+			searchMap.put("toMembership", false);
+			searchMap.put("toNormal", true);
 			System.out.println("==일반회원 선택");
 		}
 		System.out.println("searchMap==" + searchMap);
@@ -433,8 +446,8 @@ public class PerformanceController {
 		System.out.println("OrignlFileNm==" + sndngMailVO.getOrignlFileNm());
 		
 		System.out.println("emialRegex===" + emailRegex);
-		////////////////************************* 실서버에 적용할 때는 수정할 부분
-		
+////////////////************************* 실서버에 적용할 때는 수정할 부분
+		ExecutorService executorService = Executors.newFixedThreadPool(5);
 		
 		int j = 0;
 		for(MberManageVO mber : mberManageList) {
@@ -446,7 +459,12 @@ public class PerformanceController {
 				
 				// 메일 등록 및 발송
 //				sndngMailVO.setRecptnPerson(e_adres);
+//				Callable<Boolean> callableSingleMail = sndngMailRegistService.sendSingleMailCallable(sndngMailVO);
+//				Future<Boolean> resultFuture = executorService.submit(callableSingleMail);
+//				boolean result = resultFuture.get();
+				
 //				boolean result = sndngMailRegistService.insertSndngMail(sndngMailVO);
+				
 //				if(result) 
 					System.out.println("전송 완료=="+e_adres);
 				j++;
@@ -460,13 +478,38 @@ public class PerformanceController {
 		// 테스트할 때의 코드
 		List<String> mailAddresses =  new ArrayList<>();
 		mailAddresses.add("hkimkm1@hubizict.com");
-		mailAddresses.add("hkkyoungmin@gmail.com");
+//		mailAddresses.add("hkkyoungmin@gmail.com");
+		
 		for(String address : mailAddresses) {
 			sndngMailVO.setRecptnPerson(address);
 			// 메일 등록 및 발송
-			boolean result = sndngMailRegistService.insertSndngMail(sndngMailVO);			
+//			boolean result = sndngMailRegistService.insertSndngMail(sndngMailVO);			
 		}
-		////////////*******************************************
+
+		// 대량 발송 테스트
+		String[] toEmails = new String[49];
+		for(int i = 0; i < toEmails.length; i++) {
+			toEmails[i] = "hkimkm1@hubizict.com";
+//			boolean result = sndngMailRegistService.insertSndngMail(sndngMailVO);
+		}
+
+		SndngMailVO sndngMailVOForAsync = new SndngMailVO();
+		sndngMailVOForAsync.setEmailCn(sndngMailVO.getEmailCn());
+		sndngMailVOForAsync.setSj(sndngMailVO.getSj());
+		sndngMailVOForAsync.setRecptnPerson(sndngMailVO.getRecptnPerson());
+		
+		
+		Callable<String> callableMultiMail = sendMultiMailCallable(toEmails, sndngMailVOForAsync);
+		
+		for(int i = 0; i < 150; i ++) {
+			Callable<String> callableSingleMail = sendSingleMailCallable(sndngMailVOForAsync, executorService);
+//			Callable<Boolean> callableSingleMail = sndngMailRegistService.sendSingleMailCallable(sndngMailVO);
+			executorService.submit(callableSingleMail);
+		}
+//		es.submit(callableMultiMail);
+		executorService.shutdown();
+		
+////////////////************************* 실서버에 적용할 때는 수정할 부분
 		boolean result = true;
 		// 여러 명에게 메일을 보낼 경우 결과를 일일이 다 확인할 수 없다. => boolean arr를 만들어서 반영할까?
 		if (result) {
@@ -496,9 +539,6 @@ public class PerformanceController {
 		// article 선택
 		BoardVO article = egovArticleService.selectArticleDetail(searchBoardVO);
 		
-		
-		
-		
 		return mav;
 	}
 	
@@ -524,7 +564,6 @@ public class PerformanceController {
 		return "redirect:/performance/articleInfos.do";
 		
 	}
-	
 	
 	private String strDecode(String originalString, String originalCharSet, String toCharSet) throws UnsupportedEncodingException {
 		String decoded = new String(originalString.getBytes(originalCharSet), toCharSet);
@@ -571,12 +610,56 @@ public class PerformanceController {
 //					sndngMailVO.setDsptchPerson(dispatchId);
 					sndngMailVO.setOrignlFileNm(strDecode(originalFileNm, "UTF-8", "8859_1"));
 				}
-				
 				return sndngMailVO;
-		
 	}
 	
+	Callable<String> sendMultiMailCallable(String[] toAddresses, SndngMailVO sndngMailVOForAsync) {
+		Callable<String> callableMultiMail = new Callable<String>() {
+
+			@Override
+			public String call() throws Exception {
+				try {
+					egovSndngMailService.sendMultiMail(toAddresses, 10, sndngMailVOForAsync);
+				} catch (Exception e) {
+					System.out.println("thread error!");
+					e.printStackTrace();
+					System.out.println(e.getMessage());
+					return "fail";
+				}
+				return "success";
+			}
+			
+		};
+		return callableMultiMail;
+	}
 	
-	
+	Callable<String> sendSingleMailCallable(SndngMailVO sndngMailVO, ExecutorService es) {
+		Callable<String> callableSingleMail = new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				try {
+//					mailThread.sendMultiMail();
+					egovSndngMailService.sndngMail(sndngMailVO);
+					
+					// 스레드 정보 확인
+                    ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) es;
+                     
+                    int poolSize = threadPoolExecutor.getPoolSize();//스레드 풀 사이즈 얻기
+                    String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
+                     
+                    System.out.println("[총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
+                     
+				} catch (Exception e) {
+					System.out.println("thread error!");
+					e.printStackTrace();
+					System.out.println(e.getMessage());
+					return "fail";
+				}
+				return "success";
+			}
+		};
+		
+		return callableSingleMail;
+	}
 	
 }

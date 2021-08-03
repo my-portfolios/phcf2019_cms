@@ -129,5 +129,35 @@ public class EgovMultiPartEmail implements Serializable {
 		return email.send();
 
 	}
+	
+	public String send(String[] addTo, String subject, String msg) throws EmailException {
+		return send(addTo, subject, msg, null);
+	}
+	
+	public String send(String[] addTo, String subject, String msg, EmailAttachment attachment) throws EmailException {
+		HtmlEmail email = new HtmlEmail();
+
+		email.setCharset("UTF-8");
+//		email.setCharset("EUC-KR");
+		email.setHostName(this.host);
+		email.setSmtpPort(this.port);
+		//email.setStartTLSEnabled(true);
+		//email.setSSLOnConnect(true);
+		//email.setSslSmtpPort(String.valueOf(this.port));
+		email.setAuthenticator(new DefaultAuthenticator(this.id, this.password));
+		email.setSocketConnectionTimeout(20000);
+		email.setSocketTimeout(20000);
+		email.setFrom(this.emailAddress, this.senderName);
+		email.addTo(addTo);
+		email.setSubject(subject);
+		email.setMsg(msg);
+
+		if (attachment != null) {
+			email.attach(attachment);
+		}
+
+		return email.send();
+
+	}
 
 }

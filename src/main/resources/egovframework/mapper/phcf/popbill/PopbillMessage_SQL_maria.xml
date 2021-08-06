@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="popbillMessageDAO"> <!-- egovframework.mapper.phcf.popbill.PopbillMessage_SQL_maria -->
+
+	<insert id="insertRegistMessage">
+		INSERT INTO POPBILLMSGLOG ( 
+			RECEIPT_NUM,
+			REQUEST_NUM,
+			SERVICE_TYPE,
+			SENDER,
+			SENDER_NAME,
+			RECEIVER,
+			RECEIVER_NAME,
+			NUM_RECEIVER,
+			SUBJECT,
+			CONTENT,
+			FILE_ID,
+			RESERVE_DT,
+			ADS_YN
+		)
+		VALUES (
+			#{receiptNum},
+			#{requestNum},
+			#{serviceType},
+			#{sender},
+			#{senderName},
+			#{receiver},
+			#{receiverName},
+			#{numReceiver},
+			#{subject},
+			#{content},
+			#{fileId},
+			#{reserveDT},
+			#{adsYn}
+		)
+		
+	</insert>
+</mapper>

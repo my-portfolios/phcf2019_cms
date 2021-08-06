@@ -2,6 +2,7 @@ package egovframework.phcf.popbill.message;
 
 import java.util.Date;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.popbill.api.MessageService;
 import com.popbill.api.PopbillException;
+import com.popbill.api.message.Message;
 import com.popbill.api.message.SenderNumber;
 
+import egovframework.phcf.hubizCommonMethod.CommonMethod;
 import egovframework.phcf.popbill.PopbillProperties;
+import egovframework.phcf.popbill.message.service.PopbillMessageService;
+import egovframework.phcf.popbill.message.service.PopbillMessageVO;
+import egovframework.phcf.popbill.message.service.impl.PopbillMessageServiceImpl;
 
 @Controller
 public class PopbillMessageController {
 	
 	@Autowired
     private MessageService messageService;
+	
+	@Resource(name = "PopbillMessageService")
+	private PopbillMessageService popbillMessageService;
 	
 	@RequestMapping(value = "/message/test.do")
 	public String test(ModelMap model, HttpServletRequest request)
@@ -46,36 +55,56 @@ public class PopbillMessageController {
         String receiver = "01082838052";
 
         // 수신자명
-        String receiverName = "";
+        String receiverName = null;
 
         // 메시지 내용, 90byte 초과된 내용은 삭제되어 전송
-        String content = "반갑습니다. 문자 테스트입니다.";
-
+        String content = "문자 테스트입니다.";
+        String content_lms = "LMS 문자 테스트입니다.~~~~!!! test test test LMSLMSLMSLMS !@#$%^&*() 문자테스트 문자테스트 문자테스트 문자테스트 abcdefgabcdefg";
+        String content_ad = "(광고) 포항 문화 재단 \n 내용 수신거부 080-xxxx-xxxx";
+        
+        String subject = "테스트 문자";
         // 예약전송일시, null 처리시 즉시전송
-        Date reserveDT = null;
-
+        Date testDate = new Date();
+        String currentDateStr = CommonMethod.getTodayDate("yyyyMMdd");
+       
+        testDate = CommonMethod.stringToDate(currentDateStr + "104030", "yyyyMMddHHmmss");
+        Date reserveDT = testDate;
+        
+        System.out.println("testDate==" + testDate);
+        System.out.println("testDate==" + CommonMethod.dateToString(testDate, "yyyy년MM월dd일HH시mm분ss초"));
         // 광고문자 전송여부
         Boolean adsYN = false;
-
-        // 전송요청번호
-        // 파트너가 전송 건에 대해 관리번호를 구성하여 관리하는 경우 사용.
-        // 1~36자리로 구성. 영문, 숫자, 하이픈(-), 언더바(_)를 조합하여 팝빌 회원별로 중복되지 않도록 할당.
-        String requestNum = "test00000001";
-
-        try {
-
-            String receiptNum = messageService.sendSMS(corpNum, sender, receiver,
-                    receiverName, content, reserveDT, adsYN, userID, requestNum);
-
-//            m.addAttribute("Result", receiptNum);
-
-        } catch (PopbillException e) {
-            // 예외 발생 시, e.getCode() 로 오류 코드를 확인하고, e.getMessage()로 오류 메시지를 확인합니다.
-            System.out.println("오류 코드" + e.getCode());
-            System.out.println("오류 메시지" + e.getMessage());
-        }
+        
+        Message[] receivers = new Message[2];
+		receivers[0] = new Message();
+		receivers[0].setReceiver("01082838052");
 		
-		return "redirect:/performance/articleInfos.do";
+		
+        PopbillMessageVO messageVO = new PopbillMessageVO();
+        messageVO.setReceiver(receiver);
+        messageVO.setReceiverName(receiverName);
+        messageVO.setSubject(subject);
+        messageVO.setContent(content);
+        messageVO.setReceivers(receivers);
+        messageVO.setReserveDT(reserveDT);
+        messageVO.setAdsYn(adsYN);
+ 
+//        	popbillMessageService.sendSmsSingle(receiver, content, null, false);
+//        	popbillMessageService.sendSmsSingle(content, reserveDT, adsYN, true, true);
+    	popbillMessageService.sendLmsMulti(messageVO);
+//    	popbillMessageService.sendLmsSingle(receiver, receiverName, null, content_lms, null, adsYN);
+        	
+//            String receiptNum = messageService.sendSMS(corpNum, sender, receiver,
+//                    receiverName, content, reserveDT, adsYN, userID, requestNum);
+            
+//            String receiptNum = messageService.sendSMS(corpNum, sender, receiver,
+//                    receiverName, content, null, adsYN, userID, requestNum);
+          
+//            m.addAttribute("Result", receiptNum);
+        	
+
+		
+		return "redirect:/";
 		
 	}
 }

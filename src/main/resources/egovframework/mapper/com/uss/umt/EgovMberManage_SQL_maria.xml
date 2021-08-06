@@ -526,13 +526,16 @@ FROM(
     
     <!-- 메일 전송을 위한 회원 리스트 조회 
     	멤버십 타입을 기준으로 정함.
+    	toMembership: Boolean
+    	toNormal: Boolean
     -->
      <select id="selectMberListForSndngMail" parameterType="java.util.HashMap" resultType="egovframework.com.uss.umt.service.MberManageVO">
     	/* mberManageDAO.selectMberListForSndngMail */
     	SELECT
     		MBER_ID mberId,
     		MBER_NM mberNm,
-    		MBER_EMAIL_ADRES mberEmailAdres, 
+    		MBER_EMAIL_ADRES mberEmailAdres,
+    		MBTLNUM	moblphonNo, 
 			MEMBERSHIP_TYPE membershipType,
 			MEMBERSHIP_START_DT membershipStartDt,
 			MEMBERSHIP_EXPIRE_DT membershipExpireDt,
@@ -543,16 +546,26 @@ FROM(
 			SEND_MAIL_YN = 'Y'
 			AND MBER_STTUS = 'P'
 			<!-- null check 해주는 것이 더 안정적이다. -->
-		<choose>
-			<when test='(toMembership != null and toMembership.equals("Y")) and (toNormal != null and toNormal.equals("Y"))'> 
-			</when>
-			<when test='toMembership != null and toMembership.equals("Y")'>
-				AND MEMBERSHIP_TYPE != 'N'
-			</when>
-			<otherwise>
-				AND MEMBERSHIP_TYPE = 'N'
-			</otherwise>
-		</choose>
+<!-- 		<choose> -->
+<!-- 			<when test='(toMembership != null and toMembership.equals("Y")) and (toNormal != null and toNormal.equals("Y"))'>  -->
+<!-- 			</when> -->
+<!-- 			<when test='toMembership != null and toMembership.equals("Y")'> -->
+<!-- 				AND MEMBERSHIP_TYPE != 'N' -->
+<!-- 			</when> -->
+<!-- 			<otherwise> -->
+<!-- 				AND MEMBERSHIP_TYPE = 'N' -->
+<!-- 			</otherwise> -->
+<!-- 		</choose> -->
+			<choose>
+				<when test='(toMembership != null and toMembership) and (toNormal != null and toNormal)'> 
+				</when>
+				<when test='toMembership != null and toMembership'>
+					AND MEMBERSHIP_TYPE != 'N'
+				</when>
+				<otherwise>
+					AND MEMBERSHIP_TYPE = 'N'
+				</otherwise>
+			</choose>
     </select>
     	
     	<!-- 특정 멤버십 타입의 회원을 제외한 회원 목록을 가져온다. -->
@@ -614,5 +627,49 @@ FROM(
 		AND DATEDIFF(MEMBERSHIP_EXPIRE_DT, CURDATE()) <= #{daysBefore}
 		]]>
 		<!-- 		AND DATEDIFF(MEMBERSHIP_EXPIRE_DT, CURDATE()) >= '0'  -->
+    </select>
+    
+    <!-- 문자 메세지 전송을 위한 회원 리스트 조회 
+    	멤버십 타입을 기준으로 정함.
+    	toMembership: Boolean
+    	toNormal: Boolean
+    	
+    	test 해봐야함.
+    -->
+     <select id="selectMberListForMessage" parameterType="java.util.HashMap" resultType="egovframework.com.uss.umt.service.MberManageVO">
+    	
+    	SELECT
+<!--     		MBER_ID mberId, -->
+<!--     		MBER_NM mberNm, -->
+<!--     		MBER_EMAIL_ADRES mberEmailAdres, -->
+<!--     		MBTLNUM	moblphonNo,  -->
+<!-- 			MEMBERSHIP_TYPE membershipType, -->
+<!-- 			MEMBERSHIP_START_DT membershipStartDt, -->
+<!-- 			MEMBERSHIP_EXPIRE_DT membershipExpireDt, -->
+<!-- 			SEND_MAIL_YN sendMailYn -->
+				DISTINCT MBTLNUM	moblphonNo
+		FROM 
+			comtngnrlmber mb
+<!-- 			LEFT OUTER JOIN  -->
+<!-- 			membershipreglog mr -->
+<!-- 			ON mb.mber_Id = mr.MEM_ID -->
+		
+		WHERE 
+			mb.MBER_STTUS = 'P'
+			AND mb.send_mail_yn = 'Y'
+			<!-- null check 해주는 것이 더 안정적이다. -->
+			<choose>
+				<when test='(toMembership != null and toMembership) and (toNormal != null and toNormal)'>
+<!-- 					AND mb.send_mail_yn = 'Y'  -->
+				</when>
+				<when test='toMembership != null and toMembership'>
+<!-- 					AND mr.SEND_SMS = 'Y' -->
+					AND MEMBERSHIP_TYPE != 'N'
+				</when>
+				<when test='(toNormal != null and toNormal)'>
+<!-- 					AND mb.send_mail_yn = 'Y' -->
+					AND MEMBERSHIP_TYPE = 'N'
+				</when>
+			</choose>
     </select>
 </mapper>

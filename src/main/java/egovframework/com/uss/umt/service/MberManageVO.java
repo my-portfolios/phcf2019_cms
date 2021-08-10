@@ -499,6 +499,20 @@ public class MberManageVO extends UserDefaultVO{
 		this.membershipExpireDt = membershipExpireDt;
 	}
 	
+	@Override
+	public String toString() {
+		return "MberManageVO [oldPassword=" + oldPassword + ", uniqId=" + uniqId + ", userTy=" + userTy + ", adres="
+				+ adres + ", detailAdres=" + detailAdres + ", endTelno=" + endTelno + ", mberFxnum=" + mberFxnum
+				+ ", groupId=" + groupId + ", ihidnum=" + ihidnum + ", sexdstnCode=" + sexdstnCode + ", mberId="
+				+ mberId + ", mberNm=" + mberNm + ", mberSttus=" + mberSttus + ", areaNo=" + areaNo + ", middleTelno="
+				+ middleTelno + ", moblphonNo=" + moblphonNo + ", password=" + password + ", passwordCnsr="
+				+ passwordCnsr + ", passwordHint=" + passwordHint + ", sbscrbDe=" + sbscrbDe + ", zip=" + zip
+				+ ", mberEmailAdres=" + mberEmailAdres + ", lockAt=" + lockAt + ", membershipType=" + membershipType
+				+ ", membershipStartDt=" + membershipStartDt + ", membershipExpireDt=" + membershipExpireDt
+				+ ", userGrade=" + userGrade + ", ci=" + ci + ", di=" + di + ", userCompNm=" + userCompNm
+				+ ", userCompNumber=" + userCompNumber + ", sendMailYn=" + sendMailYn + "]";
+	}
+	
 	
 
 }

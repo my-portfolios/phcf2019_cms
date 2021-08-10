@@ -152,4 +152,15 @@
 			MBER_ID = #{ID}
 	</update>
 	
+	<select id="selectMemberInfoList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		/* PremiumMemberDAO.selectMemberInfoList */
+		SELECT
+			MEMBERSHIP_TYPE,
+			MEMBERSHIP_START_DT
+		FROM
+			COMTNGNRLMBER
+		WHERE 1=1
+			AND MBER_ID = #{id}
+	</select>
+	
 </mapper>

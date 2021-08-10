@@ -7,9 +7,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.com.uss.umt.service.EgovMberManageService;
 import egovframework.com.uss.umt.service.MberManageVO;
 import egovframework.com.uss.umt.service.UserDefaultVO;
 import egovframework.phcf.premiumMember.service.PremiumMemberService;
+import egovframework.phcf.ticketLink.service.TicketLinkService;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 
@@ -24,6 +26,13 @@ public class PremiumMemberServiceImpl extends EgovAbstractServiceImpl implements
 
 	@Resource(name="PremiumMemberDAO")
 	private PremiumMemberDAO dao;
+	
+	@Resource(name="mberManageService")
+	private EgovMberManageService egovMberManageService;
+	
+	/** TicketLinkService */
+	@Resource(name="TicketLinkService")
+	private TicketLinkService ticketLinkService;
 
 	@Override
 	public List<HashMap<String, Object>> selectMembershipRegList(HashMap<String, String> paramMap) throws Exception {
@@ -43,6 +52,8 @@ public class PremiumMemberServiceImpl extends EgovAbstractServiceImpl implements
 	@Override
 	public void updateMembershipGrade(HashMap<String, String> paramMap) throws Exception {
 		dao.updateMembershipGrade(paramMap);
+		MberManageVO mberManageVO = egovMberManageService.selectMberWithId(paramMap.get("ID"));
+		ticketLinkService.checkJoinThenModifyMemberDetailTkLink(mberManageVO);
 	}
 	
 	/* 프리미엄 멤버 조회*/
@@ -51,6 +62,15 @@ public class PremiumMemberServiceImpl extends EgovAbstractServiceImpl implements
 		return dao.selectMembershipList(userSearchVO);
 		
 	}
+	
+	/**
+	 * id로 유저의 멤버십 정보 선택
+	 * */
+	@Override
+	public HashMap<String, Object> selectMemberInfoList(String id) throws Exception {
+		return dao.selectMemberInfoList(id);
+	}
+	
 }
 
 

@@ -340,6 +340,7 @@ public class EgovMberManageController {
 			else if ("".equals(mberManageVO.getMembershipStartDt())) {//KISA 보안약점 조치 (2018-10-29, 윤창원)
 				mberManageVO.setMembershipStartDt(null);
 			}
+			// 업데이트 시 티켓링크에도 반영되야함. ****티켓링크
 			mberManageService.updateMber(mberManageVO);
 			//Exception 없이 진행시 수정성공메시지
 			model.addAttribute("resultMsg", "success.common.update");

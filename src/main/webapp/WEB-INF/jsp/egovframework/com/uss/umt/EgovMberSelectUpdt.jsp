@@ -67,7 +67,6 @@ function fnLockIncorrect(){
 function fnUpdate(form){
 	if(confirm("<spring:message code="common.save.msg" />")){
 		if(validateMberManageVO(form)){
-			console.log(form);
 			document.mberManageVO.submit();
 			return true;
 	    }else{

@@ -319,6 +319,25 @@ public class TicketLinkServiceImpl implements TicketLinkService {
 //		headers.setContentType(MediaType.APPLICATION_XML);
 		
 		paramMap.put("status", "U");
+		
+		if(paramMap.containsKey("membershipNo")) {
+			String membershipNo = paramMap.get("membershipNo").toString();
+			membershipNo = crypto.encrypt(membershipNo);
+			paramMap.put("membershipNo", membershipNo);
+		}
+		
+		if(paramMap.containsKey("memberName")) {
+			String memberName = paramMap.get("memberName").toString();
+			memberName = crypto.encrypt(memberName);
+			paramMap.put("memberName", memberName);
+		}
+		
+		if(paramMap.containsKey("cellPhoneNo")) {
+			String cellPhoneNo = paramMap.get("cellPhoneNo").toString();
+			cellPhoneNo = crypto.encrypt(cellPhoneNo);
+			paramMap.put("cellPhoneNo", cellPhoneNo);
+		}
+		
 		JSONObject postJsonObject = new JSONObject(paramMap);
 		RestTemplate restTemplate = new RestTemplate();
 		
@@ -363,6 +382,7 @@ public class TicketLinkServiceImpl implements TicketLinkService {
 	/**
 	 * 
 	 * 회원 정보 업데이트 후 호출할 메서드
+	 * @param mberManageVO 포항되어야 하는 필드: mberId, membershipType, mberNm, moblphonNo, mberEmailAdres
 	 */
 	@Override 
 	public int checkJoinThenModifyMemberDetailTkLink(MberManageVO mberManageVO) throws Exception {
@@ -373,13 +393,12 @@ public class TicketLinkServiceImpl implements TicketLinkService {
 		
 		String membershipType = mberManageVO.getMembershipType();
 		String memberQualificationCode = TicketLinkProperties.TKLINK_MEMBER_QUALIFICATION_CODE_FREE;
-		if(membershipType == null || membershipType.equals("")) {
-			memberQualificationCode = membershipType;
-		} else {
+		if(membershipType != null && !membershipType.equals("")) {
 			memberQualificationCode = membershipType.equals("N") ?
 					TicketLinkProperties.TKLINK_MEMBER_QUALIFICATION_CODE_FREE
 					: TicketLinkProperties.TKLINK_MEMBER_QUALIFICATION_CODE_MEMBERSHIP;
 		}
+		
 		tkLinkMap.put("memberQualificationCode", memberQualificationCode);
 		
 		tkLinkMap.put("memberName", mberManageVO.getMberNm());
@@ -405,8 +424,6 @@ public class TicketLinkServiceImpl implements TicketLinkService {
 		if(checkJoinResultCode == TicketLinkProperties.TKLINK_RESPONSE_MEMBER_DETAIL_SUCCESS_CODE) {
 			modifyMemberDetailTkLink(paramMap);
 		} 
-		
-		
 		
 		return checkJoinResultCode;
 	}

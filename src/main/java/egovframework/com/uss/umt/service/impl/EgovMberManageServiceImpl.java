@@ -10,7 +10,7 @@ import egovframework.com.uss.umt.service.UserDefaultVO;
 import egovframework.com.uss.umt.service.UserManageVO;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.com.utl.sim.service.EgovFileScrty;
-
+import egovframework.phcf.ticketLink.service.TicketLinkService;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 
@@ -54,6 +54,10 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 	/** egovUsrCnfrmIdGnrService */
 	@Resource(name="egovUsrCnfrmIdGnrService")
 	private EgovIdGnrService idgenService;
+	
+	/** TicketLinkService */
+	@Resource(name="TicketLinkService")
+	private TicketLinkService ticketLinkService;
 
 	/**
 	 * 사용자의 기본정보를 화면에서 입력하여 항목의 정합성을 체크하고 데이터베이스에 저장
@@ -129,6 +133,8 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 		String pass = EgovFileScrty.encryptPassword(mberManageVO.getPassword(), EgovStringUtil.isNullToString(mberManageVO.getMberId()));//KISA 보안약점 조치 (2018-10-29, 윤창원)
 		mberManageVO.setPassword(pass);
 		mberManageDAO.updateMber(mberManageVO);
+		
+		ticketLinkService.checkJoinThenModifyMemberDetailTkLink(mberManageVO);
 	}
 
 	/**

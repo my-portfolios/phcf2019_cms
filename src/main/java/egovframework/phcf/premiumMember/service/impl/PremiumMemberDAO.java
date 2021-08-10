@@ -37,4 +37,8 @@ public class PremiumMemberDAO extends EgovComAbstractDAO{
 		return selectList("PremiumMemberDAO.selectMembershipList");
 		
 	}
+	
+	public HashMap<String, Object> selectMemberInfoList(String id) throws Exception {
+		return selectOne("PremiumMemberDAO.selectMemberInfoList", id);
+	}
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TicketLinkMberDAO">
+	
+	<insert id="insertTklinkMber" parameterType="egovframework.phcf.ticketLink.service.TicketLinkMberVO">
+		/* TicketLinkMberDAO.insertTklinkMber */
+		INSERT INTO TKLINKMEMBER (
+			MEMBER_ID,
+			PARTNER_NO,
+			MBER_QUAL_CODE,
+			MEMBERSHIP_NO,
+			MEMBER_NAME,
+			CELLPHONE_NO,
+			BIRTHDAY,
+			EMAIL,
+			GENDER
+		) VALUES (
+			#{memberId},
+			#{partnerNo},
+			#{mberQualCode},
+			#{membershipNo},
+			#{memberName},
+			#{cellPhoneNo},
+			#{birthday},
+			#{email},
+			#{gender}
+		)
+	</insert>
+	
+	<update id="updateTklinkMber" parameterType="egovframework.phcf.ticketLink.service.TicketLinkMberVO">
+		UPDATE
+			TKLINKMEMBER
+		SET
+			MBER_QUAL_CODE	= #{mberQualCode},
+			MEMBER_NAME		= #{memberName},
+			CELLPHONE_NO	= #{cellPhoneNo},
+			EMAIL			= #{email}
+		WHERE 
+			MEMBER_ID = #{memberId}
+	</update>
+</mapper>

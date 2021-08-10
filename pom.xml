@@ -615,6 +615,40 @@
 		    <artifactId>popbill-sdk</artifactId>
 		    <version>1.36.0</version>
 		</dependency>
+		
+		<!-- 티켓링크 ticket link -->
+		 <dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-jdk15on</artifactId>
+		    <version>1.52</version>
+		</dependency>
+	
+		<dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-ext-jdk15on</artifactId>
+		    <version>1.52</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>commons-logging</groupId>
+		    <artifactId>commons-logging</artifactId>
+		    <version>1.1.1</version>
+		</dependency>		
+		
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.11</version>
+		    <scope>test</scope>
+		</dependency>
+		<!-- 티켓링크 끝 -->
+		
+		<dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+				
     </dependencies>
     <build>
         <defaultGoal>install</defaultGoal>

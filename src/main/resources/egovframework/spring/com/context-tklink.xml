@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+		<!-- AES 256 암호화 모듈 -->
+	  <bean id="aes256Crypto" class="kr.co.ticketlink.common.cipher.symmetric.Base64Aes256Crypto">
+	    <property name="charset" value="UTF-8"></property><!-- 기본 캐릭터셋 -->
+	    <property name="secretKey" value="YJYHxhiagdhfkDS/nW/iTc665zarGpt0DaN4k2ghyxA="></property><!-- 암호화 대칭키 (256 bit) -->
+	    <property name="iv" value="t6DNfhieos0JJXmcxmH+pg=="></property><!-- 초기화 벡터 (IV) (128bit) -->
+	  </bean>
+</beans>

@@ -25,8 +25,11 @@ import egovframework.rte.psl.dataaccess.util.EgovMap;
 /**
  * 유료 회원 만료 처리를 위한 Service
  * <p>매일 자정에 시행
- * <p>멤버십이 만료되었으면 Membership_type을 'N'(무료 회원으로 변경)
- * <p> Cron Expression: 0 1 0 1/1 * ? *
+ * <p> 멤버십 만료 전에 안내 메일 발송 
+ * <p> / 멤버십이 만료되었으면 Membership_type을 'N'(무료 회원으로 변경)
+ * <p> Cron Expression: 
+ * <p> 0 1 0 1/1 * ? *
+ * <p> 0 3 0 1/1 * ? *
  * 
  * @author 김경민
  * @version 1.0 (2021-06-22)
@@ -45,6 +48,10 @@ public class CmsMembershipExpireCronQuartz {
 	// email regular expression
 	private String regEx = EgovProperties.getProperty("emailAddress.Regex.javaString");
 	
+	/*
+	 * 멤버십 만료 예정 안내 메일 발송
+	 * 
+	 * */
 	@Transactional
 	public void sendMailNoticeExpire() {
 		try {
@@ -58,7 +65,7 @@ public class CmsMembershipExpireCronQuartz {
 			 * 멤버십 만료 전까지 30일이 남지 않은 회원 목록을 조회한다. 
 			 * */
 			Map<String, Object> paramMap = new HashMap<>();
-			// 만료 전까지 30일이 남지 않은 남은 멤버들의 목록 조회
+			
 			paramMap.put("daysBefore", daysBefore);
 			List<MberManageVO> mberNearExpireList = mberManageService.selectMberNearExpireList(paramMap);
 			System.out.println("mberNearExpireList size: " + mberNearExpireList.size());
@@ -81,9 +88,8 @@ public class CmsMembershipExpireCronQuartz {
 			// 첨부파일 경로
 			sndngMailVO.setFileStreCours("");
 			
-			System.out.println("regex==="+regEx);
 			//테스트
-			String mberEmailAdres = "hkimkm1@hubizict.com";
+			/*String mberEmailAdres = "hkimkm1@hubizict.com";
 			if(!mberEmailAdres.equals("") && mberEmailAdres != null &&  
 					Pattern.matches(regEx
 							, mberEmailAdres)) {
@@ -96,9 +102,9 @@ public class CmsMembershipExpireCronQuartz {
 				// 메일 발송 및 등록
 //				sndngMailRegistService.insertSndngMail(sndngMailVO);
 				System.out.println("=== mail send complete");
-			}
+			}*/
 			// 각 멤버에게 메일 발송	- 실서버
-			/*for(MberManageVO mber : mberNearExpireList) {
+			for(MberManageVO mber : mberNearExpireList) {
 				
 				String mailSendingDay = CommonMethod.calcDate(mber.getMembershipExpireDt(),
 						Calendar.DATE, -daysBefore, dateFormat);
@@ -123,6 +129,7 @@ public class CmsMembershipExpireCronQuartz {
 						
 						// 메일 발송 및 등록
 //						boolean mailSent = sndngMailRegistService.insertSndngMail(sndngMailVO);
+						boolean mailSent = true;
 						if(mailSent){
 							System.out.println("=== mail sending complete");
 						} else {
@@ -130,42 +137,47 @@ public class CmsMembershipExpireCronQuartz {
 						}
 					}
 				}
-			}*/
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/*
+	 * 멤버십 자동 해제
+	 */
 	@Transactional
 	public void updateMembershipTypeWhenExpire() throws Exception {
 		String dateFormat = "yyyy-MM-dd";
 		
 		SndngMailVO sndngMailVO = new SndngMailVO();
-		prepareMailVO(sndngMailVO);
+		prepareExpireMailVO(sndngMailVO);
 		
 		System.out.println("updateMembershipTypeWhenExpire: !!");
-		// 무료 회원이 아닌 모든 회원의 멤버십 관룐 정보를 가져온다.
+		// 무료 회원이 아닌 모든 회원의 멤버십 관련 정보를 가져온다.
 		List<MberManageVO> membershipMberList = mberManageService.selectMberListExcept("N");		
 		
 		int i = 0;
 		for(MberManageVO mVO : membershipMberList) {
 			/* MEMBERSHIP_EXPIRE_DT가 NULL이 아닐 때만 멤버십 만료 여부를 판단할 수 있다. */
 			if(mVO.getMembershipExpireDt() != null) {
-				String isTodayPassExpireDt = CommonMethod.checkDateCompare(CommonMethod.getTodayDate(dateFormat), mVO.getMembershipExpireDt(), dateFormat);
+				String checkTodayPassExpireDt = CommonMethod.checkDateCompare(CommonMethod.getTodayDate(dateFormat), mVO.getMembershipExpireDt(), dateFormat);
 				System.out.println("mberId===" + mVO.getMberId());
-				System.out.println("isTodayPassExpireDt===" + isTodayPassExpireDt);
+				System.out.println("isTodayPassExpireDt===" + checkTodayPassExpireDt);
 				
 				
-				if(isTodayPassExpireDt.equals("large")) {
+				if(checkTodayPassExpireDt.equals("large")) {
 					String mberEmailAdres = mVO.getMberEmailAdres();
+					// 업데이트 시 티켓링크에도 반영해 줘야함 **** 티켓링크
+					mberManageService.updateMberTypeAfterExpire(mVO);
+					System.out.println("updated===" + mVO.getMberId());
+					System.out.println("updated member email===" + mberEmailAdres);
+					i++;
 					if(mberEmailAdres != null && !mberEmailAdres.equals("") &&   
 							Pattern.matches(regEx, mberEmailAdres)) {
-						i++;
 //						sndngMailVO.setRecptnPerson(mberEmailAdres);
 						sndngMailVO.setRecptnPerson("hkimkm1@hubizict.com");
-//						mberManageService.updateMberTypeAfterExpire(mVO);
-//						sndngMailRegistService.insertSndngMail(sndngMailVO);
-						System.out.println("updated===" + mVO.getMberId());
+						sndngMailRegistService.insertSndngMail(sndngMailVO);
 					}
 				}
 			}
@@ -175,11 +187,10 @@ public class CmsMembershipExpireCronQuartz {
 //		sndngMailRegistService.insertSndngMail(sndngMailVO);
 		//////////test
 		System.out.println("변경 전 유료 회원 size: " + membershipMberList.size());
-		System.out.println("expier_dt not null, email check, 최종 발송 대상 : " + i);
-		System.out.println("~~0시 1분 동작 완료~~");
+		System.out.println("expier_dt not null, 업데이트된 대상: " + i);
 	}
 	
-	public void prepareMailVO(SndngMailVO sndngMailVO) {
+	public void prepareExpireMailVO(SndngMailVO sndngMailVO) {
 		
 		sndngMailVO.setDsptchPerson("phcf01");
 		sndngMailVO.setSj("[포항문화재단] 멤버십 만료 안내");

@@ -130,6 +130,7 @@ public class PremiumMemberController {
 		//result : "Y", "C", "N", ""
 		//승인으로 변경시 "Y', 접수 취소 "C", 반려 "N", 접수 요청 ""
 //		if(result.equals("Y")) {
+		// 업데이트 시 티켓링크에도 반영되야함. ****티켓링크
 		service.updateMembershipGrade(hashMap);
 //		}
 		

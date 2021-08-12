@@ -123,7 +123,8 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
     }
 
 	/**
-	 * 화면에 조회된 일반회원의 기본정보를 수정하여 항목의 정합성을 체크하고 수정된 데이터를 데이터베이스에 반영
+	 * 화면에 조회된 일반회원의 기본정보를 수정하여 항목의 정합성을 체크하고 수정된 데이터를 데이터베이스에 반영 <p>
+	 * 티켓링크 회원 정보도 업데이트
 	 * @param mberManageVO 일반회원수정정보
 	 * @throws Exception
 	 */
@@ -269,10 +270,14 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 		return mberManageDAO.selectMberListSpecificMembership(paramMap);
 	}
 	
-	/* 회원 만료일이 지난 회원을 무료 회원으로 전환 */
+	/** 회원 만료일이 지난 회원을 무료 회원으로 전환 <p>
+	 * 티켓링크 회원 정보도 업데이트
+	 *  */
 	@Override
 	public void updateMberTypeAfterExpire(MberManageVO mberManageVO) throws Exception {
 		mberManageDAO.updateMberTypeAfterExpire(mberManageVO);
+		MberManageVO updateMberVO = selectMberWithId(mberManageVO.getMberId());
+		ticketLinkService.checkJoinThenModifyMemberDetailTkLink(updateMberVO);
 	}
 	
 	/* 멤버십 만료 전까지 x일이 남은 회원들의 목록 조회*/

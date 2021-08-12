@@ -235,15 +235,12 @@ public class TicketLinkServiceImpl implements TicketLinkService {
 		String parterNo = paramMap.get("partnerNo").toString();
 		String urlEncodedPartnerNo = URLEncoder.encode(parterNo, "UTF-8");
 		
-		String urlEncodedEncryptedPartnerNo = EgovProperties.getProperty("ticketlink.partnerNo.urlencoded");
+		String urlEncodedEncryptedPartnerNo = TicketLinkProperties.TKLINK_PARTNER_NO_URL_ENCODED;
 		
 		String memberIdEnc = crypto.encrypt(paramMap.get("memberId").toString());
 //		memberIdEnc = paramMap.get("memberIdEnc").toString();
 		String urlEncodedMemberIdEnc = URLEncoder.encode(memberIdEnc, "UTF-8");
-		System.out.println("parterNo: " + parterNo);
-		System.out.println("memberId: " + crypto.decrypt(memberIdEnc));
-		System.out.println("memberIdEnc: " + memberIdEnc);
-		System.out.println("urlEncodedMemberIdEnc: " + urlEncodedMemberIdEnc);
+
 		
 		MultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
 		requestParams.add("partnerNo", urlEncodedPartnerNo);
@@ -382,7 +379,7 @@ public class TicketLinkServiceImpl implements TicketLinkService {
 	/**
 	 * 
 	 * 회원 정보 업데이트 후 호출할 메서드
-	 * @param mberManageVO 포항되어야 하는 필드: mberId, membershipType, mberNm, moblphonNo, mberEmailAdres
+	 * @param mberManageVO 포함되어야 하는 필드: mberId, membershipType, mberNm, moblphonNo, mberEmailAdres
 	 */
 	@Override 
 	public int checkJoinThenModifyMemberDetailTkLink(MberManageVO mberManageVO) throws Exception {
@@ -409,10 +406,13 @@ public class TicketLinkServiceImpl implements TicketLinkService {
 		return checkJoinThenModifyMemberDetailTkLink(tkLinkMap);
 	}
 	
-	
+	/**
+	 * 회원 정보 업데이트 후 호출할 메서드
+	 * @param paramMap 포함되어야 하는 키: mberId, membershipType, mberNm, moblphonNo, mberEmailAdres
+	 */
 	@Override
 	public int checkJoinThenModifyMemberDetailTkLink(HashMap<String, Object> paramMap) throws Exception {
-		
+		paramMap.put("partnerNo", TicketLinkProperties.TKLINK_PARTNER_NO);
 		
 		/* <회원가입 API 이용>
 		 * 1. 멤버 회원조회  api를 호출한다. 
